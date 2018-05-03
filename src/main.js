@@ -4,13 +4,6 @@ const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
-const browsers = require('./browsers')(__dirname)
-const {main, picker} = browsers
-let eventEmitter = require('events')
-eventEmitter = new eventEmitter()
-
-require('./controllers')(browsers, eventEmitter)
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -35,3 +28,15 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+const Color = require('./color.js')
+
+global.sharedObject = {
+    foregroundColor : new Color(0, 0, 0), // Black
+    backgroundColor : new Color(255, 255, 255) // White
+}
+
+const browsers = require('./browsers')(__dirname)
+const {main, picker} = browsers
+
+require('./controllers')(browsers, global.sharedObject)

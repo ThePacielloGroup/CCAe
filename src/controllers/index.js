@@ -1,4 +1,4 @@
-module.exports = (browsers, eventEmitter) => ({
-    main: require('./main')(browsers, eventEmitter),
-    picker: require('./picker')(browsers, eventEmitter),
+module.exports = (browsers, sharedObjects) => ({
+    main: require('./main')(browsers, sharedObjects),
+    picker: require('./picker')(browsers, sharedObjects),
 })

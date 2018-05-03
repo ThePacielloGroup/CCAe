@@ -4,19 +4,35 @@ const robot = require('robotjs')
 
 let mouseEvent;
 
-module.exports = (browsers, eventEmitter) => {
+module.exports = (browsers, sharedObjects) => {
     const {picker, main} = browsers
+    let foregroundPicker // Keep which picker is openned
+
     let closePicker = newColor => {
         if (picker.getWindow()) {
           picker.getWindow().close()
-          main.getWindow().webContents.send('changeColor', newColor)
+          if (foregroundPicker === true) {
+            sharedObjects.foregroundColor.setColorFromHex(newColor)
+            main.getWindow().webContents.send('foregroundColorChanged')
+          } else {
+            sharedObjects.backgroundColor.setColorFromHex(newColor)
+            main.getWindow().webContents.send('backgroundColorChanged')            
+          }
           main.getWindow().focus()
           ipcMain.removeListener('closePicker', closePicker)
           ipcMain.removeListener('pickerRequested', event => {})
+          foregroundPicker = null
         }
     }
 
-    ipcMain.on('showPicker', event => picker.init())
+    ipcMain.on('showForegroundPicker', event => {
+      foregroundPicker = true
+      picker.init()
+    })
+    ipcMain.on('showBackgroundPicker', event => { 
+      foregroundPicker = false
+      picker.init()
+    })
 
     ipcMain.on('pickerRequested', event => {
         if (process.platform === 'darwin') mouseEvent = require('osx-mouse')()

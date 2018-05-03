@@ -1,0 +1,15 @@
+{
+  "name": "cca",
+  "version": "1.0.0",
+  "description": "Colour Contrast Analyser (CCA)",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron src/main.js"
+  },
+  "author": "Cédric Trévisan <ctrevisan@paciellogroup.com>",
+  "license": null,
+  "devDependencies": {
+    "electron": "^2.0.0"
+  }
+}

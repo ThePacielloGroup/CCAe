@@ -1,6 +1,6 @@
 const {ipcMain, BrowserWindow} = require('electron')
 
-module.exports = (browsers, sharedObjects) => {
+module.exports = (browsers, mainController) => {
     const {picker, main} = browsers
 
     let win

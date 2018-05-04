@@ -5,11 +5,12 @@
   "main": "src/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron src/main.js --debug"
+    "start": "electron src/main.js"
   },
   "author": "Cédric Trévisan <ctrevisan@paciellogroup.com>",
   "license": "",
   "devDependencies": {
+    "color": "^3.0.0",
     "electron": "1.8.2"
   },
   "optionalDependencies": {

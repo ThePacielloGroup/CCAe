@@ -4,7 +4,7 @@ const robot = require('robotjs')
 
 let mouseEvent;
 
-module.exports = (browsers, sharedObjects) => {
+module.exports = (browsers, mainController) => {
     const {picker, main} = browsers
     let foregroundPicker // Keep which picker is openned
 
@@ -12,11 +12,9 @@ module.exports = (browsers, sharedObjects) => {
         if (picker.getWindow()) {
           picker.getWindow().close()
           if (foregroundPicker === true) {
-            sharedObjects.foregroundColor.setColorFromHex(newColor)
-            main.getWindow().webContents.send('foregroundColorChanged')
+            mainController.updateForegroundFromHex(newColor)
           } else {
-            sharedObjects.backgroundColor.setColorFromHex(newColor)
-            main.getWindow().webContents.send('backgroundColorChanged')            
+            mainController.updateBackgroundFromHex(newColor)
           }
           main.getWindow().focus()
           ipcMain.removeListener('closePicker', closePicker)

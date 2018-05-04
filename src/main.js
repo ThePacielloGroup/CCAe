@@ -29,14 +29,19 @@ app.on('activate', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-const Color = require('./color.js')
+const Color = require('color')
 
 global.sharedObject = {
-    foregroundColor : new Color(0, 0, 0), // Black
-    backgroundColor : new Color(255, 255, 255) // White
+    foregroundColor : Color.rgb(0, 0, 0), // White
+    backgroundColor : Color.rgb(255, 255, 255), // Black
+    contrastRatio : 21,
+    contrastRatioRounded : 21
 }
 
 const browsers = require('./browsers')(__dirname)
 const {main, picker} = browsers
 
-require('./controllers')(browsers, global.sharedObject)
+const CCAController = require('./CCAcontroller')
+const mainController = new CCAController(browsers, global.sharedObject)
+
+require('./controllers')(browsers, mainController)

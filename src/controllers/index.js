@@ -1,4 +1,4 @@
-module.exports = (browsers, sharedObjects) => ({
-    main: require('./main')(browsers, sharedObjects),
-    picker: require('./picker')(browsers, sharedObjects),
+module.exports = (browsers, mainController) => ({
+    main: require('./main')(browsers, mainController),
+    picker: require('./picker')(browsers, mainController),
 })

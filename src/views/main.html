@@ -9,15 +9,45 @@
     <h1>CCA Main windows</h1>
     <section id="results">
       <h2>Results</h2>
-      <div id="contrast-ratio">99.9:1</div>
+      Contrast Ratio: <span id="contrast-ratio">99.9:1</span>
     </section>
     <section id="foreground-color">
       <h2>Foreground Colour</h2>
       <button class="picker">Picker</button>
     </section>
+    <section id="foreground-rgb">
+        <div class="red">
+          <input type="range" min="0" max="255" value="0" />
+          <input type="number" maxlength="3" />
+        </div>
+        <div class="green">
+          <input type="range" min="0" max="255" value="0" />
+          <input type="number" maxlength="3" />
+        </div>
+        <div class="blue">
+          <input type="range" min="0" max="255" value="0" />
+          <input type="number" maxlength="3" />
+        </div>
+      </div>
+    </section>
     <section id="background-color">
       <h2>Background Colour</h2>
       <button class="picker">Picker</button>
+    </section>
+    <section id="background-rgb">
+        <div class="red">
+          <input type="range" min="0" max="255" value="0" />
+          <input type="number" maxlength="3" />
+        </div>
+        <div class="green">
+          <input type="range" min="0" max="255" value="0" />
+          <input type="number" maxlength="3" />
+        </div>
+        <div class="blue">
+          <input type="range" min="0" max="255" value="0" />
+          <input type="number" maxlength="3" />
+        </div>
+      </div>
     </section>
     <script>
       // You can also require other files to run in this process

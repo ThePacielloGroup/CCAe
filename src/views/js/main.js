@@ -40,7 +40,14 @@ function initInputs () {
 
 function applyForegroundColor () {
     let color = sharedObjects.foregroundColor
+    let name = color.cssname()
     document.querySelector('#foreground-color').style.background = color.rgb().string()  
+    document.querySelector('#foreground-color .hex-value').innerHTML = color.hex()
+    if (name) {
+        document.querySelector('#foreground-color .name-value').innerHTML = '&nbsp;(' + name + ')'
+    } else {
+        document.querySelector('#foreground-color .name-value').innerHTML = null        
+    }
     document.querySelector('#foreground-color').classList.toggle('darkMode', color.isDark())
     document.querySelector('#foreground-rgb .red input[type=range]').value = color.red()
     document.querySelector('#foreground-rgb .green input[type=range]').value = color.green()
@@ -52,7 +59,14 @@ function applyForegroundColor () {
 
 function applyBackgroundColor () {
     let color = sharedObjects.backgroundColor
-    document.querySelector('#background-color').style.background = color.rgb().string()  
+    let name = color.cssname()
+    document.querySelector('#background-color').style.background = color.rgb().string()
+    document.querySelector('#background-color .hex-value').innerHTML = color.hex()
+    if (name) {
+        document.querySelector('#background-color .name-value').innerHTML = '&nbsp;(' + name + ')'
+    } else {
+        document.querySelector('#background-color .name-value').innerHTML = null        
+    }
     document.querySelector('#background-color').classList.toggle('darkMode', color.isDark())
     document.querySelector('#background-rgb .red input[type=range]').value = color.red()
     document.querySelector('#background-rgb .green input[type=range]').value = color.green()

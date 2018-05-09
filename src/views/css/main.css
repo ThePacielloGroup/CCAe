@@ -43,7 +43,18 @@ section#results #contrast-ratio .value {
 /* Color sections */
 section#foreground-color, 
 section#background-color {
+    display: flex;
+    align-items: center;
     min-height: 5rem;
+    font-size: 1.4rem;
+    justify-content: center;
+}
+
+section#foreground-color h2, 
+section#background-color h2 {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
 }
 
 section#foreground-color .picker, 

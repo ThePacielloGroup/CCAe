@@ -1,5 +1,5 @@
 const {ipcMain} = require('electron')
-const Color = require('color')
+const Color = require('./CCAcolor')
 
 class CCAController {
     constructor(browsers, sharedObject) {

@@ -64,5 +64,5 @@ function applyBackgroundColor () {
 
 function applyContrastRatio () {
     let cr = sharedObjects.contrastRatioRounded
-    document.querySelector('#contrast-ratio').innerHTML = cr + ':1'
+    document.querySelector('#contrast-ratio .value').innerHTML = cr + ':1'
 }

@@ -1,3 +1,87 @@
 .darkMode {
     color: #ffffff;
 }
+
+section {
+    position: relative;
+}
+
+h2 {
+    font-size: 0.9rem;
+    margin: 0;
+    padding: 0;
+}
+
+section {
+    padding: 0.5rem;
+}
+
+/* Results section */
+section#results {
+    min-height: 3rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+section#results #contrast-ratio {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+
+section#results #contrast-ratio .label {
+    font-size: 0.9rem;
+    display: block;
+}
+
+section#results #contrast-ratio .value {
+    float: right;
+}
+
+/* Color sections */
+section#foreground-color, 
+section#background-color {
+    min-height: 5rem;
+}
+
+section#foreground-color .picker, 
+section#background-color .picker {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+}
+
+/* RGB sections */
+section#foreground-rgb,
+section#background-rgb {
+    border-top: 1px solid #eeeeee;
+    border-bottom: 1px solid #eeeeee;
+}
+
+section#foreground-rgb div,
+section#background-rgb div {
+    display: grid;
+    grid-template-columns: 4rem 1fr 2.5rem;
+}
+
+section#foreground-rgb input[type=number],
+section#background-rgb input[type=number] {
+    width: 2.5rem;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+}
+section#foreground-rgb input[type=range],
+section#background-rgb input[type=range] {
+    margin: 0 0.5rem 0 0.5rem;
+}
+
+section#foreground-rgb input[type=number]::-webkit-inner-spin-button,
+section#background-rgb input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}

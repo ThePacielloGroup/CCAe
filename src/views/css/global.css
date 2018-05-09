@@ -1,0 +1,27 @@
+@font-face{
+    font-family: 'GlacialIndifference';
+    src: url('fonts/GlacialIndifference-Regular.otf');
+  }
+
+html, body{
+    height: 100%;
+    margin: 0;
+    font-family: 'GlacialIndifference', sans-serif;
+}
+
+button, input {
+    font-family: 'GlacialIndifference', sans-serif;
+}
+
+.sr-only
+{
+    clip: rect(1px 1px 1px 1px) !important; /* IE 6/7 */
+    clip: rect(1px, 1px, 1px, 1px) !important;
+    -webkit-clip-path: inset(50%) !important;
+    clip-path: inset(50%) !important;
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}

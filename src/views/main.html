@@ -3,13 +3,15 @@
   <head>
     <title>Colour Contrast Analyser (CCA)</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/main.css" />
   </head>
   <body>
-    <h1>CCA Main windows</h1>
+    <h1 class="sr-only">CCA Main windows</h1>
     <section id="results">
-      <h2>Results</h2>
-      Contrast Ratio: <span id="contrast-ratio">99.9:1</span>
+      <h2 class="sr-only">Results</h2>
+      <!--div class="level">Pass AA</div-->
+      <div id="contrast-ratio"><span class="label">Contrast Ratio</span><span class="value">99.9:1</span></div>
     </section>
     <section id="foreground-color">
       <h2>Foreground Colour</h2>
@@ -17,16 +19,19 @@
     </section>
     <section id="foreground-rgb">
         <div class="red">
-          <input type="range" min="0" max="255" value="0" />
-          <input type="number" maxlength="3" />
+          <span>Red</span>
+          <input aria-label="Foreground red" type="range" min="0" max="255" value="0" />
+          <input aria-label="Foreground red" type="number" maxlength="3" />
         </div>
         <div class="green">
-          <input type="range" min="0" max="255" value="0" />
-          <input type="number" maxlength="3" />
+          <span>Green</span>
+          <input aria-label="Foreground green" type="range" min="0" max="255" value="0" />
+          <input aria-label="Foreground green" type="number" maxlength="3" />
         </div>
         <div class="blue">
-          <input type="range" min="0" max="255" value="0" />
-          <input type="number" maxlength="3" />
+          <span>Blue</span>
+          <input aria-label="Foreground blue" type="range" min="0" max="255" value="0" />
+          <input aria-label="Foreground blue" type="number" maxlength="3" />
         </div>
       </div>
     </section>
@@ -35,19 +40,22 @@
       <button class="picker">Picker</button>
     </section>
     <section id="background-rgb">
-        <div class="red">
-          <input type="range" min="0" max="255" value="0" />
-          <input type="number" maxlength="3" />
+          <div class="red">
+            <span>Red</span>
+            <input aria-label="Background red" type="range" min="0" max="255" value="0" />
+            <input aria-label="Background red" type="number" maxlength="3" />
+          </div>
+          <div class="green">
+            <span>Green</span>
+            <input aria-label="Background green" type="range" min="0" max="255" value="0" />
+            <input aria-label="Background green" type="number" maxlength="3" />
+          </div>
+          <div class="blue">
+            <span>Blue</span>
+            <input aria-label="Background blue" type="range" min="0" max="255" value="0" />
+            <input aria-label="Background blue" type="number" maxlength="3" />
+          </div>
         </div>
-        <div class="green">
-          <input type="range" min="0" max="255" value="0" />
-          <input type="number" maxlength="3" />
-        </div>
-        <div class="blue">
-          <input type="range" min="0" max="255" value="0" />
-          <input type="number" maxlength="3" />
-        </div>
-      </div>
     </section>
     <script>
       // You can also require other files to run in this process

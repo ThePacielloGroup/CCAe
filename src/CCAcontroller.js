@@ -90,8 +90,14 @@ class CCAController {
     }
 
     updateContrastRatio() {
-        this.sharedObject.contrastRatio = this.sharedObject.foregroundColor.contrast(this.sharedObject.backgroundColor)
-        this.sharedObject.contrastRatioRounded = Number(this.sharedObject.contrastRatio.toFixed(1))
+        let cr = this.sharedObject.foregroundColor.contrast(this.sharedObject.backgroundColor)
+        let crr = cr.toFixed(1)
+        if ((cr >= 6.95 && cr < 7) || (cr >= 4.45 && cr < 4.5) || (cr >= 2.95 && cr < 3)) {
+            this.sharedObject.contrastRatioString = "Just below " + crr + ":1 (" + Number(cr.toFixed(3)) + ":1)"
+        } else {
+            this.sharedObject.contrastRatioString = crr + ":1"
+        }
+        this.sharedObject.contrastRatioRounded = crr
     }
 
     sendEventToAll(event) {

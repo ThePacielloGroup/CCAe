@@ -34,7 +34,7 @@ const Color = require('./CCAcolor')
 global.sharedObject = {
     foregroundColor : Color.rgb(0, 0, 0), // White
     backgroundColor : Color.rgb(255, 255, 255), // Black
-    contrastRatio : 21,
+    contrastRatioString : "21:1",
     contrastRatioRounded : 21
 }
 

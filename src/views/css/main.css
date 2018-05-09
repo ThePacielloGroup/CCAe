@@ -29,15 +29,12 @@ section#results #contrast-ratio {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
+    text-align: right;
 }
 
 section#results #contrast-ratio .label {
     font-size: 0.9rem;
     display: block;
-}
-
-section#results #contrast-ratio .value {
-    float: right;
 }
 
 /* Color sections */

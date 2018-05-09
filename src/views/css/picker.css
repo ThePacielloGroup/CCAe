@@ -9,10 +9,20 @@ body{
     overflow: hidden;
 }
 
-#picker{
+#picker {
+    margin: 1px;
     width: 98px;
     height: 98px;
     border-radius: 120px;
     box-sizing: border-box;
-    box-shadow: 0 0 0 1px red, inset 0 0 0 1px red;
+    box-shadow: 0 0 0 1px #bbbbbb, inset 0 0 0 1px #bbbbbb;
+    display: flex;
+    align-items:flex-end;
+    justify-content: center;
+}
+
+#picker .hex {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #bbbbbb;
+    border-radius: 0.2rem;
 }

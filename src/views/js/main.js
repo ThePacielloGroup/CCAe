@@ -93,5 +93,21 @@ function applyBackgroundColor () {
 
 function applyContrastRatio () {
     let cr = sharedObjects.contrastRatioString
-    document.querySelector('#contrast-ratio .value').innerHTML = cr
+    document.querySelector('#results #contrast-ratio .value').innerHTML = cr
+    var levelAA, levelAAA
+    if (sharedObjects.levelAA === 'large') {
+        levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA Large'
+    } else if (sharedObjects.levelAA === 'regular') {
+        levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA'
+    } else { // Fail
+        levelAA = '<img src="icons/fail.svg" alt="Fail" /> AA'
+    }
+    if (sharedObjects.levelAAA === 'large') {
+        levelAAA = '<img src="icons/pass.svg" alt="Pass" /> AAA Large'
+    } else if (sharedObjects.levelAAA === 'regular') {
+        levelAAA = '<img src="icons/pass.svg" alt="Pass" /> AAA'
+    } else { // Fail
+        levelAAA = '<img src="icons/fail.svg" alt="Fail" /> AAA'
+    }
+    document.querySelector('#results #level').innerHTML = levelAA + "<br/>" + levelAAA
 }

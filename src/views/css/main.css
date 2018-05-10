@@ -46,6 +46,11 @@ section#results #contrast-ratio .label {
     display: block;
 }
 
+section#results #level img {
+    height: 1.2rem;
+    width: 1.2rem;
+}
+
 /* Color sections */
 section#foreground-color, 
 section#background-color {

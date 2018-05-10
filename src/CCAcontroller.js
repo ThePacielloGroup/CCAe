@@ -98,6 +98,18 @@ class CCAController {
             this.sharedObject.contrastRatioString = crr + ":1"
         }
         this.sharedObject.contrastRatioRounded = crr
+        this.sharedObject.levelAA = 'regular'
+        this.sharedObject.levelAAA = 'regular'
+        if (cr < 7) {
+            this.sharedObject.levelAAA = 'large'
+        }
+        if (cr < 4.5) {
+            this.sharedObject.levelAA = 'large'
+            this.sharedObject.levelAAA = 'fail'
+        }
+        if (cr < 3) {
+            this.sharedObject.levelAA = 'fail'
+        }
     }
 
     sendEventToAll(event) {

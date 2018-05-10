@@ -35,7 +35,9 @@ global.sharedObject = {
     foregroundColor : Color.rgb(0, 0, 0), // White
     backgroundColor : Color.rgb(255, 255, 255), // Black
     contrastRatioString : "21:1",
-    contrastRatioRounded : 21
+    contrastRatioRounded : 21,
+    levelAA : 'regular',
+    levelAAA : 'regular'
 }
 
 const browsers = require('./browsers')(__dirname)

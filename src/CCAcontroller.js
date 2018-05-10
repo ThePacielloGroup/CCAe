@@ -15,6 +15,7 @@ class CCAController {
         ipcMain.on('changeBackgroundRed', this.updateBackgroundRed.bind(this))
         ipcMain.on('changeBackgroundGreen', this.updateBackgroundGreen.bind(this))
         ipcMain.on('changeBackgroundBlue', this.updateBackgroundBlue.bind(this))
+        ipcMain.on('changeForeground', this.updateForegroundFromString.bind(this))
     }
 
     updateForegroundRed(event, red) {
@@ -77,14 +78,14 @@ class CCAController {
         this.sendEventToAll('backgroundColorChanged')        
     }
 
-    updateForegroundFromHex(hexColor) {
-        this.sharedObject.foregroundColor = Color(hexColor)
+    updateForegroundFromString(event, stringColor, format) {
+        this.sharedObject.foregroundColor = Color(stringColor)
         this.updateContrastRatio()
         this.sendEventToAll('foregroundColorChanged')
     }
 
-    updateBackgroundFromHex(hexColor) {
-        this.sharedObject.backgroundColor = Color(hexColor)
+    updateBackgroundFromString(event, stringColor, format) {
+        this.sharedObject.backgroundColor = Color(stringColor)
         this.updateContrastRatio()
         this.sendEventToAll('backgroundColorChanged')
     }

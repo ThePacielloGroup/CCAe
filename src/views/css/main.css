@@ -23,6 +23,7 @@ section#sample-preview h2 {
 
 section {
     padding: 0.5rem;
+    background-color: #ececec;
 }
 
 /* Results section */
@@ -90,7 +91,32 @@ section#background-color button.rgb {
     background-image: url('../icons/sliders.svg');
 }
 
-/* RGB sections */
+section#foreground-color button.text, 
+section#background-color button.text {
+    background-image: url('../icons/text.svg');
+}
+
+/* Text input sections */
+section#foreground-text input,
+section#background-text input {
+    width: 100%;
+    margin-top: 0.5rem;
+    border: 1px solid #9A9A9A;
+}
+
+section#foreground-text input.invalid,
+section#background-text input.invalid {
+    border-bottom: 4px solid crimson;
+    background: #ffffff url('../icons/warning.png') 98% 50% no-repeat;
+    background-size: contain;
+}
+
+section#foreground-text input.valid,
+section#background-text input.valid {
+    border-bottom: 4px solid green;
+}
+
+/* RGB input sections */
 section#foreground-rgb div,
 section#background-rgb div {
     display: grid;

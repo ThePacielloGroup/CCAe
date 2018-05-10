@@ -1,5 +1,6 @@
 const { ipcRenderer } = require('electron')
 const sharedObjects = require('electron').remote.getGlobal('sharedObject')
+const Color = require('../../CCAcolor')
 
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-app'), false)
 
@@ -38,6 +39,10 @@ function initInputs () {
     document.querySelector('#background-rgb .blue input[type=number]').oninput = function() {ipcRenderer.send('changeBackgroundBlue', this.value)}
     document.querySelector('#foreground-color .rgb').onclick = function() {showHide(this)}
     document.querySelector('#background-color .rgb').onclick = function() {showHide(this)}
+    document.querySelector('#foreground-color .text').onclick = function() {showHide(this)}
+    document.querySelector('#background-color .text').onclick = function() {showHide(this)}
+    document.querySelector('#foreground-text input').oninput = function() {validateForegroundText(this.value)}
+    document.querySelector('#background-text input').oninput = function() {validateBackgroundText(this.value)}
 }
 
 function showHide(el) {
@@ -68,7 +73,14 @@ function applyForegroundColor () {
     document.querySelector('#foreground-rgb .red input[type=number]').value = color.red()
     document.querySelector('#foreground-rgb .green input[type=number]').value = color.green()
     document.querySelector('#foreground-rgb .blue input[type=number]').value = color.blue()
-    document.querySelector('#sample-preview .text').style.color = color.rgb().string()  
+    document.querySelector('#sample-preview .text').style.color = color.rgb().string()
+    /* Clear the text input if this isn't the current focused element */
+    let textInput = document.querySelector('#foreground-text input')
+    if (textInput != document.activeElement) {
+        textInput.value = ''
+        textInput.classList.toggle('invalid', false)
+        textInput.classList.toggle('valid', false)
+    }
 }
 
 function applyBackgroundColor () {
@@ -89,6 +101,13 @@ function applyBackgroundColor () {
     document.querySelector('#background-rgb .green input[type=number]').value = color.green()
     document.querySelector('#background-rgb .blue input[type=number]').value = color.blue()
     document.querySelector('#sample-preview .text').style.background = color.rgb().string()  
+    /* Clear the text input if this isn't the current focused element */
+    let textInput = document.querySelector('#background-text input')
+    if (textInput != document.activeElement) {
+        textInput.value = ''
+        textInput.classList.toggle('invalid', false)
+        textInput.classList.toggle('valid', false)
+    }
 }
 
 function applyContrastRatio () {
@@ -110,4 +129,55 @@ function applyContrastRatio () {
         levelAAA = '<img src="icons/fail.svg" alt="Fail" /> AAA'
     }
     document.querySelector('#results #level').innerHTML = levelAA + "<br/>" + levelAAA
+}
+
+function validateForegroundText(value) {
+    let string = value.toLowerCase()
+    let classList = document.querySelector('#foreground-text input').classList
+    if (string) {
+        let format = validateText(string)
+        if (format) {
+            ipcRenderer.send('changeForeground', string, format)
+            classList.toggle('invalid', false)
+            classList.toggle('valid', true)
+        } else {
+            classList.toggle('invalid', true)
+            classList.toggle('valid', false)
+        }    
+    } else {
+        classList.toggle('invalid', false)
+        classList.toggle('valid', false)
+    }
+}
+
+function validateBackgroundText(value) {
+    let string = value.toLowerCase()
+    let classList = document.querySelector('#background-text input').classList
+    if (string) {
+        let format = validateText(string)
+        if (format) {
+            ipcRenderer.send('changeBackground', string, format)
+            classList.toggle('invalid', false)
+            classList.toggle('valid', true)
+        } else {
+            classList.toggle('invalid', true)
+            classList.toggle('valid', false)
+        }    
+    } else {
+        classList.toggle('invalid', false)
+        classList.toggle('valid', false)
+    }
+}
+
+function validateText(string) {
+    if (Color.isHex(string)) {
+        return 'hex'
+    } else if (Color.isRGB(string)) {
+        return 'rgb'
+    } else if (Color.isHSL(string)) {
+        return 'hsl'
+    } else if (Color.isName(string)) {
+        return 'name'
+    }
+    return null
 }

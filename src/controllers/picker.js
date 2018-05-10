@@ -8,13 +8,13 @@ module.exports = (browsers, mainController) => {
     const {picker, main} = browsers
     let foregroundPicker // Keep which picker is openned
 
-    let closePicker = newColor => {
+    let closePicker = hexColor => {
         if (picker.getWindow()) {
           picker.getWindow().close()
           if (foregroundPicker === true) {
-            mainController.updateForegroundFromHex(newColor)
+            mainController.updateForegroundFromString(null, hexColor)
           } else {
-            mainController.updateBackgroundFromHex(newColor)
+            mainController.updateBackgroundFromString(null, hexColor)
           }
           main.getWindow().focus()
           ipcMain.removeListener('closePicker', closePicker)

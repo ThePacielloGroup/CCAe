@@ -82,12 +82,12 @@ section#background-color button {
 
 section#foreground-color button.picker, 
 section#background-color button.picker {
-    background-image: url('../icons/EyeDropper.png');
+    background-image: url('../icons/picker.svg');
 }
 
 section#foreground-color button.rgb, 
 section#background-color button.rgb {
-    background-image: url('../icons/sliders.png');
+    background-image: url('../icons/sliders.svg');
 }
 
 /* RGB sections */

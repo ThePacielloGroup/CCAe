@@ -10,4 +10,5 @@ document.addEventListener('keydown', event => {
 
 ipcRenderer.on('updatePicker', (event, color) => {
   document.querySelector('#picker').style.border = `10px solid ${color}`
+  document.querySelector('#picker .hex').innerHTML = color
 })

@@ -4,12 +4,21 @@
 
 section {
     position: relative;
+    border-top: 1px solid #eeeeee;
 }
 
 h2 {
     font-size: 0.9rem;
     margin: 0;
     padding: 0;
+}
+
+section#foreground-color h2, 
+section#background-color h2,
+section#sample-preview h2 {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
 }
 
 section {
@@ -47,27 +56,36 @@ section#background-color {
     justify-content: center;
 }
 
-section#foreground-color h2, 
-section#background-color h2 {
-    position: absolute;
-    top: 0.5rem;
-    left: 0.5rem;
-}
-
-section#foreground-color .picker, 
-section#background-color .picker {
+section#foreground-color .buttons, 
+section#background-color .buttons {
     position: absolute;
     bottom: 0.5rem;
     right: 0.5rem;
 }
 
-/* RGB sections */
-section#foreground-rgb,
-section#background-rgb {
-    border-top: 1px solid #eeeeee;
-    border-bottom: 1px solid #eeeeee;
+section#foreground-color button, 
+section#background-color button {
+    background-color: #ffffff;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    border: none;
+    width: 2rem;
+    height: 1.2rem;
+    border: 1px solid #cccccc;
+    border-radius: 0.2rem;
 }
 
+section#foreground-color button.picker, 
+section#background-color button.picker {
+    background-image: url('../icons/EyeDropper.png');
+}
+
+section#foreground-color button.rgb, 
+section#background-color button.rgb {
+    background-image: url('../icons/sliders.png');
+}
+
+/* RGB sections */
 section#foreground-rgb div,
 section#background-rgb div {
     display: grid;
@@ -92,4 +110,19 @@ section#background-rgb input[type=number]::-webkit-outer-spin-button {
     -moz-appearance: none;
     appearance: none;
     margin: 0;
+}
+
+/* Sample preview section */
+
+section#sample-preview {
+    display: flex;
+    align-items: center;
+    min-height: 5rem;
+    font-size: 1.4rem;
+    justify-content: center;
+}
+
+section#sample-preview .text {
+    border: 1px #cccccc dashed;
+    padding: 0.5rem;
 }

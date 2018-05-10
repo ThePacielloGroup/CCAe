@@ -17,9 +17,12 @@
       <h2>Foreground Colour</h2>
       <div class="hex-value">#------</div>
       <div class="name-value">------</div>
-      <button class="picker">Picker</button>
+      <div class="buttons">
+        <button class="rgb" aria-label="Foreground rgb sliders" aria-controls="foreground-rgb" aria-expanded="false"></button>
+        <button class="picker" aria-label="Foreground color picker"></button>
+      </div>
     </section>
-    <section id="foreground-rgb">
+    <section id="foreground-rgb" hidden>
         <div class="red">
           <span>Red</span>
           <input aria-label="Foreground red" type="range" min="0" max="255" value="0" />
@@ -41,9 +44,12 @@
       <h2>Background Colour</h2>
       <div class="hex-value">#------</div>
       <div class="name-value">------</div>
-      <button class="picker">Picker</button>
+      <div class="buttons">
+          <button class="rgb" aria-label="Background rgb sliders" aria-controls="background-rgb" aria-expanded="false"></button>
+          <button class="picker" aria-label="Background color picker"></button>    
+      </div>
     </section>
-    <section id="background-rgb">
+    <section id="background-rgb" hidden>
           <div class="red">
             <span>Red</span>
             <input aria-label="Background red" type="range" min="0" max="255" value="0" />
@@ -61,6 +67,10 @@
           </div>
         </div>
     </section>
+    <section id="sample-preview">
+        <h2>Sample preview</h2>
+        <div class="text" contenteditable="true">example text showing contrast</div>
+      </section>
     <script>
       // You can also require other files to run in this process
       require('./js/main.js')

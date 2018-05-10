@@ -36,6 +36,19 @@ function initInputs () {
     document.querySelector('#background-rgb .red input[type=number]').oninput = function() {ipcRenderer.send('changeBackgroundRed', this.value)}
     document.querySelector('#background-rgb .green input[type=number]').oninput = function() {ipcRenderer.send('changeBackgroundGreen', this.value)}
     document.querySelector('#background-rgb .blue input[type=number]').oninput = function() {ipcRenderer.send('changeBackgroundBlue', this.value)}
+    document.querySelector('#foreground-color .rgb').onclick = function() {showHide(this)}
+    document.querySelector('#background-color .rgb').onclick = function() {showHide(this)}
+}
+
+function showHide(el) {
+    let controls = document.querySelector('#' + el.getAttribute('aria-controls'))
+    if (el.getAttribute('aria-expanded') === 'true') {
+        controls.setAttribute('hidden', '')
+        el.setAttribute('aria-expanded', false)
+    } else {
+        controls.removeAttribute('hidden')
+        el.setAttribute('aria-expanded', true)
+    }
 }
 
 function applyForegroundColor () {
@@ -55,6 +68,7 @@ function applyForegroundColor () {
     document.querySelector('#foreground-rgb .red input[type=number]').value = color.red()
     document.querySelector('#foreground-rgb .green input[type=number]').value = color.green()
     document.querySelector('#foreground-rgb .blue input[type=number]').value = color.blue()
+    document.querySelector('#sample-preview .text').style.color = color.rgb().string()  
 }
 
 function applyBackgroundColor () {
@@ -74,6 +88,7 @@ function applyBackgroundColor () {
     document.querySelector('#background-rgb .red input[type=number]').value = color.red()
     document.querySelector('#background-rgb .green input[type=number]').value = color.green()
     document.querySelector('#background-rgb .blue input[type=number]').value = color.blue()
+    document.querySelector('#sample-preview .text').style.background = color.rgb().string()  
 }
 
 function applyContrastRatio () {

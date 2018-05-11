@@ -7,8 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron src/main.js",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder",
-    "postinstall": "electron-builder install-app-deps"
+    "dist": "electron-builder"
   },
   "author": "Cédric Trévisan <ctrevisan@paciellogroup.com>",
   "license": "",

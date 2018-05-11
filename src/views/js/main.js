@@ -28,12 +28,14 @@ function initInputs () {
     document.querySelector('#foreground-rgb .red input[type=range]').oninput = function() {ipcRenderer.send('changeForegroundRed', this.value)}
     document.querySelector('#foreground-rgb .green input[type=range]').oninput = function() {ipcRenderer.send('changeForegroundGreen', this.value)}
     document.querySelector('#foreground-rgb .blue input[type=range]').oninput = function() {ipcRenderer.send('changeForegroundBlue', this.value)}
+    document.querySelector('#foreground-rgb .alpha input[type=range]').oninput = function() {ipcRenderer.send('changeForegroundAlpha', this.value)}
     document.querySelector('#background-rgb .red input[type=range]').oninput = function() {ipcRenderer.send('changeBackgroundRed', this.value)}
     document.querySelector('#background-rgb .green input[type=range]').oninput = function() {ipcRenderer.send('changeBackgroundGreen', this.value)}
     document.querySelector('#background-rgb .blue input[type=range]').oninput = function() {ipcRenderer.send('changeBackgroundBlue', this.value)}
     document.querySelector('#foreground-rgb .red input[type=number]').oninput = function() {ipcRenderer.send('changeForegroundRed', this.value)}
     document.querySelector('#foreground-rgb .green input[type=number]').oninput = function() {ipcRenderer.send('changeForegroundGreen', this.value)}
     document.querySelector('#foreground-rgb .blue input[type=number]').oninput = function() {ipcRenderer.send('changeForegroundBlue', this.value)}
+    document.querySelector('#foreground-rgb .alpha input[type=number]').oninput = function() {ipcRenderer.send('changeForegroundAlpha', this.value)}
     document.querySelector('#background-rgb .red input[type=number]').oninput = function() {ipcRenderer.send('changeBackgroundRed', this.value)}
     document.querySelector('#background-rgb .green input[type=number]').oninput = function() {ipcRenderer.send('changeBackgroundGreen', this.value)}
     document.querySelector('#background-rgb .blue input[type=number]').oninput = function() {ipcRenderer.send('changeBackgroundBlue', this.value)}
@@ -58,21 +60,24 @@ function showHide(el) {
 
 function applyForegroundColor () {
     let color = sharedObjects.foregroundColor
-    let name = color.cssname()
-    document.querySelector('#foreground-color').style.background = color.rgb().string()  
-    document.querySelector('#foreground-color .hex-value').innerHTML = color.hex()
+    let colorMixed = sharedObjects.foregroundColorMixed
+    let name = colorMixed.cssname()
+    document.querySelector('#foreground-color').style.background = colorMixed.rgb().string()  
+    document.querySelector('#foreground-color .hex-value').innerHTML = colorMixed.hex()
     if (name) {
         document.querySelector('#foreground-color .name-value').innerHTML = '&nbsp;(' + name + ')'
     } else {
         document.querySelector('#foreground-color .name-value').innerHTML = null        
     }
-    document.querySelector('#foreground-color').classList.toggle('darkMode', color.isDark())
+    document.querySelector('#foreground-color').classList.toggle('darkMode', colorMixed.isDark())
     document.querySelector('#foreground-rgb .red input[type=range]').value = color.red()
     document.querySelector('#foreground-rgb .green input[type=range]').value = color.green()
     document.querySelector('#foreground-rgb .blue input[type=range]').value = color.blue()
+    document.querySelector('#foreground-rgb .alpha input[type=range]').value = color.alpha()
     document.querySelector('#foreground-rgb .red input[type=number]').value = color.red()
     document.querySelector('#foreground-rgb .green input[type=number]').value = color.green()
     document.querySelector('#foreground-rgb .blue input[type=number]').value = color.blue()
+    document.querySelector('#foreground-rgb .alpha input[type=number]').value = color.alpha()
     document.querySelector('#sample-preview .text').style.color = color.rgb().string()
     /* Clear the text input if this isn't the current focused element */
     let textInput = document.querySelector('#foreground-text input')
@@ -135,7 +140,20 @@ function validateForegroundText(value) {
     let string = value.toLowerCase()
     let classList = document.querySelector('#foreground-text input').classList
     if (string) {
-        let format = validateText(string)
+        let format = null
+        if (Color.isHex(string)) {
+            format = 'hex'
+        } else if (Color.isRGB(string)) {
+            format = 'rgb'
+        } else if (Color.isRGBA(string)) {
+            format = 'rgba'
+        } else if (Color.isHSL(string)) {
+            format = 'hsl'
+        } else if (Color.isHSLA(string)) {
+            format = 'hsla'
+        } else if (Color.isName(string)) {
+            format = 'name'
+        }
         if (format) {
             ipcRenderer.send('changeForeground', string, format)
             classList.toggle('invalid', false)
@@ -154,7 +172,16 @@ function validateBackgroundText(value) {
     let string = value.toLowerCase()
     let classList = document.querySelector('#background-text input').classList
     if (string) {
-        let format = validateText(string)
+        let format = null
+        if (Color.isHex(string)) {
+            format = 'hex'
+        } else if (Color.isRGB(string)) {
+            format = 'rgb'
+        } else if (Color.isHSL(string)) {
+            format = 'hsl'
+        } else if (Color.isName(string)) {
+            format = 'name'
+        }
         if (format) {
             ipcRenderer.send('changeBackground', string, format)
             classList.toggle('invalid', false)
@@ -170,14 +197,6 @@ function validateBackgroundText(value) {
 }
 
 function validateText(string) {
-    if (Color.isHex(string)) {
-        return 'hex'
-    } else if (Color.isRGB(string)) {
-        return 'rgb'
-    } else if (Color.isHSL(string)) {
-        return 'hsl'
-    } else if (Color.isName(string)) {
-        return 'name'
-    }
+
     return null
 }

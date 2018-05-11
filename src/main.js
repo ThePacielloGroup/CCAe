@@ -33,6 +33,7 @@ const Color = require('./CCAcolor')
 
 global.sharedObject = {
     foregroundColor : Color.rgb(0, 0, 0), // White
+    foregroundColorMixed : Color.rgb(0, 0, 0), // For alpha transparency mix with background
     backgroundColor : Color.rgb(255, 255, 255), // Black
     contrastRatioString : "21:1",
     contrastRatioRounded : 21,

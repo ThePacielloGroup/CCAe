@@ -16,6 +16,19 @@ Color.prototype.cssname = function() {
     return null
 }
 
+Color.prototype.mixed = function(bg) {
+    // https://stackoverflow.com/a/11615135/3909342
+    if (this.alpha() !== 1) {
+        let a = 1 - this.alpha();
+        let r = Math.round((this.alpha() * (this.red() / 255) + (a * (bg.red() / 255))) * 255);
+        let g = Math.round((this.alpha() * (this.green() / 255) + (a * (bg.green() / 255))) * 255);
+        let b = Math.round((this.alpha() * (this.blue() / 255) + (a * (bg.blue() / 255))) * 255);
+        return Color.rgb(r, g, b)
+    } else {
+        return this
+    }
+}
+
 Color.isHex = function(string) {
     let abbr = /^#([a-f0-9]{3,4})$/i;
     let hex = /^#([a-f0-9]{6})([a-f0-9]{2})?$/i;
@@ -45,4 +58,6 @@ Color.isHSLA = function(string) {
 Color.isName = function(string) {
     return (cssKeywords[string])
 }
+
+
 module.exports = Color

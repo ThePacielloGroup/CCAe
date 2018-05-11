@@ -59,5 +59,4 @@ Color.isName = function(string) {
     return (cssKeywords[string])
 }
 
-
 module.exports = Color

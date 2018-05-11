@@ -21,7 +21,10 @@ module.exports = (dirname) => {
         // Create the browser window.
         mainWindow = new BrowserWindow({
             width: 480, 
-            height: 600
+            height: 700,
+            alwaysOnTop: true,
+            resizable: false,
+            focusable: true
         })
         // and load the index.html of the app.
         mainWindow.loadURL(url.format({
@@ -31,7 +34,7 @@ module.exports = (dirname) => {
         }))
 
         // Open the DevTools.
-        mainWindow.webContents.openDevTools()
+//        mainWindow.webContents.openDevTools()
 
         // Emitted when the window is closed.
         mainWindow.on('closed', function () {

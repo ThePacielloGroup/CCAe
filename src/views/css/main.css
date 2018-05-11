@@ -1,3 +1,10 @@
+html, body{
+}
+  
+body{
+    overflow: hidden;
+}
+
 .darkMode {
     color: #ffffff;
 }

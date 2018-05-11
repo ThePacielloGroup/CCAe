@@ -143,6 +143,8 @@ section#background-rgb input[type=range] {
 }
 
 section#foreground-rgb input[type=number]::-webkit-inner-spin-button,
+section#foreground-rgb input[type=number]::-webkit-outer-spin-button,
+section#background-rgb input[type=number]::-webkit-inner-spin-button,
 section#background-rgb input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     -moz-appearance: none;

@@ -5,6 +5,8 @@ const Color = require('../../CCAcolor')
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-app'), false)
 
 ipcRenderer.on('init', event => {
+    var mainHeight = document.querySelector('main').clientHeight;
+    ipcRenderer.send('height-changed', mainHeight)
     applyForegroundColor()
     applyBackgroundColor()
     applyContrastRatio()
@@ -56,6 +58,8 @@ function showHide(el) {
         controls.removeAttribute('hidden')
         el.setAttribute('aria-expanded', true)
     }
+    var mainHeight = document.querySelector('main').clientHeight;
+    ipcRenderer.send('height-changed', mainHeight)
 }
 
 function applyForegroundColor () {

@@ -21,7 +21,7 @@ module.exports = (dirname) => {
         // Create the browser window.
         mainWindow = new BrowserWindow({
             width: 480, 
-            height: 700,
+            height: 0,
             alwaysOnTop: true,
             resizable: false,
             focusable: true

@@ -50,8 +50,8 @@ function initInputs () {
 }
 
 function sliderOnInput(group, color, value) {
-    let lock = document.querySelector('#' + group + '-rgb .lock input[type=checkbox]').checked
-    ipcRenderer.send('changeRGBComponent', group, color, value, lock)
+    let sync = document.querySelector('#' + group + '-rgb .sync input[type=checkbox]').checked
+    ipcRenderer.send('changeRGBComponent', group, color, value, sync)
 }
 
 function showHide(el) {

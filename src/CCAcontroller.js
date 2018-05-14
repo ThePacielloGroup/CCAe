@@ -14,7 +14,7 @@ class CCAController {
         ipcMain.on('changeBackground', this.updateBackgroundFromString.bind(this))
     }
 
-    updateRGBComponent(event, group, component, value, locked = false) {
+    updateRGBComponent(event, group, component, value, synced = false) {
         if (component === 'alpha') {
             value = parseFloat(value)
             if (value > 1) value = 1
@@ -33,7 +33,7 @@ class CCAController {
         }
 
         let dist
-        if (locked && component !== "alpha") {
+        if (synced && component !== "alpha") {
             if (component === "red") {
                 dist = value - color.red()
             } else if (component === "green") {

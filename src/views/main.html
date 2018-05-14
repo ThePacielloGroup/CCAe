@@ -30,26 +30,32 @@
     </section>
     <section id="foreground-rgb" hidden>
         <h2 class="sr-only">Foreground RGB input</h2>
-        <div class="red">
+        <div class="lock">
+          <label>
+            Lock
+            <input type="checkbox">
+          </label>
+        </div>
+        <div class="slider red">
           <span>Red</span>
           <input aria-label="Foreground red" type="range" min="0" max="255" value="0" />
           <input aria-label="Foreground red" type="number" maxlength="3" />
         </div>
-        <div class="green">
+        <div class="slider green">
           <span>Green</span>
           <input aria-label="Foreground green" type="range" min="0" max="255" value="0" />
           <input aria-label="Foreground green" type="number" maxlength="3" />
         </div>
-        <div class="blue">
+        <div class="slider blue">
           <span>Blue</span>
           <input aria-label="Foreground blue" type="range" min="0" max="255" value="0" />
           <input aria-label="Foreground blue" type="number" maxlength="3" />
         </div>
-        <div class="alpha">
+        <div class="slider alpha">
             <span>Alpha</span>
             <input aria-label="Foreground alpha" type="range" min="0" max="1" value="1" step="0.1" />
             <input aria-label="Foreground alpha" type="number" maxlength="3" />
-          </div>
+        </div>
       </div>
     </section>
     <section id="background-color">
@@ -68,17 +74,23 @@
     </section>  
     <section id="background-rgb" hidden>
         <h2 class="sr-only">Background RGB input</h2>
-          <div class="red">
+        <div class="lock">
+            <label>
+              Lock
+              <input type="checkbox">
+            </label>
+          </div>
+          <div class="slider red">
             <span>Red</span>
             <input aria-label="Background red" type="range" min="0" max="255" value="0" />
             <input aria-label="Background red" type="number" maxlength="3" />
           </div>
-          <div class="green">
+          <div class="slider green">
             <span>Green</span>
             <input aria-label="Background green" type="range" min="0" max="255" value="0" />
             <input aria-label="Background green" type="number" maxlength="3" />
           </div>
-          <div class="blue">
+          <div class="slider blue">
             <span>Blue</span>
             <input aria-label="Background blue" type="range" min="0" max="255" value="0" />
             <input aria-label="Background blue" type="number" maxlength="3" />

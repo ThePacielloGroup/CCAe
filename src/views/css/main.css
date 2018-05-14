@@ -125,8 +125,13 @@ section#background-text input.valid {
 }
 
 /* RGB input sections */
-section#foreground-rgb div,
-section#background-rgb div {
+section#foreground-rgb .lock,
+section#background-rgb .lock {
+    text-align: right;
+}
+
+section#foreground-rgb .slider,
+section#background-rgb .slider {
     display: grid;
     grid-template-columns: 4rem 1fr 2.5rem;
 }

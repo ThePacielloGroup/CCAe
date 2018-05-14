@@ -9,71 +9,67 @@ class CCAController {
     }
     
     initEvents() {
-        ipcMain.on('changeForegroundRed', this.updateForegroundRed.bind(this))
-        ipcMain.on('changeForegroundGreen', this.updateForegroundGreen.bind(this))
-        ipcMain.on('changeForegroundBlue', this.updateForegroundBlue.bind(this))
-        ipcMain.on('changeForegroundAlpha', this.updateForegroundAlpha.bind(this))
-        ipcMain.on('changeBackgroundRed', this.updateBackgroundRed.bind(this))
-        ipcMain.on('changeBackgroundGreen', this.updateBackgroundGreen.bind(this))
-        ipcMain.on('changeBackgroundBlue', this.updateBackgroundBlue.bind(this))
+        ipcMain.on('changeRGBComponent', this.updateRGBComponent.bind(this))
         ipcMain.on('changeForeground', this.updateForegroundFromString.bind(this))
         ipcMain.on('changeBackground', this.updateBackgroundFromString.bind(this))
     }
 
-    updateForegroundRed(event, red) {
-        red = parseInt(red)
-        if (red > 255) red = 255
-        if (red < 0) red = 0
-        this.sharedObject.foregroundColor = this.sharedObject.foregroundColor.red(red)
-        this.updateGlobalF()    
-    }
+    updateRGBComponent(event, group, component, value, locked = false) {
+        if (component === 'alpha') {
+            value = parseFloat(value)
+            if (value > 1) value = 1
+            if (value < 0) value = 0    
+        } else {
+            value = parseInt(value)
+            if (value > 255) value = 255
+            if (value < 0) value = 0    
+        }
 
-    updateForegroundGreen(event, green) {
-        green = parseInt(green)
-        if (green > 255) green = 255
-        if (green < 0) green = 0
-        this.sharedObject.foregroundColor = this.sharedObject.foregroundColor.green(green)
-        this.updateGlobalF()    
-    }
+        let color 
+        if (group === "foreground") {
+            color = this.sharedObject.foregroundColor
+        } else if (group === "background") {
+            color = this.sharedObject.backgroundColor
+        }
 
-    updateForegroundBlue(event, blue) {
-        blue = parseInt(blue)
-        if (blue > 255) blue = 255
-        if (blue < 0) blue = 0
-        this.sharedObject.foregroundColor = this.sharedObject.foregroundColor.blue(blue)
-        this.updateGlobalF()    
-    }
+        let dist
+        if (locked && component !== "alpha") {
+            if (component === "red") {
+                dist = value - color.red()
+            } else if (component === "green") {
+                dist = value - color.green()
+            } else if (component === "blue") {
+                dist = value - color.blue()
+            }    
+            let red = color.red() + dist
+            if (red > 255) red = 255
+            if (red < 0) red = 0  
+            let green = color.green() + dist
+            if (green > 255) green = 255
+            if (green < 0) green = 0  
+            let blue = color.blue() + dist
+            if (blue > 255) blue = 255
+            if (blue < 0) blue = 0  
+            color = color.red(red).green(green).blue(blue)
+        } else {
+            if (component === "red") {
+                color = color.red(value)
+            } else if (component === "green") {
+                color = color.green(value)
+            } else if (component === "blue") {
+                color = color.blue(value)
+            } else if (component === "alpha") {
+                color = color.alpha(value)
+            }    
+        }
 
-    updateForegroundAlpha(event, alpha) {
-        alpha = parseFloat(alpha)
-        if (alpha > 1) alpha = 1
-        if (alpha < 0) alpha = 0
-        this.sharedObject.foregroundColor = this.sharedObject.foregroundColor.alpha(alpha)
-        this.updateGlobalF()    
-    }
-
-    updateBackgroundRed(event, red) {
-        red = parseInt(red)
-        if (red > 255) red = 255
-        if (red < 0) red = 0
-        this.sharedObject.backgroundColor = this.sharedObject.backgroundColor.red(red)
-        this.updateGlobalB()        
-    }
-
-    updateBackgroundGreen(event, green) {
-        green = parseInt(green)
-        if (green > 255) green = 255
-        if (green < 0) green = 0
-        this.sharedObject.backgroundColor = this.sharedObject.backgroundColor.green(green)
-        this.updateGlobalB()        
-    }
-
-    updateBackgroundBlue(event, blue) {
-        blue = parseInt(blue)
-        if (blue > 255) blue = 255
-        if (blue < 0) blue = 0
-        this.sharedObject.backgroundColor = this.sharedObject.backgroundColor.blue(blue)
-        this.updateGlobalB()        
+        if (group === "foreground") {
+            this.sharedObject.foregroundColor = color
+            this.updateGlobalF()    
+        } else if (group === "background") {
+            this.sharedObject.backgroundColor = color
+            this.updateGlobalB()
+        }
     }
 
     updateForegroundFromString(event, stringColor, format) {

@@ -27,26 +27,31 @@ function initInputs () {
     // Opens color picker on button click
     document.querySelector('#foreground-color .picker').onclick = () => ipcRenderer.send('showForegroundPicker')
     document.querySelector('#background-color .picker').onclick = () => ipcRenderer.send('showBackgroundPicker')
-    document.querySelector('#foreground-rgb .red input[type=range]').oninput = function() {ipcRenderer.send('changeForegroundRed', this.value)}
-    document.querySelector('#foreground-rgb .green input[type=range]').oninput = function() {ipcRenderer.send('changeForegroundGreen', this.value)}
-    document.querySelector('#foreground-rgb .blue input[type=range]').oninput = function() {ipcRenderer.send('changeForegroundBlue', this.value)}
-    document.querySelector('#foreground-rgb .alpha input[type=range]').oninput = function() {ipcRenderer.send('changeForegroundAlpha', this.value)}
-    document.querySelector('#background-rgb .red input[type=range]').oninput = function() {ipcRenderer.send('changeBackgroundRed', this.value)}
-    document.querySelector('#background-rgb .green input[type=range]').oninput = function() {ipcRenderer.send('changeBackgroundGreen', this.value)}
-    document.querySelector('#background-rgb .blue input[type=range]').oninput = function() {ipcRenderer.send('changeBackgroundBlue', this.value)}
-    document.querySelector('#foreground-rgb .red input[type=number]').oninput = function() {ipcRenderer.send('changeForegroundRed', this.value)}
-    document.querySelector('#foreground-rgb .green input[type=number]').oninput = function() {ipcRenderer.send('changeForegroundGreen', this.value)}
-    document.querySelector('#foreground-rgb .blue input[type=number]').oninput = function() {ipcRenderer.send('changeForegroundBlue', this.value)}
-    document.querySelector('#foreground-rgb .alpha input[type=number]').oninput = function() {ipcRenderer.send('changeForegroundAlpha', this.value)}
-    document.querySelector('#background-rgb .red input[type=number]').oninput = function() {ipcRenderer.send('changeBackgroundRed', this.value)}
-    document.querySelector('#background-rgb .green input[type=number]').oninput = function() {ipcRenderer.send('changeBackgroundGreen', this.value)}
-    document.querySelector('#background-rgb .blue input[type=number]').oninput = function() {ipcRenderer.send('changeBackgroundBlue', this.value)}
+    document.querySelector('#foreground-rgb .red input[type=range]').oninput = function() {sliderOnInput('foreground', 'red', this.value)}
+    document.querySelector('#foreground-rgb .green input[type=range]').oninput = function() {sliderOnInput('foreground', 'green', this.value)}
+    document.querySelector('#foreground-rgb .blue input[type=range]').oninput = function() {sliderOnInput('foreground', 'blue', this.value)}
+    document.querySelector('#foreground-rgb .alpha input[type=range]').oninput = function() {sliderOnInput('foreground', 'alpha', this.value)}
+    document.querySelector('#background-rgb .red input[type=range]').oninput = function() {sliderOnInput('background', 'red', this.value)}
+    document.querySelector('#background-rgb .green input[type=range]').oninput = function() {sliderOnInput('background', 'green', this.value)}
+    document.querySelector('#background-rgb .blue input[type=range]').oninput = function() {sliderOnInput('background', 'blue', this.value)}
+    document.querySelector('#foreground-rgb .red input[type=number]').oninput = function() {ipcRenderer.send('changeRGBComponent', 'foreground', 'red', this.value)}
+    document.querySelector('#foreground-rgb .green input[type=number]').oninput = function() {ipcRenderer.send('changeRGBComponent', 'foreground', 'green', this.value)}
+    document.querySelector('#foreground-rgb .blue input[type=number]').oninput = function() {ipcRenderer.send('changeRGBComponent', 'foreground', 'blue', this.value)}
+    document.querySelector('#foreground-rgb .alpha input[type=number]').oninput = function() {ipcRenderer.send('changeRGBComponent', 'foreground', 'alpha', this.value)}
+    document.querySelector('#background-rgb .red input[type=number]').oninput = function() {ipcRenderer.send('changeRGBComponent', 'background', 'red', this.value)}
+    document.querySelector('#background-rgb .green input[type=number]').oninput = function() {ipcRenderer.send('changeRGBComponent', 'background', 'green', this.value)}
+    document.querySelector('#background-rgb .blue input[type=number]').oninput = function() {ipcRenderer.send('changeRGBComponent', 'background', 'blue', this.value)}
     document.querySelector('#foreground-color .rgb').onclick = function() {showHide(this)}
     document.querySelector('#background-color .rgb').onclick = function() {showHide(this)}
     document.querySelector('#foreground-color .text').onclick = function() {showHide(this)}
     document.querySelector('#background-color .text').onclick = function() {showHide(this)}
     document.querySelector('#foreground-text input').oninput = function() {validateForegroundText(this.value)}
     document.querySelector('#background-text input').oninput = function() {validateBackgroundText(this.value)}
+}
+
+function sliderOnInput(group, color, value) {
+    let lock = document.querySelector('#' + group + '-rgb .lock input[type=checkbox]').checked
+    ipcRenderer.send('changeRGBComponent', group, color, value, lock)
 }
 
 function showHide(el) {
@@ -198,9 +203,4 @@ function validateBackgroundText(value) {
         classList.toggle('invalid', false)
         classList.toggle('valid', false)
     }
-}
-
-function validateText(string) {
-
-    return null
 }

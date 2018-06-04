@@ -10,27 +10,23 @@ ipcRenderer.on('init', event => {
     applyForegroundColor()
     applyBackgroundColor()
     applyContrastRatio()
-    initInputs()
-    // initDetails
-    document.querySelectorAll('details').forEach(function(details) {
-        details.ontoggle = function() {
-            var mainHeight = document.querySelector('main').clientHeight;
-            ipcRenderer.send('height-changed', mainHeight)
-        }
-    });
+    applyAdvancedResults()
+    initEvents()
 })
 
 ipcRenderer.on('foregroundColorChanged', event => {
     applyForegroundColor()
     applyContrastRatio()
+    applyAdvancedResults()
 })
 
 ipcRenderer.on('backgroundColorChanged', event => {
     applyBackgroundColor()
     applyContrastRatio()
+    applyAdvancedResults()
 })
 
-function initInputs () {
+function initEvents () {
     // Opens color picker on button click
     document.querySelector('#foreground-color .picker').onclick = () => ipcRenderer.send('showForegroundPicker')
     document.querySelector('#background-color .picker').onclick = () => ipcRenderer.send('showBackgroundPicker')
@@ -54,6 +50,13 @@ function initInputs () {
     document.querySelector('#background-color .text').onclick = function() {showHide(this)}
     document.querySelector('#foreground-text input').oninput = function() {validateForegroundText(this.value)}
     document.querySelector('#background-text input').oninput = function() {validateBackgroundText(this.value)}
+    // initDetails
+    document.querySelectorAll('details').forEach(function(details) {
+        details.ontoggle = function() {
+            var mainHeight = document.querySelector('main').clientHeight;
+            ipcRenderer.send('height-changed', mainHeight)
+        }
+    });  
 }
 
 function sliderOnInput(group, color, value) {
@@ -146,24 +149,29 @@ function applyBackgroundColor () {
 }
 
 function applyContrastRatio () {
-    let cr = sharedObjects.normal.contrastRatioString
+    let normal = sharedObjects.normal
+    let cr = normal.contrastRatioString
     document.querySelector('#results #contrast-ratio .value').innerHTML = cr
     var levelAA, levelAAA
-    if (sharedObjects.normal.levelAA === 'large') {
+    if (normal.levelAA === 'large') {
         levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA Large'
-    } else if (sharedObjects.normal.levelAA === 'regular') {
+    } else if (normal.levelAA === 'regular') {
         levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA'
     } else { // Fail
         levelAA = '<img src="icons/fail.svg" alt="Fail" /> AA'
     }
-    if (sharedObjects.normal.levelAAA === 'large') {
+    if (normal.levelAAA === 'large') {
         levelAAA = '<img src="icons/pass.svg" alt="Pass" /> AAA Large'
-    } else if (sharedObjects.normal.levelAAA === 'regular') {
+    } else if (normal.levelAAA === 'regular') {
         levelAAA = '<img src="icons/pass.svg" alt="Pass" /> AAA'
     } else { // Fail
         levelAAA = '<img src="icons/fail.svg" alt="Fail" /> AAA'
     }
     document.querySelector('#results #level').innerHTML = levelAA + "<br/>" + levelAAA
+}
+
+function applyAdvancedResults() {
+    document.querySelector('#advanced-results .text').innerHTML = sharedObjects.normal.advanced
 }
 
 function validateForegroundText(value) {

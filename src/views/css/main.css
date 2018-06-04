@@ -185,3 +185,10 @@ section#deficiency table .deficiency-cr,
 section#deficiency table .deficiency-cb {
     text-align: center;
 }
+
+/* Advanced results section */
+section#advanced-results .text {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    background-color: #eeeeee;
+}

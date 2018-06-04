@@ -13,6 +13,7 @@ class CCAController {
             this.updateDeficiencyForeground()
             this.updateDeficiencyBackground()
             this.updateContrastRatio()
+            this.updateAdvanced()
             this.sendEventToAll('foregroundColorChanged')        
             this.sendEventToAll('backgroundColorChanged')
         })
@@ -149,6 +150,34 @@ class CCAController {
         if (cr < 3) {
             this.sharedObject.normal.levelAA = 'fail'
         }
+    }
+
+    updateAdvanced() {
+        let normal = this.sharedObject.normal
+        normal.advanced = `Foreground: %F - Background: %B<br>
+        <br>
+        The contrast ratio is: %L<br>
+        <br>
+        For level AA: %AA<br>
+        For level AAA: %AAA<br>
+        <br>
+        <strong>1.4.3 Contrast (Minimum):</strong> Text (and images of text) have a contrast ratio of at least 4.5:1, except if the text is pure decoration.  Larger scale text (at least 18 point or 14 point bold) or images of text can have a contrast ratio of 3:1. (Level AA)<br>
+        <br>
+        <strong>1.4.6 Contrast (Enhanced):</strong> Text (and images of text) have a contrast ratio of at least 7:1, except if the text is pure decoration.  Larger scale text (at least 18 point or 14 point bold) or images of text can have a contrast ratio of 4.5:1. (Level AAA)<br>
+        <br>
+        <strong>Note:</strong> Fonts that are extraordinarily thin or decorative are harder to read at lower contrast levels.`
+        /*
+            %F : Foreground colour
+            %B : Background colour
+            %L : Luminosity level
+            %AA : AA result (regular, large, fail)
+            %AAA: AAA result (regular, large, fail)
+        */
+       normal.advanced = normal.advanced.replace('%F', normal.foregroundColorMixed.hex())
+       normal.advanced = normal.advanced.replace('%B', normal.backgroundColor.hex())
+       normal.advanced = normal.advanced.replace('%L', normal.contrastRatioString)
+       normal.advanced = normal.advanced.replace('%AA', normal.levelAA)
+       normal.advanced = normal.advanced.replace('%AAA', normal.levelAAA)
     }
 
     sendEventToAll(event) {

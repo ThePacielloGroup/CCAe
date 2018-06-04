@@ -11,7 +11,14 @@ ipcRenderer.on('init', event => {
     applyBackgroundColor()
     applyContrastRatio()
     initInputs()
-  })
+    // initDetails
+    document.querySelectorAll('details').forEach(function(details) {
+        details.ontoggle = function() {
+            var mainHeight = document.querySelector('main').clientHeight;
+            ipcRenderer.send('height-changed', mainHeight)
+        }
+    });
+})
 
 ipcRenderer.on('foregroundColorChanged', event => {
     applyForegroundColor()

@@ -21,9 +21,12 @@ h2 {
     padding: 0;
 }
 
+summary h2 {
+    display: inline-block;
+}
+
 section#foreground-color h2, 
-section#background-color h2,
-section#sample-preview h2 {
+section#background-color h2 {
     position: absolute;
     top: 0.5rem;
     left: 0.5rem;
@@ -160,7 +163,7 @@ section#background-rgb input[type=number]::-webkit-outer-spin-button {
 
 /* Sample preview section */
 
-section#sample-preview {
+section#sample-preview .preview-box {
     display: flex;
     align-items: center;
     min-height: 5rem;
@@ -168,7 +171,7 @@ section#sample-preview {
     justify-content: center;
 }
 
-section#sample-preview .text {
+section#sample-preview .preview-box .text {
     border: 1px #cccccc dashed;
     padding: 0.5rem;
 }

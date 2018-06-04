@@ -172,3 +172,13 @@ section#sample-preview .text {
     border: 1px #cccccc dashed;
     padding: 0.5rem;
 }
+
+/* Deficiency section */
+section#deficiency table {
+    width: 100%;
+}
+
+section#deficiency table .deficiency-cr,
+section#deficiency table .deficiency-cb {
+    text-align: center;
+}

@@ -1,5 +1,6 @@
 const Color = require('color') // https://github.com/Qix-/color/
 const cssKeywords = require('color-name');
+const blinder = require('color-blind');
 
 var reverseKeywords = {};
 for (var key in cssKeywords) {
@@ -27,6 +28,26 @@ Color.prototype.mixed = function(bg) {
     } else {
         return this
     }
+}
+
+Color.prototype.protanopia = function() {
+    let rgb = blinder.protanopia(this.hex(), true);
+    return Color.rgb(rgb.R, rgb.G, rgb.B)
+}
+
+Color.prototype.deuteranopia = function() {
+    let rgb = blinder.deuteranopia(this.hex(), true);
+    return Color.rgb(rgb.R, rgb.G, rgb.B)
+}
+
+Color.prototype.tritanopia = function() {
+    let rgb = blinder.tritanopia(this.hex(), true);
+    return Color.rgb(rgb.R, rgb.G, rgb.B)
+}
+
+Color.prototype.achromatopsia = function() {
+    let rgb = blinder.achromatopsia(this.hex(), true);
+    return Color.rgb(rgb.R, rgb.G, rgb.B)
 }
 
 Color.isHex = function(string) {

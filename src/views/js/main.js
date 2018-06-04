@@ -68,8 +68,8 @@ function showHide(el) {
 }
 
 function applyForegroundColor () {
-    let color = sharedObjects.foregroundColor
-    let colorMixed = sharedObjects.foregroundColorMixed
+    let color = sharedObjects.normal.foregroundColor
+    let colorMixed = sharedObjects.normal.foregroundColorMixed
     let name = colorMixed.cssname()
     document.querySelector('#foreground-color').style.background = colorMixed.rgb().string()  
     document.querySelector('#foreground-color .hex-value').innerHTML = colorMixed.hex()
@@ -95,10 +95,17 @@ function applyForegroundColor () {
         textInput.classList.toggle('invalid', false)
         textInput.classList.toggle('valid', false)
     }
+
+    /* Deficiency */
+    Object.keys(sharedObjects).forEach(function(key, index) {
+        document.getElementById('deficiency-' + key).style.color = this[key].foregroundColor.rgb().string()
+        document.getElementById('deficiency-' + key + '-cr').innerHTML = this[key].contrastRatioString
+        document.getElementById('deficiency-' + key + '-cb').innerHTML = this[key].backgroundColor.hex() + " | " + this[key].foregroundColor.hex()
+    }, sharedObjects)
 }
 
 function applyBackgroundColor () {
-    let color = sharedObjects.backgroundColor
+    let color = sharedObjects.normal.backgroundColor
     let name = color.cssname()
     document.querySelector('#background-color').style.background = color.rgb().string()
     document.querySelector('#background-color .hex-value').innerHTML = color.hex()
@@ -122,22 +129,29 @@ function applyBackgroundColor () {
         textInput.classList.toggle('invalid', false)
         textInput.classList.toggle('valid', false)
     }
+
+    /* Deficiency */
+    Object.keys(sharedObjects).forEach(function(key, index) {
+        document.getElementById('deficiency-' + key).style.background = this[key].backgroundColor.rgb().string()
+        document.getElementById('deficiency-' + key + '-cr').innerHTML = this[key].contrastRatioString
+        document.getElementById('deficiency-' + key + '-cb').innerHTML = this[key].backgroundColor.hex() + " | " + this[key].foregroundColor.hex()
+    }, sharedObjects)
 }
 
 function applyContrastRatio () {
-    let cr = sharedObjects.contrastRatioString
+    let cr = sharedObjects.normal.contrastRatioString
     document.querySelector('#results #contrast-ratio .value').innerHTML = cr
     var levelAA, levelAAA
-    if (sharedObjects.levelAA === 'large') {
+    if (sharedObjects.normal.levelAA === 'large') {
         levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA Large'
-    } else if (sharedObjects.levelAA === 'regular') {
+    } else if (sharedObjects.normal.levelAA === 'regular') {
         levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA'
     } else { // Fail
         levelAA = '<img src="icons/fail.svg" alt="Fail" /> AA'
     }
-    if (sharedObjects.levelAAA === 'large') {
+    if (sharedObjects.normal.levelAAA === 'large') {
         levelAAA = '<img src="icons/pass.svg" alt="Pass" /> AAA Large'
-    } else if (sharedObjects.levelAAA === 'regular') {
+    } else if (sharedObjects.normal.levelAAA === 'regular') {
         levelAAA = '<img src="icons/pass.svg" alt="Pass" /> AAA'
     } else { // Fail
         levelAAA = '<img src="icons/fail.svg" alt="Fail" /> AAA'

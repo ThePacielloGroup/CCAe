@@ -31,14 +31,44 @@ app.on('activate', () => {
 
 const Color = require('./CCAcolor')
 
+let white = Color.rgb(0, 0, 0)
+let black = Color.rgb(255, 255, 255)
+
 global.sharedObject = {
-    foregroundColor : Color.rgb(0, 0, 0), // White
-    foregroundColorMixed : Color.rgb(0, 0, 0), // For alpha transparency mix with background
-    backgroundColor : Color.rgb(255, 255, 255), // Black
-    contrastRatioString : "21:1",
-    contrastRatioRounded : 21,
-    levelAA : 'regular',
-    levelAAA : 'regular'
+    normal : {
+        foregroundColor : white,
+        foregroundColorMixed : white, // For alpha transparency mix with background
+        backgroundColor : black,
+        contrastRatioRaw : 0,
+        contrastRatioString : "xx:1",
+        contrastRatioRounded : 0,
+        levelAA : 'regular',
+        levelAAA : 'regular'
+    },
+    protanopia : {
+        foregroundColor : null,
+        backgroundColor : null,
+        contrastRatioRaw : 0,
+        contrastRatioString : "xx:1",
+    },
+    deuteranopia : {
+        foregroundColor : null,
+        backgroundColor : null,
+        contrastRatioRaw : 0,
+        contrastRatioString : "xx:1",
+    },
+    tritanopia : {
+        foregroundColor : null,
+        backgroundColor : null,
+        contrastRatioRaw : 0,
+        contrastRatioString : "xx:1",
+    },
+    achromatopsia : {
+        foregroundColor : null,
+        backgroundColor : null,
+        contrastRatioRaw : 0,
+        contrastRatioString : "xx:1",
+    }
 }
 
 const browsers = require('./browsers')(__dirname)

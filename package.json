@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "color": "^3.0.0",
+    "color-blind": "^0.1.1",
     "robotjs": "git+https://github.com/toinane/robotjs.git"
   }
 }

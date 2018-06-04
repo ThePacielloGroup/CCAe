@@ -96,10 +96,50 @@
             <input aria-label="Background blue" type="number" maxlength="3" />
           </div>
         </div>
-    </section>
-    <section id="sample-preview">
+      </section>
+      <section id="sample-preview">
         <h2>Sample preview</h2>
         <div class="text" contenteditable="true">example text showing contrast</div>
+      </section>
+      <section id="deficiency">
+        <h2>Colour Deficiency</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Deficiency</th>
+              <th>Contrast Ratio</th>
+              <th>Colour/Brightness</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="deficiency-normal">
+              <td>None</td>
+              <td id="deficiency-normal-cr" class="deficiency-cr"></td>
+              <td id="deficiency-normal-cb" class="deficiency-cb"></td>
+            </tr>
+            <tr id="deficiency-protanopia">
+             <td>Protanopia</td>
+                <td id="deficiency-protanopia-cr" class="deficiency-cr"></td>
+                <td id="deficiency-protanopia-cb" class="deficiency-cb"></td>
+              </tr>
+              <tr id="deficiency-deuteranopia">
+                  <td>Deuteranopia</td>
+                  <td id="deficiency-deuteranopia-cr" class="deficiency-cr"></td>
+                  <td id="deficiency-deuteranopia-cb" class="deficiency-cb"></td>
+                </tr>
+                <tr id="deficiency-tritanopia">
+                    <td>Tritanopia</td>
+                    <td id="deficiency-tritanopia-cr" class="deficiency-cr"></td>
+                    <td id="deficiency-tritanopia-cb" class="deficiency-cb"></td>
+                  </tr>
+                  <tr id="deficiency-achromatopsia">
+                      <td>Colour Blindness</td>
+                      <td id="deficiency-achromatopsia-cr" class="deficiency-cr"></td>
+                      <td id="deficiency-achromatopsia-cb" class="deficiency-cb"></td>
+                    </tr>
+        
+            </tbody>
+        </table>
       </section>
     </main>
     <script>

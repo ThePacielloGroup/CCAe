@@ -9,6 +9,13 @@ class CCAController {
     }
     
     initEvents() {
+        ipcMain.on('init-app', event => {
+            this.updateDeficiencyForeground()
+            this.updateDeficiencyBackground()
+            this.updateContrastRatio()
+            this.sendEventToAll('foregroundColorChanged')        
+            this.sendEventToAll('backgroundColorChanged')
+        })
         ipcMain.on('changeRGBComponent', this.updateRGBComponent.bind(this))
         ipcMain.on('changeForeground', this.updateForegroundFromString.bind(this))
         ipcMain.on('changeBackground', this.updateBackgroundFromString.bind(this))
@@ -27,9 +34,9 @@ class CCAController {
 
         let color 
         if (group === "foreground") {
-            color = this.sharedObject.foregroundColor
+            color = this.sharedObject.normal.foregroundColor
         } else if (group === "background") {
-            color = this.sharedObject.backgroundColor
+            color = this.sharedObject.normal.backgroundColor
         }
 
         let dist
@@ -64,59 +71,83 @@ class CCAController {
         }
 
         if (group === "foreground") {
-            this.sharedObject.foregroundColor = color
+            this.sharedObject.normal.foregroundColor = color
             this.updateGlobalF()    
         } else if (group === "background") {
-            this.sharedObject.backgroundColor = color
+            this.sharedObject.normal.backgroundColor = color
             this.updateGlobalB()
         }
     }
 
     updateForegroundFromString(event, stringColor, format) {
-        this.sharedObject.foregroundColor = Color(stringColor)
+        this.sharedObject.normal.foregroundColor = Color(stringColor)
         this.updateGlobalF()
     }
 
     updateBackgroundFromString(event, stringColor, format) {
-        this.sharedObject.backgroundColor = Color(stringColor)
+        this.sharedObject.normal.backgroundColor = Color(stringColor)
         this.updateGlobalB()
     }
 
     updateGlobalF() {
-        this.sharedObject.foregroundColorMixed = this.sharedObject.foregroundColor.mixed(this.sharedObject.backgroundColor)
+        this.sharedObject.normal.foregroundColorMixed = this.sharedObject.normal.foregroundColor.mixed(this.sharedObject.normal.backgroundColor)
+        this.updateDeficiencyForeground()
         this.updateContrastRatio()
         this.sendEventToAll('foregroundColorChanged')    
     }
 
     updateGlobalB() {
-        this.sharedObject.foregroundColorMixed = this.sharedObject.foregroundColor.mixed(this.sharedObject.backgroundColor)
+        this.sharedObject.normal.foregroundColorMixed = this.sharedObject.normal.foregroundColor.mixed(this.sharedObject.normal.backgroundColor)
+        this.updateDeficiencyBackground()
+        if (this.sharedObject.normal.foregroundColor.alpha() !== 1) { // Then mixed has changed
+            this.updateDeficiencyForeground()
+        }
         this.updateContrastRatio()
-        this.sendEventToAll('backgroundColorChanged')
-        if (this.sharedObject.foregroundColor.alpha() !== 1) { // Then mixed has changed
+        if (this.sharedObject.normal.foregroundColor.alpha() !== 1) { // Then mixed has changed
             this.sendEventToAll('foregroundColorChanged')
         }
+        this.sendEventToAll('backgroundColorChanged')
+    }
+
+    updateDeficiencyForeground() {
+        this.sharedObject.protanopia.foregroundColor = this.sharedObject.normal.foregroundColorMixed.protanopia()
+        this.sharedObject.deuteranopia.foregroundColor = this.sharedObject.normal.foregroundColorMixed.deuteranopia()
+        this.sharedObject.tritanopia.foregroundColor = this.sharedObject.normal.foregroundColorMixed.tritanopia()
+        this.sharedObject.achromatopsia.foregroundColor = this.sharedObject.normal.foregroundColorMixed.achromatopsia()
+    }
+
+    updateDeficiencyBackground() {
+        this.sharedObject.protanopia.backgroundColor = this.sharedObject.normal.backgroundColor.protanopia()
+        this.sharedObject.deuteranopia.backgroundColor = this.sharedObject.normal.backgroundColor.deuteranopia()
+        this.sharedObject.tritanopia.backgroundColor = this.sharedObject.normal.backgroundColor.tritanopia()
+        this.sharedObject.achromatopsia.backgroundColor = this.sharedObject.normal.backgroundColor.achromatopsia()   
     }
 
     updateContrastRatio() {
-        let cr = this.sharedObject.foregroundColorMixed.contrast(this.sharedObject.backgroundColor)
+        Object.keys(this.sharedObject).forEach(function(key, index) {
+            this[key].contrastRatioRaw  = this[key].foregroundColor.contrast(this[key].backgroundColor)
+            this[key].contrastRatioString = this[key].contrastRatioRaw.toFixed(1) + ":1"
+        }, this.sharedObject)
+
+        let cr = this.sharedObject.normal.contrastRatioRaw
         let crr = cr.toFixed(1)
         if ((cr >= 6.95 && cr < 7) || (cr >= 4.45 && cr < 4.5) || (cr >= 2.95 && cr < 3)) {
-            this.sharedObject.contrastRatioString = "Just below " + crr + ":1 (" + Number(cr.toFixed(3)) + ":1)"
+            this.sharedObject.normal.contrastRatioString = "Just below " + crr + ":1 (" + Number(cr.toFixed(3)) + ":1)"
         } else {
-            this.sharedObject.contrastRatioString = crr + ":1"
+            this.sharedObject.normal.contrastRatioString = crr + ":1"
         }
-        this.sharedObject.contrastRatioRounded = crr
-        this.sharedObject.levelAA = 'regular'
-        this.sharedObject.levelAAA = 'regular'
+        this.sharedObject.normal.contrastRatioRounded = crr
+        this.sharedObject.normal.levelAA = 'regular'
+        this.sharedObject.normal.levelAAA = 'regular'
         if (cr < 7) {
-            this.sharedObject.levelAAA = 'large'
+            this.sharedObject.normal.levelAAA = 'large'
         }
         if (cr < 4.5) {
-            this.sharedObject.levelAA = 'large'
-            this.sharedObject.levelAAA = 'fail'
+            this.sharedObject.normal.levelAA = 'large'
+            this.sharedObject.normal.levelAAA = 'fail'
         }
         if (cr < 3) {
-            this.sharedObject.levelAA = 'fail'
+            this.sharedObject.normal.levelAA = 'fail'
         }
     }
 

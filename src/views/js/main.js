@@ -108,9 +108,9 @@ function applyForegroundColor () {
 
     /* Deficiency */
     Object.keys(sharedObjects).forEach(function(key, index) {
-        document.getElementById('deficiency-' + key).style.color = this[key].foregroundColor.rgb().string()
-        document.getElementById('deficiency-' + key + '-cr').innerHTML = this[key].contrastRatioString
-        document.getElementById('deficiency-' + key + '-cb').innerHTML = this[key].backgroundColor.hex() + " | " + this[key].foregroundColor.hex()
+        if (key !== 'normal') {
+            document.getElementById('deficiency-' + key + '-preview').style.color = this[key].foregroundColor.rgb().string()
+        }
     }, sharedObjects)
 }
 
@@ -142,32 +142,38 @@ function applyBackgroundColor () {
 
     /* Deficiency */
     Object.keys(sharedObjects).forEach(function(key, index) {
-        document.getElementById('deficiency-' + key).style.background = this[key].backgroundColor.rgb().string()
-        document.getElementById('deficiency-' + key + '-cr').innerHTML = this[key].contrastRatioString
-        document.getElementById('deficiency-' + key + '-cb').innerHTML = this[key].backgroundColor.hex() + " | " + this[key].foregroundColor.hex()
+        if (key !== 'normal') {
+            document.getElementById('deficiency-' + key + '-preview').style.background = this[key].backgroundColor.rgb().string()
+        }
     }, sharedObjects)
 }
 
 function applyContrastRatio () {
-    let normal = sharedObjects.normal
-    let cr = normal.contrastRatioString
-    document.querySelector('#results #contrast-ratio .value').innerHTML = cr
     let levelAA, levelAAA
-    if (normal.levelAA === 'large') {
-        levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA Large'
-    } else if (normal.levelAA === 'regular') {
-        levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA'
-    } else { // Fail
-        levelAA = '<img src="icons/fail.svg" alt="Fail" /> AA'
-    }
-    if (normal.levelAAA === 'large') {
-        levelAAA = '<img src="icons/pass.svg" alt="Pass" /> AAA Large'
-    } else if (normal.levelAAA === 'regular') {
-        levelAAA = '<img src="icons/pass.svg" alt="Pass" /> AAA'
-    } else { // Fail
-        levelAAA = '<img src="icons/fail.svg" alt="Fail" /> AAA'
-    }
-    document.querySelector('#results #level').innerHTML = levelAA + "<br/>" + levelAAA
+
+    Object.keys(sharedObjects).forEach(function(key, index) {
+        if (this[key].levelAA === 'large') {
+            levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA Large'
+        } else if (this[key].levelAA === 'regular') {
+            levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA'
+        } else { // Fail
+            levelAA = '<img src="icons/fail.svg" alt="Fail" /> AA'
+        }
+        if (this[key].levelAAA === 'large') {
+            levelAAA = '<img src="icons/pass.svg" alt="Pass" /> AAA Large'
+        } else if (this[key].levelAAA === 'regular') {
+            levelAAA = '<img src="icons/pass.svg" alt="Pass" /> AAA'
+        } else { // Fail
+            levelAAA = '<img src="icons/fail.svg" alt="Fail" /> AAA'
+        }
+        if (key === 'normal') {
+            document.getElementById('contrast-ratio-value').innerHTML = this[key].contrastRatioString
+            document.getElementById('contrast-ratio-level').innerHTML = `${levelAA}<br/>${levelAAA}`   
+        } else {
+            document.getElementById('deficiency-' + key + '-cr').innerHTML = `(${this[key].contrastRatioString})` 
+            document.getElementById('deficiency-' + key + '-level').innerHTML = `${levelAA} <span aria-hidden="true">|</span> ${levelAAA}` 
+        }
+    }, sharedObjects)
 }
 
 function applyAdvancedResults() {

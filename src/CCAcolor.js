@@ -45,8 +45,28 @@ Color.prototype.tritanopia = function() {
     return Color.rgb(rgb.R, rgb.G, rgb.B)
 }
 
+Color.prototype.protanomaly = function() {
+    let rgb = blinder.protanomaly(this.hex(), true);
+    return Color.rgb(rgb.R, rgb.G, rgb.B)
+}
+
+Color.prototype.deuteranomaly = function() {
+    let rgb = blinder.deuteranomaly(this.hex(), true);
+    return Color.rgb(rgb.R, rgb.G, rgb.B)
+}
+
+Color.prototype.tritanomaly = function() {
+    let rgb = blinder.tritanomaly(this.hex(), true);
+    return Color.rgb(rgb.R, rgb.G, rgb.B)
+}
+
 Color.prototype.achromatopsia = function() {
     let rgb = blinder.achromatopsia(this.hex(), true);
+    return Color.rgb(rgb.R, rgb.G, rgb.B)
+}
+
+Color.prototype.achromatomaly = function() {
+    let rgb = blinder.achromatomaly(this.hex(), true);
     return Color.rgb(rgb.R, rgb.G, rgb.B)
 }
 

@@ -116,42 +116,47 @@ class CCAController {
         this.sharedObject.protanopia.foregroundColor = this.sharedObject.normal.foregroundColorMixed.protanopia()
         this.sharedObject.deuteranopia.foregroundColor = this.sharedObject.normal.foregroundColorMixed.deuteranopia()
         this.sharedObject.tritanopia.foregroundColor = this.sharedObject.normal.foregroundColorMixed.tritanopia()
+        this.sharedObject.protanomaly.foregroundColor = this.sharedObject.normal.foregroundColorMixed.protanomaly()
+        this.sharedObject.deuteranomaly.foregroundColor = this.sharedObject.normal.foregroundColorMixed.deuteranomaly()
+        this.sharedObject.tritanomaly.foregroundColor = this.sharedObject.normal.foregroundColorMixed.tritanomaly()
         this.sharedObject.achromatopsia.foregroundColor = this.sharedObject.normal.foregroundColorMixed.achromatopsia()
+        this.sharedObject.achromatomaly.foregroundColor = this.sharedObject.normal.foregroundColorMixed.achromatomaly()
     }
 
     updateDeficiencyBackground() {
         this.sharedObject.protanopia.backgroundColor = this.sharedObject.normal.backgroundColor.protanopia()
         this.sharedObject.deuteranopia.backgroundColor = this.sharedObject.normal.backgroundColor.deuteranopia()
         this.sharedObject.tritanopia.backgroundColor = this.sharedObject.normal.backgroundColor.tritanopia()
-        this.sharedObject.achromatopsia.backgroundColor = this.sharedObject.normal.backgroundColor.achromatopsia()   
+        this.sharedObject.protanomaly.backgroundColor = this.sharedObject.normal.backgroundColor.protanomaly()
+        this.sharedObject.deuteranomaly.backgroundColor = this.sharedObject.normal.backgroundColor.deuteranomaly()
+        this.sharedObject.tritanomaly.backgroundColor = this.sharedObject.normal.backgroundColor.tritanomaly()
+        this.sharedObject.achromatopsia.backgroundColor = this.sharedObject.normal.backgroundColor.achromatopsia()  
+        this.sharedObject.achromatomaly.backgroundColor = this.sharedObject.normal.backgroundColor.achromatomaly()    
     }
 
     updateContrastRatio() {
+        let cr, crr
         Object.keys(this.sharedObject).forEach(function(key, index) {
             this[key].contrastRatioRaw  = this[key].foregroundColor.contrast(this[key].backgroundColor)
-            this[key].contrastRatioString = this[key].contrastRatioRaw.toFixed(1) + ":1"
+            let cr = this[key].contrastRatioRaw
+            let crr = cr.toFixed(1)
+            this[key].contrastRatioString = `${crr}:1`
+            if (key === 'normal' && ((cr >= 6.95 && cr < 7) || (cr >= 4.45 && cr < 4.5) || (cr >= 2.95 && cr < 3))) {
+                this[key].contrastRatioString = "Just below " + crr + ":1 (" + Number(cr.toFixed(3)) + ":1)"
+            }
+            this[key].levelAA = 'regular'
+            this[key].levelAAA = 'regular'
+            if (cr < 7) {
+                this[key].levelAAA = 'large'
+            }
+            if (cr < 4.5) {
+                this[key].levelAA = 'large'
+                this[key].levelAAA = 'fail'
+            }
+            if (cr < 3) {
+                this[key].levelAA = 'fail'
+            }
         }, this.sharedObject)
-
-        let cr = this.sharedObject.normal.contrastRatioRaw
-        let crr = cr.toFixed(1)
-        if ((cr >= 6.95 && cr < 7) || (cr >= 4.45 && cr < 4.5) || (cr >= 2.95 && cr < 3)) {
-            this.sharedObject.normal.contrastRatioString = "Just below " + crr + ":1 (" + Number(cr.toFixed(3)) + ":1)"
-        } else {
-            this.sharedObject.normal.contrastRatioString = crr + ":1"
-        }
-        this.sharedObject.normal.contrastRatioRounded = crr
-        this.sharedObject.normal.levelAA = 'regular'
-        this.sharedObject.normal.levelAAA = 'regular'
-        if (cr < 7) {
-            this.sharedObject.normal.levelAAA = 'large'
-        }
-        if (cr < 4.5) {
-            this.sharedObject.normal.levelAA = 'large'
-            this.sharedObject.normal.levelAAA = 'fail'
-        }
-        if (cr < 3) {
-            this.sharedObject.normal.levelAA = 'fail'
-        }
     }
 
     updateAdvanced() {

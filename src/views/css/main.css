@@ -58,7 +58,7 @@ section#results #contrast-ratio .label {
     display: block;
 }
 
-section#results #level img {
+section#results #contrast-ratio-level img {
     height: 1.2rem;
     width: 1.2rem;
 }
@@ -177,13 +177,45 @@ section#sample-preview .preview-box .text {
 }
 
 /* Deficiency section */
-section#deficiency table {
-    width: 100%;
+section#deficiency .row {
+    display: flex;
+    justify-content: space-between;
 }
 
-section#deficiency table .deficiency-cr,
-section#deficiency table .deficiency-cb {
+section#deficiency .deficiency {
+    flex-grow: 1;
+    margin: 0.5rem;
     text-align: center;
+}
+
+section#deficiency h3 {
+    margin: 0;
+    padding: 0;
+}
+
+section#deficiency h4 {
+    margin: 0;
+    padding: 0;
+}
+
+section#deficiency .preview {
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+
+section#deficiency .cr,
+section#deficiency .level,
+section#deficiency .desc {
+    font-size: 0.8rem;
+}
+
+section#deficiency .desc {
+    font-style: italic;
+}
+
+section#deficiency .level img {
+    height: 1rem;
+    width: 1rem;
 }
 
 /* Advanced results section */

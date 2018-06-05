@@ -50,6 +50,8 @@ function initEvents () {
     document.querySelector('#background-color .text').onclick = function() {showHide(this)}
     document.querySelector('#foreground-text input').oninput = function() {validateForegroundText(this.value)}
     document.querySelector('#background-text input').oninput = function() {validateBackgroundText(this.value)}
+    document.querySelector('#foreground-color .switch').onclick = function() {ipcRenderer.send('switchColors')}
+
     // initDetails
     document.querySelectorAll('details').forEach(function(details) {
         details.ontoggle = function() {

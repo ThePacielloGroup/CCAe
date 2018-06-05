@@ -20,6 +20,7 @@ class CCAController {
         ipcMain.on('changeRGBComponent', this.updateRGBComponent.bind(this))
         ipcMain.on('changeForeground', this.updateForegroundFromString.bind(this))
         ipcMain.on('changeBackground', this.updateBackgroundFromString.bind(this))
+        ipcMain.on('switchColors', this.switchColors.bind(this))
     }
 
     updateRGBComponent(event, group, component, value, synced = false) {
@@ -110,6 +111,19 @@ class CCAController {
             this.sendEventToAll('foregroundColorChanged')
         }
         this.sendEventToAll('backgroundColorChanged')
+    }
+
+    switchColors(event) {
+        let background = this.sharedObject.normal.backgroundColor
+        this.sharedObject.normal.backgroundColor = this.sharedObject.normal.foregroundColorMixed
+        this.sharedObject.normal.foregroundColor = background
+        this.sharedObject.normal.foregroundColorMixed = this.sharedObject.normal.foregroundColor.mixed(this.sharedObject.normal.backgroundColor)
+        this.updateDeficiencyForeground()
+        this.updateDeficiencyBackground()
+        this.updateContrastRatio()
+        this.updateAdvanced()
+        this.sendEventToAll('foregroundColorChanged')    
+        this.sendEventToAll('backgroundColorChanged')        
     }
 
     updateDeficiencyForeground() {

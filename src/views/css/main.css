@@ -107,6 +107,10 @@ section#background-color button.text {
     background-image: url('../icons/text.svg');
 }
 
+section#foreground-color button.switch {
+    background-image: url('../icons/switch.svg');
+}
+
 /* Text input sections */
 section#foreground-text input,
 section#background-text input {

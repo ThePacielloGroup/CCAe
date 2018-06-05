@@ -94,6 +94,7 @@ class CCAController {
         this.sharedObject.normal.foregroundColorMixed = this.sharedObject.normal.foregroundColor.mixed(this.sharedObject.normal.backgroundColor)
         this.updateDeficiencyForeground()
         this.updateContrastRatio()
+        this.updateAdvanced()
         this.sendEventToAll('foregroundColorChanged')    
     }
 
@@ -104,6 +105,7 @@ class CCAController {
             this.updateDeficiencyForeground()
         }
         this.updateContrastRatio()
+        this.updateAdvanced()
         if (this.sharedObject.normal.foregroundColor.alpha() !== 1) { // Then mixed has changed
             this.sendEventToAll('foregroundColorChanged')
         }
@@ -158,8 +160,8 @@ class CCAController {
         <br>
         The contrast ratio is: %L<br>
         <br>
-        For level AA: %AA<br>
-        For level AAA: %AAA<br>
+        %AA<br>
+        %AAA<br>
         <br>
         <strong>1.4.3 Contrast (Minimum):</strong> Text (and images of text) have a contrast ratio of at least 4.5:1, except if the text is pure decoration.  Larger scale text (at least 18 point or 14 point bold) or images of text can have a contrast ratio of 3:1. (Level AA)<br>
         <br>
@@ -173,11 +175,29 @@ class CCAController {
             %AA : AA result (regular, large, fail)
             %AAA: AAA result (regular, large, fail)
         */
+
+       let levelAA = ''
+       let levelAAA = ''
+       if (normal.levelAA === 'large') {
+           levelAA = `Regular text failed at Level AA<br>Large text passed at Level AA`
+       } else if (normal.levelAA === 'regular') {
+           levelAA = `Regular text passed at Level AA<br>Large text passed at Level AA`
+       } else { // Fail
+           levelAA = 'Regular and Large text failed at Level AA'
+       }
+       if (normal.levelAAA === 'large') {
+           levelAAA = `Regular text failed at Level AAA<br>Large text passed at Level AAA`
+       } else if (normal.levelAAA === 'regular') {
+           levelAAA = `Regular text passed at Level AAA<br>Large text passed at Level AAA`
+       } else { // Fail
+           levelAAA = 'Regular and Large text failed at Level AAA'
+       }
+
        normal.advanced = normal.advanced.replace('%F', normal.foregroundColorMixed.hex())
        normal.advanced = normal.advanced.replace('%B', normal.backgroundColor.hex())
        normal.advanced = normal.advanced.replace('%L', normal.contrastRatioString)
-       normal.advanced = normal.advanced.replace('%AA', normal.levelAA)
-       normal.advanced = normal.advanced.replace('%AAA', normal.levelAAA)
+       normal.advanced = normal.advanced.replace('%AA', levelAA)
+       normal.advanced = normal.advanced.replace('%AAA', levelAAA)
     }
 
     sendEventToAll(event) {

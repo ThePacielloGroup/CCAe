@@ -152,7 +152,7 @@ function applyContrastRatio () {
     let normal = sharedObjects.normal
     let cr = normal.contrastRatioString
     document.querySelector('#results #contrast-ratio .value').innerHTML = cr
-    var levelAA, levelAAA
+    let levelAA, levelAAA
     if (normal.levelAA === 'large') {
         levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA Large'
     } else if (normal.levelAA === 'regular') {

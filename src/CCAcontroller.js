@@ -139,7 +139,7 @@ class CCAController {
         Object.keys(this.sharedObject).forEach(function(key, index) {
             this[key].contrastRatioRaw  = this[key].foregroundColor.contrast(this[key].backgroundColor)
             let cr = this[key].contrastRatioRaw
-            let crr = Number(cr.toFixed(1)).toString() // toString removes tailling zero
+            let crr = Number(cr.toFixed(1)).toString() // toString removes trailing zero
             this[key].contrastRatioString = `${crr}:1`
             if (key === 'normal' && ((cr >= 6.95 && cr < 7) || (cr >= 4.45 && cr < 4.5) || (cr >= 2.95 && cr < 3))) {
                 let crr3 = Number(cr.toFixed(3)).toString()

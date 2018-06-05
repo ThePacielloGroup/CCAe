@@ -24,7 +24,8 @@ module.exports = (dirname) => {
             height: 0,
             alwaysOnTop: true,
             resizable: false,
-            focusable: true
+            focusable: true,
+            useContentSize: true
         })
         // and load the index.html of the app.
         mainWindow.loadURL(url.format({

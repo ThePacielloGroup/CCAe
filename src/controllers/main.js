@@ -11,7 +11,7 @@ module.exports = (browsers, mainController) => {
     })
 
     ipcMain.on('height-changed', (event, height) => {
-        csize = win.getSize()
+        csize = win.getContentSize()
         win.setContentSize(csize[0], height)
     })
 }

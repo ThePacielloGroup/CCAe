@@ -16,18 +16,24 @@
     </section>
     <section id="foreground-color">
       <h2>Foreground Colour</h2>
-      <div class="hex-value">#------</div>
+      <div class="tooltip-container">
+        <input type="text" class="free-value" aria-label="Free text color value" aria-describedby="free-value-tooltip-fg" />
+        <div role="tooltip" id="free-value-tooltip-fg">
+            Supported formats are: 
+            <ul>
+              <li>Hex: #FFF, #FFFA, #FFFFFFF</li>
+              <li>Names: blue (<a href="https://www.w3.org/TR/css-color-3/#svg-color" target="_blank">Full list</a>)</li>
+              <li>RGB: rgb(200, 200, 200), rgba(200, 60, 60, 0.3)</li>
+              <li>HSL: hsl(360, 100%, 50%), hsla(360, 60%, 50%, 0.4)</li>
+            </ul>
+        </div>
+      </div>
       <div class="name-value">------</div>
       <div class="buttons">
-          <button class="text" aria-label="Foreground text input" aria-controls="foreground-text" aria-expanded="false"></button>
+          <button class="switch" aria-label="Switch Colors"></button>
           <button class="rgb" aria-label="Foreground rgb sliders" aria-controls="foreground-rgb" aria-expanded="false"></button>
           <button class="picker" aria-label="Foreground color picker"></button>
-          <button class="switch" aria-label="Switch Colors"></button>
       </div>
-    </section>
-    <section id="foreground-text" hidden>
-      <h2>Foreground text input</h2>
-      <input aria-label="Enter color value" type="text" />
     </section>
     <section id="foreground-rgb" hidden>
         <h2 class="sr-only">Foreground RGB input</h2>
@@ -61,18 +67,24 @@
     </section>
     <section id="background-color">
       <h2>Background Colour</h2>
-      <div class="hex-value">#------</div>
+      <div class="tooltip-container">
+        <input type="text" class="free-value" aria-label="Free text color value" aria-describedby="free-value-tooltip-bg" />
+        <div role="tooltip" id="free-value-tooltip-bg">
+            Supported formats are: 
+            <ul>
+              <li>Hex: #FFF, #FFFA, #FFFFFFF</li>
+              <li>Names: blue (<a href="https://www.w3.org/TR/css-color-3/#svg-color" target="_blank">Full list</a>)</li>
+              <li>RGB: rgb(200, 200, 200), rgba(200, 60, 60, 0.3)</li>
+              <li>HSL: hsl(360, 100%, 50%), hsla(360, 60%, 50%, 0.4)</li>
+            </ul>
+        </div>
+      </div>
       <div class="name-value">------</div>
       <div class="buttons">
-          <button class="text" aria-label="Background text input" aria-controls="background-text" aria-expanded="false"></button>
           <button class="rgb" aria-label="Background rgb sliders" aria-controls="background-rgb" aria-expanded="false"></button>
           <button class="picker" aria-label="Background color picker"></button>    
       </div>
     </section>
-    <section id="background-text" hidden>
-        <h2>Background text input</h2>
-        <input aria-label="Enter color value" type="text" />
-    </section>  
     <section id="background-rgb" hidden>
         <h2 class="sr-only">Background RGB input</h2>
         <div class="sync">

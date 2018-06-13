@@ -15,6 +15,10 @@ section {
     border-top: 1px solid #eeeeee;
 }
 
+a {
+    color: #00BFFF;
+}
+
 h2 {
     font-size: 0.9rem;
     margin: 0;
@@ -35,6 +39,29 @@ section#background-color h2 {
 section {
     padding: 0.5rem;
     background-color: #ececec;
+}
+
+/* Tooltips*/
+.tooltip-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+[role="tooltip"] {
+    color: #ffffff;
+	display: none;
+	position: absolute;
+    top: 100%;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 0.5rem;
+    font-size: 0.9rem;}
+
+input:focus + [role="tooltip"] {
+	display: block;
 }
 
 /* Results section */
@@ -80,6 +107,52 @@ section#background-color .buttons {
     right: 0.5rem;
 }
 
+/* Free text input */
+section#foreground-color input.free-value,
+section#background-color input.free-value  {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px #cccccc dashed;
+    padding: 0.2rem 2.5rem;
+    background: transparent;
+    text-align: center;
+    font-size: 1.4rem;
+    color: inherit;
+    width: 12rem;
+}
+
+section#foreground-color input.free-value.invalid,
+section#background-color input.free-value.invalid {
+    box-shadow: 0px 4px 0px 0px crimson;
+    background: #ffffff url('../icons/warning.png') 98% 50% no-repeat;
+    background-size: contain;
+    color: #000000;
+}
+
+section#foreground-color input.free-value.valid,
+section#background-color input.free-value.valid {
+    box-shadow: 0px 4px 0px 0px green;
+    color: #000000;
+}
+
+section#foreground-color .name-value,
+section#background-color .name-value {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-style: italic;
+    font-size: 1.2rem;
+}
+
+section#foreground-color input.free-value:focus,
+section#background-color input.free-value:focus {
+    appearance: textfield;
+    -webkit-appearance: textfield;
+    border: 1px solid #cccccc;
+    color: #000000;
+    background: #ffffff;
+}
+
 section#foreground-color button, 
 section#background-color button {
     background-color: #ffffff;
@@ -102,33 +175,8 @@ section#background-color button.rgb {
     background-image: url('../icons/sliders.svg');
 }
 
-section#foreground-color button.text, 
-section#background-color button.text {
-    background-image: url('../icons/text.svg');
-}
-
 section#foreground-color button.switch {
     background-image: url('../icons/switch.svg');
-}
-
-/* Text input sections */
-section#foreground-text input,
-section#background-text input {
-    width: 100%;
-    margin-top: 0.5rem;
-    border: 1px solid #9A9A9A;
-}
-
-section#foreground-text input.invalid,
-section#background-text input.invalid {
-    border-bottom: 4px solid crimson;
-    background: #ffffff url('../icons/warning.png') 98% 50% no-repeat;
-    background-size: contain;
-}
-
-section#foreground-text input.valid,
-section#background-text input.valid {
-    border-bottom: 4px solid green;
 }
 
 /* RGB input sections */

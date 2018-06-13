@@ -46,10 +46,8 @@ function initEvents () {
     document.querySelector('#background-rgb .blue input[type=number]').oninput = function() {ipcRenderer.send('changeRGBComponent', 'background', 'blue', this.value)}
     document.querySelector('#foreground-color .rgb').onclick = function() {showHide(this)}
     document.querySelector('#background-color .rgb').onclick = function() {showHide(this)}
-    document.querySelector('#foreground-color .text').onclick = function() {showHide(this)}
-    document.querySelector('#background-color .text').onclick = function() {showHide(this)}
-    document.querySelector('#foreground-text input').oninput = function() {validateForegroundText(this.value)}
-    document.querySelector('#background-text input').oninput = function() {validateBackgroundText(this.value)}
+    document.querySelector('#foreground-color input').oninput = function() {validateForegroundText(this.value)}
+    document.querySelector('#background-color input').oninput = function() {validateBackgroundText(this.value)}
     document.querySelector('#foreground-color .switch').onclick = function() {ipcRenderer.send('switchColors')}
 
     // initDetails
@@ -84,7 +82,6 @@ function applyForegroundColor () {
     let colorMixed = sharedObjects.normal.foregroundColorMixed
     let name = colorMixed.cssname()
     document.querySelector('#foreground-color').style.background = colorMixed.rgb().string()  
-    document.querySelector('#foreground-color .hex-value').innerHTML = colorMixed.hex()
     if (name) {
         document.querySelector('#foreground-color .name-value').innerHTML = '&nbsp;(' + name + ')'
     } else {
@@ -100,10 +97,11 @@ function applyForegroundColor () {
     document.querySelector('#foreground-rgb .blue input[type=number]').value = color.blue()
     document.querySelector('#foreground-rgb .alpha input[type=number]').value = color.alpha()
     document.querySelector('#sample-preview .text').style.color = color.rgb().string()
-    /* Clear the text input if this isn't the current focused element */
-    let textInput = document.querySelector('#foreground-text input')
+
+    /* Only change the text input if this isn't the current focused element */
+    let textInput = document.querySelector('#foreground-color input.free-value')
     if (textInput != document.activeElement) {
-        textInput.value = ''
+        textInput.value = colorMixed.hex()
         textInput.classList.toggle('invalid', false)
         textInput.classList.toggle('valid', false)
     }
@@ -120,7 +118,6 @@ function applyBackgroundColor () {
     let color = sharedObjects.normal.backgroundColor
     let name = color.cssname()
     document.querySelector('#background-color').style.background = color.rgb().string()
-    document.querySelector('#background-color .hex-value').innerHTML = color.hex()
     if (name) {
         document.querySelector('#background-color .name-value').innerHTML = '&nbsp;(' + name + ')'
     } else {
@@ -134,10 +131,11 @@ function applyBackgroundColor () {
     document.querySelector('#background-rgb .green input[type=number]').value = color.green()
     document.querySelector('#background-rgb .blue input[type=number]').value = color.blue()
     document.querySelector('#sample-preview .text').style.background = color.rgb().string()  
-    /* Clear the text input if this isn't the current focused element */
-    let textInput = document.querySelector('#background-text input')
+
+    /* Only change the text input if this isn't the current focused element */
+    let textInput = document.querySelector('#background-color input.free-value')
     if (textInput != document.activeElement) {
-        textInput.value = ''
+        textInput.value = color.hex()
         textInput.classList.toggle('invalid', false)
         textInput.classList.toggle('valid', false)
     }
@@ -184,7 +182,7 @@ function applyAdvancedResults() {
 
 function validateForegroundText(value) {
     let string = value.toLowerCase()
-    let classList = document.querySelector('#foreground-text input').classList
+    let classList = document.querySelector('#foreground-color input').classList
     if (string) {
         let format = null
         if (Color.isHex(string)) {
@@ -216,7 +214,7 @@ function validateForegroundText(value) {
 
 function validateBackgroundText(value) {
     let string = value.toLowerCase()
-    let classList = document.querySelector('#background-text input').classList
+    let classList = document.querySelector('#background-color input').classList
     if (string) {
         let format = null
         if (Color.isHex(string)) {

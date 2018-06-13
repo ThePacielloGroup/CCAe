@@ -1,4 +1,4 @@
-const {BrowserWindow} = require('electron')
+const {BrowserWindow, shell} = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -44,6 +44,11 @@ module.exports = (dirname) => {
             // when you should delete the corresponding element.
             mainWindow = null
         })
+
+        mainWindow.webContents.on('new-window', function(e, url) {
+            e.preventDefault();
+            shell.openExternal(url);
+        });
     }
   
     let getWindow = () => mainWindow

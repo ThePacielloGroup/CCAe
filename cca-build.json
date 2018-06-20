@@ -1,0 +1,19 @@
+{
+    "appId": "com.electron.cca",
+    "productName": "Colour Contrast Analyser (CCA)",
+    "compression": "maximum",
+    "copyright": "Copyright © 2018 TPG",
+    "directories": {
+    },
+    "files": [
+      "**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "build/icon.icns",
+      "type": "distribution"
+    },
+    "win": {
+      "icon": "build/icon.ico"
+    }
+}

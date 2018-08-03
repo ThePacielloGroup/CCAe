@@ -181,7 +181,8 @@ function applyAdvancedResults() {
 }
 
 function validateForegroundText(value) {
-    let string = value.toLowerCase()
+    let string = value.toLowerCase().replace(/\s/g, "") // Clean input value
+    console.log('-',value,'-', string,'-')
     let classList = document.querySelector('#foreground-color input').classList
     if (string) {
         let format = null
@@ -213,7 +214,7 @@ function validateForegroundText(value) {
 }
 
 function validateBackgroundText(value) {
-    let string = value.toLowerCase()
+    let string = value.toLowerCase().replace(/\s/g, "") // Clean input value
     let classList = document.querySelector('#background-color input').classList
     if (string) {
         let format = null

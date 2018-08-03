@@ -36,9 +36,9 @@ class CCAController {
 
         let color 
         if (group === "foreground") {
-            color = this.sharedObject.normal.foregroundColor
+            color = this.sharedObject.deficiencies.normal.foregroundColor
         } else if (group === "background") {
-            color = this.sharedObject.normal.backgroundColor
+            color = this.sharedObject.deficiencies.normal.backgroundColor
         }
 
         let dist
@@ -73,26 +73,26 @@ class CCAController {
         }
 
         if (group === "foreground") {
-            this.sharedObject.normal.foregroundColor = color
+            this.sharedObject.deficiencies.normal.foregroundColor = color
             this.updateGlobalF()    
         } else if (group === "background") {
-            this.sharedObject.normal.backgroundColor = color
+            this.sharedObject.deficiencies.normal.backgroundColor = color
             this.updateGlobalB()
         }
     }
 
     updateForegroundFromString(event, stringColor, format) {
-        this.sharedObject.normal.foregroundColor = Color(stringColor)
+        this.sharedObject.deficiencies.normal.foregroundColor = Color(stringColor)
         this.updateGlobalF()
     }
 
     updateBackgroundFromString(event, stringColor, format) {
-        this.sharedObject.normal.backgroundColor = Color(stringColor)
+        this.sharedObject.deficiencies.normal.backgroundColor = Color(stringColor)
         this.updateGlobalB()
     }
 
     updateGlobalF() {
-        this.sharedObject.normal.foregroundColorMixed = this.sharedObject.normal.foregroundColor.mixed(this.sharedObject.normal.backgroundColor)
+        this.sharedObject.deficiencies.normal.foregroundColorMixed = this.sharedObject.deficiencies.normal.foregroundColor.mixed(this.sharedObject.deficiencies.normal.backgroundColor)
         this.updateDeficiencyForeground()
         this.updateContrastRatio()
         this.updateAdvanced()
@@ -100,24 +100,24 @@ class CCAController {
     }
 
     updateGlobalB() {
-        this.sharedObject.normal.foregroundColorMixed = this.sharedObject.normal.foregroundColor.mixed(this.sharedObject.normal.backgroundColor)
+        this.sharedObject.deficiencies.normal.foregroundColorMixed = this.sharedObject.deficiencies.normal.foregroundColor.mixed(this.sharedObject.deficiencies.normal.backgroundColor)
         this.updateDeficiencyBackground()
-        if (this.sharedObject.normal.foregroundColor.alpha() !== 1) { // Then mixed has changed
+        if (this.sharedObject.deficiencies.normal.foregroundColor.alpha() !== 1) { // Then mixed has changed
             this.updateDeficiencyForeground()
         }
         this.updateContrastRatio()
         this.updateAdvanced()
-        if (this.sharedObject.normal.foregroundColor.alpha() !== 1) { // Then mixed has changed
+        if (this.sharedObject.deficiencies.normal.foregroundColor.alpha() !== 1) { // Then mixed has changed
             this.sendEventToAll('foregroundColorChanged')
         }
         this.sendEventToAll('backgroundColorChanged')
     }
 
     switchColors(event) {
-        let background = this.sharedObject.normal.backgroundColor
-        this.sharedObject.normal.backgroundColor = this.sharedObject.normal.foregroundColorMixed
-        this.sharedObject.normal.foregroundColor = background
-        this.sharedObject.normal.foregroundColorMixed = this.sharedObject.normal.foregroundColor.mixed(this.sharedObject.normal.backgroundColor)
+        let background = this.sharedObject.deficiencies.normal.backgroundColor
+        this.sharedObject.deficiencies.normal.backgroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed
+        this.sharedObject.deficiencies.normal.foregroundColor = background
+        this.sharedObject.deficiencies.normal.foregroundColorMixed = this.sharedObject.deficiencies.normal.foregroundColor.mixed(this.sharedObject.deficiencies.normal.backgroundColor)
         this.updateDeficiencyForeground()
         this.updateDeficiencyBackground()
         this.updateContrastRatio()
@@ -127,30 +127,30 @@ class CCAController {
     }
 
     updateDeficiencyForeground() {
-        this.sharedObject.protanopia.foregroundColor = this.sharedObject.normal.foregroundColorMixed.protanopia()
-        this.sharedObject.deuteranopia.foregroundColor = this.sharedObject.normal.foregroundColorMixed.deuteranopia()
-        this.sharedObject.tritanopia.foregroundColor = this.sharedObject.normal.foregroundColorMixed.tritanopia()
-        this.sharedObject.protanomaly.foregroundColor = this.sharedObject.normal.foregroundColorMixed.protanomaly()
-        this.sharedObject.deuteranomaly.foregroundColor = this.sharedObject.normal.foregroundColorMixed.deuteranomaly()
-        this.sharedObject.tritanomaly.foregroundColor = this.sharedObject.normal.foregroundColorMixed.tritanomaly()
-        this.sharedObject.achromatopsia.foregroundColor = this.sharedObject.normal.foregroundColorMixed.achromatopsia()
-        this.sharedObject.achromatomaly.foregroundColor = this.sharedObject.normal.foregroundColorMixed.achromatomaly()
+        this.sharedObject.deficiencies.protanopia.foregroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed.protanopia()
+        this.sharedObject.deficiencies.deuteranopia.foregroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed.deuteranopia()
+        this.sharedObject.deficiencies.tritanopia.foregroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed.tritanopia()
+        this.sharedObject.deficiencies.protanomaly.foregroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed.protanomaly()
+        this.sharedObject.deficiencies.deuteranomaly.foregroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed.deuteranomaly()
+        this.sharedObject.deficiencies.tritanomaly.foregroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed.tritanomaly()
+        this.sharedObject.deficiencies.achromatopsia.foregroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed.achromatopsia()
+        this.sharedObject.deficiencies.achromatomaly.foregroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed.achromatomaly()
     }
 
     updateDeficiencyBackground() {
-        this.sharedObject.protanopia.backgroundColor = this.sharedObject.normal.backgroundColor.protanopia()
-        this.sharedObject.deuteranopia.backgroundColor = this.sharedObject.normal.backgroundColor.deuteranopia()
-        this.sharedObject.tritanopia.backgroundColor = this.sharedObject.normal.backgroundColor.tritanopia()
-        this.sharedObject.protanomaly.backgroundColor = this.sharedObject.normal.backgroundColor.protanomaly()
-        this.sharedObject.deuteranomaly.backgroundColor = this.sharedObject.normal.backgroundColor.deuteranomaly()
-        this.sharedObject.tritanomaly.backgroundColor = this.sharedObject.normal.backgroundColor.tritanomaly()
-        this.sharedObject.achromatopsia.backgroundColor = this.sharedObject.normal.backgroundColor.achromatopsia()  
-        this.sharedObject.achromatomaly.backgroundColor = this.sharedObject.normal.backgroundColor.achromatomaly()    
+        this.sharedObject.deficiencies.protanopia.backgroundColor = this.sharedObject.deficiencies.normal.backgroundColor.protanopia()
+        this.sharedObject.deficiencies.deuteranopia.backgroundColor = this.sharedObject.deficiencies.normal.backgroundColor.deuteranopia()
+        this.sharedObject.deficiencies.tritanopia.backgroundColor = this.sharedObject.deficiencies.normal.backgroundColor.tritanopia()
+        this.sharedObject.deficiencies.protanomaly.backgroundColor = this.sharedObject.deficiencies.normal.backgroundColor.protanomaly()
+        this.sharedObject.deficiencies.deuteranomaly.backgroundColor = this.sharedObject.deficiencies.normal.backgroundColor.deuteranomaly()
+        this.sharedObject.deficiencies.tritanomaly.backgroundColor = this.sharedObject.deficiencies.normal.backgroundColor.tritanomaly()
+        this.sharedObject.deficiencies.achromatopsia.backgroundColor = this.sharedObject.deficiencies.normal.backgroundColor.achromatopsia()  
+        this.sharedObject.deficiencies.achromatomaly.backgroundColor = this.sharedObject.deficiencies.normal.backgroundColor.achromatomaly()    
     }
 
     updateContrastRatio() {
         let cr, crr
-        Object.keys(this.sharedObject).forEach(function(key, index) {
+        Object.keys(this.sharedObject.deficiencies).forEach(function(key, index) {
             this[key].contrastRatioRaw  = this[key].foregroundColor.contrast(this[key].backgroundColor)
             let cr = this[key].contrastRatioRaw
             let crr = Number(cr.toFixed(1)).toString() // toString removes trailing zero
@@ -171,23 +171,36 @@ class CCAController {
             if (cr < 3) {
                 this[key].levelAA = 'fail'
             }
-        }, this.sharedObject)
+        }, this.sharedObject.deficiencies)
     }
 
     updateAdvanced() {
-        let normal = this.sharedObject.normal
-        normal.advanced = `Foreground: %F - Background: %B<br>
-        <br>
-        The contrast ratio is: %L<br>
-        <br>
-        %AA<br>
-        %AAA<br>
-        <br>
-        <strong>1.4.3 Contrast (Minimum):</strong> Text (and images of text) have a contrast ratio of at least 4.5:1, except if the text is pure decoration.  Larger scale text (at least 18 point or 14 point bold) or images of text can have a contrast ratio of 3:1. (Level AA)<br>
-        <br>
-        <strong>1.4.6 Contrast (Enhanced):</strong> Text (and images of text) have a contrast ratio of at least 7:1, except if the text is pure decoration.  Larger scale text (at least 18 point or 14 point bold) or images of text can have a contrast ratio of 4.5:1. (Level AAA)<br>
-        <br>
-        <strong>Note:</strong> Fonts that are extraordinarily thin or decorative are harder to read at lower contrast levels.`
+        let normal = this.sharedObject.deficiencies.normal
+        if (this.sharedObject.options.displayLevelAAA) {
+            this.sharedObject.advanced = `Foreground: %F - Background: %B<br>
+            <br>
+            The contrast ratio is: %L<br>
+            <br>
+            %AA<br>
+            %AAA<br>
+            <br>
+            <strong>1.4.3 Contrast (Minimum):</strong> Text (and images of text) have a contrast ratio of at least 4.5:1, except if the text is pure decoration.  Larger scale text (at least 18 point or 14 point bold) or images of text can have a contrast ratio of 3:1. (Level AA)<br>
+            <br>
+            <strong>1.4.6 Contrast (Enhanced):</strong> Text (and images of text) have a contrast ratio of at least 7:1, except if the text is pure decoration.  Larger scale text (at least 18 point or 14 point bold) or images of text can have a contrast ratio of 4.5:1. (Level AAA)<br>
+            <br>
+            <strong>Note:</strong> Fonts that are extraordinarily thin or decorative are harder to read at lower contrast levels.`    
+        } else {
+            this.sharedObject.advanced = `Foreground: %F - Background: %B<br>
+            <br>
+            The contrast ratio is: %L<br>
+            <br>
+            %AA<br>
+            <br>
+            <strong>1.4.3 Contrast (Minimum):</strong> Text (and images of text) have a contrast ratio of at least 4.5:1, except if the text is pure decoration.  Larger scale text (at least 18 point or 14 point bold) or images of text can have a contrast ratio of 3:1. (Level AA)<br>
+            <br>
+            <strong>Note:</strong> Fonts that are extraordinarily thin or decorative are harder to read at lower contrast levels.`    
+        }
+
         /*
             %F : Foreground colour
             %B : Background colour
@@ -195,29 +208,38 @@ class CCAController {
             %AA : AA result (regular, large, fail)
             %AAA: AAA result (regular, large, fail)
         */
+        this.sharedObject.advanced = this.sharedObject.advanced.replace('%F', normal.foregroundColorMixed.hex())
+        this.sharedObject.advanced = this.sharedObject.advanced.replace('%B', normal.backgroundColor.hex())
+        this.sharedObject.advanced = this.sharedObject.advanced.replace('%L', normal.contrastRatioString)
 
-       let levelAA = ''
-       let levelAAA = ''
-       if (normal.levelAA === 'large') {
-           levelAA = `Regular text failed at Level AA<br>Large text passed at Level AA`
-       } else if (normal.levelAA === 'regular') {
-           levelAA = `Regular text passed at Level AA<br>Large text passed at Level AA`
-       } else { // Fail
-           levelAA = 'Regular and Large text failed at Level AA'
-       }
-       if (normal.levelAAA === 'large') {
-           levelAAA = `Regular text failed at Level AAA<br>Large text passed at Level AAA`
-       } else if (normal.levelAAA === 'regular') {
-           levelAAA = `Regular text passed at Level AAA<br>Large text passed at Level AAA`
-       } else { // Fail
-           levelAAA = 'Regular and Large text failed at Level AAA'
-       }
+        let levelAA = ''
+        if (normal.levelAA === 'large') {
+            levelAA = `Regular text failed at Level AA<br>Large text passed at Level AA`
+        } else if (normal.levelAA === 'regular') {
+            levelAA = `Regular text passed at Level AA<br>Large text passed at Level AA`
+        } else { // Fail
+            levelAA = 'Regular and Large text failed at Level AA'
+        }
+        this.sharedObject.advanced = this.sharedObject.advanced.replace('%AA', levelAA)
 
-       normal.advanced = normal.advanced.replace('%F', normal.foregroundColorMixed.hex())
-       normal.advanced = normal.advanced.replace('%B', normal.backgroundColor.hex())
-       normal.advanced = normal.advanced.replace('%L', normal.contrastRatioString)
-       normal.advanced = normal.advanced.replace('%AA', levelAA)
-       normal.advanced = normal.advanced.replace('%AAA', levelAAA)
+        if (this.sharedObject.options.displayLevelAAA) {
+            let levelAAA = ''
+            if (normal.levelAAA === 'large') {
+                levelAAA = `Regular text failed at Level AAA<br>Large text passed at Level AAA`
+            } else if (normal.levelAAA === 'regular') {
+                levelAAA = `Regular text passed at Level AAA<br>Large text passed at Level AAA`
+            } else { // Fail
+                levelAAA = 'Regular and Large text failed at Level AAA'
+            }
+            this.sharedObject.advanced = this.sharedObject.advanced.replace('%AAA', levelAAA)
+        }
+        console.log(this.sharedObject)
+    }
+
+    optionDisplayLevelAAA(value) {
+        this.sharedObject.options.displayLevelAAA = value
+        this.updateAdvanced()
+        this.sendEventToAll('optionDisplayLevelAAAChanged')
     }
 
     sendEventToAll(event) {

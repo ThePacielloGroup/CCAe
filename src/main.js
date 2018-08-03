@@ -1,10 +1,82 @@
-const { app, globalShortcut, clipboard, BrowserWindow } = require('electron')
+const { app, globalShortcut, clipboard, BrowserWindow, Menu } = require('electron')
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
     main.init()
+
+    const menuTemplate = [
+        {
+            label: 'Colour Contrast Analyser (CCA)',
+            submenu: [
+                {
+                    label: 'Github page',
+                    click: () => {
+                        require('electron').shell.openExternal('https://github.com/ThePacielloGroup/CCAe');
+                    }
+                }, {
+                    type: 'separator'
+                }, {
+                    role: 'quit',
+                }
+            ]
+        },
+        {
+            label: 'Options',
+            submenu: [
+                {
+                    label: 'Display level AAA',
+                    type: 'checkbox',
+                    checked: global.sharedObject.options.displayLevelAAA,
+                    click: (item) => {
+                        mainController.optionDisplayLevelAAA(item.checked)
+                    }
+                }
+            ]
+        },
+        {
+          label: 'View',
+          submenu: [
+            {
+              label: 'Reload',
+              accelerator: 'CmdOrCtrl+R',
+              click (item, focusedWindow) {
+                if (focusedWindow) focusedWindow.reload()
+              }
+            },
+            {
+              label: 'Toggle Developer Tools',
+              accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
+              click (item, focusedWindow) {
+                if (focusedWindow) focusedWindow.webContents.toggleDevTools()
+              }
+            },
+            {
+              type: 'separator'
+            },
+            {
+              role: 'resetzoom'
+            },
+            {
+              role: 'zoomin'
+            },
+            {
+              role: 'zoomout'
+            },
+            {
+              type: 'separator'
+            },
+            {
+              role: 'togglefullscreen'
+            }
+          ]
+        }
+    ];
+
+//    console.log(Menu.getApplicationMenu());
+    const menu = Menu.buildFromTemplate(menuTemplate);
+    Menu.setApplicationMenu(menu);
 
     // Register a 'CommandOrControl+Alt+C' shortcut listener.
     globalShortcut.register('CmdOrCtrl+Alt+C', () => {
@@ -36,79 +108,84 @@ let white = Color.rgb(0, 0, 0)
 let black = Color.rgb(255, 255, 255)
 
 global.sharedObject = {
-    normal : {
-        foregroundColor : white,
-        foregroundColorMixed : white, // For alpha transparency mix with background
-        backgroundColor : black,
-        contrastRatioRaw : 0,
-        contrastRatioString : "xx:1",
-        levelAA : 'regular',
-        levelAAA : 'regular',
-        advanced : ''
+    deficiencies : {
+        normal : {
+            foregroundColor : white,
+            foregroundColorMixed : white, // For alpha transparency mix with background
+            backgroundColor : black,
+            contrastRatioRaw : 0,
+            contrastRatioString : "xx:1",
+            levelAA : 'regular',
+            levelAAA : 'regular'
+        },
+        achromatopsia : {
+            foregroundColor : null,
+            backgroundColor : null,
+            contrastRatioRaw : 0,
+            contrastRatioString : "xx:1",
+            levelAA : 'regular',
+            levelAAA : 'regular'
+        },
+        achromatomaly : {
+            foregroundColor : null,
+            backgroundColor : null,
+            contrastRatioRaw : 0,
+            contrastRatioString : "xx:1",
+            levelAA : 'regular',
+            levelAAA : 'regular'
+        },
+        protanopia : {
+            foregroundColor : null,
+            backgroundColor : null,
+            contrastRatioRaw : 0,
+            contrastRatioString : "xx:1",
+            levelAA : 'regular',
+            levelAAA : 'regular'
+        },
+        deuteranopia : {
+            foregroundColor : null,
+            backgroundColor : null,
+            contrastRatioRaw : 0,
+            contrastRatioString : "xx:1",
+            levelAA : 'regular',
+            levelAAA : 'regular'
+        },
+        tritanopia : {
+            foregroundColor : null,
+            backgroundColor : null,
+            contrastRatioRaw : 0,
+            contrastRatioString : "xx:1",
+            levelAA : 'regular',
+            levelAAA : 'regular'
+        },
+        protanomaly : {
+            foregroundColor : null,
+            backgroundColor : null,
+            contrastRatioRaw : 0,
+            contrastRatioString : "xx:1",
+            levelAA : 'regular',
+            levelAAA : 'regular'
+        },
+        deuteranomaly : {
+            foregroundColor : null,
+            backgroundColor : null,
+            contrastRatioRaw : 0,
+            contrastRatioString : "xx:1",
+            levelAA : 'regular',
+            levelAAA : 'regular'
+        },
+        tritanomaly : {
+            foregroundColor : null,
+            backgroundColor : null,
+            contrastRatioRaw : 0,
+            contrastRatioString : "xx:1",
+            levelAA : 'regular',
+            levelAAA : 'regular'
+        }
     },
-    achromatopsia : {
-        foregroundColor : null,
-        backgroundColor : null,
-        contrastRatioRaw : 0,
-        contrastRatioString : "xx:1",
-        levelAA : 'regular',
-        levelAAA : 'regular',
-    },
-    achromatomaly : {
-        foregroundColor : null,
-        backgroundColor : null,
-        contrastRatioRaw : 0,
-        contrastRatioString : "xx:1",
-        levelAA : 'regular',
-        levelAAA : 'regular',
-    },
-    protanopia : {
-        foregroundColor : null,
-        backgroundColor : null,
-        contrastRatioRaw : 0,
-        contrastRatioString : "xx:1",
-        levelAA : 'regular',
-        levelAAA : 'regular',
-    },
-    deuteranopia : {
-        foregroundColor : null,
-        backgroundColor : null,
-        contrastRatioRaw : 0,
-        contrastRatioString : "xx:1",
-        levelAA : 'regular',
-        levelAAA : 'regular',
-    },
-    tritanopia : {
-        foregroundColor : null,
-        backgroundColor : null,
-        contrastRatioRaw : 0,
-        contrastRatioString : "xx:1",
-        levelAA : 'regular',
-        levelAAA : 'regular',
-    },
-    protanomaly : {
-        foregroundColor : null,
-        backgroundColor : null,
-        contrastRatioRaw : 0,
-        contrastRatioString : "xx:1",
-        levelAA : 'regular',
-        levelAAA : 'regular',
-    },
-    deuteranomaly : {
-        foregroundColor : null,
-        backgroundColor : null,
-        contrastRatioRaw : 0,
-        contrastRatioString : "xx:1",
-        levelAA : 'regular',
-        levelAAA : 'regular',
-    },
-    tritanomaly : {
-        foregroundColor : null,
-        backgroundColor : null,
-        contrastRatioRaw : 0,
-        contrastRatioString : "xx:1",
-        levelAA : 'regular',
-        levelAAA : 'regular',
+    advanced : '',
+    options : {
+        displayLevelAAA : false
     }
 }
 
@@ -118,7 +195,7 @@ const {main, picker} = browsers
 const CCAController = require('./CCAcontroller')
 
 function copyResults() {
-    let normal = global.sharedObject.normal
+    let normal = global.sharedObject.deficiencies.normal
     let levelAA = ''
     let levelAAA = ''
     if (normal.levelAA === 'large') {
@@ -145,7 +222,8 @@ Background: ${normal.backgroundColor.hex()}
 The contrast ratio is: ${normal.contrastRatioString}
 ${levelAA}
 ${levelAAA}`)
-}  
+}
+
 const mainController = new CCAController(browsers, global.sharedObject)
 
 require('./controllers')(browsers, mainController)

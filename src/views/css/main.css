@@ -42,6 +42,10 @@ section {
     background-color: #ececec;
 }
 
+.hideLevelAAA .levelAAA {
+    display: none;
+}
+
 /* Tooltips*/
 .tooltip-container {
     position: relative;

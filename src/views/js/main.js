@@ -1,5 +1,5 @@
 const { ipcRenderer } = require('electron')
-const sharedObjects = require('electron').remote.getGlobal('sharedObject')
+const sharedObject = require('electron').remote.getGlobal('sharedObject')
 const Color = require('../../CCAcolor')
 
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-app'), false)
@@ -11,6 +11,7 @@ ipcRenderer.on('init', event => {
     applyBackgroundColor()
     applyContrastRatio()
     applyAdvancedResults()
+    displayLevelAAA()
     initEvents()
 })
 
@@ -23,6 +24,11 @@ ipcRenderer.on('foregroundColorChanged', event => {
 ipcRenderer.on('backgroundColorChanged', event => {
     applyBackgroundColor()
     applyContrastRatio()
+    applyAdvancedResults()
+})
+
+ipcRenderer.on('optionDisplayLevelAAAChanged', event => {
+    displayLevelAAA()
     applyAdvancedResults()
 })
 
@@ -78,8 +84,8 @@ function showHide(el) {
 }
 
 function applyForegroundColor () {
-    let color = sharedObjects.normal.foregroundColor
-    let colorMixed = sharedObjects.normal.foregroundColorMixed
+    let color = sharedObject.deficiencies.normal.foregroundColor
+    let colorMixed = sharedObject.deficiencies.normal.foregroundColorMixed
     let name = colorMixed.cssname()
     document.querySelector('#foreground-color').style.background = colorMixed.rgb().string()  
     if (name) {
@@ -107,15 +113,15 @@ function applyForegroundColor () {
     }
 
     /* Deficiency */
-    Object.keys(sharedObjects).forEach(function(key, index) {
+    Object.keys(sharedObject.deficiencies).forEach(function(key, index) {
         if (key !== 'normal') {
             document.getElementById('deficiency-' + key + '-preview').style.color = this[key].foregroundColor.rgb().string()
         }
-    }, sharedObjects)
+    }, sharedObject.deficiencies)
 }
 
 function applyBackgroundColor () {
-    let color = sharedObjects.normal.backgroundColor
+    let color = sharedObject.deficiencies.normal.backgroundColor
     let name = color.cssname()
     document.querySelector('#background-color').style.background = color.rgb().string()
     if (name) {
@@ -141,17 +147,17 @@ function applyBackgroundColor () {
     }
 
     /* Deficiency */
-    Object.keys(sharedObjects).forEach(function(key, index) {
+    Object.keys(sharedObject.deficiencies).forEach(function(key, index) {
         if (key !== 'normal') {
             document.getElementById('deficiency-' + key + '-preview').style.background = this[key].backgroundColor.rgb().string()
         }
-    }, sharedObjects)
+    }, sharedObject.deficiencies)
 }
 
 function applyContrastRatio () {
     let levelAA, levelAAA
 
-    Object.keys(sharedObjects).forEach(function(key, index) {
+    Object.keys(sharedObject.deficiencies).forEach(function(key, index) {
         if (this[key].levelAA === 'large') {
             levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA Large'
         } else if (this[key].levelAA === 'regular') {
@@ -168,16 +174,16 @@ function applyContrastRatio () {
         }
         if (key === 'normal') {
             document.getElementById('contrast-ratio-value').innerHTML = this[key].contrastRatioString
-            document.getElementById('contrast-ratio-level').innerHTML = `${levelAA}<br/>${levelAAA}`   
+            document.getElementById('contrast-ratio-level').innerHTML = `${levelAA}<span class="levelAAA"><br/>${levelAAA}</span>`   
         } else {
             document.getElementById('deficiency-' + key + '-cr').innerHTML = `(${this[key].contrastRatioString})` 
-            document.getElementById('deficiency-' + key + '-level').innerHTML = `${levelAA} <span aria-hidden="true">|</span> ${levelAAA}` 
+            document.getElementById('deficiency-' + key + '-level').innerHTML = `${levelAA}<span class="levelAAA"> <span aria-hidden="true">|</span> ${levelAAA}</span>` 
         }
-    }, sharedObjects)
+    }, sharedObject.deficiencies)
 }
 
 function applyAdvancedResults() {
-    document.querySelector('#advanced-results .text').innerHTML = sharedObjects.normal.advanced
+    document.querySelector('#advanced-results .text').innerHTML = sharedObject.advanced
 }
 
 function validateForegroundText(value) {
@@ -239,4 +245,8 @@ function validateBackgroundText(value) {
         classList.toggle('invalid', false)
         classList.toggle('valid', false)
     }
+}
+
+function displayLevelAAA() {
+    document.body.classList.toggle('hideLevelAAA', !sharedObject.options.displayLevelAAA)
 }

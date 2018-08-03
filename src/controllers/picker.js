@@ -9,18 +9,20 @@ module.exports = (browsers, mainController) => {
     let foregroundPicker // Keep which picker is openned
 
     let closePicker = hexColor => {
-        if (picker.getWindow()) {
-          picker.getWindow().close()
+      if (picker.getWindow()) {
+        picker.getWindow().close()
+        if (typeof hexColor === 'string') { // If ESC wasn't used
           if (foregroundPicker === true) {
             mainController.updateForegroundFromString(null, hexColor)
           } else {
             mainController.updateBackgroundFromString(null, hexColor)
           }
-          main.getWindow().focus()
-          ipcMain.removeListener('closePicker', closePicker)
-          ipcMain.removeListener('pickerRequested', event => {})
-          foregroundPicker = null
         }
+        main.getWindow().focus()
+        ipcMain.removeListener('closePicker', closePicker)
+        ipcMain.removeListener('pickerRequested', event => {})
+        foregroundPicker = null
+      }
     }
 
     ipcMain.on('showForegroundPicker', event => {

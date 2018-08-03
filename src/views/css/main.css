@@ -126,13 +126,11 @@ section#background-color input.free-value.invalid {
     box-shadow: 0px 4px 0px 0px crimson;
     background: #ffffff url('../icons/warning.png') 98% 50% no-repeat;
     background-size: contain;
-    color: #000000;
 }
 
 section#foreground-color input.free-value.valid,
 section#background-color input.free-value.valid {
     box-shadow: 0px 4px 0px 0px green;
-    color: #000000;
 }
 
 section#foreground-color .name-value,

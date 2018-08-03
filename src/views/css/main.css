@@ -1,5 +1,6 @@
 body, html{
     height: 100%;
+    user-select: none;
 }
   
 body{
@@ -269,6 +270,10 @@ section#deficiency .level img {
 }
 
 /* Advanced results section */
+section#advanced-results {
+    user-select: text; 
+}
+
 section#advanced-results .text {
     margin: 0.5rem;
     padding: 0.5rem;

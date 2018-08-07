@@ -74,7 +74,6 @@ app.on('ready', () => {
         }
     ];
 
-//    console.log(Menu.getApplicationMenu());
     const menu = Menu.buildFromTemplate(menuTemplate);
     Menu.setApplicationMenu(menu);
 

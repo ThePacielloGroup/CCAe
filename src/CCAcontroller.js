@@ -233,7 +233,6 @@ class CCAController {
             }
             this.sharedObject.advanced = this.sharedObject.advanced.replace('%AAA', levelAAA)
         }
-        console.log(this.sharedObject)
     }
 
     optionDisplayLevelAAA(value) {

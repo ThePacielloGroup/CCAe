@@ -188,7 +188,6 @@ function applyAdvancedResults() {
 
 function validateForegroundText(value) {
     let string = value.toLowerCase().replace(/\s/g, "") // Clean input value
-    console.log('-',value,'-', string,'-')
     let classList = document.querySelector('#foreground-color input').classList
     if (string) {
         let format = null

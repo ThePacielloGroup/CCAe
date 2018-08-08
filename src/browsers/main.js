@@ -20,6 +20,7 @@ module.exports = (dirname) => {
     let createWindow = () => {
         // Create the browser window.
         mainWindow = new BrowserWindow({
+            show: false, // Hide the application until the page has loaded
             width: 480, 
             height: 0,
             alwaysOnTop: true,
@@ -48,6 +49,12 @@ module.exports = (dirname) => {
         mainWindow.webContents.on('new-window', function(e, url) {
             e.preventDefault();
             shell.openExternal(url);
+        });
+
+        // Show the application when the page has loaded
+        mainWindow.on('ready-to-show', function() { 
+            mainWindow.show(); 
+            mainWindow.focus(); 
         });
     }
   

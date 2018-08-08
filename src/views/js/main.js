@@ -158,26 +158,25 @@ function applyContrastRatio () {
     let levelAA, levelAAA
 
     Object.keys(sharedObject.deficiencies).forEach(function(key, index) {
-        if (this[key].levelAA === 'large') {
-            levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA Large'
-        } else if (this[key].levelAA === 'regular') {
-            levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA'
-        } else { // Fail
-            levelAA = '<img src="icons/fail.svg" alt="Fail" /> AA'
-        }
-        if (this[key].levelAAA === 'large') {
-            levelAAA = '<img src="icons/pass.svg" alt="Pass" /> AAA Large'
-        } else if (this[key].levelAAA === 'regular') {
-            levelAAA = '<img src="icons/pass.svg" alt="Pass" /> AAA'
-        } else { // Fail
-            levelAAA = '<img src="icons/fail.svg" alt="Fail" /> AAA'
-        }
         if (key === 'normal') {
+            if (this[key].levelAA === 'large') {
+                levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA Large'
+            } else if (this[key].levelAA === 'regular') {
+                levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA'
+            } else { // Fail
+                levelAA = '<img src="icons/fail.svg" alt="Fail" /> AA'
+            }
+            if (this[key].levelAAA === 'large') {
+                levelAAA = '<img src="icons/pass.svg" alt="Pass" /> AAA Large'
+            } else if (this[key].levelAAA === 'regular') {
+                levelAAA = '<img src="icons/pass.svg" alt="Pass" /> AAA'
+            } else { // Fail
+                levelAAA = '<img src="icons/fail.svg" alt="Fail" /> AAA'
+            }
             document.getElementById('contrast-ratio-value').innerHTML = this[key].contrastRatioString
             document.getElementById('contrast-ratio-level').innerHTML = `${levelAA}<span class="levelAAA"><br/>${levelAAA}</span>`   
         } else {
             document.getElementById('deficiency-' + key + '-cr').innerHTML = `(${this[key].contrastRatioString})` 
-            document.getElementById('deficiency-' + key + '-level').innerHTML = `${levelAA}<span class="levelAAA"> <span aria-hidden="true">|</span> ${levelAAA}</span>` 
         }
     }, sharedObject.deficiencies)
 }

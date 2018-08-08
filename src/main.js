@@ -122,64 +122,48 @@ global.sharedObject = {
             backgroundColor : null,
             contrastRatioRaw : 0,
             contrastRatioString : "xx:1",
-            levelAA : 'regular',
-            levelAAA : 'regular'
         },
         achromatomaly : {
             foregroundColor : null,
             backgroundColor : null,
             contrastRatioRaw : 0,
             contrastRatioString : "xx:1",
-            levelAA : 'regular',
-            levelAAA : 'regular'
         },
         protanopia : {
             foregroundColor : null,
             backgroundColor : null,
             contrastRatioRaw : 0,
             contrastRatioString : "xx:1",
-            levelAA : 'regular',
-            levelAAA : 'regular'
         },
         deuteranopia : {
             foregroundColor : null,
             backgroundColor : null,
             contrastRatioRaw : 0,
             contrastRatioString : "xx:1",
-            levelAA : 'regular',
-            levelAAA : 'regular'
         },
         tritanopia : {
             foregroundColor : null,
             backgroundColor : null,
             contrastRatioRaw : 0,
             contrastRatioString : "xx:1",
-            levelAA : 'regular',
-            levelAAA : 'regular'
         },
         protanomaly : {
             foregroundColor : null,
             backgroundColor : null,
             contrastRatioRaw : 0,
             contrastRatioString : "xx:1",
-            levelAA : 'regular',
-            levelAAA : 'regular'
         },
         deuteranomaly : {
             foregroundColor : null,
             backgroundColor : null,
             contrastRatioRaw : 0,
             contrastRatioString : "xx:1",
-            levelAA : 'regular',
-            levelAAA : 'regular'
         },
         tritanomaly : {
             foregroundColor : null,
             backgroundColor : null,
             contrastRatioRaw : 0,
             contrastRatioString : "xx:1",
-            levelAA : 'regular',
-            levelAAA : 'regular'
         }
     },
     advanced : '',

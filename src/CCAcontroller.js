@@ -159,17 +159,19 @@ class CCAController {
                 let crr3 = Number(cr.toFixed(3)).toString()
                 this[key].contrastRatioString = `Just below ${crr}:1 (${crr3}:1)`
             }
-            this[key].levelAA = 'regular'
-            this[key].levelAAA = 'regular'
-            if (cr < 7) {
-                this[key].levelAAA = 'large'
-            }
-            if (cr < 4.5) {
-                this[key].levelAA = 'large'
-                this[key].levelAAA = 'fail'
-            }
-            if (cr < 3) {
-                this[key].levelAA = 'fail'
+            if (key === 'normal') {
+                this[key].levelAA = 'regular'
+                this[key].levelAAA = 'regular'
+                if (cr < 7) {
+                    this[key].levelAAA = 'large'
+                }
+                if (cr < 4.5) {
+                    this[key].levelAA = 'large'
+                    this[key].levelAAA = 'fail'
+                }
+                if (cr < 3) {
+                    this[key].levelAA = 'fail'
+                }
             }
         }, this.sharedObject.deficiencies)
     }

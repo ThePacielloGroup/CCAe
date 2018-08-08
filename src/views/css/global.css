@@ -1,16 +1,11 @@
-@font-face{
-    font-family: 'GlacialIndifference';
-    src: url('fonts/GlacialIndifference-Regular.otf');
-  }
-
 html, body{
     height: 100%;
     margin: 0;
-    font-family: 'GlacialIndifference', sans-serif;
+    font: caption; /* Default Operating System Font */
+    font-size: 100%;
 }
 
 button, input {
-    font-family: 'GlacialIndifference', sans-serif;
     font-size: 1.2rem;
 }
 

@@ -1,6 +1,7 @@
 body, html{
     height: 100%;
     user-select: none;
+    cursor:default;
 }
   
 body{
@@ -18,6 +19,11 @@ section {
 
 a {
     color: #00BFFF;
+}
+
+*[contenteditable="true"] {
+    user-select: text;
+    cursor: text;
 }
 
 h2 {
@@ -273,13 +279,10 @@ section#deficiency .level img {
     width: 1rem;
 }
 
-/* Advanced results section */
-section#advanced-results {
-    user-select: text; 
-}
-
 section#advanced-results .text {
     margin: 0.5rem;
     padding: 0.5rem;
     background-color: #eeeeee;
+    user-select: text;
+    cursor: text;
 }

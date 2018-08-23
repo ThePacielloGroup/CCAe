@@ -103,6 +103,7 @@ Color.isHSLA = function(string) {
 }
 
 Color.isName = function(string) {
+    // Full list https://www.w3.org/TR/css-color-3/#svg-color
     return (cssKeywords[string])
 }
 

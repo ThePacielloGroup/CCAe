@@ -17,19 +17,9 @@ section {
     border-top: 1px solid #eeeeee;
 }
 
-a {
-    color: #00BFFF;
-}
-
 *[contenteditable="true"] {
     user-select: text;
     cursor: text;
-}
-
-h2 {
-    font-size: 0.9rem;
-    margin: 0;
-    padding: 0;
 }
 
 summary h2 {

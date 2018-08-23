@@ -1,8 +1,23 @@
 html, body{
-    height: 100%;
     margin: 0;
     font: caption; /* Default Operating System Font */
     font-size: 100%;
+}
+
+h1 {
+    font-size: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    font-size: 0.9rem;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: #4865FF;
 }
 
 button, input {

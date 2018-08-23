@@ -11,10 +11,8 @@ app.on('ready', () => {
             label: 'Colour Contrast Analyser (CCA)',
             submenu: [
                 {
-                    label: 'Github page',
-                    click: () => {
-                        require('electron').shell.openExternal('https://github.com/ThePacielloGroup/CCAe');
-                    }
+                    label: 'About CCA',
+                    click: () => about.init()
                 }, {
                     type: 'separator'
                 }, {
@@ -173,7 +171,7 @@ global.sharedObject = {
 }
 
 const browsers = require('./browsers')(__dirname)
-const {main, picker} = browsers
+const {main, about} = browsers
 
 const CCAController = require('./CCAcontroller')
 

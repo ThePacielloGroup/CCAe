@@ -1,7 +1,7 @@
-const {ipcMain, BrowserWindow} = require('electron')
+const {ipcMain} = require('electron')
 
 module.exports = (browsers, mainController) => {
-    const {picker, main} = browsers
+    const {main} = browsers
 
     let win
 

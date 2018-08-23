@@ -71,6 +71,12 @@ Color.prototype.achromatomaly = function() {
 }
 
 Color.isHex = function(string) {
+    let abbr = /^#([a-f0-9]{3})$/i;
+    let hex = /^#([a-f0-9]{6})$/i;
+    return (string.match(hex) || string.match(abbr))
+}
+
+Color.isHexA = function(string) {
     let abbr = /^#([a-f0-9]{3,4})$/i;
     let hex = /^#([a-f0-9]{6})([a-f0-9]{2})?$/i;
     return (string.match(hex) || string.match(abbr))

@@ -192,7 +192,7 @@ function validateForegroundText(value) {
     let classList = document.querySelector('#foreground-color input').classList
     if (string) {
         let format = null
-        if (Color.isHex(string)) {
+        if (Color.isHexA(string)) {
             format = 'hex'
         } else if (Color.isRGB(string)) {
             format = 'rgb'

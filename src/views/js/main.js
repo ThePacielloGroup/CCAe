@@ -103,6 +103,7 @@ function applyForegroundColor () {
     document.querySelector('#foreground-rgb .blue input[type=number]').value = color.blue()
     document.querySelector('#foreground-rgb .alpha input[type=number]').value = color.alpha()
     document.querySelector('#sample-preview .text').style.color = color.rgb().string()
+    document.querySelector('#sample-preview .icon svg').style.fill = color.rgb().string()
 
     /* Only change the text input if this isn't the current focused element */
     let textInput = document.querySelector('#foreground-color input.free-value')
@@ -137,6 +138,7 @@ function applyBackgroundColor () {
     document.querySelector('#background-rgb .green input[type=number]').value = color.green()
     document.querySelector('#background-rgb .blue input[type=number]').value = color.blue()
     document.querySelector('#sample-preview .text').style.background = color.rgb().string()  
+    document.querySelector('#sample-preview .icon').style.background = color.rgb().string()  
 
     /* Only change the text input if this isn't the current focused element */
     let textInput = document.querySelector('#background-color input.free-value')

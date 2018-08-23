@@ -237,6 +237,17 @@ section#sample-preview .preview-box .text {
     padding: 0.5rem;
 }
 
+section#sample-preview .icon {
+    margin-left: 1rem;
+    padding: 0.5rem; 
+    border: 1px #cccccc dashed;
+}
+
+section#sample-preview .icon svg {
+    width: 2rem;
+    height: 2rem;
+}
+
 /* Deficiency section */
 section#deficiency .row {
     display: flex;

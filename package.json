@@ -12,7 +12,7 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "author": "Cédric Trévisan <ctrevisan@paciellogroup.com>",
-  "license": "",
+  "license": "GPL-3.0",
   "devDependencies": {
     "electron": "1.8.7",
     "electron-builder": "^20.13.3"

@@ -24,8 +24,16 @@ button, input {
     font-size: 1.2rem;
 }
 
-.sr-only
-{
+:focus {
+    outline-color: orangered;
+    outline-width: 3px;
+}
+
+button:focus {
+    outline-offset: -4px;
+}
+
+.sr-only {
     clip: rect(1px 1px 1px 1px) !important; /* IE 6/7 */
     clip: rect(1px, 1px, 1px, 1px) !important;
     -webkit-clip-path: inset(50%) !important;
@@ -36,3 +44,8 @@ button, input {
     white-space: nowrap;
     width: 1px;
 }
+
+/* https://github.com/WICG/focus-visible */
+.js-focus-visible :focus:not(.focus-visible) {
+    outline: none;
+  }

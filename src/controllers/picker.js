@@ -11,6 +11,11 @@ module.exports = (browsers, mainController) => {
     let closePicker = hexColor => {
       if (picker.getWindow()) {
         picker.getWindow().close()
+        if (foregroundPicker === true) {
+          mainController.sendEventToAll('foregroundPickerToggelled', false)   
+        } else {
+          mainController.sendEventToAll('backgroundPickerToggelled', false)   
+        }
         if (typeof hexColor === 'string') { // If ESC wasn't used
           if (foregroundPicker === true) {
             mainController.updateForegroundFromString(null, hexColor)
@@ -28,14 +33,15 @@ module.exports = (browsers, mainController) => {
     ipcMain.on('showForegroundPicker', event => {
       foregroundPicker = true
       picker.init()
+      mainController.sendEventToAll('foregroundPickerToggelled', true)   
     })
     ipcMain.on('showBackgroundPicker', event => { 
       foregroundPicker = false
       picker.init()
+      mainController.sendEventToAll('backgroundPickerToggelled', true)   
     })
 
     ipcMain.on('pickerRequested', (event, ratio) => {
-      console.log(ratio)
         if (process.platform === 'darwin') mouseEvent = require('osx-mouse')()
         // if (process.platform === 'linux') mouseEvent = require('linux-mouse')()
         if (process.platform === 'win32') mouseEvent = require('win-mouse')()

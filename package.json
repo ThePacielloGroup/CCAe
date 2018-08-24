@@ -14,8 +14,8 @@
   "author": "Cédric Trévisan <ctrevisan@paciellogroup.com>",
   "license": "GPL-3.0",
   "devDependencies": {
-    "electron": "1.8.7",
-    "electron-builder": "^20.13.3"
+    "electron": "^1.8.8",
+    "electron-builder": "^20.28.2"
   },
   "optionalDependencies": {
     "osx-mouse": "^1.2.1",

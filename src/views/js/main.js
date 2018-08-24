@@ -32,6 +32,14 @@ ipcRenderer.on('optionDisplayLevelAAAChanged', event => {
     applyAdvancedResults()
 })
 
+ipcRenderer.on('foregroundPickerToggelled', (event, state) => {
+    document.querySelector('#foreground-color .picker').setAttribute('aria-expanded', state)
+})
+
+ipcRenderer.on('backgroundPickerToggelled', (event, state) => {
+    document.querySelector('#background-color .picker').setAttribute('aria-expanded', state)
+})
+
 function initEvents () {
     // Opens color picker on button click
     document.querySelector('#foreground-color .picker').onclick = () => ipcRenderer.send('showForegroundPicker')

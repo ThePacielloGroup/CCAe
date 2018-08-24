@@ -248,9 +248,9 @@ class CCAController {
         this.sendEventToAll('optionDisplayLevelAAAChanged')
     }
 
-    sendEventToAll(event) {
+    sendEventToAll(event, params) {
         const {main} = this.browsers
-        main.getWindow().webContents.send(event)
+        main.getWindow().webContents.send(event, params)
     }
 }
 

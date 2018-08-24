@@ -96,7 +96,7 @@ section#foreground-color,
 section#background-color {
     display: flex;
     align-items: center;
-    min-height: 5rem;
+    min-height: 5.4rem;
     font-size: 1.4rem;
     justify-content: center;
 }
@@ -157,7 +157,7 @@ section#background-color button {
     background-color: #ffffff;
     background-position: 50% 50%;
     background-repeat: no-repeat;
-    border: none;
+    background-size: 90% 90%;
     width: 2rem;
     height: 1.2rem;
     border: 1px solid #cccccc;
@@ -176,6 +176,11 @@ section#background-color button.rgb {
 
 section#foreground-color button.switch {
     background-image: url('../icons/switch.svg');
+}
+
+section#foreground-color button[aria-expanded=true],
+section#background-color button[aria-expanded=true] {
+    background-color: olivedrab;
 }
 
 /* RGB input sections */

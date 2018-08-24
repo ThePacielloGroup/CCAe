@@ -10,7 +10,6 @@ ipcRenderer.on('init', event => {
     applyForegroundColor()
     applyBackgroundColor()
     applyContrastRatio()
-    applyAdvancedResults()
     displayLevelAAA()
     initEvents()
 })
@@ -18,18 +17,17 @@ ipcRenderer.on('init', event => {
 ipcRenderer.on('foregroundColorChanged', event => {
     applyForegroundColor()
     applyContrastRatio()
-    applyAdvancedResults()
 })
 
 ipcRenderer.on('backgroundColorChanged', event => {
     applyBackgroundColor()
     applyContrastRatio()
-    applyAdvancedResults()
 })
 
 ipcRenderer.on('optionDisplayLevelAAAChanged', event => {
     displayLevelAAA()
-    applyAdvancedResults()
+    var mainHeight = document.querySelector('main').clientHeight;
+    ipcRenderer.send('height-changed', mainHeight)
 })
 
 ipcRenderer.on('foregroundPickerToggelled', (event, state) => {
@@ -165,34 +163,35 @@ function applyBackgroundColor () {
 }
 
 function applyContrastRatio () {
-    let levelAA, levelAAA
+    let levelAA, levelAAico, levelAAA
 
     Object.keys(sharedObject.deficiencies).forEach(function(key, index) {
         if (key === 'normal') {
             if (this[key].levelAA === 'large') {
-                levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA Large'
+                levelAA = '<img src="icons/pass.svg" alt="" /> Pass AA for large text only'
+                levelAAico = '<img src="icons/pass.svg" alt="" /> Pass AA for icons and UI components'
             } else if (this[key].levelAA === 'regular') {
-                levelAA = '<img src="icons/pass.svg" alt="Pass" /> AA'
+                levelAA = '<img src="icons/pass.svg" alt="" /> Pass AA for large and regular text'
+                levelAAico = '<img src="icons/fail.svg" alt="" /> Fail AA for icons and UI components'
             } else { // Fail
-                levelAA = '<img src="icons/fail.svg" alt="Fail" /> AA'
+                levelAA = '<img src="icons/fail.svg" alt="" /> Fail AA large and regular text'
+                levelAAico = '<img src="icons/fail.svg" alt="" /> Fail AA for icons and UI components'
             }
             if (this[key].levelAAA === 'large') {
-                levelAAA = '<img src="icons/pass.svg" alt="Pass" /> AAA Large'
+                levelAAA = '<img src="icons/pass.svg" alt="" /> Pass AAA for large text only'
             } else if (this[key].levelAAA === 'regular') {
-                levelAAA = '<img src="icons/pass.svg" alt="Pass" /> AAA'
+                levelAAA = '<img src="icons/pass.svg" alt="" /> Pass AAA for large and regular text'
             } else { // Fail
-                levelAAA = '<img src="icons/fail.svg" alt="Fail" /> AAA'
+                levelAAA = '<img src="icons/fail.svg" alt="" /> Fail AAA large and regular text'
             }
             document.getElementById('contrast-ratio-value').innerHTML = this[key].contrastRatioString
-            document.getElementById('contrast-ratio-level').innerHTML = `${levelAA}<span class="levelAAA"><br/>${levelAAA}</span>`   
+            document.getElementById('contrast-level-1-4-3').innerHTML = levelAA   
+            document.getElementById('contrast-level-1-4-11').innerHTML = levelAAico   
+            document.getElementById('contrast-level-1-4-6').innerHTML = levelAAA   
         } else {
             document.getElementById('deficiency-' + key + '-cr').innerHTML = `(${this[key].contrastRatioString})` 
         }
     }, sharedObject.deficiencies)
-}
-
-function applyAdvancedResults() {
-    document.querySelector('#advanced-results .text').innerHTML = sharedObject.advanced
 }
 
 function validateForegroundText(value) {

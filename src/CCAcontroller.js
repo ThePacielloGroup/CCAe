@@ -186,26 +186,14 @@ class CCAController {
         if (this.sharedObject.options.displayLevelAAA) {
             this.sharedObject.advanced = `Foreground: %F - Background: %B<br>
             <br>
-            The contrast ratio is: %L<br>
             <br>
             %AA<br>
-            %AAA<br>
-            <br>
-            <strong>1.4.3 Contrast (Minimum):</strong> Text (and images of text) have a contrast ratio of at least 4.5:1, except if the text is pure decoration.  Larger scale text (at least 18 point or 14 point bold) or images of text can have a contrast ratio of 3:1. (Level AA)<br>
-            <br>
-            <strong>1.4.6 Contrast (Enhanced):</strong> Text (and images of text) have a contrast ratio of at least 7:1, except if the text is pure decoration.  Larger scale text (at least 18 point or 14 point bold) or images of text can have a contrast ratio of 4.5:1. (Level AAA)<br>
-            <br>
-            <strong>Note:</strong> Fonts that are extraordinarily thin or decorative are harder to read at lower contrast levels.`    
+            %AAA<br>`    
         } else {
             this.sharedObject.advanced = `Foreground: %F - Background: %B<br>
             <br>
-            The contrast ratio is: %L<br>
             <br>
-            %AA<br>
-            <br>
-            <strong>1.4.3 Contrast (Minimum):</strong> Text (and images of text) have a contrast ratio of at least 4.5:1, except if the text is pure decoration.  Larger scale text (at least 18 point or 14 point bold) or images of text can have a contrast ratio of 3:1. (Level AA)<br>
-            <br>
-            <strong>Note:</strong> Fonts that are extraordinarily thin or decorative are harder to read at lower contrast levels.`    
+            %AA<br>`    
         }
 
         /*

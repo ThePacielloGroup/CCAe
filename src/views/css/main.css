@@ -22,7 +22,7 @@ section {
     cursor: text;
 }
 
-summary h2 {
+summary h2, summary h3 {
     display: inline-block;
 }
 
@@ -65,30 +65,29 @@ input:focus + [role="tooltip"] {
 	display: block;
 }
 
-/* Results section */
-section#results {
-    min-height: 3rem;
-    display: flex;
-    align-items: center;
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-section#results #contrast-ratio {
+#contrast-ratio h2 {
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    text-align: right;
 }
 
-section#results #contrast-ratio .label {
-    font-size: 0.9rem;
-    display: block;
+#contrast-ratio-value {
+    text-align: center;
+    font-size: 1.2rem;
 }
 
-section#results #contrast-ratio-level img {
+/* Results section */
+section#results details {
+    margin: 0.5rem;
+    padding: 0.5rem;
+}
+
+section#results .contrast-level {
+    padding-left: 4rem;
+}
+
+section#results .contrast-level img {
     height: 1.2rem;
     width: 1.2rem;
+    margin-bottom: -0.2rem;
 }
 
 /* Color sections */
@@ -278,17 +277,4 @@ section#deficiency .desc {
 
 section#deficiency .desc {
     font-style: italic;
-}
-
-section#deficiency .level img {
-    height: 1rem;
-    width: 1rem;
-}
-
-section#advanced-results .text {
-    margin: 0.5rem;
-    padding: 0.5rem;
-    background-color: #eeeeee;
-    user-select: text;
-    cursor: text;
 }

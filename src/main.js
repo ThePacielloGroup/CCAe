@@ -37,6 +37,9 @@ app.on('ready', () => {
           label: 'View',
           submenu: [
             {
+                label: 'Colour deficiencies',
+                click: () => deficiency.init()
+            }, {
               label: 'Reload',
               accelerator: 'CmdOrCtrl+R',
               click (item, focusedWindow) {
@@ -171,7 +174,7 @@ global.sharedObject = {
 }
 
 const browsers = require('./browsers')(__dirname)
-const {main, about} = browsers
+const {main, about, deficiency} = browsers
 
 const CCAController = require('./CCAcontroller')
 

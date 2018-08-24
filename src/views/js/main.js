@@ -5,12 +5,12 @@ const Color = require('../../CCAcolor')
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-app'), false)
 
 ipcRenderer.on('init', event => {
-    var mainHeight = document.querySelector('main').clientHeight;
-    ipcRenderer.send('height-changed', mainHeight)
     applyForegroundColor()
     applyBackgroundColor()
     applyContrastRatio()
     displayLevelAAA()
+    var mainHeight = document.querySelector('main').clientHeight;
+    ipcRenderer.send('height-changed', mainHeight)
     initEvents()
 })
 
@@ -118,13 +118,6 @@ function applyForegroundColor () {
         textInput.classList.toggle('invalid', false)
         textInput.classList.toggle('valid', false)
     }
-
-    /* Deficiency */
-    Object.keys(sharedObject.deficiencies).forEach(function(key, index) {
-        if (key !== 'normal') {
-            document.getElementById('deficiency-' + key + '-preview').style.color = this[key].foregroundColor.rgb().string()
-        }
-    }, sharedObject.deficiencies)
 }
 
 function applyBackgroundColor () {
@@ -153,13 +146,6 @@ function applyBackgroundColor () {
         textInput.classList.toggle('invalid', false)
         textInput.classList.toggle('valid', false)
     }
-
-    /* Deficiency */
-    Object.keys(sharedObject.deficiencies).forEach(function(key, index) {
-        if (key !== 'normal') {
-            document.getElementById('deficiency-' + key + '-preview').style.background = this[key].backgroundColor.rgb().string()
-        }
-    }, sharedObject.deficiencies)
 }
 
 function applyContrastRatio () {
@@ -188,8 +174,6 @@ function applyContrastRatio () {
             document.getElementById('contrast-level-1-4-3').innerHTML = levelAA   
             document.getElementById('contrast-level-1-4-11').innerHTML = levelAAico   
             document.getElementById('contrast-level-1-4-6').innerHTML = levelAAA   
-        } else {
-            document.getElementById('deficiency-' + key + '-cr').innerHTML = `(${this[key].contrastRatioString})` 
         }
     }, sharedObject.deficiencies)
 }

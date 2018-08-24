@@ -1,0 +1,29 @@
+body{
+    padding: 1rem;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.deficiency {
+    flex-grow: 1;
+    margin: 0.5rem;
+    text-align: center;
+}
+
+.preview {
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+
+.cr,
+.level,
+.desc {
+    font-size: 0.8rem;
+}
+
+.desc {
+    font-style: italic;
+}

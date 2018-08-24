@@ -237,8 +237,13 @@ class CCAController {
     }
 
     sendEventToAll(event, params) {
-        const {main} = this.browsers
-        main.getWindow().webContents.send(event, params)
+        const browsers = this.browsers
+        Object.keys(browsers).map(function(key, index) {
+            const browser = browsers[key]
+            if (browser.getWindow()) {
+                browser.getWindow().webContents.send(event, params)
+            }
+        });
     }
 }
 

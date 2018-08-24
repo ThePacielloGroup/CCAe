@@ -1,4 +1,4 @@
-const {BrowserWindow, shell} = require('electron')
+const {BrowserWindow, shell, Menu, MenuItem} = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -56,6 +56,28 @@ module.exports = (dirname) => {
             mainWindow.show(); 
             mainWindow.focus(); 
         });
+
+        /* Context menu */
+        mainWindow.webContents.on('context-menu', function(e, params){
+            const hasText = params.selectionText.trim().length > 0
+            const {editFlags} = params
+            const ctxMenu = new Menu()
+            ctxMenu.append(new MenuItem({
+                id: 'copy',
+                label: 'Copy',
+                role: 'copy',
+    			visible: params.isEditable || hasText
+            }))
+            ctxMenu.append(new MenuItem({
+                id: 'paste',
+                label: 'Paste',
+                role: 'paste',
+    			enabled: editFlags.canPaste,
+    			visible: params.isEditable
+            }))
+            ctxMenu.popup(mainWindow, params.x, params.y)
+        })
+
     }
   
     let getWindow = () => mainWindow

@@ -154,17 +154,17 @@ function applyContrastRatio () {
     Object.keys(sharedObject.deficiencies).forEach(function(key, index) {
         if (key === 'normal') {
             if (this[key].levelAA === 'large') {
-                levelAA = '<img src="icons/pass.svg" alt="" /> Pass AA for large text only'
+                levelAA = '<img src="icons/pass.svg" alt="" /> Pass AA for large text only <img src="icons/fail.svg" alt="" /> Fail for regular text'
                 levelAAico = '<img src="icons/pass.svg" alt="" /> Pass AA for icons and UI components'
             } else if (this[key].levelAA === 'regular') {
                 levelAA = '<img src="icons/pass.svg" alt="" /> Pass AA for large and regular text'
-                levelAAico = '<img src="icons/fail.svg" alt="" /> Fail AA for icons and UI components'
+                levelAAico = '<img src="icons/pass.svg" alt="" /> Pass AA for icons and UI components'
             } else { // Fail
                 levelAA = '<img src="icons/fail.svg" alt="" /> Fail AA large and regular text'
                 levelAAico = '<img src="icons/fail.svg" alt="" /> Fail AA for icons and UI components'
             }
             if (this[key].levelAAA === 'large') {
-                levelAAA = '<img src="icons/pass.svg" alt="" /> Pass AAA for large text only'
+                levelAAA = '<img src="icons/pass.svg" alt="" /> Pass AAA for large text only <img src="icons/fail.svg" alt="" /> Fail for regular text'
             } else if (this[key].levelAAA === 'regular') {
                 levelAAA = '<img src="icons/pass.svg" alt="" /> Pass AAA for large and regular text'
             } else { // Fail

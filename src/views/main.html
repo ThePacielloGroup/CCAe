@@ -16,23 +16,24 @@
     <section id="foreground-color">
       <h2>Foreground colour</h2>
       <div class="tooltip-container">
-        <input type="text" class="free-value" aria-label="Free text color value" aria-describedby="free-value-tooltip-fg" />
-        <div role="tooltip" id="free-value-tooltip-fg">
-            Supported formats are: 
-            <ul>
-              <li>Hex: #FFF, #FFFFFF, #FFFA, #FFFFFFAA</li>
-              <li>Names: blue, grey, orange, ...</li>
-              <li>RGB: rgb(200,200,200), rgba(200,60,60,0.3)</li>
-              <li>HSL: hsl(360,100%,50%), hsla(360,60%,50%,0.4)</li>
-            </ul>
-        </div>
+        <input type="text" class="free-value" aria-label="Free text color value" />
       </div>
       <div class="name-value">------</div>
       <div class="buttons">
           <button class="switch" aria-label="Switch Colors"></button>
           <button class="rgb" aria-label="Foreground RGB sliders" aria-controls="foreground-rgb" aria-expanded="false"></button>
           <button class="picker" aria-label="Foreground color picker" aria-expanded="false"></button>
+          <button class="help" aria-label="Foreground help" aria-controls="foreground-help" aria-expanded="false"></button>
       </div>
+    </section>
+    <section id="foreground-help" hidden>
+        Supported formats are: 
+        <ul>
+          <li>Hex: #FFF, #FFFFFF, #FFFA, #FFFFFFAA</li>
+          <li>Names: blue, grey, orange, ...</li>
+          <li>RGB: rgb(200,200,200), rgba(200,60,60,0.3)</li>
+          <li>HSL: hsl(360,100%,50%), hsla(360,60%,50%,0.4)</li>
+        </ul>
     </section>
     <section id="foreground-rgb" hidden>
         <h2 class="sr-only">Foreground RGB input</h2>
@@ -67,22 +68,23 @@
     <section id="background-color">
       <h2>Background colour</h2>
       <div class="tooltip-container">
-        <input type="text" class="free-value" aria-label="Free text color value" aria-describedby="free-value-tooltip-bg" />
-        <div role="tooltip" id="free-value-tooltip-bg">
-            Supported formats are: 
-            <ul>
-              <li>Hex: #FFF, #FFFFFF</li>
-              <li>Names: blue, grey, orange, ...</li>
-              <li>RGB: rgb(200,200,200)</li>
-              <li>HSL: hsl(360,100%,50%)</li>
-            </ul>
-        </div>
+        <input type="text" class="free-value" aria-label="Free text color value" aria-describedby="background-help" />
       </div>
       <div class="name-value">------</div>
       <div class="buttons">
           <button class="rgb" aria-label="Background RGB sliders" aria-controls="background-rgb" aria-expanded="false"></button>
-          <button class="picker" aria-label="Background color picker" aria-expanded="false"></button>    
+          <button class="picker" aria-label="Background color picker" aria-expanded="false"></button>
+          <button class="help" aria-label="Background help" aria-controls="background-help" aria-expanded="false"></button> 
       </div>
+    </section>
+    <section id="background-help" hidden>
+        Supported formats are: 
+        <ul>
+          <li>Hex: #FFF, #FFFFFF</li>
+          <li>Names: blue, grey, orange, ...</li>
+          <li>RGB: rgb(200,200,200)</li>
+          <li>HSL: hsl(360,100%,50%)</li>
+        </ul>
     </section>
     <section id="background-rgb" hidden>
         <h2 class="sr-only">Background RGB input</h2>

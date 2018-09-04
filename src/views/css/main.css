@@ -56,7 +56,7 @@ section {
     color: #ffffff;
 	display: none;
 	position: absolute;
-    top: 100%;
+    top: 110%;
     z-index: 999;
     background-color: rgba(0, 0, 0, 0.8);
     padding: 0.5rem;
@@ -158,6 +158,11 @@ section#background-color button.rgb {
     background-image: url('../icons/sliders-black.svg');
 }
 
+section#foreground-color button.help, 
+section#background-color button.help {
+    background-image: url('../icons/help-black.svg');
+}
+
 section#foreground-color button.switch {
     background-image: url('../icons/switch.svg');
 }
@@ -170,6 +175,11 @@ section#background-color button[aria-expanded=true].picker {
 section#foreground-color button[aria-expanded=true].rgb,
 section#background-color button[aria-expanded=true].rgb {
     background-image: url('../icons/sliders-white.svg');
+}
+
+section#foreground-color button[aria-expanded=true].help,
+section#background-color button[aria-expanded=true].help {
+    background-image: url('../icons/help-white.svg');
 }
 
 section#foreground-color button[aria-expanded=true],

@@ -74,22 +74,6 @@ input:focus + [role="tooltip"] {
     font-size: 1.2rem;
 }
 
-/* Results section */
-section#results details {
-    margin: 0.5rem;
-    padding: 0.5rem;
-}
-
-section#results .contrast-level {
-    padding-left: 4rem;
-}
-
-section#results .contrast-level img {
-    height: 1.2rem;
-    width: 1.2rem;
-    margin-bottom: -0.2rem;
-}
-
 /* Color sections */
 section#foreground-color, 
 section#background-color {
@@ -240,4 +224,42 @@ section#sample-preview .icon {
 section#sample-preview .icon svg {
     width: 2rem;
     height: 2rem;
+}
+
+/* Results section */
+section#results {
+    background-color: #ffffff;
+}
+
+section#results details {
+    margin: 0.5rem;
+    border-radius: 3px;
+    background: #EEE;
+}
+
+section#results summary {
+    background: #333;
+    color: #FFF;
+    border-radius: 3px;
+    padding: 0.5rem 1rem;
+}
+
+section#results details[open] summary {
+    background: #1B75BC;
+}
+
+section#results details p {
+    padding: 0.5rem 0.5rem 0.5rem 2rem;
+    margin: 0;
+}
+
+section#results .contrast-level {
+    margin-left: 2.5rem;
+}
+
+
+section#results .contrast-level img {
+    height: 1.2rem;
+    width: 1.2rem;
+    margin-bottom: -0.2rem;
 }

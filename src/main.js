@@ -67,9 +67,6 @@ app.on('ready', () => {
             },
             {
               type: 'separator'
-            },
-            {
-              role: 'togglefullscreen'
             }
           ]
         }

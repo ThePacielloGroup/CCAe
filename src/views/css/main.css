@@ -162,8 +162,8 @@ section#foreground-color button.switch {
     background-image: url('../icons/switch.svg');
 }
 
-section#foreground-color button[aria-expanded=true].picker,
-section#background-color button[aria-expanded=true].picker {
+section#foreground-color button[aria-pressed=true].picker,
+section#background-color button[aria-pressed=true].picker {
     background-image: url('../icons/picker-white.svg');
 }
 
@@ -178,7 +178,9 @@ section#background-color button[aria-expanded=true].help {
 }
 
 section#foreground-color button[aria-expanded=true],
-section#background-color button[aria-expanded=true] {
+section#background-color button[aria-expanded=true],
+section#foreground-color button[aria-pressed=true],
+section#background-color button[aria-pressed=true] {
     background-color: #1B75BC;
 }
 

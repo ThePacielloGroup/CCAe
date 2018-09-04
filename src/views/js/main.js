@@ -31,11 +31,11 @@ ipcRenderer.on('optionDisplayLevelAAAChanged', event => {
 })
 
 ipcRenderer.on('foregroundPickerToggelled', (event, state) => {
-    document.querySelector('#foreground-color .picker').setAttribute('aria-expanded', state)
+    document.querySelector('#foreground-color .picker').setAttribute('aria-pressed', state)
 })
 
 ipcRenderer.on('backgroundPickerToggelled', (event, state) => {
-    document.querySelector('#background-color .picker').setAttribute('aria-expanded', state)
+    document.querySelector('#background-color .picker').setAttribute('aria-pressed', state)
 })
 
 function initEvents () {

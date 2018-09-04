@@ -53,7 +53,7 @@ button:focus {
 
 .js-focus-visible :focus {
     outline: 0.25em rgba(0,0,0,0.4) solid;
-    box-shadow: 0 0 3em 0.05em rgba(255,255,255,0.8);
+    box-shadow: 0 0 0.25em 0.1em rgba(255,255,255,0.8);
 }
 
 /* https://github.com/WICG/focus-visible */

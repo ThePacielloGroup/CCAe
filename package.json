@@ -1,6 +1,6 @@
 {
   "name": "cca",
-  "version": "1.0.0-alpha4",
+  "version": "1.0.0-alpha5",
   "description": "Colour Contrast Analyser (CCA)",
   "main": "src/main.js",
   "scripts": {
@@ -14,12 +14,12 @@
   "author": "Cédric Trévisan <ctrevisan@paciellogroup.com>",
   "license": "GPL-3.0",
   "devDependencies": {
-    "electron": "^1.8.8",
-    "electron-builder": "^20.28.2"
+    "electron": "1.8.8",
+    "electron-builder": "20.28.3"
   },
   "optionalDependencies": {
-    "osx-mouse": "^1.2.1",
-    "win-mouse": "^1.1.2"
+    "osx-mouse": "^1.3.1",
+    "win-mouse": "^1.2.0"
   },
   "dependencies": {
     "color": "^3.0.0",

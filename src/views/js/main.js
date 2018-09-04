@@ -218,7 +218,11 @@ function displayValidate(section, format, string) {
         freeFormat.setAttribute('aria-live', 'polite')
     }
     if (format) {
-        ipcRenderer.send('changeBackground', string, format)
+        if (section == 'foreground') {
+            ipcRenderer.send('changeForeground', string, format)
+        } else {
+            ipcRenderer.send('changeBackground', string, format)
+        }
         input.setAttribute('aria-invalid', false)
         freeTag.innerHTML = format.toUpperCase()
         freeTag.style.display = "block"

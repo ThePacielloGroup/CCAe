@@ -26,6 +26,7 @@ summary h2, summary h3 {
     display: inline-block;
 }
 
+
 section#foreground-color h2, 
 section#background-color h2 {
     position: absolute;
@@ -149,21 +150,31 @@ section#background-color button {
 
 section#foreground-color button.picker, 
 section#background-color button.picker {
-    background-image: url('../icons/picker.svg');
+    background-image: url('../icons/picker-black.svg');
 }
 
 section#foreground-color button.rgb, 
 section#background-color button.rgb {
-    background-image: url('../icons/sliders.svg');
+    background-image: url('../icons/sliders-black.svg');
 }
 
 section#foreground-color button.switch {
     background-image: url('../icons/switch.svg');
 }
 
+section#foreground-color button[aria-expanded=true].picker,
+section#background-color button[aria-expanded=true].picker {
+    background-image: url('../icons/picker-white.svg');
+}
+
+section#foreground-color button[aria-expanded=true].rgb,
+section#background-color button[aria-expanded=true].rgb {
+    background-image: url('../icons/sliders-white.svg');
+}
+
 section#foreground-color button[aria-expanded=true],
 section#background-color button[aria-expanded=true] {
-    background-color: olivedrab;
+    background-color: #1B75BC;
 }
 
 /* RGB input sections */

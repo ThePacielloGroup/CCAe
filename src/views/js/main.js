@@ -5,8 +5,8 @@ const Color = require('../../CCAcolor')
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-app'), false)
 
 ipcRenderer.on('init', event => {
-    applyForegroundColor()
-    applyBackgroundColor()
+    applyColor('foreground')
+    applyColor('background')
     applyContrastRatio()
     displayLevelAAA()
     var mainHeight = document.querySelector('main').clientHeight;
@@ -15,12 +15,12 @@ ipcRenderer.on('init', event => {
 })
 
 ipcRenderer.on('foregroundColorChanged', event => {
-    applyForegroundColor()
+    applyColor('foreground')
     applyContrastRatio()
 })
 
 ipcRenderer.on('backgroundColorChanged', event => {
-    applyBackgroundColor()
+    applyColor('background')
     applyContrastRatio()
 })
 
@@ -91,62 +91,54 @@ function showHide(el) {
     ipcRenderer.send('height-changed', mainHeight)
 }
 
-function applyForegroundColor () {
-    let color = sharedObject.deficiencies.normal.foregroundColor
-    let colorMixed = sharedObject.deficiencies.normal.foregroundColorMixed
-    let name = colorMixed.cssname()
-    document.querySelector('#foreground-color').style.background = colorMixed.rgb().string()  
-    if (name) {
-        document.querySelector('#foreground-color .name-value').innerHTML = '&nbsp;(' + name + ')'
+function applyColor(section) {
+    let color, colorMixed, name, colorRGB, colorHEX, isDark
+    if (section == 'foreground') {
+        color = sharedObject.deficiencies.normal.foregroundColor
+        colorMixed = sharedObject.deficiencies.normal.foregroundColorMixed
+        name = colorMixed.cssname()
+        colorRGB = colorMixed.rgb().string()
+        colorHEX = colorMixed.hex()
+        isDark = colorMixed.isDark()
     } else {
-        document.querySelector('#foreground-color .name-value').innerHTML = null        
+        color = sharedObject.deficiencies.normal.backgroundColor
+        name = color.cssname()
+        colorRGB = color.rgb().string()
+        colorHEX = color.hex()
+        isDark = color.isDark()
     }
-    document.querySelector('#foreground-color').classList.toggle('darkMode', colorMixed.isDark())
-    document.querySelector('#foreground-rgb .red input[type=range]').value = color.red()
-    document.querySelector('#foreground-rgb .green input[type=range]').value = color.green()
-    document.querySelector('#foreground-rgb .blue input[type=range]').value = color.blue()
-    document.querySelector('#foreground-rgb .alpha input[type=range]').value = color.alpha()
-    document.querySelector('#foreground-rgb .red input[type=number]').value = color.red()
-    document.querySelector('#foreground-rgb .green input[type=number]').value = color.green()
-    document.querySelector('#foreground-rgb .blue input[type=number]').value = color.blue()
-    document.querySelector('#foreground-rgb .alpha input[type=number]').value = color.alpha()
-    document.querySelector('#sample-preview .text').style.color = color.rgb().string()
-    document.querySelector('#sample-preview .icon svg').style.fill = color.rgb().string()
+
+    document.querySelector('#' + section + '-color').style.background = colorRGB 
+    if (name) {
+        document.querySelector('#' + section + '-color .name-value').innerHTML = '&nbsp;(' + name + ')'
+    } else {
+        document.querySelector('#' + section + '-color .name-value').innerHTML = null        
+    }
+    document.querySelector('#' + section + '-color').classList.toggle('darkMode', isDark)
+    document.querySelector('#' + section + '-rgb .red input[type=range]').value = color.red()
+    document.querySelector('#' + section + '-rgb .green input[type=range]').value = color.green()
+    document.querySelector('#' + section + '-rgb .blue input[type=range]').value = color.blue()
+    document.querySelector('#' + section + '-rgb .red input[type=number]').value = color.red()
+    document.querySelector('#' + section + '-rgb .green input[type=number]').value = color.green()
+    document.querySelector('#' + section + '-rgb .blue input[type=number]').value = color.blue()
+    if (section === 'foreground') {
+        document.querySelector('#' + section + '-rgb .alpha input[type=range]').value = color.alpha()
+        document.querySelector('#' + section + '-rgb .alpha input[type=number]').value = color.alpha()    
+    }
+    document.querySelector('#sample-preview .text').style.color = colorRGB
+    document.querySelector('#sample-preview .icon svg').style.fill = colorRGB
 
     /* Only change the text input if this isn't the current focused element */
-    let textInput = document.querySelector('#foreground-color input.free-value')
+    const textInput = document.querySelector('#' + section + '-color input.free-value')
     if (textInput != document.activeElement) {
-        textInput.value = colorMixed.hex()
-        textInput.classList.toggle('invalid', false)
-        textInput.classList.toggle('valid', false)
-    }
-}
-
-function applyBackgroundColor () {
-    let color = sharedObject.deficiencies.normal.backgroundColor
-    let name = color.cssname()
-    document.querySelector('#background-color').style.background = color.rgb().string()
-    if (name) {
-        document.querySelector('#background-color .name-value').innerHTML = '&nbsp;(' + name + ')'
-    } else {
-        document.querySelector('#background-color .name-value').innerHTML = null        
-    }
-    document.querySelector('#background-color').classList.toggle('darkMode', color.isDark())
-    document.querySelector('#background-rgb .red input[type=range]').value = color.red()
-    document.querySelector('#background-rgb .green input[type=range]').value = color.green()
-    document.querySelector('#background-rgb .blue input[type=range]').value = color.blue()
-    document.querySelector('#background-rgb .red input[type=number]').value = color.red()
-    document.querySelector('#background-rgb .green input[type=number]').value = color.green()
-    document.querySelector('#background-rgb .blue input[type=number]').value = color.blue()
-    document.querySelector('#sample-preview .text').style.background = color.rgb().string()  
-    document.querySelector('#sample-preview .icon').style.background = color.rgb().string()  
-
-    /* Only change the text input if this isn't the current focused element */
-    let textInput = document.querySelector('#background-color input.free-value')
-    if (textInput != document.activeElement) {
-        textInput.value = color.hex()
-        textInput.classList.toggle('invalid', false)
-        textInput.classList.toggle('valid', false)
+        textInput.value = colorHEX
+        const freeTag =  document.querySelector('#' + section + '-free-tag')
+        const freeFormat =  document.querySelector('#' + section + '-free-format')    
+        textInput.removeAttribute('aria-invalid')
+        freeFormat.removeAttribute('aria-live')
+        freeFormat.innerHTML = "HEX format"
+        freeTag.innerHTML = "HEX"
+        freeTag.style.display = "block";
     }
 }
 
@@ -181,42 +173,30 @@ function applyContrastRatio () {
 }
 
 function validateForegroundText(value) {
-    let string = value.toLowerCase().replace(/\s/g, "") // Clean input value
-    let classList = document.querySelector('#foreground-color input').classList
+    const string = value.toLowerCase().replace(/\s/g, "") // Clean input value
+    let format = null
     if (string) {
-        let format = null
         if (Color.isHexA(string)) {
-            format = 'hex'
+            format = 'HEX'
         } else if (Color.isRGB(string)) {
-            format = 'rgb'
+            format = 'RGB'
         } else if (Color.isRGBA(string)) {
-            format = 'rgba'
+            format = 'RGBa'
         } else if (Color.isHSL(string)) {
-            format = 'hsl'
+            format = 'HSL'
         } else if (Color.isHSLA(string)) {
-            format = 'hsla'
+            format = 'HLSa'
         } else if (Color.isName(string)) {
-            format = 'name'
+            format = 'Name'
         }
-        if (format) {
-            ipcRenderer.send('changeForeground', string, format)
-            classList.toggle('invalid', false)
-            classList.toggle('valid', true)
-        } else {
-            classList.toggle('invalid', true)
-            classList.toggle('valid', false)
-        }    
-    } else {
-        classList.toggle('invalid', false)
-        classList.toggle('valid', false)
     }
+    displayValidate('foreground', format, string)
 }
 
 function validateBackgroundText(value) {
-    let string = value.toLowerCase().replace(/\s/g, "") // Clean input value
-    let classList = document.querySelector('#background-color input').classList
+    const string = value.toLowerCase().replace(/\s/g, "") // Clean input value
+    let format = null
     if (string) {
-        let format = null
         if (Color.isHex(string)) {
             format = 'hex'
         } else if (Color.isRGB(string)) {
@@ -226,17 +206,27 @@ function validateBackgroundText(value) {
         } else if (Color.isName(string)) {
             format = 'name'
         }
-        if (format) {
-            ipcRenderer.send('changeBackground', string, format)
-            classList.toggle('invalid', false)
-            classList.toggle('valid', true)
-        } else {
-            classList.toggle('invalid', true)
-            classList.toggle('valid', false)
-        }    
+    }
+    displayValidate('background', format, string)
+}
+
+function displayValidate(section, format, string) {
+    const input = document.querySelector('#' + section + '-color input')
+    const freeTag =  document.querySelector('#' + section + '-free-tag')
+    const freeFormat =  document.querySelector('#' + section + '-free-format')
+    if (!freeFormat.getAttribute('aria-live')) {
+        freeFormat.setAttribute('aria-live', 'polite')
+    }
+    if (format) {
+        ipcRenderer.send('changeBackground', string, format)
+        input.setAttribute('aria-invalid', false)
+        freeTag.innerHTML = format.toUpperCase()
+        freeTag.style.display = "block"
+        freeFormat.innerHTML = format + ' fomat detected'
     } else {
-        classList.toggle('invalid', false)
-        classList.toggle('valid', false)
+        input.setAttribute('aria-invalid', true)
+        freeTag.style.display = "none"
+        freeFormat.innerHTML = null
     }
 }
 

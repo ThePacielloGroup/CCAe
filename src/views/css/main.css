@@ -43,29 +43,6 @@ section {
     display: none;
 }
 
-/* Tooltips*/
-.tooltip-container {
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-}
-
-[role="tooltip"] {
-    color: #ffffff;
-	display: none;
-	position: absolute;
-    top: 110%;
-    z-index: 999;
-    background-color: rgba(0, 0, 0, 0.8);
-    padding: 0.5rem;
-    font-size: 0.9rem;}
-
-input:focus + [role="tooltip"] {
-	display: block;
-}
-
 #contrast-ratio h2 {
     position: absolute;
 }
@@ -93,6 +70,18 @@ section#background-color .buttons {
 }
 
 /* Free text input */
+/* Tooltips*/
+section#foreground-color .container,
+section#background-color .container {
+    position: relative;
+    width: 18rem;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
 section#foreground-color input.free-value,
 section#background-color input.free-value  {
     appearance: none;
@@ -103,19 +92,25 @@ section#background-color input.free-value  {
     text-align: center;
     font-size: 1.4rem;
     color: inherit;
-    width: 12rem;
+    width: 100%;
 }
 
-section#foreground-color input.free-value.invalid,
-section#background-color input.free-value.invalid {
-    box-shadow: 0px 4px 0px 0px crimson;
+section#foreground-color .free-tag,
+section#background-color .free-tag  {
+    font-size: 1rem;
+    background-color: #1B75BC;
+    color: #ffffff;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.2rem;
+    position: absolute;
+    right: 5px;
+}
+
+section#foreground-color input[aria-invalid="true"].free-value,
+section#background-color input[aria-invalid="true"].free-value {
+    color: #000000;
     background: #ffffff url('../icons/warning.png') 98% 50% no-repeat;
     background-size: contain;
-}
-
-section#foreground-color input.free-value.valid,
-section#background-color input.free-value.valid {
-    box-shadow: 0px 4px 0px 0px green;
 }
 
 section#foreground-color .name-value,

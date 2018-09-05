@@ -39,36 +39,58 @@ app.on('ready', () => {
             {
                 label: 'Colour deficiencies',
                 click: () => deficiency.init()
-            }, {
-              label: 'Reload',
-              accelerator: 'CmdOrCtrl+R',
-              click (item, focusedWindow) {
-                if (focusedWindow) focusedWindow.reload()
-              }
-            },
-            {
-              label: 'Open Developer Tools',
-              accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
-              click (item, focusedWindow) {
-                if (focusedWindow) focusedWindow.webContents.openDevTools({mode: 'detach'})
-              }
             },
             {
               type: 'separator'
+            },/*
+            {
+                label: 'Actual Size',
+                accelerator: 'CommandOrControl+0',
+                nonNativeMacOSRole: true,
+                webContentsMethod: (webContents) => {
+                  webContents.setZoomLevel(0)
+                }
             },
             {
-              role: 'resetzoom'
+                label: 'Zoom In',
+                accelerator: 'CommandOrControl+Plus',
+                nonNativeMacOSRole: true,
+                webContentsMethod: (webContents) => {
+                  webContents.getZoomLevel((zoomLevel) => {
+                    webContents.setZoomLevel(zoomLevel + 0.5)
+                  })
+                }
             },
             {
-              role: 'zoomin'
-            },
-            {
-              role: 'zoomout'
-            },
-            {
-              type: 'separator'
-            }
+                label: 'Zoom Out',
+                accelerator: 'CommandOrControl+-',
+                nonNativeMacOSRole: true,
+                webContentsMethod: (webContents) => {
+                  webContents.getZoomLevel((zoomLevel) => {
+                    webContents.setZoomLevel(zoomLevel - 0.5)
+                  })
+                }
+            }*/
           ]
+        },
+        {
+            label: 'Development',
+            submenu: [
+                {
+                    label: 'Reload',
+                    accelerator: 'CmdOrCtrl+R',
+                    click (item, focusedWindow) {
+                        if (focusedWindow) focusedWindow.reload()
+                    }
+                },
+                {
+                    label: 'Open Developer Tools',
+                    accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
+                    click (item, focusedWindow) {
+                        if (focusedWindow) focusedWindow.webContents.openDevTools({mode: 'detach'})
+                    }
+                },
+            ]
         }
     ];
 

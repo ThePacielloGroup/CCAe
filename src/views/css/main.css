@@ -228,15 +228,6 @@ section#background-help {
     line-height: 1.5;
 }
 
-section#foreground-help code,
-section#background-help code {
-    font-size: 1.1em;
-    background: #ffffb3;
-    padding: 0.1em;
-    border: 1px #aaa solid;
-    border-radius: 3px;
-}
-
 /* Sample preview section */
 
 section#sample-preview .preview-box {

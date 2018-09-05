@@ -39,6 +39,14 @@ button:focus {
     outline-offset: -4px;
 }
 
+code {
+    font-size: 1.1em;
+    background: #ffffb3;
+    padding: 0.025em 0.3em;
+    border: 1px #aaa solid;
+    border-radius: 3px;
+}
+
 .sr-only {
     clip: rect(1px 1px 1px 1px) !important; /* IE 6/7 */
     clip: rect(1px, 1px, 1px, 1px) !important;

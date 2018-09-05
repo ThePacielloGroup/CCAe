@@ -154,7 +154,7 @@ class CCAController {
                 this[key].contrastRatioString = `${crr}:1`
                 if ((cr >= 6.95 && cr < 7) || (cr >= 4.45 && cr < 4.5) || (cr >= 2.95 && cr < 3)) {
                     let crr3 = Number(cr.toFixed(3)).toString()
-                    this[key].contrastRatioString = `Just below ${crr}:1 (${crr3}:1)`
+                    this[key].contrastRatioString = `just below ${crr}:1 (${crr3}:1)`
                 }
                 this[key].levelAA = 'regular'
                 this[key].levelAAA = 'regular'

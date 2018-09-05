@@ -146,33 +146,29 @@ function applyColor(section) {
 }
 
 function applyContrastRatio () {
-    let levelAA, levelAAico, levelAAA
-
-    Object.keys(sharedObject.deficiencies).forEach(function(key, index) {
-        if (key === 'normal') {
-            if (this[key].levelAA === 'large') {
-                levelAA = '<img src="icons/pass.svg" alt="" /> Pass for large text only <img src="icons/fail.svg" alt="" /> Fail for regular text'
-                levelAAico = '<img src="icons/pass.svg" alt="" /> Pass for UI components and graphical objects'
-            } else if (this[key].levelAA === 'regular') {
-                levelAA = '<img src="icons/pass.svg" alt="" /> Pass for large and regular text'
-                levelAAico = '<img src="icons/pass.svg" alt="" /> Pass for UI components and graphical objects'
-            } else { // Fail
-                levelAA = '<img src="icons/fail.svg" alt="" /> Fail for large and regular text'
-                levelAAico = '<img src="icons/fail.svg" alt="" /> Fail for UI components and graphical objects'
-            }
-            if (this[key].levelAAA === 'large') {
-                levelAAA = '<img src="icons/pass.svg" alt="" /> Pass for large text only <img src="icons/fail.svg" alt="" /> Fail for regular text'
-            } else if (this[key].levelAAA === 'regular') {
-                levelAAA = '<img src="icons/pass.svg" alt="" /> Pass for large and regular text'
-            } else { // Fail
-                levelAAA = '<img src="icons/fail.svg" alt="" /> Fail for large and regular text'
-            }
-            document.getElementById('contrast-ratio-value').innerHTML = this[key].contrastRatioString
-            document.getElementById('contrast-level-1-4-3').innerHTML = levelAA   
-            document.getElementById('contrast-level-1-4-11').innerHTML = levelAAico   
-            document.getElementById('contrast-level-1-4-6').innerHTML = levelAAA   
-        }
-    }, sharedObject.deficiencies)
+    let level_1_4_3, level_1_4_6, level_1_4_11
+    const normal = sharedObject.deficiencies.normal
+    if (normal.levelAA === 'large') {
+        level_1_4_3 = '<img src="icons/pass.svg" alt="" /> Pass for large text only <img src="icons/fail.svg" alt="" /> Fail for regular text'
+        level_1_4_11 = '<img src="icons/pass.svg" alt="" /> Pass for UI components and graphical objects'
+    } else if (normal.levelAA === 'regular') {
+        level_1_4_3 = '<img src="icons/pass.svg" alt="" /> Pass for large and regular text'
+        level_1_4_11 = '<img src="icons/pass.svg" alt="" /> Pass for UI components and graphical objects'
+    } else { // Fail
+        level_1_4_3 = '<img src="icons/fail.svg" alt="" /> Fail for large and regular text'
+        level_1_4_11 = '<img src="icons/fail.svg" alt="" /> Fail for UI components and graphical objects'
+    }
+    if (normal.levelAAA === 'large') {
+        level_1_4_6 = '<img src="icons/pass.svg" alt="" /> Pass for large text only <img src="icons/fail.svg" alt="" /> Fail for regular text'
+    } else if (normal.levelAAA === 'regular') {
+        level_1_4_6 = '<img src="icons/pass.svg" alt="" /> Pass for large and regular text'
+    } else { // Fail
+        level_1_4_6 = '<img src="icons/fail.svg" alt="" /> Fail for large and regular text'
+    }
+    document.getElementById('contrast-ratio-value').innerHTML = normal.contrastRatioString
+    document.getElementById('contrast-level-1-4-3').innerHTML = level_1_4_3
+    document.getElementById('contrast-level-1-4-6').innerHTML = level_1_4_6
+    document.getElementById('contrast-level-1-4-11').innerHTML = level_1_4_11   
 }
 
 function validateForegroundText(value) {

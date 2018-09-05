@@ -1,4 +1,4 @@
-const {ipcMain} = require('electron')
+const { ipcMain, clipboard } = require('electron')
 const Color = require('./CCAcolor')
 
 class CCAController {
@@ -13,7 +13,6 @@ class CCAController {
             this.updateDeficiencyForeground()
             this.updateDeficiencyBackground()
             this.updateContrastRatio()
-            this.updateAdvanced()
             this.sendEventToAll('foregroundColorChanged')        
             this.sendEventToAll('backgroundColorChanged')
         })
@@ -95,7 +94,6 @@ class CCAController {
         this.sharedObject.deficiencies.normal.foregroundColorMixed = this.sharedObject.deficiencies.normal.foregroundColor.mixed(this.sharedObject.deficiencies.normal.backgroundColor)
         this.updateDeficiencyForeground()
         this.updateContrastRatio()
-        this.updateAdvanced()
         this.sendEventToAll('foregroundColorChanged')    
     }
 
@@ -106,7 +104,6 @@ class CCAController {
             this.updateDeficiencyForeground()
         }
         this.updateContrastRatio()
-        this.updateAdvanced()
         if (this.sharedObject.deficiencies.normal.foregroundColor.alpha() !== 1) { // Then mixed has changed
             this.sendEventToAll('foregroundColorChanged')
         }
@@ -121,7 +118,6 @@ class CCAController {
         this.updateDeficiencyForeground()
         this.updateDeficiencyBackground()
         this.updateContrastRatio()
-        this.updateAdvanced()
         this.sendEventToAll('foregroundColorChanged')    
         this.sendEventToAll('backgroundColorChanged')        
     }
@@ -181,58 +177,8 @@ class CCAController {
         }, this.sharedObject.deficiencies)
     }
 
-    updateAdvanced() {
-        let normal = this.sharedObject.deficiencies.normal
-        if (this.sharedObject.options.displayLevelAAA) {
-            this.sharedObject.advanced = `Foreground: %F - Background: %B<br>
-            <br>
-            <br>
-            %AA<br>
-            %AAA<br>`    
-        } else {
-            this.sharedObject.advanced = `Foreground: %F - Background: %B<br>
-            <br>
-            <br>
-            %AA<br>`    
-        }
-
-        /*
-            %F : Foreground colour
-            %B : Background colour
-            %L : Luminosity level
-            %AA : AA result (regular, large, fail)
-            %AAA: AAA result (regular, large, fail)
-        */
-        this.sharedObject.advanced = this.sharedObject.advanced.replace('%F', normal.foregroundColorMixed.hex())
-        this.sharedObject.advanced = this.sharedObject.advanced.replace('%B', normal.backgroundColor.hex())
-        this.sharedObject.advanced = this.sharedObject.advanced.replace('%L', normal.contrastRatioString)
-
-        let levelAA = ''
-        if (normal.levelAA === 'large') {
-            levelAA = `Regular text failed at Level AA<br>Large text passed at Level AA`
-        } else if (normal.levelAA === 'regular') {
-            levelAA = `Regular text passed at Level AA<br>Large text passed at Level AA`
-        } else { // Fail
-            levelAA = 'Regular and Large text failed at Level AA'
-        }
-        this.sharedObject.advanced = this.sharedObject.advanced.replace('%AA', levelAA)
-
-        if (this.sharedObject.options.displayLevelAAA) {
-            let levelAAA = ''
-            if (normal.levelAAA === 'large') {
-                levelAAA = `Regular text failed at Level AAA<br>Large text passed at Level AAA`
-            } else if (normal.levelAAA === 'regular') {
-                levelAAA = `Regular text passed at Level AAA<br>Large text passed at Level AAA`
-            } else { // Fail
-                levelAAA = 'Regular and Large text failed at Level AAA'
-            }
-            this.sharedObject.advanced = this.sharedObject.advanced.replace('%AAA', levelAAA)
-        }
-    }
-
     optionDisplayLevelAAA(value) {
         this.sharedObject.options.displayLevelAAA = value
-        this.updateAdvanced()
         this.sendEventToAll('optionDisplayLevelAAAChanged')
     }
 
@@ -244,6 +190,41 @@ class CCAController {
                 browser.getWindow().webContents.send(event, params)
             }
         });
+    }
+
+    copyResults() {
+        let normal = this.sharedObject.deficiencies.normal
+        let level_1_4_3, level_1_4_6, level_1_4_11
+
+        if (normal.levelAA === 'large') {
+            level_1_4_3 = 'Pass for large text only. Fail for regular text'
+            level_1_4_11 = 'Pass for UI components and graphical objects'
+        } else if (normal.levelAA === 'regular') {
+            level_1_4_3 = 'Pass for large and regular text'
+            level_1_4_11 = 'Pass for UI components and graphical objects'
+        } else { // Fail
+            level_1_4_3 = 'Fail for large and regular text'
+            level_1_4_11 = 'Fail for UI components and graphical objects'
+        }
+        if (normal.levelAAA === 'large') {
+            level_1_4_6 = 'Pass for large text only. Fail for regular text'
+        } else if (normal.levelAAA === 'regular') {
+            level_1_4_6 = 'Pass for large and regular text'
+        } else { // Fail
+            level_1_4_6 = 'Fail for large and regular text'
+        }
+
+        let text = `Foreground: ${normal.foregroundColorMixed.hex()}
+Background: ${normal.backgroundColor.hex()}
+The contrast ratio is: ${normal.contrastRatioString}
+1.4.3 Contrast (Minimum) (AA)
+    ${level_1_4_3}
+1.4.6 Contrast (Enhanced) (AAA)
+    ${level_1_4_6}
+1.4.11 Non-text Contrast (AA)
+    ${level_1_4_11}`
+
+        clipboard.writeText(text)
     }
 }
 

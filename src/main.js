@@ -1,4 +1,4 @@
-const { app, globalShortcut, clipboard, BrowserWindow, Menu } = require('electron')
+const { app, Menu } = require('electron')
 const isDev = ('NODE_ENV' in process.env && process.env.NODE_ENV === 'dev')
 
 // This method will be called when Electron has finished
@@ -30,6 +30,18 @@ app.on('ready', () => {
                     checked: global.sharedObject.options.displayLevelAAA,
                     click: (item) => {
                         mainController.optionDisplayLevelAAA(item.checked)
+                    }
+                }
+            ]
+        },
+        {
+            label: 'Edit',
+            submenu: [
+                {
+                    label: 'Copy full results',
+                    accelerator: 'CommandOrControl+Shift+C',
+                    click: (item) => {
+                        mainController.copyResults()
                     }
                 }
             ]
@@ -103,11 +115,6 @@ app.on('ready', () => {
 
     const menu = Menu.buildFromTemplate(menuTemplate);
     Menu.setApplicationMenu(menu);
-
-    // Register a 'CommandOrControl+Alt+C' shortcut listener.
-    globalShortcut.register('CmdOrCtrl+Alt+C', () => {
-        copyResults()
-    })
 })
 
 // Quit when all windows are closed.
@@ -203,36 +210,6 @@ const browsers = require('./browsers')(__dirname)
 const {main, about, deficiency} = browsers
 
 const CCAController = require('./CCAcontroller')
-
-function copyResults() {
-    let normal = global.sharedObject.deficiencies.normal
-    let levelAA = ''
-    let levelAAA = ''
-    if (normal.levelAA === 'large') {
-        levelAA = `Regular text failed at Level AA
-    Large text passed at Level AA`
-    } else if (normal.levelAA === 'regular') {
-        levelAA = `Regular text passed at Level AA
-    Large text passed at Level AA`
-    } else { // Fail
-        levelAA = 'Regular and Large text failed at Level AA'
-    }
-    if (normal.levelAAA === 'large') {
-        levelAAA = `Regular text failed at Level AAA
-    Large text passed at Level AAA`
-    } else if (normal.levelAAA === 'regular') {
-        levelAAA = `Regular text passed at Level AAA
-    Large text passed at Level AAA`
-    } else { // Fail
-        levelAAA = 'Regular and Large text failed at Level AAA'
-    }
-
-    clipboard.writeText(`Foreground: ${normal.foregroundColorMixed.hex()}
-Background: ${normal.backgroundColor.hex()}
-The contrast ratio is: ${normal.contrastRatioString}
-${levelAA}
-${levelAAA}`)
-}
 
 const mainController = new CCAController(browsers, global.sharedObject)
 

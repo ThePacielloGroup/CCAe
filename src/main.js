@@ -38,7 +38,7 @@ app.on('ready', () => {
             label: 'Edit',
             submenu: [
                 {
-                    label: 'Copy full results',
+                    label: 'Copy results',
                     accelerator: 'CommandOrControl+Shift+C',
                     click: (item) => {
                         mainController.copyResults()

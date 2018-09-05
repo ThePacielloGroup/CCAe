@@ -148,21 +148,21 @@ function applyContrastRatio () {
     Object.keys(sharedObject.deficiencies).forEach(function(key, index) {
         if (key === 'normal') {
             if (this[key].levelAA === 'large') {
-                levelAA = '<img src="icons/pass.svg" alt="" /> Pass AA for large text only <img src="icons/fail.svg" alt="" /> Fail for regular text'
-                levelAAico = '<img src="icons/pass.svg" alt="" /> Pass AA for icons and UI components'
+                levelAA = '<img src="icons/pass.svg" alt="" /> Pass for large text only <img src="icons/fail.svg" alt="" /> Fail for regular text'
+                levelAAico = '<img src="icons/pass.svg" alt="" /> Pass for UI components and graphical objects'
             } else if (this[key].levelAA === 'regular') {
-                levelAA = '<img src="icons/pass.svg" alt="" /> Pass AA for large and regular text'
-                levelAAico = '<img src="icons/pass.svg" alt="" /> Pass AA for icons and UI components'
+                levelAA = '<img src="icons/pass.svg" alt="" /> Pass for large and regular text'
+                levelAAico = '<img src="icons/pass.svg" alt="" /> Pass for UI components and graphical objects'
             } else { // Fail
-                levelAA = '<img src="icons/fail.svg" alt="" /> Fail AA large and regular text'
-                levelAAico = '<img src="icons/fail.svg" alt="" /> Fail AA for icons and UI components'
+                levelAA = '<img src="icons/fail.svg" alt="" /> Fail for large and regular text'
+                levelAAico = '<img src="icons/fail.svg" alt="" /> Fail for UI components and graphical objects'
             }
             if (this[key].levelAAA === 'large') {
-                levelAAA = '<img src="icons/pass.svg" alt="" /> Pass AAA for large text only <img src="icons/fail.svg" alt="" /> Fail for regular text'
+                levelAAA = '<img src="icons/pass.svg" alt="" /> Pass for large text only <img src="icons/fail.svg" alt="" /> Fail for regular text'
             } else if (this[key].levelAAA === 'regular') {
-                levelAAA = '<img src="icons/pass.svg" alt="" /> Pass AAA for large and regular text'
+                levelAAA = '<img src="icons/pass.svg" alt="" /> Pass for large and regular text'
             } else { // Fail
-                levelAAA = '<img src="icons/fail.svg" alt="" /> Fail AAA large and regular text'
+                levelAAA = '<img src="icons/fail.svg" alt="" /> Fail for large and regular text'
             }
             document.getElementById('contrast-ratio-value').innerHTML = this[key].contrastRatioString
             document.getElementById('contrast-level-1-4-3').innerHTML = levelAA   

@@ -9,7 +9,7 @@
   <body>
     <main>
       <h1 class="sr-only">CCA Main windows</h1>
-      <section id="contrast-ratio">
+      <section id="contrast-ratio" aria-live="polite" aria-atomic="true">
         <h2>Contrast ratio</h2>
         <div id="contrast-ratio-value">99.9:1</div>
       </section>
@@ -143,20 +143,20 @@
       <section id="results">
         <h2>WCAG 2.1 Results</h2>
         <details>
-          <summary><h3>1.4.3 Contrast (Minimum)</h3></summary>
-          <p>Text (and images of text) have a contrast ratio of at least <strong>4.5:1</strong>, except if the text is pure decoration. Larger scale text (at least 18 point or 14 point bold) or images of text can have a contrast ratio of <strong>3:1</strong></p>
+          <summary><h3>1.4.3 Contrast (Minimum) (AA)</h3></summary>
+          <p>Text (including images of text) has a contrast ratio of at least <strong>4.5:1</strong> for "regular" sized text and at least <strong>3:1</strong> for large scale text (at least 18 point or 14 point bold), unless the text is purely decorative.</p>
         </details>
-        <div id="contrast-level-1-4-3" class="contrast-level">Pass AA</div>
+        <div id="contrast-level-1-4-3" class="contrast-level">Pass</div>
         <details class="levelAAA">
-          <summary><h3>1.4.6 Contrast (Enhanced)</h3></summary>
-          <p>Text (and images of text) have a contrast ratio of at least <strong>7:1</strong>, except if the text is pure decoration. Larger scale text (at least 18 point or 14 point bold) or images of text can have a contrast ratio of <strong>4.5:1</strong></p>
+          <summary><h3>1.4.6 Contrast (Enhanced) (AAA)</h3></summary>
+          <p>Text (including images of text) has a contrast ratio of at least <strong>7:1</strong> for "regular" sized text and at least <strong>4.5:1</strong> for large scale text (at least 18 point or 14 point bold), unless the text is purely decorative.</p>
         </details>
-        <div id="contrast-level-1-4-6"  class="contrast-level levelAAA">Pass AAA</div>
+        <div id="contrast-level-1-4-6"  class="contrast-level levelAAA">Pass</div>
         <details>
-          <summary><h3>1.4.11 Non-text Contrast</h3></summary>
-          <p>The visual presentation of the following have a contrast ratio of at least <strong>3:1</strong> against adjacent color(s)</p>
+          <summary><h3>1.4.11 Non-text Contrast (AA)</h3></summary>
+          <p>The visual presentation of user interface components (their states – including focus indication – and boundaries) and graphical objects has a contrast ratio of at least <strong>3:1</strong> against adjacent color(s)</p>
         </details>
-        <div id="contrast-level-1-4-11" class="contrast-level">Pass AA</div>
+        <div id="contrast-level-1-4-11" class="contrast-level">Pass/div>
       </section>
     </main>
     <script>

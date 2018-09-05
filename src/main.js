@@ -1,4 +1,5 @@
 const { app, globalShortcut, clipboard, BrowserWindow, Menu } = require('electron')
+const isDev = ('NODE_ENV' in process.env && process.env.NODE_ENV === 'dev')
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -72,27 +73,33 @@ app.on('ready', () => {
                 }
             }*/
           ]
-        },
-        {
-            label: 'Development',
-            submenu: [
-                {
-                    label: 'Reload',
-                    accelerator: 'CmdOrCtrl+R',
-                    click (item, focusedWindow) {
-                        if (focusedWindow) focusedWindow.reload()
-                    }
-                },
-                {
-                    label: 'Open Developer Tools',
-                    accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
-                    click (item, focusedWindow) {
-                        if (focusedWindow) focusedWindow.webContents.openDevTools({mode: 'detach'})
-                    }
-                },
-            ]
         }
     ];
+
+    if (isDev) {
+        menuTemplate.push(
+            {
+                label: 'Development',
+                submenu: [
+                    {
+                        label: 'Reload',
+                        accelerator: 'CmdOrCtrl+R',
+                        click (item, focusedWindow) {
+                            if (focusedWindow) focusedWindow.reload()
+                        }
+                    },
+                    {
+                        label: 'Open Developer Tools',
+                        accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
+                        click (item, focusedWindow) {
+                            if (focusedWindow) focusedWindow.webContents.openDevTools({mode: 'detach'})
+                        }
+                    },
+                ],
+                visible: false
+            }
+        )
+    }
 
     const menu = Menu.buildFromTemplate(menuTemplate);
     Menu.setApplicationMenu(menu);

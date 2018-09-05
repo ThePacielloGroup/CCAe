@@ -20,6 +20,7 @@ module.exports = (dirname) => {
       resizable: false,
       focusable: true,
       alwaysOnTop: true,
+      autoHideMenuBar: true,
     })
 
     win.loadURL(url.format({

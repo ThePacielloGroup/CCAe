@@ -5,7 +5,7 @@
   "main": "src/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=dev electron .",
+    "start": "cross-env NODE_ENV=dev electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder --config cca-build.json",
     "dist-windows": "electron-builder --config cca-build.json --win nsis",
@@ -14,6 +14,7 @@
   "author": "Cédric Trévisan <ctrevisan@paciellogroup.com>",
   "license": "GPL-3.0",
   "devDependencies": {
+    "cross-env": "^5.2.0",
     "electron": "1.8.8",
     "electron-builder": "20.28.3"
   },

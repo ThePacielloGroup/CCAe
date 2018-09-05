@@ -53,6 +53,7 @@ section {
 }
 
 /* Color sections */
+
 section#foreground-color, 
 section#background-color {
     display: flex;
@@ -70,7 +71,7 @@ section#background-color .buttons {
 }
 
 /* Free text input */
-/* Tooltips*/
+
 section#foreground-color .container,
 section#background-color .container {
     position: relative;
@@ -185,6 +186,7 @@ section#background-color button[aria-pressed=true] {
 }
 
 /* RGB input sections */
+
 section#foreground-rgb .sync,
 section#background-rgb .sync {
     text-align: right;
@@ -218,6 +220,23 @@ section#background-rgb input[type=number]::-webkit-outer-spin-button {
     margin: 0;
 }
 
+/* Help section */
+
+section#foreground-help,
+section#background-help {
+    background: #f5f5f5;
+    line-height: 1.5;
+}
+
+section#foreground-help code,
+section#background-help code {
+    font-size: 1.1em;
+    background: #ffffb3;
+    padding: 0.1em;
+    border: 1px #aaa solid;
+    border-radius: 3px;
+}
+
 /* Sample preview section */
 
 section#sample-preview .preview-box {
@@ -245,6 +264,7 @@ section#sample-preview .icon svg {
 }
 
 /* Results section */
+
 section#results {
     background-color: #ffffff;
 }

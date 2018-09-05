@@ -124,9 +124,12 @@ function applyColor(section) {
     if (section === 'foreground') {
         document.querySelector('#' + section + '-rgb .alpha input[type=range]').value = color.alpha()
         document.querySelector('#' + section + '-rgb .alpha input[type=number]').value = color.alpha()    
+        document.querySelector('#sample-preview .text').style.color = colorRGB
+        document.querySelector('#sample-preview .icon svg').style.fill = colorRGB    
+    } else {
+        document.querySelector('#sample-preview .text').style.background = colorRGB
+        document.querySelector('#sample-preview .icon').style.background = colorRGB
     }
-    document.querySelector('#sample-preview .text').style.color = colorRGB
-    document.querySelector('#sample-preview .icon svg').style.fill = colorRGB
 
     /* Only change the text input if this isn't the current focused element */
     const textInput = document.querySelector('#' + section + '-color input.free-value')

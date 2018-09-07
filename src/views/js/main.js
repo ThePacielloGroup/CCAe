@@ -60,6 +60,8 @@ function initEvents () {
     document.querySelector('#background-color .rgb').onclick = function() {showHide(this)}
     document.querySelector('#foreground-color input').oninput = function() {validateForegroundText(this.value)}
     document.querySelector('#background-color input').oninput = function() {validateBackgroundText(this.value)}
+    document.querySelector('#foreground-color input').onblur = function() {leaveText('foreground', this)}
+    document.querySelector('#background-color input').onblur = function() {leaveText('background', this)}
     document.querySelector('#foreground-color .switch').onclick = function() {ipcRenderer.send('switchColors')}
     document.querySelector('#foreground-color .help').onclick = function() {showHide(this)}
     document.querySelector('#background-color .help').onclick = function() {showHide(this)}
@@ -225,7 +227,7 @@ function displayValidate(section, format, string) {
         input.setAttribute('aria-invalid', false)
         freeTag.innerHTML = format.toUpperCase()
         freeTag.style.display = "block"
-        freeFormat.innerHTML = format + ' fomat detected'
+        freeFormat.innerHTML = format + ' format detected'
     } else {
         input.setAttribute('aria-invalid', true)
         freeTag.style.display = "none"
@@ -235,4 +237,13 @@ function displayValidate(section, format, string) {
 
 function displayLevelAAA() {
     document.body.classList.toggle('hideLevelAAA', !sharedObject.options.displayLevelAAA)
+}
+
+function leaveText(section, el) {
+    const freeFormat =  document.querySelector('#' + section + '-free-format')
+    if (freeFormat.getAttribute('aria-live')) {
+        if (el.getAttribute('aria-invalid') === 'true') {
+            freeFormat.innerHTML = 'Error, Incorrect ' + section + ' format'
+        }    
+    }
 }

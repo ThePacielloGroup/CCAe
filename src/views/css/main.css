@@ -101,7 +101,7 @@ section#background-color .free-tag  {
     font-size: 1rem;
     background-color: #1B75BC;
     color: #ffffff;
-    padding: 0.2rem 0.5rem;
+    padding: 0.2rem 0.5rem 0.05rem 0.5rem;
     border-radius: 0.2rem;
     position: absolute;
     right: 5px;

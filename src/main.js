@@ -50,12 +50,12 @@ app.on('ready', () => {
           label: 'View',
           submenu: [
             {
-                label: 'Colour deficiencies',
+                label: 'Colour deficiency simulation',
                 click: () => deficiency.init()
-            },
+            },/*
             {
               type: 'separator'
-            },/*
+            },
             {
                 label: 'Actual Size',
                 accelerator: 'CommandOrControl+0',

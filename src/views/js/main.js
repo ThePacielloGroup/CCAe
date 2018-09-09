@@ -60,6 +60,8 @@ function initEvents () {
     document.querySelector('#background-color .rgb').onclick = function() {showHide(this)}
     document.querySelector('#foreground-color input').oninput = function() {validateForegroundText(this.value)}
     document.querySelector('#background-color input').oninput = function() {validateBackgroundText(this.value)}
+    document.querySelector('#foreground-color input').onfocus = function() {this.select()}
+    document.querySelector('#background-color input').onfocus = function() {this.select()}
     document.querySelector('#foreground-color input').onblur = function() {leaveText('foreground', this)}
     document.querySelector('#background-color input').onblur = function() {leaveText('background', this)}
     document.querySelector('#foreground-color .switch').onclick = function() {ipcRenderer.send('switchColors')}

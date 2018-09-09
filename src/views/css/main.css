@@ -282,6 +282,15 @@ section#results details p {
     margin: 0;
 }
 
+section#results details p small {
+    background: #dadada;
+    color: #222;
+    padding: 0.1em 0.25em;
+    border: 1px #666 solid;
+    border-radius: 2px;
+    font-size: 0.75em;
+}
+
 section#results .contrast-level {
     margin-left: 2.5rem;
 }

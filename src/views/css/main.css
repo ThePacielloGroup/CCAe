@@ -101,7 +101,7 @@ section#background-color .free-tag  {
     font-size: 1rem;
     background-color: #1B75BC;
     color: #ffffff;
-    padding: 0.2rem 0.5rem;
+    padding: 0.2rem 0.5rem 0.1rem 0.5rem;
     border-radius: 0.2rem;
     position: absolute;
     right: 5px;
@@ -187,23 +187,28 @@ section#background-color button[aria-pressed=true] {
 
 /* RGB input sections */
 
+section#foreground-rgb,
+section#background-rgb {
+    border-bottom: 1px #ddd solid;
+}
+
 section#foreground-rgb .sync,
 section#background-rgb .sync {
-    text-align: right;
+    margin: 0 0 0.5rem 0;
 }
 
 section#foreground-rgb .slider,
 section#background-rgb .slider {
     display: grid;
     grid-template-columns: 4rem 1fr 2.5rem;
+    margin-bottom: 1px;
 }
 
 section#foreground-rgb input[type=number],
 section#background-rgb input[type=number] {
     width: 2.5rem;
     text-align: center;
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 0.8rem;
 }
 section#foreground-rgb input[type=range],
 section#background-rgb input[type=range] {
@@ -218,6 +223,16 @@ section#background-rgb input[type=number]::-webkit-outer-spin-button {
     -moz-appearance: none;
     appearance: none;
     margin: 0;
+}
+
+.sync label,
+.slider label {
+    font-size: 0.8em;
+}
+
+.sync input {
+    margin: 0 0 0.05em 0;
+    vertical-align: text-bottom;
 }
 
 /* Help section */
@@ -280,6 +295,15 @@ section#results details[open] summary {
 section#results details p {
     padding: 0.5rem 0.5rem 0.5rem 2rem;
     margin: 0;
+}
+
+section#results details p small {
+    background: #dadada;
+    color: #222;
+    padding: 0.1em 0.25em;
+    border: 1px #666 solid;
+    border-radius: 2px;
+    font-size: 0.75em;
 }
 
 section#results .contrast-level {

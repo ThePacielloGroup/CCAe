@@ -22,19 +22,6 @@ app.on('ready', () => {
             ]
         },
         {
-            label: 'Options',
-            submenu: [
-                {
-                    label: 'Display level AAA',
-                    type: 'checkbox',
-                    checked: global.sharedObject.options.displayLevelAAA,
-                    click: (item) => {
-                        mainController.optionDisplayLevelAAA(item.checked)
-                    }
-                }
-            ]
-        },
-        {
             label: 'Edit',
             submenu: [
                 {
@@ -202,7 +189,6 @@ global.sharedObject = {
     },
     advanced : '',
     options : {
-        displayLevelAAA : false
     }
 }
 

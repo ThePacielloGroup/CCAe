@@ -39,10 +39,6 @@ section {
     background-color: #ececec;
 }
 
-.hideLevelAAA .levelAAA {
-    display: none;
-}
-
 #contrast-ratio h2 {
     position: absolute;
 }

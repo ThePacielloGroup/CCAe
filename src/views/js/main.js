@@ -8,7 +8,6 @@ ipcRenderer.on('init', event => {
     applyColor('foreground')
     applyColor('background')
     applyContrastRatio()
-    displayLevelAAA()
     var mainHeight = document.querySelector('main').clientHeight;
     ipcRenderer.send('height-changed', mainHeight)
     initEvents()
@@ -22,12 +21,6 @@ ipcRenderer.on('foregroundColorChanged', event => {
 ipcRenderer.on('backgroundColorChanged', event => {
     applyColor('background')
     applyContrastRatio()
-})
-
-ipcRenderer.on('optionDisplayLevelAAAChanged', event => {
-    displayLevelAAA()
-    var mainHeight = document.querySelector('main').clientHeight;
-    ipcRenderer.send('height-changed', mainHeight)
 })
 
 ipcRenderer.on('foregroundPickerToggelled', (event, state) => {
@@ -235,10 +228,6 @@ function displayValidate(section, format, string) {
         freeTag.style.display = "none"
         freeFormat.innerHTML = null
     }
-}
-
-function displayLevelAAA() {
-    document.body.classList.toggle('hideLevelAAA', !sharedObject.options.displayLevelAAA)
 }
 
 function leaveText(section, el) {

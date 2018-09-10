@@ -177,11 +177,6 @@ class CCAController {
         }, this.sharedObject.deficiencies)
     }
 
-    optionDisplayLevelAAA(value) {
-        this.sharedObject.options.displayLevelAAA = value
-        this.sendEventToAll('optionDisplayLevelAAAChanged')
-    }
-
     sendEventToAll(event, params) {
         const browsers = this.browsers
         Object.keys(browsers).map(function(key, index) {

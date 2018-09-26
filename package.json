@@ -7,9 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=dev electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder --config cca-build.json",
-    "dist-windows": "electron-builder --config cca-build.json --win nsis",
-    "postinstall": "electron-builder install-app-deps"
+    "dist": "electron-builder",
+    "dist-windows": "electron-builder --win nsis",
+    "postinstall": "electron-builder install-app-deps",
+    "publish": ""
   },
   "author": "Cédric Trévisan <ctrevisan@paciellogroup.com>",
   "license": "GPL-3.0",
@@ -27,5 +28,24 @@
     "color-blind": "^0.1.1",
     "focus-visible": "^4.1.5",
     "robotjs": "git+https://github.com/toinane/robotjs.git"
+  },
+  "build": {
+    "appId": "com.electron.cca",
+    "productName": "CCA",
+    "compression": "maximum",
+    "copyright": "Copyright © 2018 TPG",
+    "directories": {
+    },
+    "files": [
+      "**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "build/icon.icns",
+      "type": "distribution"
+    },
+    "win": {
+      "icon": "build/icon.ico"
+    }
   }
 }

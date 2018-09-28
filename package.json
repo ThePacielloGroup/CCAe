@@ -49,6 +49,9 @@
     },
     "win": {
       "icon": "build/icon.ico"
-    }
+    },
+    "nsis": {
+      "artifactName": "${name}-Setup-${version}.${ext}"
+    }   
   }
 }

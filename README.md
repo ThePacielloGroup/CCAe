@@ -24,8 +24,7 @@ For further information, see [The Paciello Group's Colour Contrast Analyser reso
 - Windows: Changing slider values is not announced in NVDA (see https://github.com/ThePacielloGroup/CCAe/issues/37)
 
 ## Contributing
-If you have an idea or if you found a bug, please submit a GitHub issue so that
-we can track it.  Please search the existing issues before submitting to
+If you have an idea for a new feature, or if you found a bug, please submit a GitHub issue. Please search the existing issues before submitting to
 prevent duplicates.
 
 If you want to contribute, please send a pull request and someone will review your code. Please
@@ -34,7 +33,7 @@ Guidelines](CONTRIBUTING.md)
 before sending your pull request.
 
 ## Contact
-If you have any questions, feel free to make an issue here on GitHub.  
+If you have any questions, feel free to open an issue here on GitHub.  
 
 ## License
 [![GNU GPLv3 Image](https://www.gnu.org/graphics/gplv3-127x51.png)](http://www.gnu.org/licenses/gpl-3.0.en.html)  

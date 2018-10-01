@@ -119,7 +119,11 @@ function applyColor(section) {
     document.querySelector('#' + section + '-rgb .blue input[type=number]').value = color.blue()
     if (section === 'foreground') {
         document.querySelector('#' + section + '-rgb .alpha input[type=range]').value = color.alpha()
-        document.querySelector('#' + section + '-rgb .alpha input[type=number]').value = color.alpha()    
+        if (document.activeElement != document.querySelector('#' + section + '-rgb .alpha input[type=number]')) {
+            /* only force update of the alpha number input if it's not current;y focused
+               as otherwise, when user enters "0.", it's corrected to "0" and prevents correct text entry */
+            document.querySelector('#' + section + '-rgb .alpha input[type=number]').value = color.alpha()
+        }  
         document.querySelector('#sample-preview .text').style.color = colorRGB
         document.querySelector('#sample-preview .icon svg').style.fill = colorRGB    
     } else {

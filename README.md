@@ -22,6 +22,7 @@ For further information, see [The Paciello Group's Colour Contrast Analyser reso
 - Windows: Application menus aren't keyboard accessible (see https://github.com/ThePacielloGroup/CCAe/issues/49)
 - Windows/macOS: Zoom feature does't resize the application window (see https://github.com/ThePacielloGroup/CCAe/issues/38)
 - Windows: Changing slider values is not announced in NVDA (see https://github.com/ThePacielloGroup/CCAe/issues/37)
+- Windows/macOS: issue with colour picker when working with multiple displays at different density (see https://github.com/ThePacielloGroup/CCAe/issues/54)
 
 ## Contributing
 If you have an idea for a new feature, or if you found a bug, please submit a GitHub issue. Please search the existing issues before submitting to

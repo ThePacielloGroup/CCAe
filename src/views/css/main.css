@@ -54,7 +54,7 @@ section#foreground-color,
 section#background-color {
     display: flex;
     align-items: center;
-    min-height: 5.4rem;
+    min-height: 6rem;
     font-size: 1.4rem;
     justify-content: center;
 }

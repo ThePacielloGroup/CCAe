@@ -71,7 +71,7 @@ section#background-color .buttons {
 section#foreground-color .container,
 section#background-color .container {
     position: relative;
-    width: 18rem;
+    width: 24rem;
     margin: auto;
     display: flex;
     justify-content: center;
@@ -84,7 +84,7 @@ section#background-color input.free-value  {
     appearance: none;
     -webkit-appearance: none;
     border: 1px #cccccc dashed;
-    padding: 0.2rem 2.5rem;
+    padding: 0.2rem 4.5rem;
     background: transparent;
     text-align: center;
     font-size: 1.4rem;

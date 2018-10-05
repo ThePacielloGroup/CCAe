@@ -52,4 +52,7 @@ To build a new version:
   npm run dist-windows
 ```
 
+The CHANGELOG.md is generated using Gren
+https://github.com/github-tools/github-release-notes
+
 Other commands are available in the `package.json` file.

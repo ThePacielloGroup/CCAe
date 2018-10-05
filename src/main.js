@@ -1,7 +1,7 @@
 const { app, Menu } = require('electron')
 const isDev = ('NODE_ENV' in process.env && process.env.NODE_ENV === 'dev')
 
-const { checkForUpdates } = require('./update.js')
+const { checkForUpdates, installUpdate } = require('./update.js')
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -17,8 +17,24 @@ app.on('ready', () => {
                     label: 'About CCA',
                     click: () => about.init()
                 }, {
-                    label: 'Check for updates...',
-                    click: checkForUpdates
+                    id: 'menuUpdateChecking',
+                    label: 'Checking for updates...',
+                    enabled: false
+                }, {
+                    id: 'menuUpdateNotFound',
+                    label: 'Current version is up-to-date',
+                    enabled: false,
+                    visible: false
+                }, {
+                    id: 'menuUpdateFound',
+                    label: 'Found updates, downloading...',
+                    enabled: false,
+                    visible: false
+                }, {
+                    id: 'menuUpdateInstall',
+                    label: 'Install update',
+                    click: installUpdate,
+                    visible: false
                 }, {
                     type: 'separator'
                 }, {
@@ -107,6 +123,7 @@ app.on('ready', () => {
 
     const menu = Menu.buildFromTemplate(menuTemplate);
     Menu.setApplicationMenu(menu);
+    checkForUpdates()
 })
 
 // Quit when all windows are closed.

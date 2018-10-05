@@ -37,7 +37,7 @@ app.on('ready', () => {
           label: 'View',
           submenu: [
             {
-                label: 'Colour deficiency simulation',
+                label: 'Colour blindness simulation',
                 click: () => deficiency.init()
             },/*
             {

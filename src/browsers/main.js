@@ -1,4 +1,4 @@
-const {BrowserWindow, shell, Menu, MenuItem} = require('electron')
+const {app, BrowserWindow, shell, Menu, MenuItem} = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -44,6 +44,7 @@ module.exports = (dirname) => {
             // in an array if your app supports multi windows, this is the time
             // when you should delete the corresponding element.
             mainWindow = null
+            app.quit()
         })
 
         mainWindow.webContents.on('new-window', function(e, url) {

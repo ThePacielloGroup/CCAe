@@ -53,8 +53,7 @@ function initEvents () {
     document.querySelector('#background-color .rgb').onclick = function() {showHide(this)}
     document.querySelector('#foreground-color input').oninput = function() {validateForegroundText(this.value)}
     document.querySelector('#background-color input').oninput = function() {validateBackgroundText(this.value)}
-    document.querySelector('#foreground-color input').onfocus = function() {this.select()}
-    document.querySelector('#background-color input').onfocus = function() {this.select()}
+    document.querySelectorAll('input[type=text], input[type=number]').forEach(function(el) { el.onfocus = function() {this.select()} })
     document.querySelector('#foreground-color input').onblur = function() {leaveText('foreground', this)}
     document.querySelector('#background-color input').onblur = function() {leaveText('background', this)}
     document.querySelector('#foreground-color .switch').onclick = function() {ipcRenderer.send('switchColors')}
@@ -120,7 +119,11 @@ function applyColor(section) {
     document.querySelector('#' + section + '-rgb .blue input[type=number]').value = color.blue()
     if (section === 'foreground') {
         document.querySelector('#' + section + '-rgb .alpha input[type=range]').value = color.alpha()
-        document.querySelector('#' + section + '-rgb .alpha input[type=number]').value = color.alpha()    
+        if (document.activeElement != document.querySelector('#' + section + '-rgb .alpha input[type=number]')) {
+            /* only force update of the alpha number input if it's not current;y focused
+               as otherwise, when user enters "0.", it's corrected to "0" and prevents correct text entry */
+            document.querySelector('#' + section + '-rgb .alpha input[type=number]').value = color.alpha()
+        }  
         document.querySelector('#sample-preview .text').style.color = colorRGB
         document.querySelector('#sample-preview .icon svg').style.fill = colorRGB    
     } else {

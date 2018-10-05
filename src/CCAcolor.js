@@ -83,7 +83,7 @@ Color.isHexA = function(string) {
 }
 
 Color.isRGB = function(string) {
-    let rgb = /^rgb?\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*?\)$/;
+    let rgb = /^rgb\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*?\)$/;
     return string.match(rgb)
 }
 
@@ -93,7 +93,7 @@ Color.isRGBA = function(string) {
 }
 
 Color.isHSL = function(string) {
-    let hsl = /^hsl?\(\s*([+-]?(?:\d*\.)?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*?\)$/;
+    let hsl = /^hsl\(\s*([+-]?(?:\d*\.)?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*?\)$/;
     return string.match(hsl)
 }
 

@@ -81,12 +81,22 @@ class CCAController {
     }
 
     updateForegroundFromString(event, stringColor, format) {
-        this.sharedObject.deficiencies.normal.foregroundColor = Color(stringColor)
+        try {
+            this.sharedObject.deficiencies.normal.foregroundColor = Color(stringColor)
+        }
+        catch(error) {
+            console.error(error)
+        }
         this.updateGlobalF()
     }
 
     updateBackgroundFromString(event, stringColor, format) {
-        this.sharedObject.deficiencies.normal.backgroundColor = Color(stringColor)
+        try {
+            this.sharedObject.deficiencies.normal.backgroundColor = Color(stringColor)
+        }
+        catch(error) {
+            console.error(error)
+        }
         this.updateGlobalB()
     }
 

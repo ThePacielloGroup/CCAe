@@ -1,13 +1,14 @@
 # Changelog
 
 ## Known issues
-- Windows: Application menus aren't keyboard accessible (see https://github.com/ThePacielloGroup/CCAe/issues/49)
-- Windows/macOS: Zoom feature does't resize the application window (see https://github.com/ThePacielloGroup/CCAe/issues/38)
-- Windows: Changing slider values is not announced in NVDA (see https://github.com/ThePacielloGroup/CCAe/issues/37)
-- Windows/macOS: issue with colour picker when working with multiple displays at different density (see https://github.com/ThePacielloGroup/CCAe/issues/54)
+- [Windows: Application menus aren't keyboard accessible](https://github.com/ThePacielloGroup/CCAe/issues/49)
+- [Windows/macOS: Zoom feature doesn't resize the application window](https://github.com/ThePacielloGroup/CCAe/issues/38)
+- [Windows: Changing slider values is not announced in NVDA](https://github.com/ThePacielloGroup/CCAe/issues/37)
+- [Windows/macOS: issue with colour picker when working with multiple displays at different density](https://github.com/ThePacielloGroup/CCAe/issues/54)
+- [Windows: Downloaded installer from GitHub triggers Windows Defender SmartScreen](https://github.com/ThePacielloGroup/CCAe/issues/66)
 
 ## v1.0.0-beta2 (05/10/2018)
-### New Features
+### New features
 - [Auto update](https://github.com/ThePacielloGroup/CCAe/commit/57f8d6a422cdafe33370182d9317c12b61804102)
 ### Enhancements
 - [Close app when main window is closed (Closes #64)](https://github.com/ThePacielloGroup/CCAe/commit/eb61988f462db9f8c6770ce3933046e4226b31bf)
@@ -15,7 +16,7 @@
 - [Updated README + CONTRIBUTING](https://github.com/ThePacielloGroup/CCAe/commit/d28eb30f90baf9b7e4623b398565f1d8a1c37564)
 - [Make all text/number inputs auto-select they content](https://github.com/ThePacielloGroup/CCAe/commit/34bbd5f7e194f9a4bad62da3488042644ab3bc6b)
 
-### Bugs Fixes
+### Bug fixes
 - [Fix colour format check regexps](https://github.com/ThePacielloGroup/CCAe/commit/158b7f32220091e0dbfd4d19dbaba626aff8ea6a)
 - [Prevent uncaught exception for specific incorrect foreground/background colour entry](https://github.com/ThePacielloGroup/CCAe/commit/1b225aeaba0136cf79da36e8a3c6091b9838960e)
 - [Update README.md](https://github.com/ThePacielloGroup/CCAe/commit/f8ee06562a8b87b4f6852cb9552cf687ba920e7a) - @Patrick H. Lauke
@@ -31,7 +32,7 @@
 - [Focus text input contents on focus](https://github.com/ThePacielloGroup/CCAe/commit/5ed33fb9925d17d583995dbe66e35fef8a763dba)
 - [Added AT announcement when user enter invalid color format (Closes #39)](https://github.com/ThePacielloGroup/CCAe/commit/0b12a3463c82b5166a3ff8202893232f02b8bdaa)
 - [Make contrast ratio section an atomic live region](https://github.com/ThePacielloGroup/CCAe/commit/8b3e3ebb11bf8d87526615afca8a807f5ffd4aec)
-### Bugs Fixes
+### Bug fixes
 - [Fixed preview background (Closes #48)](https://github.com/ThePacielloGroup/CCAe/commit/8dcd558a1c9b02af6661b96f167b4eb5e3b548b0)
 - [Fix displayValidate to actually change foreground following input](https://github.com/ThePacielloGroup/CCAe/commit/ae38b872257909fb3519cb4811ddf3126881bf58)
 - [Explicitly set a styled focus indication outline](https://github.com/ThePacielloGroup/CCAe/commit/ea0a06bb730dc867b3300036434728bc4e0dccb6)

@@ -42,13 +42,13 @@ function initEvents () {
     document.querySelector('#background-rgb .red input[type=range]').oninput = function() {sliderOnInput('background', 'red', this.value)}
     document.querySelector('#background-rgb .green input[type=range]').oninput = function() {sliderOnInput('background', 'green', this.value)}
     document.querySelector('#background-rgb .blue input[type=range]').oninput = function() {sliderOnInput('background', 'blue', this.value)}
-    document.querySelector('#foreground-rgb .red input[type=number]').oninput = function() {ipcRenderer.send('changeRGBComponent', 'foreground', 'red', this.value)}
-    document.querySelector('#foreground-rgb .green input[type=number]').oninput = function() {ipcRenderer.send('changeRGBComponent', 'foreground', 'green', this.value)}
-    document.querySelector('#foreground-rgb .blue input[type=number]').oninput = function() {ipcRenderer.send('changeRGBComponent', 'foreground', 'blue', this.value)}
-    document.querySelector('#foreground-rgb .alpha input[type=number]').oninput = function() {ipcRenderer.send('changeRGBComponent', 'foreground', 'alpha', this.value)}
-    document.querySelector('#background-rgb .red input[type=number]').oninput = function() {ipcRenderer.send('changeRGBComponent', 'background', 'red', this.value)}
-    document.querySelector('#background-rgb .green input[type=number]').oninput = function() {ipcRenderer.send('changeRGBComponent', 'background', 'green', this.value)}
-    document.querySelector('#background-rgb .blue input[type=number]').oninput = function() {ipcRenderer.send('changeRGBComponent', 'background', 'blue', this.value)}
+    document.querySelector('#foreground-rgb .red input[type=number]').oninput = function() {numberOnInput('foreground', 'red', this.value)}
+    document.querySelector('#foreground-rgb .green input[type=number]').oninput = function() {numberOnInput('foreground', 'green', this.value)}
+    document.querySelector('#foreground-rgb .blue input[type=number]').oninput = function() {numberOnInput('foreground', 'blue', this.value)}
+    document.querySelector('#foreground-rgb .alpha input[type=number]').oninput = function() {numberOnInput('foreground', 'alpha', this.value)}
+    document.querySelector('#background-rgb .red input[type=number]').oninput = function() {numberOnInput('background', 'red', this.value)}
+    document.querySelector('#background-rgb .green input[type=number]').oninput = function() {numberOnInput('background', 'green', this.value)}
+    document.querySelector('#background-rgb .blue input[type=number]').oninput = function() {numberOnInput('background', 'blue', this.value)}
     document.querySelector('#foreground-color .rgb').onclick = function() {showHide(this)}
     document.querySelector('#background-color .rgb').onclick = function() {showHide(this)}
     document.querySelector('#foreground-color input').oninput = function() {validateForegroundText(this.value)}
@@ -72,6 +72,11 @@ function initEvents () {
 function sliderOnInput(group, color, value) {
     let sync = document.querySelector('#' + group + '-rgb .sync input[type=checkbox]').checked
     ipcRenderer.send('changeRGBComponent', group, color, value, sync)
+}
+
+function numberOnInput(group, color, value) {
+    // let sync = document.querySelector('#' + group + '-rgb .sync input[type=checkbox]').checked
+    ipcRenderer.send('changeRGBComponent', group, color, value)
 }
 
 function showHide(el) {

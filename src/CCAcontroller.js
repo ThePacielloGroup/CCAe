@@ -49,16 +49,28 @@ class CCAController {
             } else if (component === "blue") {
                 dist = value - color.blue()
             }    
-            let red = color.red() + dist
-            if (red > 255) red = 255
-            if (red < 0) red = 0  
-            let green = color.green() + dist
-            if (green > 255) green = 255
-            if (green < 0) green = 0  
-            let blue = color.blue() + dist
-            if (blue > 255) blue = 255
-            if (blue < 0) blue = 0  
-            color = color.red(red).green(green).blue(blue)
+            let red = color.red()
+            if ((red + dist) > 255) {
+                dist -= red + dist - 255
+            }
+            if ((red + dist) < 0) {
+                dist -= red + dist
+            }
+            let green = color.green()
+            if ((green + dist) > 255) {
+                dist -= green + dist - 255
+            }
+            if ((green + dist) < 0) {
+                dist -= green + dist
+            }
+            let blue = color.blue()
+            if ((blue + dist) > 255) {
+                dist -= blue + dist - 255
+            }
+            if ((blue + dist) < 0) {
+                dist -= blue + dist
+            }
+            color = color.red(red+dist).green(green+dist).blue(blue+dist)
         } else {
             if (component === "red") {
                 color = color.red(value)

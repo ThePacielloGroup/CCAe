@@ -17,13 +17,14 @@ module.exports = (dirname) => {
     win = new BrowserWindow({
       frame: false,
       autoHideMenuBar: true,
-      width: 100,
+      width: 200,
       height: 100,
       transparent: true,
       alwaysOnTop: true,
       resizable: false,
       focusable: true,
       hasShadow: false,
+      titleBarStyle: "customButtonsOnHover"
     })
 
     win.loadURL(url.format({

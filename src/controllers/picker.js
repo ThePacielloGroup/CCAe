@@ -58,7 +58,7 @@ module.exports = (browsers, mainController) => {
             posy = y
           }
           let color = '#' + robot.getPixelColor(parseInt(x), parseInt(y))
-          picker.getWindow().setPosition(parseInt(posx) - 50, parseInt(posy) - 50)
+          picker.getWindow().setPosition(parseInt(posx) - 100, parseInt(posy) - 50)
           picker.getWindow().webContents.send('updatePicker', color)
         })
     
@@ -75,7 +75,7 @@ module.exports = (browsers, mainController) => {
           posx = pos.x
           posy = pos.y
         }
-        picker.getWindow().setPosition(parseInt(posx) - 50, parseInt(posy) - 50)
+        picker.getWindow().setPosition(parseInt(posx) - 100, parseInt(posy) - 50)
         picker.getWindow().webContents.send('updatePicker', robot.getPixelColor(pos.x, pos.y))
     
         ipcMain.on('closePicker', closePicker)

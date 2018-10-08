@@ -10,7 +10,7 @@ body{
 }
 
 #picker {
-    margin: 1px;
+    margin: 1px 50px;
     width: 98px;
     height: 98px;
     border-radius: 120px;

@@ -15,6 +15,7 @@ app.on('ready', () => {
             submenu: [
                 {
                     label: 'About CCA',
+                    accelerator: 'F1',
                     click: () => about.init()
                 }, {
                     id: 'menuUpdateChecking',
@@ -33,12 +34,14 @@ app.on('ready', () => {
                 }, {
                     id: 'menuUpdateInstall',
                     label: 'Install update',
+                    accelerator: 'CmdOrCtrl+Shift+U',
                     click: installUpdate,
                     visible: false
                 }, {
                     type: 'separator'
                 }, {
                     role: 'quit',
+                    accelerator: 'CmdOrCtrl+Q'
                 }
             ]
         },
@@ -47,7 +50,7 @@ app.on('ready', () => {
             submenu: [
                 {
                     label: 'Copy results',
-                    accelerator: 'CommandOrControl+Shift+C',
+                    accelerator: 'CmdOrCtrl+Shift+C',
                     click: (item) => {
                         mainController.copyResults()
                     }
@@ -59,6 +62,7 @@ app.on('ready', () => {
           submenu: [
             {
                 label: 'Colour blindness simulation',
+                accelerator: 'CmdOrCtrl+B',
                 click: () => deficiency.init()
             },/*
             {
@@ -66,7 +70,7 @@ app.on('ready', () => {
             },
             {
                 label: 'Actual Size',
-                accelerator: 'CommandOrControl+0',
+                accelerator: 'CmdOrCtrl+0',
                 nonNativeMacOSRole: true,
                 webContentsMethod: (webContents) => {
                   webContents.setZoomLevel(0)
@@ -74,7 +78,7 @@ app.on('ready', () => {
             },
             {
                 label: 'Zoom In',
-                accelerator: 'CommandOrControl+Plus',
+                accelerator: 'CmdOrCtrl+Plus',
                 nonNativeMacOSRole: true,
                 webContentsMethod: (webContents) => {
                   webContents.getZoomLevel((zoomLevel) => {
@@ -84,7 +88,7 @@ app.on('ready', () => {
             },
             {
                 label: 'Zoom Out',
-                accelerator: 'CommandOrControl+-',
+                accelerator: 'CmdOrCtrl+-',
                 nonNativeMacOSRole: true,
                 webContentsMethod: (webContents) => {
                   webContents.getZoomLevel((zoomLevel) => {

@@ -46,7 +46,7 @@ function checkForUpdates() {
 function installUpdate() {
   dialog.showMessageBox({
     title: 'Install Updates',
-    message: `${releaseName} downloaded, application will be quit for update...`
+    message: `${releaseName} has been downloaded. The application will be closed to install the update.`
   }, () => {
     setImmediate(() => autoUpdater.quitAndInstall())
   })

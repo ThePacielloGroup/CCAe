@@ -7,6 +7,16 @@
 - [Windows/macOS: issue with colour picker when working with multiple displays at different density](https://github.com/ThePacielloGroup/CCAe/issues/54)
 - [Windows: Downloaded installer from GitHub triggers Windows Defender SmartScreen](https://github.com/ThePacielloGroup/CCAe/issues/66)
 
+## v1.0.0 (08/10/2018)
+### New features
+### Enhancements
+- [Add keyboard shortcuts for all menu items](https://github.com/ThePacielloGroup/CCAe/commit/75a5b4955b7061888bc01b46b8ecca3b018ce50c) - @patrickhlauke
+- [Refactor color number input code](https://github.com/ThePacielloGroup/CCAe/commit/c817604eca8068d125e25b175a6c59b185bc195f)
+- [Clamp sync'd sliders](https://github.com/ThePacielloGroup/CCAe/commit/835e2d6a0ef143ffd614d84a5184db9926afacfc)
+
+### Bug fixes
+- [Remove visual artifact on picker in macOS](https://github.com/ThePacielloGroup/CCAe/commit/6383c1a0f963c4f690dba0fb5ad889451af42416)
+
 ## v1.0.0-beta2 (05/10/2018)
 ### New features
 - [Auto update](https://github.com/ThePacielloGroup/CCAe/commit/57f8d6a422cdafe33370182d9317c12b61804102)
@@ -19,7 +29,7 @@
 ### Bug fixes
 - [Fix colour format check regexps](https://github.com/ThePacielloGroup/CCAe/commit/158b7f32220091e0dbfd4d19dbaba626aff8ea6a)
 - [Prevent uncaught exception for specific incorrect foreground/background colour entry](https://github.com/ThePacielloGroup/CCAe/commit/1b225aeaba0136cf79da36e8a3c6091b9838960e)
-- [Update README.md](https://github.com/ThePacielloGroup/CCAe/commit/f8ee06562a8b87b4f6852cb9552cf687ba920e7a) - @Patrick H. Lauke
+- [Update README.md](https://github.com/ThePacielloGroup/CCAe/commit/f8ee06562a8b87b4f6852cb9552cf687ba920e7a)
 - [Add step to alpha number input as well](https://github.com/ThePacielloGroup/CCAe/commit/838d0e0dda4eaf724577fb50c1a6a693147119c0)
 - [Only force-update value of alpha number input if not focused](https://github.com/ThePacielloGroup/CCAe/commit/293f3a1934a45319e49244f3017cf5d51dfddbdf)
 - [Increase granularity of alpha slider, set correct min/max on number input](https://github.com/ThePacielloGroup/CCAe/commit/544f3dd74376e598a2e86820033678797b6757c9)

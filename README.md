@@ -19,11 +19,7 @@ For further information, see [The Paciello Group's Colour Contrast Analyser reso
 - Colour blindness simulator
 
 ## Known issues
-- [Windows: Application menus aren't keyboard accessible](https://github.com/ThePacielloGroup/CCAe/issues/49)
-- [Windows/macOS: Zoom feature doesn't resize the application window](https://github.com/ThePacielloGroup/CCAe/issues/38)
-- [Windows: Changing slider values is not announced in NVDA](https://github.com/ThePacielloGroup/CCAe/issues/37)
-- [Windows/macOS: issue with colour picker when working with multiple displays at different density](https://github.com/ThePacielloGroup/CCAe/issues/54)
-- [Windows: Downloaded installer from GitHub triggers Windows Defender SmartScreen](https://github.com/ThePacielloGroup/CCAe/issues/66)
+- See the known issues for the latest [CCA release](https://github.com/ThePacielloGroup/CCAe/releases) and [confirmed bugs](https://github.com/ThePacielloGroup/CCAe/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 
 ## Contributing
 If you have an idea for a new feature, or if you found a bug, please submit a GitHub issue. Please search the existing issues before submitting to

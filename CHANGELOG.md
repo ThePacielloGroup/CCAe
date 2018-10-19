@@ -10,7 +10,7 @@
 ## v1.0.0 (08/10/2018)
 ### New features
 ### Enhancements
-- [Add keyboard shortcuts for all menu items](https://github.com/ThePacielloGroup/CCAe/commit/75a5b4955b7061888bc01b46b8ecca3b018ce50c) - @patrickhlauke
+- [Add keyboard shortcuts for all menu items](https://github.com/ThePacielloGroup/CCAe/commit/75a5b4955b7061888bc01b46b8ecca3b018ce50c)
 - [Refactor color number input code](https://github.com/ThePacielloGroup/CCAe/commit/c817604eca8068d125e25b175a6c59b185bc195f)
 - [Clamp sync'd sliders](https://github.com/ThePacielloGroup/CCAe/commit/835e2d6a0ef143ffd614d84a5184db9926afacfc)
 

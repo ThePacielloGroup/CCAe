@@ -21,7 +21,15 @@ app.on('ready', () => {
                     label: 'About CCA',
                     accelerator: 'F1',
                     click: () => about.init()
-                }, {
+                },
+                /*
+                {
+                    label: 'Preferences',
+                    accelerator: 'CmdOrCtrl+,',
+                    click: () => preferences.init()
+                },
+                */
+                {
                     id: 'menuUpdateChecking',
                     label: 'Checking for updates...',
                     enabled: false

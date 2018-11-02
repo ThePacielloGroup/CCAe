@@ -1,5 +1,7 @@
 const { app, Menu } = require('electron')
 const isDev = ('NODE_ENV' in process.env && process.env.NODE_ENV === 'dev')
+const Store = require('electron-store');
+const store = new Store();
 
 const { checkForUpdates, installUpdate } = require('./update.js')
 
@@ -7,7 +9,10 @@ const { checkForUpdates, installUpdate } = require('./update.js')
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-    main.init()
+
+    x = store.get('main.position.x', null)
+    y = store.get('main.position.y', null)
+    main.init(x, y)
 
     const menuTemplate = [
         {
@@ -143,6 +148,14 @@ app.on('activate', () => {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     main.init()
+})
+
+app.on('before-quit', () => {
+    // Save last position
+    pos = main.getWindow().getPosition()
+    console.log(pos)
+    store.set('main.position.x', pos[0])
+    store.set('main.position.y', pos[1])
 })
 
 // In this file you can include the rest of your app's specific main process

@@ -1,5 +1,7 @@
 const { ipcMain, clipboard } = require('electron')
 const Color = require('./CCAcolor')
+const Store = require('electron-store');
+const store = new Store();
 
 class CCAController {
     constructor(browsers, sharedObject) {
@@ -20,6 +22,7 @@ class CCAController {
         ipcMain.on('changeForeground', this.updateForegroundFromString.bind(this))
         ipcMain.on('changeBackground', this.updateBackgroundFromString.bind(this))
         ipcMain.on('switchColors', this.switchColors.bind(this))
+        ipcMain.on('changeFormat', this.changeFormat.bind(this))
     }
 
     updateRGBComponent(event, group, component, value, synced = false) {
@@ -242,6 +245,11 @@ The contrast ratio is: ${normal.contrastRatioString}
     ${level_1_4_11}`
 
         clipboard.writeText(text)
+    }
+
+    changeFormat(event, section, format) {
+        this.sharedObject.preferences[section].format = format
+        store.set(section + '.format', format)
     }
 }
 

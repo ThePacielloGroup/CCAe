@@ -26,7 +26,6 @@ summary h2, summary h3 {
     display: inline-block;
 }
 
-
 section#foreground-color h2, 
 section#background-color h2 {
     position: absolute;
@@ -92,8 +91,8 @@ section#background-color input.free-value  {
     width: 100%;
 }
 
-section#foreground-color .free-tag,
-section#background-color .free-tag  {
+section#foreground-color .format-selector,
+section#background-color .format-selector  {
     font-size: 1rem;
     background-color: #1B75BC;
     color: #ffffff;
@@ -305,7 +304,6 @@ section#results details p small {
 section#results .contrast-level {
     margin-left: 2.5rem;
 }
-
 
 section#results .contrast-level img {
     height: 1.2rem;

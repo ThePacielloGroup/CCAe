@@ -59,14 +59,20 @@ function initEvents () {
     document.querySelector('#foreground-color .switch').onclick = function() {ipcRenderer.send('switchColors')}
     document.querySelector('#foreground-color .help').onclick = function() {showHide(this)}
     document.querySelector('#background-color .help').onclick = function() {showHide(this)}
+    document.querySelector('#foreground-color .format-selector').onchange = function() {console.log("teset");changeFormat('foreground', this)}
+    document.querySelector('#background-color .format-selector').onchange = function() {changeFormat('background', this)}
 
-    // initDetails
+    // init Details
     document.querySelectorAll('details').forEach(function(details) {
         details.ontoggle = function() {
             var mainHeight = document.querySelector('main').clientHeight;
             ipcRenderer.send('height-changed', mainHeight)
         }
-    });  
+    });
+
+    // init format selector
+    document.querySelector('#foreground-color .format-selector').value = sharedObject.preferences.foreground.format
+    document.querySelector('#background-color .format-selector').value = sharedObject.preferences.background.format
 }
 
 function sliderOnInput(group, color, value) {
@@ -93,21 +99,54 @@ function showHide(el) {
 }
 
 function applyColor(section) {
-    let color, colorMixed, name, colorRGB, colorHEX, isDark
+    let color, colorReal
     if (section == 'foreground') {
         color = sharedObject.deficiencies.normal.foregroundColor
-        colorMixed = sharedObject.deficiencies.normal.foregroundColorMixed
-        name = colorMixed.cssname()
-        colorRGB = colorMixed.rgb().string()
-        colorHEX = colorMixed.hex()
-        isDark = colorMixed.isDark()
+        colorReal = sharedObject.deficiencies.normal.foregroundColorMixed
     } else {
         color = sharedObject.deficiencies.normal.backgroundColor
-        name = color.cssname()
-        colorRGB = color.rgb().string()
-        colorHEX = color.hex()
-        isDark = color.isDark()
+        colorReal = color
     }
+
+    applyColorPreview(section, colorReal)
+    applyColorTextString(section, colorReal)
+    applyColorRGBSliders(section, color)
+    applyColorSample(section, colorReal)
+}
+
+function applyColorTextString(section, colorReal) {
+    /* Only change the text input if this isn't the current focused element */
+    const textInput = document.querySelector('#' + section + '-color input.free-value')
+    if (textInput != document.activeElement) {
+        format = sharedObject.preferences[section].format
+
+        switch (format) {
+            case 'rgb':
+                colorString = colorReal.rgb().string()
+                break;
+            case 'hsl':
+                // Return rounded values for HSL. This is due to a bug in `color-string` Qix-/color#127
+                colorString = colorReal.hsl().round().string()
+                break;
+            default: //hex
+                colorString = colorReal.hex()
+        }
+
+        textInput.value = colorString
+        const formatSelector =  document.querySelector('#' + section + '-format-selector')
+        const freeFormat =  document.querySelector('#' + section + '-free-format')    
+        textInput.removeAttribute('aria-invalid')
+        freeFormat.removeAttribute('aria-live')
+        freeFormat.innerHTML = format.toUpperCase() + " format"
+        formatSelector.style.display = "block";
+    }
+
+}
+
+function applyColorPreview(section, colorReal) {
+    const colorRGB = colorReal.rgb().string()
+    const name = colorReal.cssname()
+    const isDark = colorReal.isDark()
 
     document.querySelector('#' + section + '-color').style.background = colorRGB 
     if (name) {
@@ -116,6 +155,10 @@ function applyColor(section) {
         document.querySelector('#' + section + '-color .name-value').innerHTML = null        
     }
     document.querySelector('#' + section + '-color').classList.toggle('darkMode', isDark)
+
+}
+
+function applyColorRGBSliders(section, color) {
     document.querySelector('#' + section + '-rgb .red input[type=range]').value = color.red()
     document.querySelector('#' + section + '-rgb .green input[type=range]').value = color.green()
     document.querySelector('#' + section + '-rgb .blue input[type=range]').value = color.blue()
@@ -129,24 +172,18 @@ function applyColor(section) {
                as otherwise, when user enters "0.", it's corrected to "0" and prevents correct text entry */
             document.querySelector('#' + section + '-rgb .alpha input[type=number]').value = color.alpha()
         }  
+    }
+}
+
+function applyColorSample(section, colorReal) {
+    const colorRGB = colorReal.rgb().string()
+
+    if (section === 'foreground') {
         document.querySelector('#sample-preview .text').style.color = colorRGB
         document.querySelector('#sample-preview .icon svg').style.fill = colorRGB    
     } else {
         document.querySelector('#sample-preview .text').style.background = colorRGB
         document.querySelector('#sample-preview .icon').style.background = colorRGB
-    }
-
-    /* Only change the text input if this isn't the current focused element */
-    const textInput = document.querySelector('#' + section + '-color input.free-value')
-    if (textInput != document.activeElement) {
-        textInput.value = colorHEX
-        const freeTag =  document.querySelector('#' + section + '-free-tag')
-        const freeFormat =  document.querySelector('#' + section + '-free-format')    
-        textInput.removeAttribute('aria-invalid')
-        freeFormat.removeAttribute('aria-live')
-        freeFormat.innerHTML = "HEX format"
-        freeTag.innerHTML = "HEX"
-        freeTag.style.display = "block";
     }
 }
 
@@ -181,17 +218,17 @@ function validateForegroundText(value) {
     let format = null
     if (string) {
         if (Color.isHexA(string)) {
-            format = 'HEX'
+            format = 'hex'
         } else if (Color.isRGB(string)) {
-            format = 'RGB'
+            format = 'rgb'
         } else if (Color.isRGBA(string)) {
-            format = 'RGBa'
+            format = 'rgba'
         } else if (Color.isHSL(string)) {
-            format = 'HSL'
+            format = 'hsl'
         } else if (Color.isHSLA(string)) {
-            format = 'HLSa'
+            format = 'hsla'
         } else if (Color.isName(string)) {
-            format = 'Name'
+            format = 'name'
         }
     }
     displayValidate('foreground', format, string)
@@ -216,7 +253,7 @@ function validateBackgroundText(value) {
 
 function displayValidate(section, format, string) {
     const input = document.querySelector('#' + section + '-color input')
-    const freeTag =  document.querySelector('#' + section + '-free-tag')
+    const formatSelector =  document.querySelector('#' + section + '-format-selector')
     const freeFormat =  document.querySelector('#' + section + '-free-format')
     if (!freeFormat.getAttribute('aria-live')) {
         freeFormat.setAttribute('aria-live', 'polite')
@@ -228,12 +265,12 @@ function displayValidate(section, format, string) {
             ipcRenderer.send('changeBackground', string, format)
         }
         input.setAttribute('aria-invalid', false)
-        freeTag.innerHTML = format.toUpperCase()
-        freeTag.style.display = "block"
+        formatSelector.value = format.toLowerCase()
+        formatSelector.style.display = "block"
         freeFormat.innerHTML = format + ' format detected'
     } else {
         input.setAttribute('aria-invalid', true)
-        freeTag.style.display = "none"
+        formatSelector.style.display = "none"
         freeFormat.innerHTML = null
     }
 }
@@ -245,4 +282,17 @@ function leaveText(section, el) {
             freeFormat.innerHTML = 'Error, Incorrect ' + section + ' format'
         }    
     }
+}
+
+function changeFormat(section, el) {
+    let colorReal
+    // We send the selected format to the controller for saving and sharedObject update
+    ipcRenderer.send('changeFormat', section, el.value)
+    // Then we update the current text field
+    if (section == 'foreground') {
+        colorReal = sharedObject.deficiencies.normal.foregroundColorMixed
+    } else {
+        colorReal = sharedObject.deficiencies.normal.backgroundColor
+    }
+    applyColorTextString(section, colorReal)
 }

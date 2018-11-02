@@ -9,10 +9,9 @@ const { checkForUpdates, installUpdate } = require('./update.js')
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-
-    x = store.get('main.position.x', null)
-    y = store.get('main.position.y', null)
-    main.init(x, y)
+    loadPreferences()
+    position = global.sharedObject.preferences.main.position
+    main.init(position.x, position.y)
 
     const menuTemplate = [
         {
@@ -153,7 +152,6 @@ app.on('activate', () => {
 app.on('before-quit', () => {
     // Save last position
     pos = main.getWindow().getPosition()
-    console.log(pos)
     store.set('main.position.x', pos[0])
     store.set('main.position.y', pos[1])
 })
@@ -227,12 +225,33 @@ global.sharedObject = {
         }
     },
     advanced : '',
-    options : {
+    preferences : {
+        main : {
+            position : {
+                x : null,
+                y : null,
+            }
+        },
+        foreground : {
+            format : null,
+        },
+        background : {
+            format : null,
+        }
     }
 }
 
+function loadPreferences() {
+    console.log(store.path)
+    prefs = global.sharedObject.preferences
+    prefs.main.position.x = store.get('main.position.x', null)
+    prefs.main.position.y = store.get('main.position.y', null)
+    prefs.foreground.format = store.get('foreground.format', 'hex')
+    prefs.background.format = store.get('background.format', 'hex')
+}
+
 const browsers = require('./browsers')(__dirname)
-const {main, about, deficiency} = browsers
+const {main, about, deficiency, preferences} = browsers
 
 const CCAController = require('./CCAcontroller')
 

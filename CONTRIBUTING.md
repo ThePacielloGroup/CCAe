@@ -15,7 +15,7 @@ Please follow these guidlines before sending your pull request and making contri
 
 Here's how to get your environment setup.  You will need Git and NPM installed on your system.
 
-Clone down the repositoy:
+Clone down the repository:
 
 ```
 git clone https://github.com/ThePacielloGroup/CCAe.git

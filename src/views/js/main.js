@@ -35,22 +35,22 @@ function initEvents () {
     // Opens color picker on button click
     document.querySelector('#foreground-color .picker').onclick = () => ipcRenderer.send('showForegroundPicker')
     document.querySelector('#background-color .picker').onclick = () => ipcRenderer.send('showBackgroundPicker')
-    document.querySelector('#foreground-rgb .red input[type=range]').oninput = function() {sliderOnInput('foreground', 'red', this.value)}
-    document.querySelector('#foreground-rgb .green input[type=range]').oninput = function() {sliderOnInput('foreground', 'green', this.value)}
-    document.querySelector('#foreground-rgb .blue input[type=range]').oninput = function() {sliderOnInput('foreground', 'blue', this.value)}
-    document.querySelector('#foreground-rgb .alpha input[type=range]').oninput = function() {sliderOnInput('foreground', 'alpha', this.value)}
-    document.querySelector('#background-rgb .red input[type=range]').oninput = function() {sliderOnInput('background', 'red', this.value)}
-    document.querySelector('#background-rgb .green input[type=range]').oninput = function() {sliderOnInput('background', 'green', this.value)}
-    document.querySelector('#background-rgb .blue input[type=range]').oninput = function() {sliderOnInput('background', 'blue', this.value)}
-    document.querySelector('#foreground-rgb .red input[type=number]').oninput = function() {numberOnInput('foreground', 'red', this.value)}
-    document.querySelector('#foreground-rgb .green input[type=number]').oninput = function() {numberOnInput('foreground', 'green', this.value)}
-    document.querySelector('#foreground-rgb .blue input[type=number]').oninput = function() {numberOnInput('foreground', 'blue', this.value)}
-    document.querySelector('#foreground-rgb .alpha input[type=number]').oninput = function() {numberOnInput('foreground', 'alpha', this.value)}
-    document.querySelector('#background-rgb .red input[type=number]').oninput = function() {numberOnInput('background', 'red', this.value)}
-    document.querySelector('#background-rgb .green input[type=number]').oninput = function() {numberOnInput('background', 'green', this.value)}
-    document.querySelector('#background-rgb .blue input[type=number]').oninput = function() {numberOnInput('background', 'blue', this.value)}
-    document.querySelector('#foreground-color .rgb').onclick = function() {showHide(this)}
-    document.querySelector('#background-color .rgb').onclick = function() {showHide(this)}
+    document.querySelector('#foreground-rgb .red input[type=range]').oninput = function() {sliderRGBOnInput('foreground', 'red', this.value)}
+    document.querySelector('#foreground-rgb .green input[type=range]').oninput = function() {sliderRGBOnInput('foreground', 'green', this.value)}
+    document.querySelector('#foreground-rgb .blue input[type=range]').oninput = function() {sliderRGBOnInput('foreground', 'blue', this.value)}
+    document.querySelector('#foreground-rgb .alpha input[type=range]').oninput = function() {sliderRGBOnInput('foreground', 'alpha', this.value)}
+    document.querySelector('#background-rgb .red input[type=range]').oninput = function() {sliderRGBOnInput('background', 'red', this.value)}
+    document.querySelector('#background-rgb .green input[type=range]').oninput = function() {sliderRGBOnInput('background', 'green', this.value)}
+    document.querySelector('#background-rgb .blue input[type=range]').oninput = function() {sliderRGBOnInput('background', 'blue', this.value)}
+    document.querySelector('#foreground-rgb .red input[type=number]').oninput = function() {numberRGBOnInput('foreground', 'red', this.value)}
+    document.querySelector('#foreground-rgb .green input[type=number]').oninput = function() {numberRGBOnInput('foreground', 'green', this.value)}
+    document.querySelector('#foreground-rgb .blue input[type=number]').oninput = function() {numberRGBOnInput('foreground', 'blue', this.value)}
+    document.querySelector('#foreground-rgb .alpha input[type=number]').oninput = function() {numberRGBOnInput('foreground', 'alpha', this.value)}
+    document.querySelector('#background-rgb .red input[type=number]').oninput = function() {numberRGBOnInput('background', 'red', this.value)}
+    document.querySelector('#background-rgb .green input[type=number]').oninput = function() {numberRGBOnInput('background', 'green', this.value)}
+    document.querySelector('#background-rgb .blue input[type=number]').oninput = function() {numberRGBOnInput('background', 'blue', this.value)}
+    document.querySelector('#foreground-color .sliders').onclick = function() {showHide(this)}
+    document.querySelector('#background-color .sliders').onclick = function() {showHide(this)}
     document.querySelector('#foreground-color input').oninput = function() {validateForegroundText(this.value)}
     document.querySelector('#background-color input').oninput = function() {validateBackgroundText(this.value)}
     document.querySelectorAll('input[type=text], input[type=number]').forEach(function(el) { el.onfocus = function() {this.select()} })
@@ -62,10 +62,25 @@ function initEvents () {
     document.querySelector('#foreground-color .format-selector').onchange = function() {console.log("teset");changeFormat('foreground', this)}
     document.querySelector('#background-color .format-selector').onchange = function() {changeFormat('background', this)}
 
+    document.querySelector('#foreground-hsl .hue input[type=range]').oninput = function() {sliderHSLOnInput('foreground', 'hue', this.value)}
+    document.querySelector('#foreground-hsl .saturation input[type=range]').oninput = function() {sliderHSLOnInput('foreground', 'saturation', this.value)}
+    document.querySelector('#foreground-hsl .lightness input[type=range]').oninput = function() {sliderHSLOnInput('foreground', 'lightness', this.value)}
+    document.querySelector('#foreground-hsl .alpha input[type=range]').oninput = function() {sliderHSLOnInput('foreground', 'alpha', this.value)}
+    document.querySelector('#background-hsl .hue input[type=range]').oninput = function() {sliderHSLOnInput('background', 'hue', this.value)}
+    document.querySelector('#background-hsl .saturation input[type=range]').oninput = function() {sliderHSLOnInput('background', 'saturation', this.value)}
+    document.querySelector('#background-hsl .lightness input[type=range]').oninput = function() {sliderHSLOnInput('background', 'lightness', this.value)}
+    document.querySelector('#foreground-hsl .hue input[type=number]').oninput = function() {numberHSLOnInput('foreground', 'hue', this.value)}
+    document.querySelector('#foreground-hsl .saturation input[type=number]').oninput = function() {numberHSLOnInput('foreground', 'saturation', this.value)}
+    document.querySelector('#foreground-hsl .lightness input[type=number]').oninput = function() {numberHSLOnInput('foreground', 'lightness', this.value)}
+    document.querySelector('#foreground-hsl .alpha input[type=number]').oninput = function() {numberHSLOnInput('foreground', 'alpha', this.value)}
+    document.querySelector('#background-hsl .hue input[type=number]').oninput = function() {numberHSLOnInput('background', 'hue', this.value)}
+    document.querySelector('#background-hsl .saturation input[type=number]').oninput = function() {numberHSLOnInput('background', 'saturation', this.value)}
+    document.querySelector('#background-hsl .lightness input[type=number]').oninput = function() {numberHSLOnInput('background', 'lightness', this.value)}
+
     // init Details
     document.querySelectorAll('details').forEach(function(details) {
         details.ontoggle = function() {
-            var mainHeight = document.querySelector('main').clientHeight;
+            var mainHeight = document.querySelector('main').clientHeight
             ipcRenderer.send('height-changed', mainHeight)
         }
     });
@@ -73,16 +88,27 @@ function initEvents () {
     // init format selector
     document.querySelector('#foreground-color .format-selector').value = sharedObject.preferences.foreground.format
     document.querySelector('#background-color .format-selector').value = sharedObject.preferences.background.format
+
+    // init tabs
+    initTabs("#foreground-sliders", ipcRenderer)
+    initTabs("#background-sliders", ipcRenderer)
 }
 
-function sliderOnInput(group, color, value) {
+function sliderRGBOnInput(group, component, value) {
     let sync = document.querySelector('#' + group + '-rgb .sync input[type=checkbox]').checked
-    ipcRenderer.send('changeRGBComponent', group, color, value, sync)
+    ipcRenderer.send('changeRGBComponent', group, component, value, sync)
 }
 
-function numberOnInput(group, color, value) {
-    // let sync = document.querySelector('#' + group + '-rgb .sync input[type=checkbox]').checked
-    ipcRenderer.send('changeRGBComponent', group, color, value)
+function numberRGBOnInput(group, component, value) {
+    ipcRenderer.send('changeRGBComponent', group, component, value)
+}
+
+function sliderHSLOnInput(group, component, value) {
+    ipcRenderer.send('changeHSLComponent', group, component, value)
+}
+
+function numberHSLOnInput(group, component, value) {
+    ipcRenderer.send('changeHSLComponent', group, component, value)
 }
 
 function showHide(el) {
@@ -95,7 +121,7 @@ function showHide(el) {
         el.setAttribute('aria-expanded', true)
     }
     var mainHeight = document.querySelector('main').clientHeight;
-    ipcRenderer.send('height-changed', mainHeight)
+    ipcRenderer.send('height-changed', mainHeight);
 }
 
 function applyColor(section) {
@@ -111,6 +137,7 @@ function applyColor(section) {
     applyColorPreview(section, colorReal)
     applyColorTextString(section, colorReal)
     applyColorRGBSliders(section, color)
+    applyColorHSLSliders(section, color)
     applyColorSample(section, colorReal)
 }
 
@@ -171,6 +198,23 @@ function applyColorRGBSliders(section, color) {
             /* only force update of the alpha number input if it's not current;y focused
                as otherwise, when user enters "0.", it's corrected to "0" and prevents correct text entry */
             document.querySelector('#' + section + '-rgb .alpha input[type=number]').value = color.alpha()
+        }  
+    }
+}
+
+function applyColorHSLSliders(section, color) {
+    document.querySelector('#' + section + '-hsl .hue input[type=range]').value = color.hue()
+    document.querySelector('#' + section + '-hsl .saturation input[type=range]').value = color.saturationl()
+    document.querySelector('#' + section + '-hsl .lightness input[type=range]').value = color.lightness()
+    document.querySelector('#' + section + '-hsl .hue input[type=number]').value = color.hue()
+    document.querySelector('#' + section + '-hsl .saturation input[type=number]').value = color.saturationl()
+    document.querySelector('#' + section + '-hsl .lightness input[type=number]').value = color.lightness()
+    if (section === 'foreground') {
+        document.querySelector('#' + section + '-hsl .alpha input[type=range]').value = color.alpha()
+        if (document.activeElement != document.querySelector('#' + section + '-hsl .alpha input[type=number]')) {
+            /* only force update of the alpha number input if it's not current;y focused
+               as otherwise, when user enters "0.", it's corrected to "0" and prevents correct text entry */
+            document.querySelector('#' + section + '-hsl .alpha input[type=number]').value = color.alpha()
         }  
     }
 }

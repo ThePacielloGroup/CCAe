@@ -22,13 +22,11 @@ app.on('ready', () => {
                     accelerator: 'F1',
                     click: () => about.init()
                 },
-                /*
                 {
                     label: 'Preferences',
                     accelerator: 'CmdOrCtrl+,',
                     click: () => preferences.init()
                 },
-                */
                 {
                     id: 'menuUpdateChecking',
                     label: 'Checking for updates...',
@@ -245,6 +243,9 @@ global.sharedObject = {
         },
         background : {
             format : null,
+        },
+        options : {
+            rounding : null,
         }
     }
 }
@@ -256,6 +257,7 @@ function loadPreferences() {
     prefs.main.position.y = store.get('main.position.y', null)
     prefs.foreground.format = store.get('foreground.format', 'hex')
     prefs.background.format = store.get('background.format', 'hex')
+    prefs.options.rounding = store.get('options.rounding', 1)
 }
 
 const browsers = require('./browsers')(__dirname)

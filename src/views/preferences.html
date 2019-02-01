@@ -5,13 +5,45 @@
     <title>Preferences</title>
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/preferences.css" />
+    <link rel="stylesheet" href="css/tabs.css" />
+    <script defer src="js/tabs.js"></script>
     <script defer src="js/preferences.js"></script>
   </head>
   <body>
     <main>
-      <h1>Preferences</h1>
-      
-
+      <h1 class="sr-only">Preferences</h1>
+      <ul id="preferences-tabs" role="tablist">
+          <li role="presentation">
+            <a href="#options"
+            role="tab"
+            id="options-tab"
+            tabindex="0"
+            aria-controls="options"
+            aria-selected="true">Options</a>
+          </li>
+          <li role="presentation">
+            <a href="#keyboard"
+            role="tab"
+            id="keyboard-tab"
+            tabindex="-1"
+            aria-controls="keyboard"
+            aria-selected="false">Keyboard</a>
+          </li>
+        </ul>
+        <div role="tabpanel" id="options" aria-labelledby="options-tab" aria-hidden="false"
+        aria-expanded="true">
+          <label for="option-rounding">Rounding</label>
+          <select id="option-rounding">
+            <option value="1">1 digit</option>
+            <option value="2">2 digits</option>
+          </select>
+        </div>
+        <div role="tabpanel" id="keyboard" aria-labelledby="keyboard-tab" aria-hidden="true"
+        aria-expanded="false" hidden>
+        To do
+        </div>
+        <button id="save">Save</button>
+        <button id="cancel">Cancel</button>
     </main>
   </body>
 </html>

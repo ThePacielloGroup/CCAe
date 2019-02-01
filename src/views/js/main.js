@@ -10,16 +10,30 @@ ipcRenderer.on('init', event => {
     applyContrastRatio()
     var mainHeight = document.querySelector('main').clientHeight;
     ipcRenderer.send('height-changed', mainHeight)
+
+    // init format selector
+    document.querySelector('#foreground-color .format-selector').value = sharedObject.preferences.foreground.format
+    document.querySelector('#background-color .format-selector').value = sharedObject.preferences.background.format
+
+    // init tabs
+    initTabs("#foreground-sliders", ()=>{
+        var mainHeight = document.querySelector('main').clientHeight
+        ipcRenderer.send('height-changed', mainHeight)
+    })
+    initTabs("#background-sliders", ipcRenderer)
+
     initEvents()
 })
 
 ipcRenderer.on('foregroundColorChanged', event => {
     applyColor('foreground')
-    applyContrastRatio()
 })
 
 ipcRenderer.on('backgroundColorChanged', event => {
     applyColor('background')
+})
+
+ipcRenderer.on('contrastRatioChanged', event => {
     applyContrastRatio()
 })
 
@@ -84,14 +98,6 @@ function initEvents () {
             ipcRenderer.send('height-changed', mainHeight)
         }
     });
-
-    // init format selector
-    document.querySelector('#foreground-color .format-selector').value = sharedObject.preferences.foreground.format
-    document.querySelector('#background-color .format-selector').value = sharedObject.preferences.background.format
-
-    // init tabs
-    initTabs("#foreground-sliders", ipcRenderer)
-    initTabs("#background-sliders", ipcRenderer)
 }
 
 function sliderRGBOnInput(group, component, value) {

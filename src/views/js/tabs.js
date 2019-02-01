@@ -2,7 +2,7 @@
 *   This content is licensed according to the W3C Software License at
 *   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
 */
-function initTabs(section, ipcRenderer) {
+function initTabs(section, callback) {
     var tablist = document.querySelectorAll(section + ' [role="tablist"]')[0];
     var tabs;
     var panels;
@@ -166,8 +166,8 @@ function initTabs(section, ipcRenderer) {
       if (setFocus) {
         tab.focus();
       };
-        var mainHeight = document.querySelector('main').clientHeight;
-        ipcRenderer.send('height-changed', mainHeight);
+
+      if (callback != null) { callback() }
     };
   
     // Deactivate all tabs and tab panels

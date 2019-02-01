@@ -1,7 +1,7 @@
 const { ipcRenderer } = require('electron')
 const sharedObject = require('electron').remote.getGlobal('sharedObject')
 
-ipcRenderer.send('init-deficiency');
+ipcRenderer.send('init-deficiency')
 
 ipcRenderer.on('init', event => {
     applyForegroundColor()
@@ -11,11 +11,13 @@ ipcRenderer.on('init', event => {
 
 ipcRenderer.on('foregroundColorChanged', event => {
     applyForegroundColor()
-    applyContrastRatio()
 })
 
 ipcRenderer.on('backgroundColorChanged', event => {
     applyBackgroundColor()
+})
+
+ipcRenderer.on('contrastRatioChanged', event => {
     applyContrastRatio()
 })
 

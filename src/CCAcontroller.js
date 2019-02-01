@@ -24,6 +24,7 @@ class CCAController {
         ipcMain.on('changeBackground', this.updateBackgroundFromString.bind(this))
         ipcMain.on('switchColors', this.switchColors.bind(this))
         ipcMain.on('changeFormat', this.changeFormat.bind(this))
+        ipcMain.on('setOption', this.setOption.bind(this))
     }
 
     updateRGBComponent(event, group, component, value, synced = false) {
@@ -213,15 +214,16 @@ class CCAController {
 
     updateContrastRatio() {
         let cr, crr
+        let rounding = this.sharedObject.preferences.options.rounding
         Object.keys(this.sharedObject.deficiencies).forEach(function(key, index) {
             if (key === 'normal') {
                 this[key].contrastRatioRaw  = this[key].foregroundColorMixed.contrast(this[key].backgroundColor)
                 let cr = this[key].contrastRatioRaw
-                let crr = Number(cr.toFixed(1)).toString() // toString removes trailing zero
+                let crr = Number(cr.toFixed(rounding)).toString() // toString removes trailing zero
                 this[key].contrastRatioString = `${crr}:1`
                 if ((cr >= 6.95 && cr < 7) || (cr >= 4.45 && cr < 4.5) || (cr >= 2.95 && cr < 3)) {
                     let crr3 = Number(cr.toFixed(3)).toString()
-                    this[key].contrastRatioString = `just below ${crr}:1 (${crr3}:1)`
+                    this[key].contrastRatioString = `<span class="smaller">just below </span>${crr}:1<span class="smaller"> (${crr3}:1)</span>`
                 }
                 this[key].levelAA = 'regular'
                 this[key].levelAAA = 'regular'
@@ -238,10 +240,11 @@ class CCAController {
             } else {
                 this[key].contrastRatioRaw  = this[key].foregroundColor.contrast(this[key].backgroundColor)
                 let cr = this[key].contrastRatioRaw
-                let crr = Number(cr.toFixed(1)).toString() // toString removes trailing zero
+                let crr = Number(cr.toFixed(rounding)).toString() // toString removes trailing zero
                 this[key].contrastRatioString = `${crr}:1`
             }
         }, this.sharedObject.deficiencies)
+        this.sendEventToAll('contrastRatioChanged')
     }
 
     sendEventToAll(event, params) {
@@ -292,6 +295,16 @@ The contrast ratio is: ${normal.contrastRatioString}
     changeFormat(event, section, format) {
         this.sharedObject.preferences[section].format = format
         store.set(section + '.format', format)
+    }
+
+    setOption(event, option, value) {
+        this.sharedObject.preferences.options[option] = value
+        store.set('options.' + option, value)
+        switch(option) {
+            case 'rounding':
+                this.updateContrastRatio()
+            break;
+        }
     }
 }
 

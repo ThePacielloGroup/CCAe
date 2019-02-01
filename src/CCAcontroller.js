@@ -19,6 +19,7 @@ class CCAController {
             this.sendEventToAll('backgroundColorChanged')
         })
         ipcMain.on('changeRGBComponent', this.updateRGBComponent.bind(this))
+        ipcMain.on('changeHSLComponent', this.updateHSLComponent.bind(this))
         ipcMain.on('changeForeground', this.updateForegroundFromString.bind(this))
         ipcMain.on('changeBackground', this.updateBackgroundFromString.bind(this))
         ipcMain.on('switchColors', this.switchColors.bind(this))
@@ -84,6 +85,47 @@ class CCAController {
             } else if (component === "alpha") {
                 color = color.alpha(value)
             }    
+        }
+
+        if (group === "foreground") {
+            this.sharedObject.deficiencies.normal.foregroundColor = color
+            this.updateGlobalF()    
+        } else if (group === "background") {
+            this.sharedObject.deficiencies.normal.backgroundColor = color
+            this.updateGlobalB()
+        }
+    }
+
+    updateHSLComponent(event, group, component, value) {
+        if (component === 'alpha') {
+            value = parseFloat(value)
+            if (value > 1) value = 1
+            if (value < 0) value = 0    
+        } else if (component === 'hue') {
+            value = parseFloat(value)
+            if (value > 360) value = 360
+            if (value < 0) value = 0    
+        } else {
+            value = parseInt(value)
+            if (value > 100) value = 100
+            if (value < 0) value = 0    
+        }
+
+        let color 
+        if (group === "foreground") {
+            color = this.sharedObject.deficiencies.normal.foregroundColor
+        } else if (group === "background") {
+            color = this.sharedObject.deficiencies.normal.backgroundColor
+        }
+
+        if (component === "hue") {
+            color = color.hue(value)
+        } else if (component === "saturation") {
+            color = color.saturationl(value)
+        } else if (component === "lightness") {
+            color = color.lightness(value)
+        } else if (component === "alpha") {
+            color = color.alpha(value)
         }
 
         if (group === "foreground") {

@@ -4,8 +4,7 @@ const url = require('url')
 
 module.exports = (dirname) => {
   let win
-
-  let init = () => {
+  let init = (section) => {
     if (win === null || win === undefined) {
       if (process.platform === 'darwin' || process.platform === 'win32') {
         createWindow()

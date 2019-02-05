@@ -1,7 +1,7 @@
 const { ipcRenderer } = require('electron')
 const sharedObject = require('electron').remote.getGlobal('sharedObject')
 
-ipcRenderer.send('init-deficiency')
+document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-deficiency'), false)
 
 ipcRenderer.on('init', event => {
     applyForegroundColor()

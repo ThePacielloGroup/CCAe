@@ -1,4 +1,4 @@
-const { app, Menu } = require('electron')
+const { app, Menu, BrowserWindow } = require('electron')
 const isDev = ('NODE_ENV' in process.env && process.env.NODE_ENV === 'dev')
 const Store = require('electron-store');
 const store = new Store();
@@ -63,6 +63,22 @@ app.on('ready', () => {
                     accelerator: 'CmdOrCtrl+Shift+C',
                     click: (item) => {
                         mainController.copyResults()
+                    }
+                }, {
+                    type: 'separator'
+                }, {
+                    label: 'Foreground picker',
+                    accelerator: global.sharedObject.preferences.foreground.picker.shortcut,
+                    click: () => {
+                        global['currentPicker'] = 'foreground'
+                        picker.init()
+                    }
+                }, {
+                    label: 'Background picker',
+                    accelerator: global.sharedObject.preferences.background.picker.shortcut,
+                    click: () => {
+                        global['currentPicker'] = 'background'
+                        picker.init()
                     }
                 }
             ]
@@ -236,32 +252,38 @@ global.sharedObject = {
             position : {
                 x : null,
                 y : null,
-            }
+            },
+            rounding : null,
         },
         foreground : {
             format : null,
+            picker : {
+                shortcut : null
+            }
         },
         background : {
             format : null,
+            picker : {
+                shortcut : null
+            }
         },
-        options : {
-            rounding : null,
-        }
     }
 }
 
 function loadPreferences() {
-    console.log(store.path)
+    if (isDev) { console.log(store.path) } 
     prefs = global.sharedObject.preferences
     prefs.main.position.x = store.get('main.position.x', null)
     prefs.main.position.y = store.get('main.position.y', null)
+    prefs.main.rounding = store.get('main.rounding', 1)
     prefs.foreground.format = store.get('foreground.format', 'hex')
     prefs.background.format = store.get('background.format', 'hex')
-    prefs.options.rounding = store.get('options.rounding', 1)
+    prefs.foreground.picker.shortcut = store.get('foreground.picker.shortcut', 'F11')
+    prefs.background.picker.shortcut = store.get('background.picker.shortcut', 'F12')
 }
 
 const browsers = require('./browsers')(__dirname)
-const {main, about, deficiency, preferences} = browsers
+const {main, about, deficiency, preferences, picker} = browsers
 
 const CCAController = require('./CCAcontroller')
 

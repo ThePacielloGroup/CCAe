@@ -37,18 +37,15 @@ ipcRenderer.on('contrastRatioChanged', event => {
     applyContrastRatio()
 })
 
-ipcRenderer.on('foregroundPickerToggelled', (event, state) => {
-    document.querySelector('#foreground-color .picker').setAttribute('aria-pressed', state)
-})
-
-ipcRenderer.on('backgroundPickerToggelled', (event, state) => {
-    document.querySelector('#background-color .picker').setAttribute('aria-pressed', state)
+ipcRenderer.on('pickerToggelled', (event, section, state) => {
+    console.log(section, state)
+    document.querySelector('#' + section + '-color .picker').setAttribute('aria-pressed', state)
 })
 
 function initEvents () {
     // Opens color picker on button click
-    document.querySelector('#foreground-color .picker').onclick = () => ipcRenderer.send('showForegroundPicker')
-    document.querySelector('#background-color .picker').onclick = () => ipcRenderer.send('showBackgroundPicker')
+    document.querySelector('#foreground-color .picker').onclick = () => ipcRenderer.send('showPicker', 'foreground')
+    document.querySelector('#background-color .picker').onclick = () => ipcRenderer.send('showPicker', 'background')
     document.querySelector('#foreground-rgb .red input[type=range]').oninput = function() {sliderRGBOnInput('foreground', 'red', this.value)}
     document.querySelector('#foreground-rgb .green input[type=range]').oninput = function() {sliderRGBOnInput('foreground', 'green', this.value)}
     document.querySelector('#foreground-rgb .blue input[type=range]').oninput = function() {sliderRGBOnInput('foreground', 'blue', this.value)}
@@ -73,7 +70,7 @@ function initEvents () {
     document.querySelector('#foreground-color .switch').onclick = function() {ipcRenderer.send('switchColors')}
     document.querySelector('#foreground-color .help').onclick = function() {showHide(this)}
     document.querySelector('#background-color .help').onclick = function() {showHide(this)}
-    document.querySelector('#foreground-color .format-selector').onchange = function() {console.log("teset");changeFormat('foreground', this)}
+    document.querySelector('#foreground-color .format-selector').onchange = function() {changeFormat('foreground', this)}
     document.querySelector('#background-color .format-selector').onchange = function() {changeFormat('background', this)}
 
     document.querySelector('#foreground-hsl .hue input[type=range]').oninput = function() {sliderHSLOnInput('foreground', 'hue', this.value)}
@@ -337,7 +334,7 @@ function leaveText(section, el) {
 function changeFormat(section, el) {
     let colorReal
     // We send the selected format to the controller for saving and sharedObject update
-    ipcRenderer.send('changeFormat', section, el.value)
+    ipcRenderer.send('setPreference', section, 'format', el.value)
     // Then we update the current text field
     if (section == 'foreground') {
         colorReal = sharedObject.deficiencies.normal.foregroundColorMixed

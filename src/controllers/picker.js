@@ -23,7 +23,6 @@ module.exports = (browsers, mainController) => {
 
     ipcMain.on('showPicker', (event, section) => {
       global['currentPicker'] = section
-      mainController.sendEventToAll('pickerToggelled', global['currentPicker'], true)   
       picker.init()
     })
   

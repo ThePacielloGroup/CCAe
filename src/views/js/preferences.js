@@ -11,7 +11,7 @@ ipcRenderer.on('init', event => {
 /* Tab Options */
 document.getElementById('save').addEventListener('click', function () {
     var rounding = document.getElementById('option-rounding').value
-    ipcRenderer.send('setPreference', 'main', 'rounding', null, rounding)
+    ipcRenderer.send('setPreference', rounding, 'main', 'rounding')
     close()
 })
 

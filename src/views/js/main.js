@@ -25,12 +25,8 @@ ipcRenderer.on('init', event => {
     initEvents()
 })
 
-ipcRenderer.on('foregroundColorChanged', event => {
-    applyColor('foreground')
-})
-
-ipcRenderer.on('backgroundColorChanged', event => {
-    applyColor('background')
+ipcRenderer.on('colorChanged', (event, section) => {
+    applyColor(section)
 })
 
 ipcRenderer.on('contrastRatioChanged', event => {
@@ -38,7 +34,6 @@ ipcRenderer.on('contrastRatioChanged', event => {
 })
 
 ipcRenderer.on('pickerToggelled', (event, section, state) => {
-    console.log(section, state)
     document.querySelector('#' + section + '-color .picker').setAttribute('aria-pressed', state)
 })
 
@@ -97,21 +92,21 @@ function initEvents () {
     });
 }
 
-function sliderRGBOnInput(group, component, value) {
-    let sync = document.querySelector('#' + group + '-rgb .sync input[type=checkbox]').checked
-    ipcRenderer.send('changeRGBComponent', group, component, value, sync)
+function sliderRGBOnInput(section, component, value) {
+    let sync = document.querySelector('#' + section + '-rgb .sync input[type=checkbox]').checked
+    ipcRenderer.send('changeFromRGBComponent', section, component, value, sync)
 }
 
-function numberRGBOnInput(group, component, value) {
-    ipcRenderer.send('changeRGBComponent', group, component, value)
+function numberRGBOnInput(section, component, value) {
+    ipcRenderer.send('changeFromRGBComponent', section, component, value)
 }
 
-function sliderHSLOnInput(group, component, value) {
-    ipcRenderer.send('changeHSLComponent', group, component, value)
+function sliderHSLOnInput(section, component, value) {
+    ipcRenderer.send('changeFromHSLComponent', section, component, value)
 }
 
-function numberHSLOnInput(group, component, value) {
-    ipcRenderer.send('changeHSLComponent', group, component, value)
+function numberHSLOnInput(section, component, value) {
+    ipcRenderer.send('changeFromHSLComponent', section, component, value)
 }
 
 function showHide(el) {
@@ -128,12 +123,11 @@ function showHide(el) {
 }
 
 function applyColor(section) {
-    let color, colorReal
+    let colorReal
+    let color = sharedObject.deficiencies.normal[section + "Color"]
     if (section == 'foreground') {
-        color = sharedObject.deficiencies.normal.foregroundColor
         colorReal = sharedObject.deficiencies.normal.foregroundColorMixed
     } else {
-        color = sharedObject.deficiencies.normal.backgroundColor
         colorReal = color
     }
 
@@ -306,11 +300,7 @@ function displayValidate(section, format, string) {
         freeFormat.setAttribute('aria-live', 'polite')
     }
     if (format) {
-        if (section == 'foreground') {
-            ipcRenderer.send('changeForeground', string, format)
-        } else {
-            ipcRenderer.send('changeBackground', string, format)
-        }
+        ipcRenderer.send('changeFromString', section, string, format)
         input.setAttribute('aria-invalid', false)
         formatSelector.value = format.toLowerCase()
         formatSelector.style.display = "block"
@@ -334,7 +324,7 @@ function leaveText(section, el) {
 function changeFormat(section, el) {
     let colorReal
     // We send the selected format to the controller for saving and sharedObject update
-    ipcRenderer.send('setPreference', section, 'format', el.value)
+    ipcRenderer.send('setPreference', el.value, section, 'format')
     // Then we update the current text field
     if (section == 'foreground') {
         colorReal = sharedObject.deficiencies.normal.foregroundColorMixed

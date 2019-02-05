@@ -15,18 +15,17 @@ class CCAController {
             this.updateDeficiency('foreground')
             this.updateDeficiency('background')
             this.updateContrastRatio()
-            this.sendEventToAll('foregroundColorChanged')        
-            this.sendEventToAll('backgroundColorChanged')
+            this.sendEventToAll('colorChanged', 'foreground')        
+            this.sendEventToAll('colorChanged', 'background')
         })
-        ipcMain.on('changeRGBComponent', this.updateRGBComponent.bind(this))
-        ipcMain.on('changeHSLComponent', this.updateHSLComponent.bind(this))
-        ipcMain.on('changeForeground', this.updateFromString.bind(this))
-        ipcMain.on('changeBackground', this.updateFromString.bind(this))
+        ipcMain.on('changeFromRGBComponent', this.updateRGBComponent.bind(this))
+        ipcMain.on('changeFromHSLComponent', this.updateHSLComponent.bind(this))
+        ipcMain.on('changeFromString', this.updateFromString.bind(this))
         ipcMain.on('switchColors', this.switchColors.bind(this))
         ipcMain.on('setPreference', this.setPreference.bind(this))
     }
 
-    updateRGBComponent(event, group, component, value, synced = false) {
+    updateRGBComponent(event, section, component, value, synced = false) {
         if (component === 'alpha') {
             value = parseFloat(value)
             if (value > 1) value = 1
@@ -37,12 +36,7 @@ class CCAController {
             if (value < 0) value = 0    
         }
 
-        let color 
-        if (group === "foreground") {
-            color = this.sharedObject.deficiencies.normal.foregroundColor
-        } else if (group === "background") {
-            color = this.sharedObject.deficiencies.normal.backgroundColor
-        }
+        let color = this.sharedObject.deficiencies.normal[section + 'Color']
 
         let dist
         if (synced && component !== "alpha") {
@@ -87,16 +81,11 @@ class CCAController {
             }    
         }
 
-        if (group === "foreground") {
-            this.sharedObject.deficiencies.normal.foregroundColor = color
-            this.updateGlobalF()    
-        } else if (group === "background") {
-            this.sharedObject.deficiencies.normal.backgroundColor = color
-            this.updateGlobalB()
-        }
+        this.sharedObject.deficiencies.normal[section + 'Color'] = color
+        this.updateGlobal(section)
     }
 
-    updateHSLComponent(event, group, component, value) {
+    updateHSLComponent(event, section, component, value) {
         if (component === 'alpha') {
             value = parseFloat(value)
             if (value > 1) value = 1
@@ -111,12 +100,7 @@ class CCAController {
             if (value < 0) value = 0    
         }
 
-        let color 
-        if (group === "foreground") {
-            color = this.sharedObject.deficiencies.normal.foregroundColor
-        } else if (group === "background") {
-            color = this.sharedObject.deficiencies.normal.backgroundColor
-        }
+        let color = this.sharedObject.deficiencies.normal[section + 'Color']
 
         if (component === "hue") {
             color = color.hue(value)
@@ -128,13 +112,8 @@ class CCAController {
             color = color.alpha(value)
         }
 
-        if (group === "foreground") {
-            this.sharedObject.deficiencies.normal.foregroundColor = color
-            this.updateGlobalF()    
-        } else if (group === "background") {
-            this.sharedObject.deficiencies.normal.backgroundColor = color
-            this.updateGlobalB()
-        }
+        this.sharedObject.deficiencies.normal[section + 'Color'] = color
+        this.updateGlobal(section)    
     }
 
     updateFromString(event, section, stringColor) {
@@ -155,9 +134,9 @@ class CCAController {
         }
         this.updateContrastRatio()
         if (section == 'background' && this.sharedObject.deficiencies.normal.foregroundColor.alpha() !== 1) { // Then mixed has changed
-            this.sendEventToAll('foregroundColorChanged')
+            this.sendEventToAll('colorChanged', 'foreground')
         }
-        this.sendEventToAll(section + 'ColorChanged')    
+        this.sendEventToAll('colorChanged', section)    
     }
 
     switchColors(event) {
@@ -168,8 +147,8 @@ class CCAController {
         this.updateDeficiencyForeground()
         this.updateDeficiencyBackground()
         this.updateContrastRatio()
-        this.sendEventToAll('foregroundColorChanged')    
-        this.sendEventToAll('backgroundColorChanged')        
+        this.sendEventToAll('colorChanged', 'foreground')    
+        this.sendEventToAll('colorChanged', 'background')        
     }
 
     updateDeficiency(section) {
@@ -218,12 +197,12 @@ class CCAController {
         this.sendEventToAll('contrastRatioChanged')
     }
 
-    sendEventToAll(event, params) {
+    sendEventToAll(event, ...params) {
         const browsers = this.browsers
         Object.keys(browsers).map(function(key, index) {
             const browser = browsers[key]
             if (browser.getWindow()) {
-                browser.getWindow().webContents.send(event, params)
+                browser.getWindow().webContents.send(event, ...params)
             }
         });
     }
@@ -263,7 +242,7 @@ The contrast ratio is: ${normal.contrastRatioString}
         clipboard.writeText(text)
     }
 
-    setPreference(event, section, level, sublevel, value) {
+    setPreference(event, value, section, level, sublevel) {
         var option
         if (sublevel) {
             this.sharedObject.preferences[section][level][sublevel] = value

@@ -6,42 +6,53 @@
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/preferences.css" />
     <link rel="stylesheet" href="css/tabs.css" />
-    <script defer src="js/tabs.js"></script>
     <script defer src="js/preferences.js"></script>
   </head>
   <body>
     <main>
       <h1 class="sr-only">Preferences</h1>
-      <ul id="preferences-tabs" role="tablist">
-          <li role="presentation">
-            <a href="#options"
-            role="tab"
-            id="options-tab"
-            tabindex="0"
-            aria-controls="options"
-            aria-selected="true">Options</a>
-          </li>
-          <li role="presentation">
-            <a href="#keyboard"
-            role="tab"
-            id="keyboard-tab"
-            tabindex="-1"
-            aria-controls="keyboard"
-            aria-selected="false">Keyboard</a>
-          </li>
-        </ul>
-        <div role="tabpanel" id="options" aria-labelledby="options-tab" aria-hidden="false"
-        aria-expanded="true">
-          <label for="option-rounding">Rounding</label>
-          <select id="option-rounding">
-            <option value="1">1 digit</option>
-            <option value="2">2 digits</option>
-          </select>
-        </div>
-        <div role="tabpanel" id="keyboard" aria-labelledby="keyboard-tab" aria-hidden="true"
-        aria-expanded="false" hidden>
-        To do
-        </div>
+      <fieldset>
+        <legend>Options</legend>
+        <label for="option-rounding">Contrast ratio precision</label>
+        <select id="option-rounding">
+          <option value="1">1 decimal place</option>
+          <option value="2">2 decimal places</option>
+        </select>
+
+      </fieldset>
+      <fieldset>
+        <legend>Shortcuts</legend>
+        <label for="shortcut-foreground-picker">Picker foreground</label>
+        <select id="shortcut-foreground-picker">
+          <option value="F1">F1</option>
+          <option value="F2">F2</option>
+          <option value="F3">F3</option>
+          <option value="F4">F4</option>
+          <option value="F5">F5</option>
+          <option value="F6">F6</option>
+          <option value="F7">F7</option>
+          <option value="F8">F8</option>
+          <option value="F9">F9</option>
+          <option value="F10">F10</option>
+          <option value="F11">F11</option>
+          <option value="F12">F12</option>
+        </select>
+        <label for="shortcut-background-picker">Picker background</label>
+        <select id="shortcut-background-picker">
+          <option value="F1">F1</option>
+          <option value="F2">F2</option>
+          <option value="F3">F3</option>
+          <option value="F4">F4</option>
+          <option value="F5">F5</option>
+          <option value="F6">F6</option>
+          <option value="F7">F7</option>
+          <option value="F8">F8</option>
+          <option value="F9">F9</option>
+          <option value="F10">F10</option>
+          <option value="F11">F11</option>
+          <option value="F12">F12</option>
+        </select>
+      </fieldset>
         <button id="save">Save</button>
         <button id="cancel">Cancel</button>
     </main>

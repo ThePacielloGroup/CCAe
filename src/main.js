@@ -64,22 +64,6 @@ app.on('ready', () => {
                     click: (item) => {
                         mainController.copyResults()
                     }
-                }, {
-                    type: 'separator'
-                }, {
-                    label: 'Foreground picker',
-                    accelerator: global.sharedObject.preferences.foreground.picker.shortcut,
-                    click: () => {
-                        global['currentPicker'] = 'foreground'
-                        picker.init()
-                    }
-                }, {
-                    label: 'Background picker',
-                    accelerator: global.sharedObject.preferences.background.picker.shortcut,
-                    click: () => {
-                        global['currentPicker'] = 'background'
-                        picker.init()
-                    }
                 }
             ]
         },
@@ -153,6 +137,11 @@ app.on('ready', () => {
 
     const menu = Menu.buildFromTemplate(menuTemplate);
     Menu.setApplicationMenu(menu);
+
+    // Register shortcuts
+    mainController.updateShortcut('foreground.picker.shortcut', null, global.sharedObject.preferences.foreground.picker.shortcut)
+    mainController.updateShortcut('background.picker.shortcut', null, global.sharedObject.preferences.background.picker.shortcut)
+
     checkForUpdates()
 })
 

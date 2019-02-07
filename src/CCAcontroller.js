@@ -1,4 +1,4 @@
-const { ipcMain, clipboard } = require('electron')
+const { ipcMain, clipboard, globalShortcut } = require('electron')
 const Color = require('./CCAcolor')
 const Store = require('electron-store');
 const store = new Store();
@@ -243,11 +243,13 @@ The contrast ratio is: ${normal.contrastRatioString}
     }
 
     setPreference(event, value, section, level, sublevel) {
-        var option
+        var option, oldValue
         if (sublevel) {
+            oldValue = this.sharedObject.preferences[section][level][sublevel]
             this.sharedObject.preferences[section][level][sublevel] = value
             option = section + '.' + level + '.' + sublevel
         } else {
+            oldValue = this.sharedObject.preferences[section][level]
             this.sharedObject.preferences[section][level] = value
             option = section + '.' + level   
         }
@@ -256,6 +258,34 @@ The contrast ratio is: ${normal.contrastRatioString}
             case 'main.rounding':
                 this.updateContrastRatio()
             break;
+            case 'foreground.picker.shortcut':
+                this.updateShortcut(option, oldValue, value)
+            break;
+            case 'background.picker.shortcut':
+                this.updateShortcut(option, oldValue, value)
+            break;
+        }
+    }
+
+    updateShortcut(shortcut, oldValue, newValue) {
+        const browsers = this.browsers
+        if (oldValue) {
+            globalShortcut.unregister(oldValue)
+        }
+
+        switch(shortcut) {
+            case 'foreground.picker.shortcut':
+                globalShortcut.register(newValue, () => {
+                    global['currentPicker'] = 'foreground'
+                    browsers['picker'].init()
+                })
+                break;
+            case 'background.picker.shortcut':
+                globalShortcut.register(newValue, () => {
+                    global['currentPicker'] = 'background'
+                    browsers['picker'].init()
+                })
+                break;
         }
     }
 }

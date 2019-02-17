@@ -54,6 +54,20 @@ app.on('ready', () => {
                     click: (item) => {
                         mainController.copyResults()
                     }
+                }, {
+                    type: 'separator'
+                }, {
+                    label: 'Cut',
+                    accelerator: 'CmdOrCtrl+X',
+                    selector: 'cut:'
+                }, {
+                    label: 'Copy',
+                    accelerator: 'CmdOrCtrl+C',
+                    selector: 'copy:'
+                }, {
+                    label: 'Paste',
+                    accelerator: 'CmdOrCtrl+V',
+                    selector: 'paste:'
                 }
             ]
         },

@@ -100,6 +100,26 @@ app.on('ready', () => {
         }
     ];
 
+    if (process.platform === 'darwin') {
+        menuTemplate[1].submenu.push(
+            {
+                type: 'separator'
+            }, {
+                label: 'Cut',
+                accelerator: 'CmdOrCtrl+X',
+                selector: 'cut:'
+            }, {
+                label: 'Copy',
+                accelerator: 'CmdOrCtrl+C',
+                selector: 'copy:'
+            }, {
+                label: 'Paste',
+                accelerator: 'CmdOrCtrl+V',
+                selector: 'paste:'
+            }
+        )
+    }
+
     if (isDev) {
         menuTemplate.push(
             {

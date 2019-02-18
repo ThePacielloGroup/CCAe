@@ -100,6 +100,29 @@ app.on('ready', () => {
         }
     ];
 
+    /* On macOS, cut/copy/paste doesn't work by default unless the options
+    are added to the edit menu, or some custom clipboard API implementation is
+    used. On Windows and Linux, these work out of the box...so only add on macOS */
+    if (process.platform === 'darwin') {
+        menuTemplate[1].submenu.push(
+            {
+                type: 'separator'
+            }, {
+                label: 'Cut',
+                accelerator: 'CmdOrCtrl+X',
+                selector: 'cut:'
+            }, {
+                label: 'Copy',
+                accelerator: 'CmdOrCtrl+C',
+                selector: 'copy:'
+            }, {
+                label: 'Paste',
+                accelerator: 'CmdOrCtrl+V',
+                selector: 'paste:'
+            }
+        )
+    }
+
     if (isDev) {
         menuTemplate.push(
             {
@@ -132,7 +155,7 @@ app.on('ready', () => {
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
-    // On OS X it is common for applications and their menu bar
+    // On macOS it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
         app.quit()
@@ -140,7 +163,7 @@ app.on('window-all-closed', () => {
 })
 
 app.on('activate', () => {
-    // On OS X it's common to re-create a window in the app when the
+    // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     main.init()
 })

@@ -2,7 +2,10 @@
 const {ipcMain} = require('electron')
 const robot = require('robotjs')
 
-let mouseEvent;
+let mouseEvent
+if (process.platform === 'darwin') mouseEvent = require('osx-mouse')()
+// if (process.platform === 'linux') mouseEvent = require('linux-mouse')()
+if (process.platform === 'win32') mouseEvent = require('win-mouse')()
 
 module.exports = (browsers, mainController) => {
     const {picker, main} = browsers
@@ -30,6 +33,28 @@ module.exports = (browsers, mainController) => {
       }
     }
 
+    let movePicker = direction => {
+      if (picker.getWindow()) {
+        const currentPosition = robot.getMousePos()
+        const screenSize = robot.getScreenSize()
+        let newPositionX = currentPosition.x
+        let newPositionY = currentPosition.y
+
+        if (direction === 'up' && currentPosition.y > 0) {
+          newPositionY -= 1
+        } else if (direction === 'right' && currentPosition.x < screenSize.width) {
+          newPositionX += 1
+        } else if (direction === 'down' && currentPosition.y < screenSize.height) {
+          newPositionY += 1
+        } else if (direction === 'left' && currentPosition.x > 0) {
+          newPositionX -= 1
+        }
+
+        robot.moveMouse(newPositionX, newPositionY)
+        mouseEvent.emit('move', newPositionX, newPositionY)
+      }
+    }
+
     ipcMain.on('showForegroundPicker', event => {
       foregroundPicker = true
       picker.init()
@@ -41,11 +66,7 @@ module.exports = (browsers, mainController) => {
       mainController.sendEventToAll('backgroundPickerToggelled', true)   
     })
 
-    ipcMain.on('pickerRequested', (event, ratio) => {
-        if (process.platform === 'darwin') mouseEvent = require('osx-mouse')()
-        // if (process.platform === 'linux') mouseEvent = require('linux-mouse')()
-        if (process.platform === 'win32') mouseEvent = require('win-mouse')()
-    
+    ipcMain.on('pickerRequested', (event, ratio) => {    
         picker.getWindow().on('close', () => mouseEvent.destroy())
     
         mouseEvent.on('move', (x, y) => {
@@ -81,4 +102,9 @@ module.exports = (browsers, mainController) => {
         ipcMain.on('closePicker', closePicker)
         mouseEvent.on('right-up', closePicker)
       })
+
+    ipcMain.on('movePickerUp', (evt) => movePicker('up'))
+    ipcMain.on('movePickerRight', (evt) => movePicker('right'))
+    ipcMain.on('movePickerDown', (evt) => movePicker('down'))
+    ipcMain.on('movePickerLeft', (evt) => movePicker('left'))
 }

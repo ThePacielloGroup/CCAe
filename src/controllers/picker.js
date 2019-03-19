@@ -9,15 +9,15 @@ if (process.platform === 'win32') mouseEvent = require('win-mouse')()
 
 module.exports = (browsers, mainController) => {
     const {picker, main} = browsers
-    let foregroundPicker // Keep which picker is openned
+    let foregroundPicker // Keep which picker is opened
 
     let closePicker = hexColor => {
       if (picker.getWindow()) {
         picker.getWindow().close()
         if (foregroundPicker === true) {
-          mainController.sendEventToAll('foregroundPickerToggelled', false)   
+          mainController.sendEventToAll('foregroundPickerToggled', false)   
         } else {
-          mainController.sendEventToAll('backgroundPickerToggelled', false)   
+          mainController.sendEventToAll('backgroundPickerToggled', false)   
         }
         if (typeof hexColor === 'string') { // If ESC wasn't used
           if (foregroundPicker === true) {
@@ -58,12 +58,13 @@ module.exports = (browsers, mainController) => {
     ipcMain.on('showForegroundPicker', event => {
       foregroundPicker = true
       picker.init()
-      mainController.sendEventToAll('foregroundPickerToggelled', true)   
+      mainController.sendEventToAll('foregroundPickerToggled', true)   
     })
+
     ipcMain.on('showBackgroundPicker', event => { 
       foregroundPicker = false
       picker.init()
-      mainController.sendEventToAll('backgroundPickerToggelled', true)   
+      mainController.sendEventToAll('backgroundPickerToggled', true)   
     })
 
     ipcMain.on('pickerRequested', (event, ratio) => {    

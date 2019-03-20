@@ -52,6 +52,11 @@ module.exports = (browsers, mainController) => {
       }
     }
 
+    let selectColor = () => {
+      const currentMousePos = robot.getMousePos();
+      closePicker('#' + robot.getPixelColor(currentMousePos.x, currentMousePos.y))
+    }
+
     ipcMain.on('showForegroundPicker', event => {
       foregroundPicker = true
       picker.init()
@@ -109,4 +114,5 @@ module.exports = (browsers, mainController) => {
     ipcMain.on('movePickerRight', (evt) => movePicker('right'))
     ipcMain.on('movePickerDown', (evt) => movePicker('down'))
     ipcMain.on('movePickerLeft', (evt) => movePicker('left'))
+    ipcMain.on('selectPickerColor', (evt) => selectColor())
 }

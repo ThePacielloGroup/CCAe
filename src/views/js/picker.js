@@ -16,6 +16,13 @@ document.addEventListener('keydown', event => {
     ipcRenderer.send('movePickerLeft');
   }
 }, false)
+document.addEventListener('keyup', event => {
+  if (event.key === 'Enter') {
+    ipcRenderer.send('selectPickerColor');
+  } else if (event.code === 'Space') {
+    ipcRenderer.send('selectPickerColor');
+  }
+}, false)
 
 ipcRenderer.on('updatePicker', (event, color) => {
   document.querySelector('#picker').style.border = `10px solid ${color}`

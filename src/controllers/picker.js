@@ -3,9 +3,6 @@ const {ipcMain} = require('electron')
 const robot = require('robotjs')
 
 let mouseEvent
-if (process.platform === 'darwin') mouseEvent = require('osx-mouse')()
-// if (process.platform === 'linux') mouseEvent = require('linux-mouse')()
-if (process.platform === 'win32') mouseEvent = require('win-mouse')()
 
 module.exports = (browsers, mainController) => {
     const {picker, main} = browsers
@@ -68,6 +65,10 @@ module.exports = (browsers, mainController) => {
     })
 
     ipcMain.on('pickerRequested', (event, ratio) => {    
+        if (process.platform === 'darwin') mouseEvent = require('osx-mouse')()
+        // if (process.platform === 'linux') mouseEvent = require('linux-mouse')()
+        if (process.platform === 'win32') mouseEvent = require('win-mouse')()
+      
         picker.getWindow().on('close', () => mouseEvent.destroy())
     
         mouseEvent.on('move', (x, y) => {

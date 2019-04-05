@@ -8,7 +8,8 @@
     "start": "cross-env NODE_ENV=dev electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "dist-windows": "electron-builder --win nsis",
+    "dist-win64": "electron-builder --win nsis",
+    "dist-win32": "electron-builder --win nsis --ia32",
     "postinstall": "electron-builder install-app-deps",
     "rebuild": "npm rebuild --runtime=electron --target=2.0.11 --disturl=https://atom.io/download/electron --abi=57"
   },

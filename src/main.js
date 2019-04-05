@@ -11,7 +11,8 @@ const { checkForUpdates, installUpdate } = require('./update.js')
 app.on('ready', () => {
     loadPreferences()
     position = global.sharedObject.preferences.main.position
-    main.init(position.x, position.y)
+    alwaysOnTop = global.sharedObject.preferences.main.alwaysOnTop
+    main.init(position.x, position.y, alwaysOnTop)
 
     const menuTemplate = [
         {
@@ -75,16 +76,26 @@ app.on('ready', () => {
             ]
         },
         {
-          label: 'View',
-          submenu: [
-            {
-                label: 'Colour blindness simulation',
-                accelerator: 'CmdOrCtrl+B',
-                click: () => deficiency.init()
-            },/*
-            {
-              type: 'separator'
-            },
+            label: 'View',
+            submenu: [
+                {
+                    label: 'Colour blindness simulation',
+                    accelerator: 'CmdOrCtrl+B',
+                    click: () => deficiency.init()
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    label: 'Always on Top',
+                    type: 'checkbox',
+                    checked: alwaysOnTop,
+                    click: (item) => {
+                        main.getWindow().setAlwaysOnTop(item.checked)
+                        store.set('main.alwaysOnTop', item.checked)
+                    }
+                }
+            /*
             {
                 label: 'Actual Size',
                 accelerator: 'CmdOrCtrl+0',
@@ -273,6 +284,7 @@ global.sharedObject = {
                 y : null,
             },
             rounding : null,
+            alwaysOnTop : null,
         },
         foreground : {
             format : null,
@@ -295,6 +307,7 @@ function loadPreferences() {
     prefs.main.position.x = store.get('main.position.x', null)
     prefs.main.position.y = store.get('main.position.y', null)
     prefs.main.rounding = store.get('main.rounding', 1)
+    prefs.main.alwaysOnTop = store.get('main.alwaysOnTop', true)
     prefs.foreground.format = store.get('foreground.format', 'hex')
     prefs.background.format = store.get('background.format', 'hex')
     prefs.foreground.picker.shortcut = store.get('foreground.picker.shortcut', 'F11')

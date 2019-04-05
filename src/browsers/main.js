@@ -13,12 +13,12 @@ module.exports = (dirname) => {
      * @param {int} Y [initial window y position]
      * @param {boolean} force [force launching new window]
      */
-    let init = (x, y, force) => {
-        if (mainWindow === null || mainWindow === undefined || force) createWindow(x, y)
+    let init = (x, y, alwaysOnTop, force) => {
+        if (mainWindow === null || mainWindow === undefined || force) createWindow(x, y, alwaysOnTop)
         else mainWindow.show()
     }
 
-    let createWindow = (x, y) => {
+    let createWindow = (x, y, alwaysOnTop) => {
         // Create the browser window.
         mainWindow = new BrowserWindow({
             show: false, // Hide the application until the page has loaded
@@ -26,7 +26,7 @@ module.exports = (dirname) => {
             height: 0,
             x: x,
             y: y,
-            alwaysOnTop: true,
+            alwaysOnTop: alwaysOnTop,
             resizable: false,
             focusable: true,
             useContentSize: true

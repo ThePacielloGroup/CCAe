@@ -26,7 +26,6 @@ summary h2, summary h3 {
     display: inline-block;
 }
 
-
 section#foreground-color h2, 
 section#background-color h2 {
     position: absolute;
@@ -46,6 +45,10 @@ section {
 #contrast-ratio-value {
     text-align: center;
     font-size: 1.2rem;
+}
+
+#contrast-ratio-value .smaller{
+    font-size: 1rem;
 }
 
 /* Color sections */
@@ -92,9 +95,8 @@ section#background-color input.free-value  {
     width: 100%;
 }
 
-section#foreground-color .free-tag,
-section#background-color .free-tag  {
-    font-size: 1rem;
+section#foreground-color .format-selector,
+section#background-color .format-selector  {
     background-color: #1B75BC;
     color: #ffffff;
     padding: 0.2rem 0.5rem 0.1rem 0.5rem;
@@ -145,8 +147,8 @@ section#background-color button.picker {
     background-image: url('../icons/picker-black.svg');
 }
 
-section#foreground-color button.rgb, 
-section#background-color button.rgb {
+section#foreground-color button.sliders, 
+section#background-color button.sliders {
     background-image: url('../icons/sliders-black.svg');
 }
 
@@ -164,8 +166,8 @@ section#background-color button[aria-pressed=true].picker {
     background-image: url('../icons/picker-white.svg');
 }
 
-section#foreground-color button[aria-expanded=true].rgb,
-section#background-color button[aria-expanded=true].rgb {
+section#foreground-color button[aria-expanded=true].sliders,
+section#background-color button[aria-expanded=true].sliders {
     background-image: url('../icons/sliders-white.svg');
 }
 
@@ -181,58 +183,63 @@ section#background-color button[aria-pressed=true] {
     background-color: #1B75BC;
 }
 
-/* RGB input sections */
-
-section#foreground-rgb,
-section#background-rgb {
+/* Sliders */
+section#foreground-sliders,
+section#background-sliders {
     border-bottom: 1px #ddd solid;
 }
 
-section#foreground-rgb .sync,
-section#background-rgb .sync {
-    margin: 0 0 0.5rem 0;
-}
-
-section#foreground-rgb .slider,
-section#background-rgb .slider {
+section#foreground-sliders .slider,
+section#background-sliders .slider {
     display: grid;
     grid-template-columns: 4rem 1fr 2.5rem;
     margin-bottom: 1px;
 }
 
-section#foreground-rgb input[type=number],
-section#background-rgb input[type=number] {
+section#foreground-sliders .slider label,
+section#background-sliders .slider label {
+    font-size: 0.8em;
+}
+
+section#foreground-sliders input[type=number],
+section#background-sliders input[type=number] {
     width: 2.5rem;
     text-align: center;
     font-size: 0.8rem;
 }
-section#foreground-rgb input[type=range],
-section#background-rgb input[type=range] {
+section#foreground-sliders input[type=range],
+section#background-sliders input[type=range] {
     margin: 0 0.5rem 0 0.5rem;
 }
 
-section#foreground-rgb input[type=number]::-webkit-inner-spin-button,
-section#foreground-rgb input[type=number]::-webkit-outer-spin-button,
-section#background-rgb input[type=number]::-webkit-inner-spin-button,
-section#background-rgb input[type=number]::-webkit-outer-spin-button {
+section#foreground-sliders input[type=number]::-webkit-inner-spin-button,
+section#foreground-sliders input[type=number]::-webkit-outer-spin-button,
+section#background-sliders input[type=number]::-webkit-inner-spin-button,
+section#background-sliders input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     margin: 0;
 }
 
-.sync label,
-.slider label {
-    font-size: 0.8em;
+/* RGB input sections */
+#foreground-rgb .sync,
+#background-rgb .sync {
+    margin: 0 0 0.5rem 0;
 }
 
-.sync input {
+#foreground-rgb .sync input,
+#background-rgb .sync input {
     margin: 0 0 0.05em 0;
     vertical-align: text-bottom;
 }
 
-/* Help section */
+#foreground-rgb .sync label,
+#background-rgb .sync label {
+    font-size: 0.8em;
+}
 
+/* Help section */
 section#foreground-help,
 section#background-help {
     background: #f5f5f5;
@@ -305,7 +312,6 @@ section#results details p small {
 section#results .contrast-level {
     margin-left: 2.5rem;
 }
-
 
 section#results .contrast-level img {
     height: 1.2rem;

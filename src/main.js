@@ -1,5 +1,7 @@
-const { app, Menu } = require('electron')
+const { app, Menu, BrowserWindow } = require('electron')
 const isDev = ('NODE_ENV' in process.env && process.env.NODE_ENV === 'dev')
+const Store = require('electron-store');
+const store = new Store();
 
 const { checkForUpdates, installUpdate } = require('./update.js')
 
@@ -7,7 +9,9 @@ const { checkForUpdates, installUpdate } = require('./update.js')
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-    main.init()
+    loadPreferences()
+    position = global.sharedObject.preferences.main.position
+    main.init(position.x, position.y)
 
     const menuTemplate = [
         {
@@ -17,7 +21,20 @@ app.on('ready', () => {
                     label: 'About CCA',
                     accelerator: 'F1',
                     click: () => about.init()
-                }, {
+                },
+                {
+                    label: 'Preferences',
+                    accelerator: 'CmdOrCtrl+,',
+                    click: () => {
+                        // Center panel on main window
+                        pos = main.getWindow().getPosition()
+                        size = main.getWindow().getSize()
+                        x = Math.round(pos[0] + (size[0]/2) - (300/2))
+                        y = Math.round(pos[1] + (size[1]/2) - (400/2))
+                        preferences.init(x, y)
+                    }
+                },
+                {
                     id: 'menuUpdateChecking',
                     label: 'Checking for updates...',
                     enabled: false
@@ -150,6 +167,11 @@ app.on('ready', () => {
 
     const menu = Menu.buildFromTemplate(menuTemplate);
     Menu.setApplicationMenu(menu);
+
+    // Register shortcuts
+    mainController.updateShortcut('foreground.picker.shortcut', null, global.sharedObject.preferences.foreground.picker.shortcut)
+    mainController.updateShortcut('background.picker.shortcut', null, global.sharedObject.preferences.background.picker.shortcut)
+
     checkForUpdates()
 })
 
@@ -166,6 +188,13 @@ app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     main.init()
+})
+
+app.on('before-quit', () => {
+    // Save last position
+    pos = main.getWindow().getPosition()
+    store.set('main.position.x', pos[0])
+    store.set('main.position.y', pos[1])
 })
 
 // In this file you can include the rest of your app's specific main process
@@ -237,12 +266,43 @@ global.sharedObject = {
         }
     },
     advanced : '',
-    options : {
+    preferences : {
+        main : {
+            position : {
+                x : null,
+                y : null,
+            },
+            rounding : null,
+        },
+        foreground : {
+            format : null,
+            picker : {
+                shortcut : null
+            }
+        },
+        background : {
+            format : null,
+            picker : {
+                shortcut : null
+            }
+        },
     }
 }
 
+function loadPreferences() {
+    if (isDev) { console.log(store.path) } 
+    prefs = global.sharedObject.preferences
+    prefs.main.position.x = store.get('main.position.x', null)
+    prefs.main.position.y = store.get('main.position.y', null)
+    prefs.main.rounding = store.get('main.rounding', 1)
+    prefs.foreground.format = store.get('foreground.format', 'hex')
+    prefs.background.format = store.get('background.format', 'hex')
+    prefs.foreground.picker.shortcut = store.get('foreground.picker.shortcut', 'F11')
+    prefs.background.picker.shortcut = store.get('background.picker.shortcut', 'F12')
+}
+
 const browsers = require('./browsers')(__dirname)
-const {main, about, deficiency} = browsers
+const {main, about, deficiency, preferences, picker} = browsers
 
 const CCAController = require('./CCAcontroller')
 

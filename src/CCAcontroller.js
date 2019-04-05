@@ -1,5 +1,7 @@
-const { ipcMain, clipboard } = require('electron')
+const { ipcMain, clipboard, globalShortcut } = require('electron')
 const Color = require('./CCAcolor')
+const Store = require('electron-store');
+const store = new Store();
 
 class CCAController {
     constructor(browsers, sharedObject) {
@@ -10,19 +12,20 @@ class CCAController {
     
     initEvents() {
         ipcMain.on('init-app', event => {
-            this.updateDeficiencyForeground()
-            this.updateDeficiencyBackground()
+            this.updateDeficiency('foreground')
+            this.updateDeficiency('background')
             this.updateContrastRatio()
-            this.sendEventToAll('foregroundColorChanged')        
-            this.sendEventToAll('backgroundColorChanged')
+            this.sendEventToAll('colorChanged', 'foreground')        
+            this.sendEventToAll('colorChanged', 'background')
         })
-        ipcMain.on('changeRGBComponent', this.updateRGBComponent.bind(this))
-        ipcMain.on('changeForeground', this.updateForegroundFromString.bind(this))
-        ipcMain.on('changeBackground', this.updateBackgroundFromString.bind(this))
+        ipcMain.on('changeFromRGBComponent', this.updateRGBComponent.bind(this))
+        ipcMain.on('changeFromHSLComponent', this.updateHSLComponent.bind(this))
+        ipcMain.on('changeFromString', this.updateFromString.bind(this))
         ipcMain.on('switchColors', this.switchColors.bind(this))
+        ipcMain.on('setPreference', this.setPreference.bind(this))
     }
 
-    updateRGBComponent(event, group, component, value, synced = false) {
+    updateRGBComponent(event, section, component, value, synced = false) {
         if (component === 'alpha') {
             value = parseFloat(value)
             if (value > 1) value = 1
@@ -33,12 +36,7 @@ class CCAController {
             if (value < 0) value = 0    
         }
 
-        let color 
-        if (group === "foreground") {
-            color = this.sharedObject.deficiencies.normal.foregroundColor
-        } else if (group === "background") {
-            color = this.sharedObject.deficiencies.normal.backgroundColor
-        }
+        let color = this.sharedObject.deficiencies.normal[section + 'Color']
 
         let dist
         if (synced && component !== "alpha") {
@@ -83,53 +81,62 @@ class CCAController {
             }    
         }
 
-        if (group === "foreground") {
-            this.sharedObject.deficiencies.normal.foregroundColor = color
-            this.updateGlobalF()    
-        } else if (group === "background") {
-            this.sharedObject.deficiencies.normal.backgroundColor = color
-            this.updateGlobalB()
-        }
+        this.sharedObject.deficiencies.normal[section + 'Color'] = color
+        this.updateGlobal(section)
     }
 
-    updateForegroundFromString(event, stringColor, format) {
+    updateHSLComponent(event, section, component, value) {
+        if (component === 'alpha') {
+            value = parseFloat(value)
+            if (value > 1) value = 1
+            if (value < 0) value = 0    
+        } else if (component === 'hue') {
+            value = parseFloat(value)
+            if (value > 360) value = 360
+            if (value < 0) value = 0    
+        } else {
+            value = parseInt(value)
+            if (value > 100) value = 100
+            if (value < 0) value = 0    
+        }
+
+        let color = this.sharedObject.deficiencies.normal[section + 'Color']
+
+        if (component === "hue") {
+            color = color.hue(value)
+        } else if (component === "saturation") {
+            color = color.saturationl(value)
+        } else if (component === "lightness") {
+            color = color.lightness(value)
+        } else if (component === "alpha") {
+            color = color.alpha(value)
+        }
+
+        this.sharedObject.deficiencies.normal[section + 'Color'] = color
+        this.updateGlobal(section)    
+    }
+
+    updateFromString(event, section, stringColor) {
         try {
-            this.sharedObject.deficiencies.normal.foregroundColor = Color(stringColor)
+            this.sharedObject.deficiencies.normal[section + "Color"] = Color(stringColor)
         }
         catch(error) {
             console.error(error)
         }
-        this.updateGlobalF()
+        this.updateGlobal(section)
     }
 
-    updateBackgroundFromString(event, stringColor, format) {
-        try {
-            this.sharedObject.deficiencies.normal.backgroundColor = Color(stringColor)
-        }
-        catch(error) {
-            console.error(error)
-        }
-        this.updateGlobalB()
-    }
-
-    updateGlobalF() {
+    updateGlobal(section) {
         this.sharedObject.deficiencies.normal.foregroundColorMixed = this.sharedObject.deficiencies.normal.foregroundColor.mixed(this.sharedObject.deficiencies.normal.backgroundColor)
-        this.updateDeficiencyForeground()
-        this.updateContrastRatio()
-        this.sendEventToAll('foregroundColorChanged')    
-    }
-
-    updateGlobalB() {
-        this.sharedObject.deficiencies.normal.foregroundColorMixed = this.sharedObject.deficiencies.normal.foregroundColor.mixed(this.sharedObject.deficiencies.normal.backgroundColor)
-        this.updateDeficiencyBackground()
-        if (this.sharedObject.deficiencies.normal.foregroundColor.alpha() !== 1) { // Then mixed has changed
-            this.updateDeficiencyForeground()
+        this.updateDeficiency(section)
+        if (section == 'background' && this.sharedObject.deficiencies.normal.foregroundColor.alpha() !== 1) { // Then mixed has changed
+            this.updateDeficiency('foreground')
         }
         this.updateContrastRatio()
-        if (this.sharedObject.deficiencies.normal.foregroundColor.alpha() !== 1) { // Then mixed has changed
-            this.sendEventToAll('foregroundColorChanged')
+        if (section == 'background' && this.sharedObject.deficiencies.normal.foregroundColor.alpha() !== 1) { // Then mixed has changed
+            this.sendEventToAll('colorChanged', 'foreground')
         }
-        this.sendEventToAll('backgroundColorChanged')
+        this.sendEventToAll('colorChanged', section)    
     }
 
     switchColors(event) {
@@ -140,43 +147,33 @@ class CCAController {
         this.updateDeficiencyForeground()
         this.updateDeficiencyBackground()
         this.updateContrastRatio()
-        this.sendEventToAll('foregroundColorChanged')    
-        this.sendEventToAll('backgroundColorChanged')        
+        this.sendEventToAll('colorChanged', 'foreground')    
+        this.sendEventToAll('colorChanged', 'background')        
     }
 
-    updateDeficiencyForeground() {
-        this.sharedObject.deficiencies.protanopia.foregroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed.protanopia()
-        this.sharedObject.deficiencies.deuteranopia.foregroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed.deuteranopia()
-        this.sharedObject.deficiencies.tritanopia.foregroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed.tritanopia()
-        this.sharedObject.deficiencies.protanomaly.foregroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed.protanomaly()
-        this.sharedObject.deficiencies.deuteranomaly.foregroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed.deuteranomaly()
-        this.sharedObject.deficiencies.tritanomaly.foregroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed.tritanomaly()
-        this.sharedObject.deficiencies.achromatopsia.foregroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed.achromatopsia()
-        this.sharedObject.deficiencies.achromatomaly.foregroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed.achromatomaly()
-    }
-
-    updateDeficiencyBackground() {
-        this.sharedObject.deficiencies.protanopia.backgroundColor = this.sharedObject.deficiencies.normal.backgroundColor.protanopia()
-        this.sharedObject.deficiencies.deuteranopia.backgroundColor = this.sharedObject.deficiencies.normal.backgroundColor.deuteranopia()
-        this.sharedObject.deficiencies.tritanopia.backgroundColor = this.sharedObject.deficiencies.normal.backgroundColor.tritanopia()
-        this.sharedObject.deficiencies.protanomaly.backgroundColor = this.sharedObject.deficiencies.normal.backgroundColor.protanomaly()
-        this.sharedObject.deficiencies.deuteranomaly.backgroundColor = this.sharedObject.deficiencies.normal.backgroundColor.deuteranomaly()
-        this.sharedObject.deficiencies.tritanomaly.backgroundColor = this.sharedObject.deficiencies.normal.backgroundColor.tritanomaly()
-        this.sharedObject.deficiencies.achromatopsia.backgroundColor = this.sharedObject.deficiencies.normal.backgroundColor.achromatopsia()  
-        this.sharedObject.deficiencies.achromatomaly.backgroundColor = this.sharedObject.deficiencies.normal.backgroundColor.achromatomaly()    
+    updateDeficiency(section) {
+        let fromColor = (section == 'foreground')?'foregroundColorMixed':'backgroundColor' 
+        this.sharedObject.deficiencies.protanopia[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].protanopia()
+        this.sharedObject.deficiencies.deuteranopia[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].deuteranopia()
+        this.sharedObject.deficiencies.tritanopia[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].tritanopia()
+        this.sharedObject.deficiencies.protanomaly[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].protanomaly()
+        this.sharedObject.deficiencies.deuteranomaly[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].deuteranomaly()
+        this.sharedObject.deficiencies.tritanomaly[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].tritanomaly()
+        this.sharedObject.deficiencies.achromatopsia[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].achromatopsia()
+        this.sharedObject.deficiencies.achromatomaly[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].achromatomaly()
     }
 
     updateContrastRatio() {
-        let cr, crr
+        let rounding = this.sharedObject.preferences.main.rounding
         Object.keys(this.sharedObject.deficiencies).forEach(function(key, index) {
             if (key === 'normal') {
                 this[key].contrastRatioRaw  = this[key].foregroundColorMixed.contrast(this[key].backgroundColor)
                 let cr = this[key].contrastRatioRaw
-                let crr = Number(cr.toFixed(1)).toString() // toString removes trailing zero
+                let crr = Number(cr.toFixed(rounding)).toString() // toString removes trailing zero
                 this[key].contrastRatioString = `${crr}:1`
                 if ((cr >= 6.95 && cr < 7) || (cr >= 4.45 && cr < 4.5) || (cr >= 2.95 && cr < 3)) {
                     let crr3 = Number(cr.toFixed(3)).toString()
-                    this[key].contrastRatioString = `just below ${crr}:1 (${crr3}:1)`
+                    this[key].contrastRatioString = `<span class="smaller">just below </span>${crr}:1<span class="smaller"> (${crr3}:1)</span>`
                 }
                 this[key].levelAA = 'regular'
                 this[key].levelAAA = 'regular'
@@ -193,18 +190,19 @@ class CCAController {
             } else {
                 this[key].contrastRatioRaw  = this[key].foregroundColor.contrast(this[key].backgroundColor)
                 let cr = this[key].contrastRatioRaw
-                let crr = Number(cr.toFixed(1)).toString() // toString removes trailing zero
+                let crr = Number(cr.toFixed(rounding)).toString() // toString removes trailing zero
                 this[key].contrastRatioString = `${crr}:1`
             }
         }, this.sharedObject.deficiencies)
+        this.sendEventToAll('contrastRatioChanged')
     }
 
-    sendEventToAll(event, params) {
+    sendEventToAll(event, ...params) {
         const browsers = this.browsers
         Object.keys(browsers).map(function(key, index) {
             const browser = browsers[key]
             if (browser.getWindow()) {
-                browser.getWindow().webContents.send(event, params)
+                browser.getWindow().webContents.send(event, ...params)
             }
         });
     }
@@ -242,6 +240,53 @@ The contrast ratio is: ${normal.contrastRatioString}
     ${level_1_4_11}`
 
         clipboard.writeText(text)
+    }
+
+    setPreference(event, value, section, level, sublevel) {
+        var option, oldValue
+        if (sublevel) {
+            oldValue = this.sharedObject.preferences[section][level][sublevel]
+            this.sharedObject.preferences[section][level][sublevel] = value
+            option = section + '.' + level + '.' + sublevel
+        } else {
+            oldValue = this.sharedObject.preferences[section][level]
+            this.sharedObject.preferences[section][level] = value
+            option = section + '.' + level   
+        }
+        store.set(option, value)    
+        switch(option) {
+            case 'main.rounding':
+                this.updateContrastRatio()
+            break;
+            case 'foreground.picker.shortcut':
+                this.updateShortcut(option, oldValue, value)
+            break;
+            case 'background.picker.shortcut':
+                this.updateShortcut(option, oldValue, value)
+            break;
+        }
+    }
+
+    updateShortcut(shortcut, oldValue, newValue) {
+        const browsers = this.browsers
+        if (oldValue) {
+            globalShortcut.unregister(oldValue)
+        }
+
+        switch(shortcut) {
+            case 'foreground.picker.shortcut':
+                globalShortcut.register(newValue, () => {
+                    global['currentPicker'] = 'foreground'
+                    browsers['picker'].init()
+                })
+                break;
+            case 'background.picker.shortcut':
+                globalShortcut.register(newValue, () => {
+                    global['currentPicker'] = 'background'
+                    browsers['picker'].init()
+                })
+                break;
+        }
     }
 }
 

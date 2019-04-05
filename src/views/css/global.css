@@ -30,6 +30,10 @@ button, input {
     font-size: 1.2rem;
 }
 
+select {
+    font-size: 1rem;
+}
+
 :focus {
     outline-color: orangered;
     outline-width: 3px;

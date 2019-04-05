@@ -9,20 +9,23 @@ module.exports = (dirname) => {
 
     /**
      * [init]
+     * @param {int} x [initial window x position]
+     * @param {int} Y [initial window y position]
      * @param {boolean} force [force launching new window]
-     * @return {void} [new Colorpicker]
      */
-    let init = (force, color) => {
-        if (mainWindow === null || mainWindow === undefined || force) createWindow()
+    let init = (x, y, force) => {
+        if (mainWindow === null || mainWindow === undefined || force) createWindow(x, y)
         else mainWindow.show()
     }
 
-    let createWindow = () => {
+    let createWindow = (x, y) => {
         // Create the browser window.
         mainWindow = new BrowserWindow({
             show: false, // Hide the application until the page has loaded
             width: 480, 
             height: 0,
+            x: x,
+            y: y,
             alwaysOnTop: true,
             resizable: false,
             focusable: true,

@@ -6,27 +6,18 @@ let mouseEvent
 
 module.exports = (browsers, mainController) => {
     const {picker, main} = browsers
-    let foregroundPicker // Keep which picker is opened
 
     let closePicker = hexColor => {
       if (picker.getWindow()) {
+        mainController.sendEventToAll('pickerTogglled', global['currentPicker'], false)   
         picker.getWindow().close()
-        if (foregroundPicker === true) {
-          mainController.sendEventToAll('foregroundPickerToggled', false)   
-        } else {
-          mainController.sendEventToAll('backgroundPickerToggled', false)   
-        }
         if (typeof hexColor === 'string') { // If ESC wasn't used
-          if (foregroundPicker === true) {
-            mainController.updateForegroundFromString(null, hexColor)
-          } else {
-            mainController.updateBackgroundFromString(null, hexColor)
-          }
+            mainController.updateFromString(null, global['currentPicker'], hexColor)
         }
         main.getWindow().focus()
         ipcMain.removeListener('closePicker', closePicker)
         ipcMain.removeListener('pickerRequested', event => {})
-        foregroundPicker = null
+        global['currentPicker'] = null
       }
     }
 
@@ -56,20 +47,14 @@ module.exports = (browsers, mainController) => {
       const currentMousePos = robot.getMousePos();
       closePicker('#' + robot.getPixelColor(currentMousePos.x, currentMousePos.y))
     }
-
-    ipcMain.on('showForegroundPicker', event => {
-      foregroundPicker = true
+    
+    ipcMain.on('showPicker', (event, section) => {
+      global['currentPicker'] = section
       picker.init()
-      mainController.sendEventToAll('foregroundPickerToggled', true)   
     })
-
-    ipcMain.on('showBackgroundPicker', event => { 
-      foregroundPicker = false
-      picker.init()
-      mainController.sendEventToAll('backgroundPickerToggled', true)   
-    })
-
-    ipcMain.on('pickerRequested', (event, ratio) => {    
+  
+    ipcMain.on('init-picker', (event, ratio) => {
+      mainController.sendEventToAll('pickerToggelled', global['currentPicker'], true)   
         if (process.platform === 'darwin') mouseEvent = require('osx-mouse')()
         // if (process.platform === 'linux') mouseEvent = require('linux-mouse')()
         if (process.platform === 'win32') mouseEvent = require('win-mouse')()
@@ -108,6 +93,7 @@ module.exports = (browsers, mainController) => {
     
         ipcMain.on('closePicker', closePicker)
         mouseEvent.on('right-up', closePicker)
+        event.sender.send('init')
       })
 
     ipcMain.on('movePickerUp', (evt) => movePicker('up'))

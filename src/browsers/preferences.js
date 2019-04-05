@@ -4,30 +4,29 @@ const url = require('url')
 
 module.exports = (dirname) => {
   let win
-  let init = (section) => {
+
+  let init = (x, y) => {
     if (win === null || win === undefined) {
       if (process.platform === 'darwin' || process.platform === 'win32') {
-        createWindow()
+        createWindow(x, y)
       }
     }
   }
 
-  let createWindow = () => {
+  let createWindow = (x, y) => {
     win = new BrowserWindow({
-      frame: false,
-      autoHideMenuBar: true,
-      width: 200,
-      height: 100,
-      transparent: true,
-      alwaysOnTop: true,
+      width: 300,
+      height: 400,
+      x: x,
+      y: y,
       resizable: false,
       focusable: true,
-      hasShadow: false,
-      titleBarStyle: "customButtonsOnHover"
+      alwaysOnTop: true,
+      autoHideMenuBar: true,
     })
 
     win.loadURL(url.format({
-        pathname: path.join(dirname, 'views', 'picker.html'),
+        pathname: path.join(dirname, 'views', 'preferences.html'),
         protocol: 'file:',
         slashes: true
     }))

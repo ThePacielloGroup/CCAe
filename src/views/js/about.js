@@ -1,6 +1,6 @@
 const { ipcRenderer, shell } = require('electron')
 
-ipcRenderer.send('init-about');
+document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-about'), false)
 
 ipcRenderer.on('init', (event, config) => {
     document.querySelector('#cca-version').innerHTML = config.version
@@ -15,4 +15,3 @@ Array.from(externalLinks).forEach(link => {
         event.preventDefault()
     })
 });
-

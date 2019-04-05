@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/tabs.css" />
   </head>
   <body>
     <main>
@@ -17,13 +18,17 @@
         <h2>Foreground colour</h2>
         <div class="container">
           <input type="text" class="free-value" aria-label="Foreground colour value" aria-describedby="foreground-free-format" />
-          <div id="foreground-free-tag" class="free-tag" aria-hidden="true"></div>
+          <select id="foreground-format-selector" class="format-selector" aria-label="Select default format for foreground color">
+            <option value="hex">HEX</option>
+            <option value="rgb">RGB</option>
+            <option value="hsl">HSL</option>
+          </select>
           <div id="foreground-free-format" class="free-format sr-only"></div>
         </div>
         <div class="name-value"></div>
         <div class="buttons">
           <button class="switch" aria-label="Switch Colors"></button>
-          <button class="rgb" aria-label="Foreground RGB sliders" aria-controls="foreground-rgb" aria-expanded="false"></button>
+          <button class="sliders" aria-label="Foreground color sliders" aria-controls="foreground-sliders" aria-expanded="false"></button>
           <button class="picker" aria-label="Foreground color picker" aria-pressed="false"></button>
           <button class="help" aria-label="Foreground help" aria-controls="foreground-help" aria-expanded="false"></button>
         </div>
@@ -37,33 +42,79 @@
           <li>HSL: <code>hsl(360,100%,50%)</code>, <code>hsla(360,60%,50%,0.4)</code></li>
         </ul>
       </section>
-      <section id="foreground-rgb" hidden>
-          <h2 class="sr-only">Foreground RGB input</h2>
-          <div class="sync">
-            <label>
-              <input type="checkbox" aria-label="Synchronize foreground colour values">
-              Synchronize colour values
-            </label>
+      <section id="foreground-sliders" hidden>
+        <ul id="foreground-tabs" role="tablist">
+          <li role="presentation">
+            <a href="#foreground-rgb"
+            role="tab"
+            id="foreground-rgb-tab"
+            tabindex="0"
+            aria-controls="foreground-rgb"
+            aria-selected="true">RGB</a>
+          </li>
+          <li role="presentation">
+            <a href="#foreground-hsl"
+            role="tab"
+            id="foreground-hsl-tab"
+            tabindex="-1"
+            aria-controls="foreground-hsl"
+            aria-selected="false">HSL</a>
+          </li>
+        </ul>
+        <div role="tabpanel" id="foreground-rgb" aria-labelledby="foreground-rgb-tab" aria-hidden="false"
+        aria-expanded="true">
+            <h2 class="sr-only">Foreground RGB input</h2>
+            <div class="sync">
+              <label>
+                <input type="checkbox" aria-label="Synchronize foreground colour values">
+                Synchronize colour values
+              </label>
+            </div>
+            <div class="slider slider-rgb red">
+              <label>Red</label>
+              <input aria-label="Foreground red" type="range" min="0" max="255" value="0" />
+              <input aria-label="Foreground red" type="number" maxlength="3" />
+            </div>
+            <div class="slider slider-rgb green">
+              <label>Green</label>
+              <input aria-label="Foreground green" type="range" min="0" max="255" value="0" />
+              <input aria-label="Foreground green" type="number" maxlength="3" />
+            </div>
+            <div class="slider slider-rgb blue">
+              <label>Blue</label>
+              <input aria-label="Foreground blue" type="range" min="0" max="255" value="0" />
+              <input aria-label="Foreground blue" type="number" maxlength="3" />
+            </div>
+            <div class="slider slider-rgb alpha">
+              <label>Alpha</label>
+              <input aria-label="Foreground alpha" type="range" min="0" max="1" value="1" step="0.01" />
+              <input aria-label="Foreground alpha" type="number" min="0" max="1" step="0.0001" />
+            </div>
           </div>
-          <div class="slider red">
-            <label>Red</label>
-            <input aria-label="Foreground red" type="range" min="0" max="255" value="0" />
-            <input aria-label="Foreground red" type="number" maxlength="3" />
-          </div>
-          <div class="slider green">
-            <label>Green</label>
-            <input aria-label="Foreground green" type="range" min="0" max="255" value="0" />
-            <input aria-label="Foreground green" type="number" maxlength="3" />
-          </div>
-          <div class="slider blue">
-            <label>Blue</label>
-            <input aria-label="Foreground blue" type="range" min="0" max="255" value="0" />
-            <input aria-label="Foreground blue" type="number" maxlength="3" />
-          </div>
-          <div class="slider alpha">
-            <label>Alpha</label>
-            <input aria-label="Foreground alpha" type="range" min="0" max="1" value="1" step="0.01" />
-            <input aria-label="Foreground alpha" type="number" min="0" max="1" step="0.0001" />
+        </div>
+        <div role="tabpanel" id="foreground-hsl" aria-labelledby="foreground-hsl-tab" aria-hidden="true"
+        aria-expanded="false" hidden>
+            <h2 class="sr-only">Foreground HSL input</h2>
+            <div class="slider slider-hsl hue">
+              <label>Hue</label>
+              <input aria-label="Foreground hue" type="range" min="0" max="360" value="0" />
+              <input aria-label="Foreground hue" type="number" maxlength="3" />
+            </div>
+            <div class="slider slider-hsl saturation">
+              <label>Saturation</label>
+              <input aria-label="Foreground saturation" type="range" min="0" max="100" value="0" />
+              <input aria-label="Foreground saturation" type="number" maxlength="3" />
+            </div>
+            <div class="slider slider-hsl lightness">
+              <label>Lightness</label>
+              <input aria-label="Foreground lightness" type="range" min="0" max="100" value="0" />
+              <input aria-label="Foreground lightness" type="number" maxlength="3" />
+            </div>
+            <div class="slider slider-hsl alpha">
+              <label>Alpha</label>
+              <input aria-label="Foreground alpha" type="range" min="0" max="1" value="1" step="0.01" />
+              <input aria-label="Foreground alpha" type="number" min="0" max="1" step="0.0001" />
+            </div>
           </div>
         </div>
       </section>
@@ -71,12 +122,16 @@
         <h2>Background colour</h2>
         <div class="container">
           <input type="text" class="free-value" aria-label="Background colour value" aria-describedby="background-help" />
-          <div id="background-free-tag" class="free-tag" aria-hidden="true"></div>
+          <select id="background-format-selector" class="format-selector" aria-label="Select default format for background color">
+            <option value="hex">HEX</option>
+            <option value="rgb">RGB</option>
+            <option value="hsl">HSL</option>
+          </select>
           <div id="background-free-format" class="free-format sr-only"></div>
         </div>
         <div class="name-value"></div>
         <div class="buttons">
-            <button class="rgb" aria-label="Background RGB sliders" aria-controls="background-rgb" aria-expanded="false"></button>
+            <button class="sliders" aria-label="Background color sliders" aria-controls="background-sliders" aria-expanded="false"></button>
             <button class="picker" aria-label="Background color picker" aria-pressed="false"></button>
             <button class="help" aria-label="Background help" aria-controls="background-help" aria-expanded="false"></button> 
         </div>
@@ -90,28 +145,70 @@
           <li>HSL: <code>hsl(360,100%,50%)</code></li>
         </ul>
       </section>
-      <section id="background-rgb" hidden>
-        <h2 class="sr-only">Background RGB input</h2>
-        <div class="sync">
-          <label>
-            <input type="checkbox" aria-label="Synchronize background colour values">
-            Synchronize colour values
-          </label>
+      <section id="background-sliders" hidden>
+          <ul id="background-tabs" role="tablist">
+            <li role="presentation">
+              <a href="#background-rgb"
+              role="tab"
+              id="background-rgb-tab"
+              tabindex="0"
+              aria-controls="background-rgb"
+              aria-selected="true">RGB</a>
+            </li>
+            <li role="presentation">
+              <a href="#background-hsl"
+              role="tab"
+              id="background-hsl-tab"
+              tabindex="-1"
+              aria-controls="background-hsl"
+              aria-selected="false">HSL</a>
+            </li>
+          </ul>
+          <div role="tabpanel" id="background-rgb" aria-labelledby="background-rgb-tab" aria-hidden="false"
+          aria-expanded="true">
+            <h2 class="sr-only">Background RGB input</h2>
+            <div class="sync">
+              <label>
+                <input type="checkbox" aria-label="Synchronize background colour values">
+                Synchronize colour values
+              </label>
+            </div>
+            <div class="slider slider-rgb red">
+              <label>Red</label>
+              <input aria-label="Background red" type="range" min="0" max="255" value="0" />
+              <input aria-label="Background red" type="number" maxlength="3" />
+            </div>
+            <div class="slider slider-rgb green">
+              <label>Green</label>
+              <input aria-label="Background green" type="range" min="0" max="255" value="0" />
+              <input aria-label="Background green" type="number" maxlength="3" />
+            </div>
+            <div class="slider slider-rgb blue">
+              <label>Blue</label>
+              <input aria-label="Background blue" type="range" min="0" max="255" value="0" />
+              <input aria-label="Background blue" type="number" maxlength="3" />
+            </div>
+          </div>
         </div>
-        <div class="slider red">
-          <label>Red</label>
-          <input aria-label="Background red" type="range" min="0" max="255" value="0" />
-          <input aria-label="Background red" type="number" maxlength="3" />
-        </div>
-        <div class="slider green">
-          <label>Green</label>
-          <input aria-label="Background green" type="range" min="0" max="255" value="0" />
-          <input aria-label="Background green" type="number" maxlength="3" />
-        </div>
-        <div class="slider blue">
-          <label>Blue</label>
-          <input aria-label="Background blue" type="range" min="0" max="255" value="0" />
-          <input aria-label="Background blue" type="number" maxlength="3" />
+        <div role="tabpanel" id="background-hsl" aria-labelledby="background-hsl-tab" aria-hidden="true"
+        aria-expanded="false" hidden>
+            <h2 class="sr-only">Background HSL input</h2>
+            <div class="slider slider-hsl hue">
+              <label>Hue</label>
+              <input aria-label="Background hue" type="range" min="0" max="360" value="0" />
+              <input aria-label="Background hue" type="number" maxlength="3" />
+            </div>
+            <div class="slider slider-hsl saturation">
+              <label>Saturation</label>
+              <input aria-label="Background saturation" type="range" min="0" max="100" value="0" />
+              <input aria-label="Background saturation" type="number" maxlength="3" />
+            </div>
+            <div class="slider slider-hsl lightness">
+              <label>Lightness</label>
+              <input aria-label="Background lightness" type="range" min="0" max="100" value="0" />
+              <input aria-label="Background lightness" type="number" maxlength="3" />
+            </div>
+          </div>
         </div>
       </section>
       <section id="sample-preview">
@@ -159,6 +256,7 @@
         <div id="contrast-level-1-4-11" class="contrast-level">Pass/div>
       </section>
     </main>
+    <script src="js/tabs.js"></script>
     <script>
       // You can also require other files to run in this process
       require('./js/main.js')

@@ -2,19 +2,19 @@
 const {ipcMain} = require('electron')
 const robot = require('robotjs')
 
-let mouseEvent;
+let mouseEvent
 
 module.exports = (browsers, mainController) => {
     const {picker, main} = browsers
-    let foregroundPicker // Keep which picker is openned
+    let foregroundPicker // Keep which picker is opened
 
     let closePicker = hexColor => {
       if (picker.getWindow()) {
         picker.getWindow().close()
         if (foregroundPicker === true) {
-          mainController.sendEventToAll('foregroundPickerToggelled', false)   
+          mainController.sendEventToAll('foregroundPickerToggled', false)   
         } else {
-          mainController.sendEventToAll('backgroundPickerToggelled', false)   
+          mainController.sendEventToAll('backgroundPickerToggled', false)   
         }
         if (typeof hexColor === 'string') { // If ESC wasn't used
           if (foregroundPicker === true) {
@@ -30,22 +30,50 @@ module.exports = (browsers, mainController) => {
       }
     }
 
+    let movePicker = direction => {
+      if (picker.getWindow()) {
+        const currentPosition = robot.getMousePos()
+        const screenSize = robot.getScreenSize()
+        let newPositionX = currentPosition.x
+        let newPositionY = currentPosition.y
+
+        if (direction === 'up' && currentPosition.y > 0) {
+          newPositionY -= 1
+        } else if (direction === 'right' && currentPosition.x < screenSize.width) {
+          newPositionX += 1
+        } else if (direction === 'down' && currentPosition.y < screenSize.height) {
+          newPositionY += 1
+        } else if (direction === 'left' && currentPosition.x > 0) {
+          newPositionX -= 1
+        }
+
+        robot.moveMouse(newPositionX, newPositionY)
+        mouseEvent.emit('move', newPositionX, newPositionY)
+      }
+    }
+
+    let selectColor = () => {
+      const currentMousePos = robot.getMousePos();
+      closePicker('#' + robot.getPixelColor(currentMousePos.x, currentMousePos.y))
+    }
+
     ipcMain.on('showForegroundPicker', event => {
       foregroundPicker = true
       picker.init()
-      mainController.sendEventToAll('foregroundPickerToggelled', true)   
+      mainController.sendEventToAll('foregroundPickerToggled', true)   
     })
+
     ipcMain.on('showBackgroundPicker', event => { 
       foregroundPicker = false
       picker.init()
-      mainController.sendEventToAll('backgroundPickerToggelled', true)   
+      mainController.sendEventToAll('backgroundPickerToggled', true)   
     })
 
-    ipcMain.on('pickerRequested', (event, ratio) => {
+    ipcMain.on('pickerRequested', (event, ratio) => {    
         if (process.platform === 'darwin') mouseEvent = require('osx-mouse')()
         // if (process.platform === 'linux') mouseEvent = require('linux-mouse')()
         if (process.platform === 'win32') mouseEvent = require('win-mouse')()
-    
+      
         picker.getWindow().on('close', () => mouseEvent.destroy())
     
         mouseEvent.on('move', (x, y) => {
@@ -81,4 +109,10 @@ module.exports = (browsers, mainController) => {
         ipcMain.on('closePicker', closePicker)
         mouseEvent.on('right-up', closePicker)
       })
+
+    ipcMain.on('movePickerUp', (evt) => movePicker('up'))
+    ipcMain.on('movePickerRight', (evt) => movePicker('right'))
+    ipcMain.on('movePickerDown', (evt) => movePicker('down'))
+    ipcMain.on('movePickerLeft', (evt) => movePicker('left'))
+    ipcMain.on('selectPickerColor', (evt) => selectColor())
 }

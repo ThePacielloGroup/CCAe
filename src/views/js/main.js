@@ -23,11 +23,11 @@ ipcRenderer.on('backgroundColorChanged', event => {
     applyContrastRatio()
 })
 
-ipcRenderer.on('foregroundPickerToggelled', (event, state) => {
+ipcRenderer.on('foregroundPickerToggled', (event, state) => {
     document.querySelector('#foreground-color .picker').setAttribute('aria-pressed', state)
 })
 
-ipcRenderer.on('backgroundPickerToggelled', (event, state) => {
+ipcRenderer.on('backgroundPickerToggled', (event, state) => {
     document.querySelector('#background-color .picker').setAttribute('aria-pressed', state)
 })
 

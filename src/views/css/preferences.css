@@ -1,3 +1,21 @@
 body {
     padding: 1rem;
 }
+
+.buttons {
+    display: inline-block;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+}
+
+fieldset {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+}
+
+select {
+    margin-left:auto;
+    align-self: flex-end;
+}

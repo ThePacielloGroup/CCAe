@@ -25,7 +25,14 @@ app.on('ready', () => {
                 {
                     label: 'Preferences',
                     accelerator: 'CmdOrCtrl+,',
-                    click: () => preferences.init()
+                    click: () => {
+                        // Center panel on main window
+                        pos = main.getWindow().getPosition()
+                        size = main.getWindow().getSize()
+                        x = Math.round(pos[0] + (size[0]/2) - (300/2))
+                        y = Math.round(pos[1] + (size[1]/2) - (400/2))
+                        preferences.init(x, y)
+                    }
                 },
                 {
                     id: 'menuUpdateChecking',

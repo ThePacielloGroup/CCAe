@@ -7,10 +7,8 @@ ipcRenderer.on('init', event => {
     document.getElementById('option-rounding').value = sharedObject.preferences.main.rounding
     document.getElementById('shortcut-foreground-picker').value = sharedObject.preferences.foreground.picker.shortcut
     document.getElementById('shortcut-background-picker').value = sharedObject.preferences.background.picker.shortcut
-    initTabs("main")
 })
 
-/* Tab Options */
 document.getElementById('save').addEventListener('click', function () {
     var rounding = document.getElementById('option-rounding').value
     if (rounding != sharedObject.preferences.main.rounding) {

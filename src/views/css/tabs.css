@@ -2,6 +2,7 @@ ul[role=tablist] {
     list-style: none;
     margin: 0 0 0.5rem 0;
     padding: 0;
+    text-align: center;
 }
 
 ul[role=tablist] > li {
@@ -12,7 +13,7 @@ ul[role=tablist] > li {
 
 ul[role=tablist] > li > a {
     margin: 0;
-    padding: 0.5rem 0.3rem;
+    padding: 0.5rem 0.6rem;
     color: #000000;
     text-decoration: none;
     display: block;

@@ -97,7 +97,6 @@ section#background-color input.free-value  {
 
 section#foreground-color .format-selector,
 section#background-color .format-selector  {
-    font-size: 1rem;
     background-color: #1B75BC;
     color: #ffffff;
     padding: 0.2rem 0.5rem 0.1rem 0.5rem;
@@ -167,8 +166,8 @@ section#background-color button[aria-pressed=true].picker {
     background-image: url('../icons/picker-white.svg');
 }
 
-section#foreground-color button[aria-expanded=true].rgb,
-section#background-color button[aria-expanded=true].rgb {
+section#foreground-color button[aria-expanded=true].sliders,
+section#background-color button[aria-expanded=true].sliders {
     background-image: url('../icons/sliders-white.svg');
 }
 

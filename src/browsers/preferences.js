@@ -5,18 +5,20 @@ const url = require('url')
 module.exports = (dirname) => {
   let win
 
-  let init = () => {
+  let init = (x, y) => {
     if (win === null || win === undefined) {
       if (process.platform === 'darwin' || process.platform === 'win32') {
-        createWindow()
+        createWindow(x, y)
       }
     }
   }
 
-  let createWindow = () => {
+  let createWindow = (x, y) => {
     win = new BrowserWindow({
       width: 300,
       height: 400,
+      x: x,
+      y: y,
       resizable: false,
       focusable: true,
       alwaysOnTop: true,

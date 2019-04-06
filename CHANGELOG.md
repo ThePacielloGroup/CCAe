@@ -6,6 +6,25 @@
 - [Windows: Changing slider values is not announced in NVDA](https://github.com/ThePacielloGroup/CCAe/issues/37)
 - [Windows/macOS: issue with colour picker when working with multiple displays at different density](https://github.com/ThePacielloGroup/CCAe/issues/54)
 - [Windows: Downloaded installer from GitHub triggers Windows Defender SmartScreen](https://github.com/ThePacielloGroup/CCAe/issues/66)
+- [Windows/macOS: Picker arrow key doesn't work on 2nd monitor]
+
+## v1.1.0 (06/04/2019)
+### New features
+- [Added options for 2 digits rounding (#78)](https://github.com/ThePacielloGroup/CCAe/commit/434368fcc4d9e6f4034f957aa517fa4e89b34384)
+- [Added HSL sliders (#56)](https://github.com/ThePacielloGroup/CCAe/commit/eadfcbb95c5c504d59abd45d792d781bea480b02)
+- [Switch between HEX/RGB/HSL format for text input (#63)](https://github.com/ThePacielloGroup/CCAe/commit/a4e92231fd8646fc0445db372682a9a8314ddad5)
+
+### Enhancements
+- [Build MSI format and custom install path (#95)](https://github.com/ThePacielloGroup/CCAe/commit/34d8000586aa4ae31b2f406bb9ad84bf93da19c4)
+- [Added picker access from main menu](https://github.com/ThePacielloGroup/CCAe/commit/a65001dcca8221352e77fe2d00d131ac6c4840c9)
+- [Menu option for Always on Top (#43)](https://github.com/ThePacielloGroup/CCAe/commit/8613f5887da34eb9bc9962cb4610acc5b6efb7c5)
+- [Move picker by arrow keys (#92)](https://github.com/ThePacielloGroup/CCAe/commit/a60833f1a95d87180b022de480cde0aa7e40c130)
+- [Preference dialog](https://github.com/ThePacielloGroup/CCAe/commit/53116f3eb9366dc9fa780194442a591b0a2d82e1)
+- [Saving windows position on save](https://github.com/ThePacielloGroup/CCAe/commit/dd74afa88b918bc45ef7dd75b81cea2c55cb22a6)
+
+### Bug fixes
+- [Add cut/copy/paste to Edit menu on macOS (#90)](https://github.com/ThePacielloGroup/CCAe/commit/edd70683ed57cf328f61420682f73f6767447c73)
+- [Various fixes](https://github.com/ThePacielloGroup/CCAe/commit/803560ee2cf5d25fbbf354ec2ff0e14fdf327857)
 
 ## v1.0.0 (08/10/2018)
 ### New features

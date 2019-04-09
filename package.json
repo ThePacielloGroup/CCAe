@@ -7,7 +7,8 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "cross-env NODE_ENV=dev electron .",
         "rebuild": "npm rebuild --runtime=electron --target=2.0.11 --disturl=https://atom.io/download/electron --abi=57",
-        "dist": "npm run rebuild && electron-builder"
+        "dist": "npm run rebuild && electron-builder",
+		"dist-portable32": "npm run rebuild && electron-builder --win portable --ia32"
     },
     "author": "Cédric Trévisan <ctrevisan@paciellogroup.com>",
     "license": "GPL-3.0",
@@ -32,7 +33,6 @@
     "build": {
         "appId": "com.electron.cca",
         "productName": "Colour Contrast Analyser (CCA)",
-        "artifactName": "${name}-${version}-${os}-${arch}.${ext}",
         "compression": "maximum",
         "copyright": "Copyright © 2019 TPG",
         "directories": {},
@@ -44,44 +44,54 @@
         },
         "mac": {
             "category": "public.app-category.developer-tools",
+			"artifactName": "${name}-${version}.${ext}",
             "icon": "build/icon.icns",
             "type": "distribution"
         },
         "win": {
             "icon": "build/icon.ico",
-            "artifactName": "${name}-Setup-${version}.${ext}",
             "target": [
                 {
                     "target": "nsis",
                     "arch": [
-                        "x64",
-                        "ia32"
+                        "x64"
                     ]
                 },
                 {
                     "target": "msi",
                     "arch": [
-                        "x64",
-                        "ia32"
+                        "x64"
+                    ]
+                },
+                {
+                    "target": "portable",
+                    "arch": [
+                        "x64"
                     ]
                 }
             ]
         },
         "nsis": {
+            "artifactName": "${name}-Setup-${arch}-${version}.${ext}",
             "oneClick": false,
             "perMachine": true,
             "allowElevation": true,
             "allowToChangeInstallationDirectory": true,
             "deleteAppDataOnUninstall": true,
-            "createDesktopShortcut": true,
             "installerIcon": "build/icon.ico",
             "uninstallerIcon": "build/icon.ico",
-            "uninstallDisplayName": "Uninstall CCA"
+            "uninstallDisplayName": "Uninstall Colour Contrast Analyser (CCA)",
+			"createDesktopShortcut": true
         },
         "msi": {
+            "artifactName": "${name}-Setup-${arch}-${version}.${ext}",
             "oneClick": false,
             "perMachine": true,
-            "createDesktopShortcut": true
-        }
+            "createDesktopShortcut": true,
+			"createStartMenuShortcut": true
+        },
+		"portable": {
+			"artifactName": "${name}-Portable-${version}.${ext}"
+		}
     }
 }

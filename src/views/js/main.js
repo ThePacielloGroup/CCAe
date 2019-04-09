@@ -20,7 +20,10 @@ ipcRenderer.on('init', event => {
         var mainHeight = document.querySelector('main').clientHeight
         ipcRenderer.send('height-changed', mainHeight)
     })
-    initTabs("#background-sliders", ipcRenderer)
+    initTabs("#background-sliders", ()=>{
+        var mainHeight = document.querySelector('main').clientHeight
+        ipcRenderer.send('height-changed', mainHeight)
+    })
 
     initEvents()
 })

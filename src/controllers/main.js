@@ -12,6 +12,9 @@ module.exports = (browsers, mainController) => {
 
     ipcMain.on('height-changed', (event, height) => {
         csize = win.getContentSize()
+        if (process.platform === 'win32') {
+            height += 20 // Add extra height for menubar size
+        }
         win.setContentSize(csize[0], height)
     })
 }

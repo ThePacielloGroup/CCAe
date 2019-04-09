@@ -20,7 +20,11 @@ ipcRenderer.on('contrastRatioChanged', event => {
 function applyColor (section) {
     Object.keys(sharedObject.deficiencies).forEach(function(key, index) {
         if (key !== 'normal') {
-            document.getElementById('deficiency-' + key + '-preview').style.color = this[key][section + 'Color'].rgb().string()
+            if (section === 'foreground') {
+                document.getElementById('deficiency-' + key + '-preview').style.color = this[key].foregroundColor.rgb().string()
+            } else {
+                document.getElementById('deficiency-' + key + '-preview').style.background = this[key].backgroundColor.rgb().string()
+            }
         }
     }, sharedObject.deficiencies)
 }

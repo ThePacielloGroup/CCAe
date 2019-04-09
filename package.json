@@ -6,8 +6,8 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "cross-env NODE_ENV=dev electron .",
-        "dist": "electron-builder",
-        "rebuild": "npm rebuild --runtime=electron --target=2.0.11 --disturl=https://atom.io/download/electron --abi=57"
+        "rebuild": "npm rebuild --runtime=electron --target=2.0.11 --disturl=https://atom.io/download/electron --abi=57",
+        "dist": "npm run rebuild && electron-builder"
     },
     "author": "Cédric Trévisan <ctrevisan@paciellogroup.com>",
     "license": "GPL-3.0",
@@ -34,7 +34,7 @@
         "productName": "Colour Contrast Analyser (CCA)",
         "artifactName": "${name}-${version}-${os}-${arch}.${ext}",
         "compression": "maximum",
-        "copyright": "Copyright © 2018 TPG",
+        "copyright": "Copyright © 2019 TPG",
         "directories": {},
         "files": [
             "**/*"

@@ -45,14 +45,15 @@ To build a new version:
   # Because some libraries need to be compiled natively, you can build only for your current OS.
   # i.e. you can't build a Windows version if you are under MacOS
 
-  # build a MacOS version
+  # build a version for the current platform
   npm run dist
-
-  # build a Windows version
-  npm run dist-windows
 ```
 
-The CHANGELOG.md is generated using Gren
-https://github.com/github-tools/github-release-notes
+The CHANGELOG.md is generated using Generate Changelog
+https://github.com/lob/generate-changelog
+
+```shell
+github_changelog_generator ThePacielloGroup/CCAe
+```
 
 Other commands are available in the `package.json` file.

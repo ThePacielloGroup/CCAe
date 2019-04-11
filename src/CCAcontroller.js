@@ -239,6 +239,9 @@ The contrast ratio is: ${normal.contrastRatioString}
 1.4.11 Non-text Contrast (AA)
     ${level_1_4_11}`
 
+        // sanitize output (if there's HTML, e.g. in "just below" case)
+        text = text.replace(/<[^>]*>?/g, '')
+
         clipboard.writeText(text)
     }
 

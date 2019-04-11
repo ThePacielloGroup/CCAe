@@ -135,13 +135,13 @@ function applyColor(section) {
     }
 
     applyColorPreview(section, colorReal)
-    applyColorTextString(section, colorReal)
+    applyColorTextString(section, colorReal, color)
     applyColorRGBSliders(section, color)
     applyColorHSLSliders(section, color)
     applyColorSample(section, colorReal)
 }
 
-function applyColorTextString(section, colorReal) {
+function applyColorTextString(section, colorReal, color) {
     /* Only change the text input if this isn't the current focused element */
     const textInput = document.querySelector('#' + section + '-color input.free-value')
     if (textInput != document.activeElement) {
@@ -151,9 +151,16 @@ function applyColorTextString(section, colorReal) {
             case 'rgb':
                 colorString = colorReal.rgb().string()
                 break;
+            case 'rgba':
+                colorString = color.rgb().string()
+                break;
             case 'hsl':
                 // Return rounded values for HSL. This is due to a bug in `color-string` Qix-/color#127
                 colorString = colorReal.hsl().round().string()
+                break;
+            case 'hsla':
+                // Return rounded values for HSL. This is due to a bug in `color-string` Qix-/color#127
+                colorString = color.hsl().round().string()
                 break;
             default: //hex
                 colorString = colorReal.hex()
@@ -330,9 +337,11 @@ function changeFormat(section, el) {
     ipcRenderer.send('setPreference', el.value, section, 'format')
     // Then we update the current text field
     if (section == 'foreground') {
+        color = sharedObject.deficiencies.normal.foregroundColor
         colorReal = sharedObject.deficiencies.normal.foregroundColorMixed
     } else {
-        colorReal = sharedObject.deficiencies.normal.backgroundColor
+        color = sharedObject.deficiencies.normal.backgroundColor
+        colorReal = color
     }
-    applyColorTextString(section, colorReal)
+    applyColorTextString(section, colorReal, color)
 }

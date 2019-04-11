@@ -193,12 +193,12 @@ function applyColorPreview(section, colorReal) {
 }
 
 function applyColorRGBSliders(section, color) {
-    document.querySelector('#' + section + '-rgb .red input[type=range]').value = color.red()
-    document.querySelector('#' + section + '-rgb .green input[type=range]').value = color.green()
-    document.querySelector('#' + section + '-rgb .blue input[type=range]').value = color.blue()
-    document.querySelector('#' + section + '-rgb .red input[type=number]').value = color.red()
-    document.querySelector('#' + section + '-rgb .green input[type=number]').value = color.green()
-    document.querySelector('#' + section + '-rgb .blue input[type=number]').value = color.blue()
+    document.querySelector('#' + section + '-rgb .red input[type=range]').value = Math.round(color.red())
+    document.querySelector('#' + section + '-rgb .green input[type=range]').value = Math.round(color.green())
+    document.querySelector('#' + section + '-rgb .blue input[type=range]').value = Math.round(color.blue())
+    document.querySelector('#' + section + '-rgb .red input[type=number]').value = Math.round(color.red())
+    document.querySelector('#' + section + '-rgb .green input[type=number]').value = Math.round(color.green())
+    document.querySelector('#' + section + '-rgb .blue input[type=number]').value = Math.round(color.blue())
     if (section === 'foreground') {
         document.querySelector('#' + section + '-rgb .alpha input[type=range]').value = color.alpha()
         if (document.activeElement != document.querySelector('#' + section + '-rgb .alpha input[type=number]')) {
@@ -210,12 +210,12 @@ function applyColorRGBSliders(section, color) {
 }
 
 function applyColorHSLSliders(section, color) {
-    document.querySelector('#' + section + '-hsl .hue input[type=range]').value = color.hue()
-    document.querySelector('#' + section + '-hsl .saturation input[type=range]').value = color.saturationl()
-    document.querySelector('#' + section + '-hsl .lightness input[type=range]').value = color.lightness()
-    document.querySelector('#' + section + '-hsl .hue input[type=number]').value = color.hue()
-    document.querySelector('#' + section + '-hsl .saturation input[type=number]').value = color.saturationl()
-    document.querySelector('#' + section + '-hsl .lightness input[type=number]').value = color.lightness()
+    document.querySelector('#' + section + '-hsl .hue input[type=range]').value = Math.round(color.hue())
+    document.querySelector('#' + section + '-hsl .saturation input[type=range]').value = Math.round(color.saturationl())
+    document.querySelector('#' + section + '-hsl .lightness input[type=range]').value = Math.round(color.lightness())
+    document.querySelector('#' + section + '-hsl .hue input[type=number]').value = Math.round(color.hue())
+    document.querySelector('#' + section + '-hsl .saturation input[type=number]').value = Math.round(color.saturationl())
+    document.querySelector('#' + section + '-hsl .lightness input[type=number]').value = Math.round(color.lightness())
     if (section === 'foreground') {
         document.querySelector('#' + section + '-hsl .alpha input[type=range]').value = color.alpha()
         if (document.activeElement != document.querySelector('#' + section + '-hsl .alpha input[type=number]')) {

@@ -17,12 +17,14 @@
       <section id="foreground-color">
         <h2>Foreground colour</h2>
         <div class="container">
-          <input type="text" class="free-value" aria-label="Foreground colour value" aria-describedby="foreground-free-format" />
           <select id="foreground-format-selector" class="format-selector" aria-label="Select default format for foreground color">
             <option value="hex">HEX</option>
             <option value="rgb">RGB</option>
+            <option value="rgba">RGBa</option>
             <option value="hsl">HSL</option>
+            <option value="hsla">HSLa</option>
           </select>
+          <input type="text" class="free-value" aria-label="Foreground colour value" aria-describedby="foreground-free-format" />
           <div id="foreground-free-format" class="free-format sr-only"></div>
         </div>
         <div class="name-value"></div>
@@ -97,7 +99,7 @@
             <h2 class="sr-only">Foreground HSL input</h2>
             <div class="slider slider-hsl hue">
               <label>Hue</label>
-              <input aria-label="Foreground hue" type="range" min="0" max="360" value="0" />
+              <input aria-label="Foreground hue" type="range" min="0" max="359" value="0" />
               <input aria-label="Foreground hue" type="number" maxlength="3" />
             </div>
             <div class="slider slider-hsl saturation">
@@ -121,12 +123,12 @@
       <section id="background-color">
         <h2>Background colour</h2>
         <div class="container">
-          <input type="text" class="free-value" aria-label="Background colour value" aria-describedby="background-help" />
           <select id="background-format-selector" class="format-selector" aria-label="Select default format for background color">
             <option value="hex">HEX</option>
             <option value="rgb">RGB</option>
             <option value="hsl">HSL</option>
           </select>
+          <input type="text" class="free-value" aria-label="Background colour value" aria-describedby="background-help" />
           <div id="background-free-format" class="free-format sr-only"></div>
         </div>
         <div class="name-value"></div>
@@ -195,7 +197,7 @@
             <h2 class="sr-only">Background HSL input</h2>
             <div class="slider slider-hsl hue">
               <label>Hue</label>
-              <input aria-label="Background hue" type="range" min="0" max="360" value="0" />
+              <input aria-label="Background hue" type="range" min="0" max="359" value="0" />
               <input aria-label="Background hue" type="number" maxlength="3" />
             </div>
             <div class="slider slider-hsl saturation">

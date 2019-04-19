@@ -8,7 +8,7 @@
         "start": "cross-env NODE_ENV=dev electron .",
         "rebuild": "npm rebuild --runtime=electron --target=2.0.11 --disturl=https://atom.io/download/electron --abi=57",
         "dist": "npm run rebuild && electron-builder",
-		"dist-portable32": "npm run rebuild && electron-builder --win portable --ia32"
+        "dist-portable32": "npm run rebuild && electron-builder --win portable --ia32"
     },
     "author": "Cédric Trévisan <ctrevisan@paciellogroup.com>",
     "license": "GPL-3.0",
@@ -44,7 +44,7 @@
         },
         "mac": {
             "category": "public.app-category.developer-tools",
-			"artifactName": "${name}-${version}.${ext}",
+            "artifactName": "${name}-${version}.${ext}",
             "icon": "build/icon.icns",
             "type": "distribution"
         },
@@ -72,7 +72,7 @@
             ]
         },
         "nsis": {
-            "artifactName": "${name}-Setup-${arch}-${version}.${ext}",
+            "artifactName": "${name}-Setup-${version}.${ext}",
             "oneClick": false,
             "perMachine": true,
             "allowElevation": true,
@@ -81,17 +81,17 @@
             "installerIcon": "build/icon.ico",
             "uninstallerIcon": "build/icon.ico",
             "uninstallDisplayName": "Uninstall Colour Contrast Analyser (CCA)",
-			"createDesktopShortcut": true
+            "createDesktopShortcut": true
         },
         "msi": {
-            "artifactName": "${name}-Setup-${arch}-${version}.${ext}",
+            "artifactName": "${name}-Setup-${version}.${ext}",
             "oneClick": false,
             "perMachine": true,
             "createDesktopShortcut": true,
-			"createStartMenuShortcut": true
+            "createStartMenuShortcut": true
         },
-		"portable": {
-			"artifactName": "${name}-Portable-${version}.${ext}"
-		}
+        "portable": {
+            "artifactName": "${name}-Portable-${version}.${ext}"
+        }
     }
 }

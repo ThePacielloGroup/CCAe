@@ -1,6 +1,6 @@
 # Change Log
 
-## Known issues
+**Known issues**
 - [Windows: Application menus aren't keyboard accessible](https://github.com/ThePacielloGroup/CCAe/issues/49)
 - [Windows/macOS: Zoom feature doesn't resize the application window](https://github.com/ThePacielloGroup/CCAe/issues/38)
 - [Windows: Changing slider values is not announced in NVDA](https://github.com/ThePacielloGroup/CCAe/issues/37)

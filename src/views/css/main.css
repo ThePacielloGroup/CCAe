@@ -74,8 +74,9 @@ section#background-color .buttons {
 section#foreground-color .container,
 section#background-color .container {
     position: relative;
-    width: 24rem;
+    width: 100%;
     margin: auto;
+    text-align: center;
     display: flex;
     justify-content: center;
     align-content: center;
@@ -87,22 +88,24 @@ section#background-color input.free-value  {
     appearance: none;
     -webkit-appearance: none;
     border: 1px #cccccc dashed;
-    padding: 0.2rem 4.5rem;
+    padding: 0.2rem;
     background: transparent;
     text-align: center;
     font-size: 1.4rem;
     color: inherit;
-    width: 100%;
+    width: 18rem;
 }
 
-section#foreground-color .format-selector,
-section#background-color .format-selector  {
+section#foreground-color select.format-selector,
+section#background-color select.format-selector  {
     background-color: #1B75BC;
     color: #ffffff;
     padding: 0.2rem 0.5rem 0.1rem 0.5rem;
     border-radius: 0.2rem;
     position: absolute;
-    right: 5px;
+    left: 5px;
+    display: block;
+    min-width: 4.3rem;
 }
 
 section#foreground-color input[aria-invalid="true"].free-value,

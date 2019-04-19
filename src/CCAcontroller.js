@@ -144,8 +144,8 @@ class CCAController {
         this.sharedObject.deficiencies.normal.backgroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed
         this.sharedObject.deficiencies.normal.foregroundColor = background
         this.sharedObject.deficiencies.normal.foregroundColorMixed = this.sharedObject.deficiencies.normal.foregroundColor.mixed(this.sharedObject.deficiencies.normal.backgroundColor)
-        this.updateDeficiencyForeground()
-        this.updateDeficiencyBackground()
+        this.updateDeficiency("foreground")
+        this.updateDeficiency("background")
         this.updateContrastRatio()
         this.sendEventToAll('colorChanged', 'foreground')    
         this.sendEventToAll('colorChanged', 'background')        

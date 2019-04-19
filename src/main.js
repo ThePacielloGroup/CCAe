@@ -94,37 +94,47 @@ app.on('ready', () => {
                         main.getWindow().setAlwaysOnTop(item.checked)
                         store.set('main.alwaysOnTop', item.checked)
                     }
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    label: 'Actual Size',
+                    accelerator: 'CmdOrCtrl+0',		
+                    click (item, focusedWindow) {		
+                        if (focusedWindow) {
+                            focusedWindow.webContents.setZoomLevel(0)
+                            main.changeZoom(0)
+                        }
+                    }		
+                },
+                {
+                    label: 'Zoom In',
+                    accelerator: 'CmdOrCtrl+Plus',		
+                    click (item, focusedWindow) {		
+                        if (focusedWindow) {		
+                            const {webContents} = focusedWindow		
+                            webContents.getZoomLevel((zoomLevel) => {		
+                                webContents.setZoomLevel(zoomLevel + 0.5)
+                                main.changeZoom(zoomLevel + 0.5)
+                            })		
+                        }		
+                    }		
+                },
+                {
+                    label: 'Zoom Out',
+                    accelerator: 'CmdOrCtrl+-',		
+                    click (item, focusedWindow) {		
+                        if (focusedWindow) {		
+                            const {webContents} = focusedWindow		
+                            webContents.getZoomLevel((zoomLevel) => {		
+                                webContents.setZoomLevel(zoomLevel - 0.5)		
+                                main.changeZoom(zoomLevel - 0.5)
+                            })		
+                        }		
+                    }	
                 }
-            /*
-            {
-                label: 'Actual Size',
-                accelerator: 'CmdOrCtrl+0',
-                nonNativeMacOSRole: true,
-                webContentsMethod: (webContents) => {
-                  webContents.setZoomLevel(0)
-                }
-            },
-            {
-                label: 'Zoom In',
-                accelerator: 'CmdOrCtrl+Plus',
-                nonNativeMacOSRole: true,
-                webContentsMethod: (webContents) => {
-                  webContents.getZoomLevel((zoomLevel) => {
-                    webContents.setZoomLevel(zoomLevel + 0.5)
-                  })
-                }
-            },
-            {
-                label: 'Zoom Out',
-                accelerator: 'CmdOrCtrl+-',
-                nonNativeMacOSRole: true,
-                webContentsMethod: (webContents) => {
-                  webContents.getZoomLevel((zoomLevel) => {
-                    webContents.setZoomLevel(zoomLevel - 0.5)
-                  })
-                }
-            }*/
-          ]
+            ]
         }
     ];
 

@@ -50,6 +50,7 @@
         },
         "win": {
             "icon": "build/icon.ico",
+			"publisherName": ["The Paciello Group, LLC"],
             "target": [
                 {
                     "target": "nsis",

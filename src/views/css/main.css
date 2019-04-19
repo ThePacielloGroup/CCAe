@@ -105,7 +105,8 @@ section#background-color select.format-selector  {
     position: absolute;
     left: 5px;
     display: block;
-    min-width: 4.3rem;
+    min-width: 4.6rem;
+    padding: 0.1rem;
 }
 
 section#foreground-color input[aria-invalid="true"].free-value,

@@ -141,32 +141,29 @@ function applyColor(section) {
     applyColorSample(section, colorReal)
 }
 
+function getColorTextString(format, colorReal, color) {
+    switch (format) {
+        case 'rgb':
+            return colorReal.rgb().string()
+        case 'rgba':
+            return color.rgb().string()
+        case 'hsl':
+            // Return rounded values for HSL. This is due to a bug in `color-string` Qix-/color#127
+            return colorReal.hsl().round().string()
+        case 'hsla':
+            // Return rounded values for HSL. This is due to a bug in `color-string` Qix-/color#127
+            return color.hsl().round().string()
+        default: //hex
+            return colorReal.hex()
+    }
+}
+
 function applyColorTextString(section, colorReal, color) {
     /* Only change the text input if this isn't the current focused element */
     const textInput = document.querySelector('#' + section + '-color input.free-value')
     if (textInput != document.activeElement) {
         format = sharedObject.preferences[section].format
-
-        switch (format) {
-            case 'rgb':
-                colorString = colorReal.rgb().string()
-                break;
-            case 'rgba':
-                colorString = color.rgb().string()
-                break;
-            case 'hsl':
-                // Return rounded values for HSL. This is due to a bug in `color-string` Qix-/color#127
-                colorString = colorReal.hsl().round().string()
-                break;
-            case 'hsla':
-                // Return rounded values for HSL. This is due to a bug in `color-string` Qix-/color#127
-                colorString = color.hsl().round().string()
-                break;
-            default: //hex
-                colorString = colorReal.hex()
-        }
-
-        textInput.value = colorString
+        textInput.value = getColorTextString(format, colorReal, color)
         const formatSelector =  document.querySelector('#' + section + '-format-selector')
         const freeFormat =  document.querySelector('#' + section + '-free-format')    
         textInput.removeAttribute('aria-invalid')

@@ -229,8 +229,11 @@ class CCAController {
             level_1_4_6 = 'Fail for large and regular text'
         }
 
-        let text = `Foreground: ${normal.foregroundColorMixed.hex()}
-Background: ${normal.backgroundColor.hex()}
+        let foregroundColorString = getColorTextString(sharedObject.preferences['foreground'].format, normal.foregroundColorMixed, normal.foregroundColor)
+        let backgroundColorString = getColorTextString(sharedObject.preferences['background'].format, normal.backgroundColor, normal.backgroundColor)
+
+        let text = `Foreground: ${foregroundColorString}
+Background: ${backgroundColorString}
 The contrast ratio is: ${normal.contrastRatioString}
 1.4.3 Contrast (Minimum) (AA)
     ${level_1_4_3}
@@ -290,6 +293,23 @@ The contrast ratio is: ${normal.contrastRatioString}
                 })
                 break;
         }
+    }
+}
+
+function getColorTextString(format, colorReal, color) {
+    switch (format) {
+        case 'rgb':
+            return colorReal.rgb().string()
+        case 'rgba':
+            return color.rgb().string()
+        case 'hsl':
+            // Return rounded values for HSL. This is due to a bug in `color-string` Qix-/color#127
+            return colorReal.hsl().round().string()
+        case 'hsla':
+            // Return rounded values for HSL. This is due to a bug in `color-string` Qix-/color#127
+            return color.hsl().round().string()
+        default: //hex
+            return colorReal.hex()
     }
 }
 

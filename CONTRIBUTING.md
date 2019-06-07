@@ -53,7 +53,7 @@ The CHANGELOG.md is generated using Generate Changelog
 https://github.com/lob/generate-changelog
 
 ```shell
-github_changelog_generator ThePacielloGroup/CCAe
+github_changelog_generator ThePacielloGroup/CCAe --since-tag=v1.1.1 --future-release=v1.1.2
 ```
 
 Other commands are available in the `package.json` file.

@@ -2,12 +2,24 @@
 
 **Known issues**
 - [Windows: Application menus aren't keyboard accessible](https://github.com/ThePacielloGroup/CCAe/issues/49)
-- [Windows/macOS: Zoom feature doesn't resize the application window](https://github.com/ThePacielloGroup/CCAe/issues/38)
 - [Windows: Changing slider values is not announced in NVDA](https://github.com/ThePacielloGroup/CCAe/issues/37)
 - [Windows/macOS: issue with colour picker when working with multiple displays at different density](https://github.com/ThePacielloGroup/CCAe/issues/54)
 - [Windows: Downloaded installer from GitHub triggers Windows Defender SmartScreen](https://github.com/ThePacielloGroup/CCAe/issues/66)
-- [Windows/macOS: Picker arrow key doesn't work on 2nd monitor]
 
+## [v1.1.2](https://github.com/ThePacielloGroup/CCAe/tree/v1.1.2) (2019-06-07)
+[Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v1.1.1...v1.1.2)
+
+**Implemented enhancements:**
+
+- Zoom feature \(Closes \#38, \#108\) [\#112](https://github.com/ThePacielloGroup/CCAe/pull/112)
+- Support for rgba\(...\) and hsla\(...\) [\#105](https://github.com/ThePacielloGroup/CCAe/issues/105)
+- Minor UI changes [\#113](https://github.com/ThePacielloGroup/CCAe/issues/113)
+
+**Fixed bugs:**
+
+- Error when using the color switch feature [\#107](https://github.com/ThePacielloGroup/CCAe/issues/107)
+- "Copy results" always converts colors to flat HEX [\#119](https://github.com/ThePacielloGroup/CCAe/issues/119)
+- Auto-update error [\#100](https://github.com/ThePacielloGroup/CCAe/issues/100)
 
 ## [v1.1.1](https://github.com/ThePacielloGroup/CCAe/tree/v1.1.1) (06/04/2019)
 

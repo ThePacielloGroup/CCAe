@@ -1,6 +1,6 @@
 {
     "name": "CCA",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "description": "Colour Contrast Analyser (CCA)",
     "main": "src/main.js",
     "scripts": {
@@ -50,7 +50,9 @@
         },
         "win": {
             "icon": "build/icon.ico",
-			"publisherName": ["The Paciello Group, LLC"],
+            "publisherName": [
+                "The Paciello Group, LLC"
+            ],
             "target": [
                 {
                     "target": "nsis",

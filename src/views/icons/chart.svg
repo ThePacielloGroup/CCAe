@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title>Sales Down</title>
+  <desc>A line styled icon from Orion Icon Library.</desc>
+  <path data-name="layer1"
+  fill="none" stroke="#202020" stroke-miterlimit="10" d="M52 32h8v-8" stroke-width="4"
+  stroke-linejoin="round" stroke-linecap="round"></path>
+  <path data-name="layer1" fill="none" stroke="#202020" stroke-miterlimit="10"
+  d="M60 32L42 16l-12 6L12 4m0 56V20H4v40" stroke-width="4" stroke-linejoin="round"
+  stroke-linecap="round"></path>
+  <path data-name="layer2" fill="none" stroke="#202020" stroke-miterlimit="10"
+  d="M28 60V40h-8v20" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"></path>
+  <path data-name="layer1" fill="none" stroke="#202020" stroke-miterlimit="10"
+  d="M44 60V34h-8v26" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"></path>
+  <path data-name="layer2" fill="none" stroke="#202020" stroke-miterlimit="10"
+  d="M60 60V48h-8v12" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"></path>
+  <path data-name="layer1" fill="none" stroke="#202020" stroke-miterlimit="10"
+  d="M2 60h60" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"></path>
+</svg>

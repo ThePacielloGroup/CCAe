@@ -171,7 +171,6 @@ function applyColorTextString(section, colorReal, color) {
         freeFormat.innerHTML = format.toUpperCase() + " format"
         formatSelector.style.display = "block";
     }
-
 }
 
 function applyColorPreview(section, colorReal) {
@@ -228,7 +227,7 @@ function applyColorSample(section, colorReal) {
 
     if (section === 'foreground') {
         document.querySelector('#sample-preview .text').style.color = colorRGB
-        document.querySelector('#sample-preview .icon svg').style.fill = colorRGB    
+        document.querySelector('#sample-preview .icon svg').style.stroke = colorRGB    
     } else {
         document.querySelector('#sample-preview .text').style.background = colorRGB
         document.querySelector('#sample-preview .icon').style.background = colorRGB
@@ -239,21 +238,21 @@ function applyContrastRatio () {
     let level_1_4_3, level_1_4_6, level_1_4_11
     const normal = sharedObject.deficiencies.normal
     if (normal.levelAA === 'large') {
-        level_1_4_3 = '<img src="icons/pass.svg" alt="" /> Pass for large text only <img src="icons/fail.svg" alt="" /> Fail for regular text'
-        level_1_4_11 = '<img src="icons/pass.svg" alt="" /> Pass for UI components and graphical objects'
+        level_1_4_3 = '<div><img src="icons/fail.svg" alt="" /> Fail (regular text)</div><div><img src="icons/pass.svg" alt="" /> Pass (large text)</div>'
+        level_1_4_11 = '<div><img src="icons/pass.svg" alt="" /> Pass (UI components and graphical objects)</div>'
     } else if (normal.levelAA === 'regular') {
-        level_1_4_3 = '<img src="icons/pass.svg" alt="" /> Pass for large and regular text'
-        level_1_4_11 = '<img src="icons/pass.svg" alt="" /> Pass for UI components and graphical objects'
+        level_1_4_3 = '<div><img src="icons/pass.svg" alt="" /> Pass (regular text)</div><div><img src="icons/pass.svg" alt="" /> Pass (large text)</div>'
+        level_1_4_11 = '<div><img src="icons/pass.svg" alt="" /> Pass (UI components and graphical objects)</div>'
     } else { // Fail
-        level_1_4_3 = '<img src="icons/fail.svg" alt="" /> Fail for large and regular text'
-        level_1_4_11 = '<img src="icons/fail.svg" alt="" /> Fail for UI components and graphical objects'
+        level_1_4_3 = '<div><img src="icons/fail.svg" alt="" /> Fail (regular text)</div><div><img src="icons/fail.svg" alt="" /> Fail (large text)</div>'
+        level_1_4_11 = '<div><img src="icons/fail.svg" alt="" /> Fail (UI components and graphical objects)</div>'
     }
     if (normal.levelAAA === 'large') {
-        level_1_4_6 = '<img src="icons/pass.svg" alt="" /> Pass for large text only <img src="icons/fail.svg" alt="" /> Fail for regular text'
+        level_1_4_6 = '<div><img src="icons/fail.svg" alt="" /> Fail (regular text)</div><div><img src="icons/pass.svg" alt="" /> Pass (large text)</div>'
     } else if (normal.levelAAA === 'regular') {
-        level_1_4_6 = '<img src="icons/pass.svg" alt="" /> Pass for large and regular text'
+        level_1_4_6 = '<div><img src="icons/pass.svg" alt="" /> Pass (regular text)</div><div><img src="icons/pass.svg" alt="" /> Pass (large text)</div>'
     } else { // Fail
-        level_1_4_6 = '<img src="icons/fail.svg" alt="" /> Fail for large and regular text'
+        level_1_4_6 = '<div><img src="icons/fail.svg" alt="" /> Fail (regular text)</div><div><img src="icons/fail.svg" alt="" /> Fail (large text)</div>'
     }
     document.getElementById('contrast-ratio-value').innerHTML = normal.contrastRatioString
     document.getElementById('contrast-level-1-4-3').innerHTML = level_1_4_3

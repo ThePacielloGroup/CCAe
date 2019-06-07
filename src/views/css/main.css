@@ -38,21 +38,7 @@ section {
     background-color: #ececec;
 }
 
-#contrast-ratio h2 {
-    position: absolute;
-}
-
-#contrast-ratio-value {
-    text-align: center;
-    font-size: 1.2rem;
-}
-
-#contrast-ratio-value .smaller{
-    font-size: 1rem;
-}
-
 /* Color sections */
-
 section#foreground-color, 
 section#background-color {
     display: flex;
@@ -278,8 +264,32 @@ section#sample-preview .icon svg {
 
 /* Results section */
 
+#contrast-ratio {
+    margin-right: 0.5rem;
+}
+
+#contrast-ratio h3 {
+    font-size: 0.7rem;
+} 
+
+#contrast-ratio-value {
+    font-size: 1.2rem;
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 0 0.5rem;
+}
+
+#contrast-ratio-value .smaller{
+    font-size: 1rem;
+}
+
 section#results {
     background-color: #ffffff;
+}
+
+section#results header {
+    display: flex;
+    justify-content: space-between;
 }
 
 section#results details {
@@ -315,8 +325,15 @@ section#results details p small {
 
 section#results .contrast-level {
     margin-left: 2.5rem;
+    display: flex;
+    justify-content: space-evenly;
 }
 
+section#results .contrast-level > div{
+    flex-grow: 1;
+    width: 50%;
+}
+ 
 section#results .contrast-level img {
     height: 1.2rem;
     width: 1.2rem;

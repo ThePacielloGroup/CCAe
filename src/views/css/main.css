@@ -266,6 +266,9 @@ section#sample-preview .icon svg {
 
 #contrast-ratio {
     margin-right: 0.5rem;
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 0 0.5rem;
 }
 
 #contrast-ratio h3 {
@@ -274,9 +277,6 @@ section#sample-preview .icon svg {
 
 #contrast-ratio-value {
     font-size: 1.2rem;
-    border: 1px solid #ccc;
-    text-align: center;
-    padding: 0 0.5rem;
 }
 
 #contrast-ratio-value .smaller{

@@ -1,4 +1,5 @@
 const { ipcMain, clipboard, globalShortcut } = require('electron')
+const { checkForUpdates, setUpdatesDisabled } = require('./update.js')
 const Color = require('./CCAcolor')
 const Store = require('electron-store');
 const store = new Store();
@@ -269,6 +270,13 @@ The contrast ratio is: ${normal.contrastRatioString}
             break;
             case 'background.picker.shortcut':
                 this.updateShortcut(option, oldValue, value)
+            break;
+            case 'main.checkForUpdates':
+                if (value === true) {
+                    checkForUpdates()
+                } else {
+                    setUpdatesDisabled()
+                }
             break;
         }
     }

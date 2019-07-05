@@ -3,7 +3,7 @@ const isDev = ('NODE_ENV' in process.env && process.env.NODE_ENV === 'dev')
 const Store = require('electron-store');
 const store = new Store();
 
-const { checkForUpdates, installUpdate } = require('./update.js')
+const { checkForUpdates, installUpdate, setUpdatesDisabled } = require('./update.js')
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -36,9 +36,16 @@ app.on('ready', () => {
                     }
                 },
                 {
+                    id: 'menuUpdateDisabled',
+                    label: 'Auto Update is disabled',
+                    enabled: false,
+                    visible: false
+                },
+                {
                     id: 'menuUpdateChecking',
                     label: 'Checking for updates...',
-                    enabled: false
+                    enabled: false,
+                    visible: false
                 }, {
                     id: 'menuUpdateNotFound',
                     label: 'Current version is up-to-date',
@@ -193,7 +200,11 @@ app.on('ready', () => {
     mainController.updateShortcut('foreground.picker.shortcut', null, global.sharedObject.preferences.foreground.picker.shortcut)
     mainController.updateShortcut('background.picker.shortcut', null, global.sharedObject.preferences.background.picker.shortcut)
 
-    checkForUpdates()
+    if (global.sharedObject.preferences.main.checkForUpdates === true) {
+        checkForUpdates()
+    } else {
+        setUpdatesDisabled()
+    }
 })
 
 // Quit when all windows are closed.
@@ -314,6 +325,7 @@ global.sharedObject = {
 function loadPreferences() {
     if (isDev) { console.log(store.path) } 
     prefs = global.sharedObject.preferences
+    prefs.main.checkForUpdates = store.get('main.checkForUpdates', false)
     prefs.main.position.x = store.get('main.position.x', null)
     prefs.main.position.y = store.get('main.position.y', null)
     prefs.main.rounding = store.get('main.rounding', 1)

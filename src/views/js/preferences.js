@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-prefe
 
 ipcRenderer.on('init', event => {
     document.getElementById('option-rounding').value = sharedObject.preferences.main.rounding
+    document.getElementById('option-checkForUpdates').checked = sharedObject.preferences.main.checkForUpdates
     document.getElementById('shortcut-foreground-picker').value = sharedObject.preferences.foreground.picker.shortcut
     document.getElementById('shortcut-background-picker').value = sharedObject.preferences.background.picker.shortcut
 })
@@ -13,6 +14,10 @@ document.getElementById('save').addEventListener('click', function () {
     var rounding = document.getElementById('option-rounding').value
     if (rounding != sharedObject.preferences.main.rounding) {
         ipcRenderer.send('setPreference', rounding, 'main', 'rounding')
+    }
+    var checkForUpdates = document.getElementById('option-checkForUpdates').checked
+    if (checkForUpdates != sharedObject.preferences.main.checkForUpdates) {
+        ipcRenderer.send('setPreference', checkForUpdates, 'main', 'checkForUpdates')
     } 
     var foregroundPickerShortcut = document.getElementById('shortcut-foreground-picker').value
     if (foregroundPickerShortcut != sharedObject.preferences.foreground.picker.shortcut) {

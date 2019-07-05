@@ -36,10 +36,20 @@ autoUpdater.on('update-downloaded', (ev) => {
   var menu = Menu.getApplicationMenu();
   menu.getMenuItemById('menuUpdateFound').visible = false
   menu.getMenuItemById('menuUpdateInstall').visible = true
-
 })
 
+function setUpdatesDisabled() {
+  var menu = Menu.getApplicationMenu();
+  menu.getMenuItemById('menuUpdateDisabled').visible = true
+  menu.getMenuItemById('menuUpdateNotFound').visible = false
+  menu.getMenuItemById('menuUpdateFound').visible = false
+  menu.getMenuItemById('menuUpdateInstall').visible = false
+}
+
 function checkForUpdates() {
+  var menu = Menu.getApplicationMenu();
+  menu.getMenuItemById('menuUpdateDisabled').visible = false
+  menu.getMenuItemById('menuUpdateChecking').visible = true
   autoUpdater.checkForUpdates()
 }
 
@@ -52,5 +62,6 @@ function installUpdate() {
   })
 }
 
+module.exports.setUpdatesDisabled = setUpdatesDisabled
 module.exports.checkForUpdates = checkForUpdates
 module.exports.installUpdate = installUpdate

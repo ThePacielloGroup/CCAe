@@ -102,9 +102,39 @@ Color.isHSLA = function(string) {
     return string.match(hsla)
 }
 
+Color.isHSV = function(string) {
+    let hsv = /^hsv\(\s*([+-]?(?:\d*\.)?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*?\)$/;
+    return string.match(hsv)
+}
+
+Color.isHSVA = function(string) {
+    let hsva = /^hsva\(\s*([+-]?(?:\d*\.)?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
+    return string.match(hsva)
+}
+
 Color.isName = function(string) {
     // Full list https://www.w3.org/TR/css-color-3/#svg-color
     return (cssKeywords[string])
 }
+
+// HSV not supported by https://github.com/Qix-/color-string
+// So we overright string()
+
+var swizzle = require('simple-swizzle');
+var colorString = require('color-string');
+Color.prototype.string=function (places) {
+    var self = (this.model in colorString.to || this.model == "hsv") ? this : this.rgb();
+    self = self.round(typeof places === 'number' ? places : 1);
+    var args = self.valpha === 1 ? self.color : self.color.concat(this.valpha);
+
+    if (this.model == "hsv") {
+        var hsva = swizzle(args);
+        return hsva.length < 4 || hsva[3] === 1
+            ? 'hsv(' + hsva[0] + ', ' + hsva[1] + '%, ' + hsva[2] + '%)'
+            : 'hsva(' + hsva[0] + ', ' + hsva[1] + '%, ' + hsva[2] + '%, ' + hsva[3] + ')';    
+    } else {
+        return colorString.to[self.model](args);    
+    }
+},
 
 module.exports = Color

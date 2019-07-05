@@ -72,19 +72,34 @@ function initEvents () {
     document.querySelector('#background-color .format-selector').onchange = function() {changeFormat('background', this)}
 
     document.querySelector('#foreground-hsl .hue input[type=range]').oninput = function() {sliderHSLOnInput('foreground', 'hue', this.value)}
-    document.querySelector('#foreground-hsl .saturation input[type=range]').oninput = function() {sliderHSLOnInput('foreground', 'saturation', this.value)}
+    document.querySelector('#foreground-hsl .saturationl input[type=range]').oninput = function() {sliderHSLOnInput('foreground', 'saturationl', this.value)}
     document.querySelector('#foreground-hsl .lightness input[type=range]').oninput = function() {sliderHSLOnInput('foreground', 'lightness', this.value)}
     document.querySelector('#foreground-hsl .alpha input[type=range]').oninput = function() {sliderHSLOnInput('foreground', 'alpha', this.value)}
     document.querySelector('#background-hsl .hue input[type=range]').oninput = function() {sliderHSLOnInput('background', 'hue', this.value)}
-    document.querySelector('#background-hsl .saturation input[type=range]').oninput = function() {sliderHSLOnInput('background', 'saturation', this.value)}
+    document.querySelector('#background-hsl .saturationl input[type=range]').oninput = function() {sliderHSLOnInput('background', 'saturationl', this.value)}
     document.querySelector('#background-hsl .lightness input[type=range]').oninput = function() {sliderHSLOnInput('background', 'lightness', this.value)}
     document.querySelector('#foreground-hsl .hue input[type=number]').oninput = function() {numberHSLOnInput('foreground', 'hue', this.value)}
-    document.querySelector('#foreground-hsl .saturation input[type=number]').oninput = function() {numberHSLOnInput('foreground', 'saturation', this.value)}
+    document.querySelector('#foreground-hsl .saturationl input[type=number]').oninput = function() {numberHSLOnInput('foreground', 'saturationl', this.value)}
     document.querySelector('#foreground-hsl .lightness input[type=number]').oninput = function() {numberHSLOnInput('foreground', 'lightness', this.value)}
     document.querySelector('#foreground-hsl .alpha input[type=number]').oninput = function() {numberHSLOnInput('foreground', 'alpha', this.value)}
     document.querySelector('#background-hsl .hue input[type=number]').oninput = function() {numberHSLOnInput('background', 'hue', this.value)}
-    document.querySelector('#background-hsl .saturation input[type=number]').oninput = function() {numberHSLOnInput('background', 'saturation', this.value)}
+    document.querySelector('#background-hsl .saturationl input[type=number]').oninput = function() {numberHSLOnInput('background', 'saturationl', this.value)}
     document.querySelector('#background-hsl .lightness input[type=number]').oninput = function() {numberHSLOnInput('background', 'lightness', this.value)}
+
+    document.querySelector('#foreground-hsv .hue input[type=range]').oninput = function() {sliderHSVOnInput('foreground', 'hue', this.value)}
+    document.querySelector('#foreground-hsv .saturationv input[type=range]').oninput = function() {sliderHSVOnInput('foreground', 'saturationv', this.value)}
+    document.querySelector('#foreground-hsv .value input[type=range]').oninput = function() {sliderHSVOnInput('foreground', 'value', this.value)}
+    document.querySelector('#foreground-hsv .alpha input[type=range]').oninput = function() {sliderHSVOnInput('foreground', 'alpha', this.value)}
+    document.querySelector('#background-hsv .hue input[type=range]').oninput = function() {sliderHSVOnInput('background', 'hue', this.value)}
+    document.querySelector('#background-hsv .saturationv input[type=range]').oninput = function() {sliderHSVOnInput('background', 'saturationv', this.value)}
+    document.querySelector('#background-hsv .value input[type=range]').oninput = function() {sliderHSVOnInput('background', 'value', this.value)}
+    document.querySelector('#foreground-hsv .hue input[type=number]').oninput = function() {numberHSVOnInput('foreground', 'hue', this.value)}
+    document.querySelector('#foreground-hsv .saturationv input[type=number]').oninput = function() {numberHSVOnInput('foreground', 'saturationv', this.value)}
+    document.querySelector('#foreground-hsv .value input[type=number]').oninput = function() {numberHSVOnInput('foreground', 'value', this.value)}
+    document.querySelector('#foreground-hsv .alpha input[type=number]').oninput = function() {numberHSVOnInput('foreground', 'alpha', this.value)}
+    document.querySelector('#background-hsv .hue input[type=number]').oninput = function() {numberHSVOnInput('background', 'hue', this.value)}
+    document.querySelector('#background-hsv .saturationv input[type=number]').oninput = function() {numberHSVOnInput('background', 'saturationv', this.value)}
+    document.querySelector('#background-hsv .lightness input[type=number]').oninput = function() {numberHSVOnInput('background', 'lightness', this.value)}
 
     // init Details
     document.querySelectorAll('details').forEach(function(details) {
@@ -110,6 +125,14 @@ function sliderHSLOnInput(section, component, value) {
 
 function numberHSLOnInput(section, component, value) {
     ipcRenderer.send('changeFromHSLComponent', section, component, value)
+}
+
+function sliderHSVOnInput(section, component, value) {
+    ipcRenderer.send('changeFromHSVComponent', section, component, value)
+}
+
+function numberHSVOnInput(section, component, value) {
+    ipcRenderer.send('changeFromHSVComponent', section, component, value)
 }
 
 function showHide(el) {
@@ -138,6 +161,7 @@ function applyColor(section) {
     applyColorTextString(section, colorReal, color)
     applyColorRGBSliders(section, color)
     applyColorHSLSliders(section, color)
+    applyColorHSVSliders(section, color)
     applyColorSample(section, colorReal)
 }
 
@@ -153,6 +177,12 @@ function getColorTextString(format, colorReal, color) {
         case 'hsla':
             // Return rounded values for HSL. This is due to a bug in `color-string` Qix-/color#127
             return color.hsl().round().string()
+        case 'hsv':
+            // Return rounded values for HSV. This is due to a bug in `color-string` Qix-/color#127
+            return colorReal.hsv().round().string()
+        case 'hsva':
+            // Return rounded values for HSV. This is due to a bug in `color-string` Qix-/color#127
+            return color.hsv().round().string()
         default: //hex
             return colorReal.hex()
     }
@@ -207,10 +237,10 @@ function applyColorRGBSliders(section, color) {
 
 function applyColorHSLSliders(section, color) {
     document.querySelector('#' + section + '-hsl .hue input[type=range]').value = Math.round(color.hue())
-    document.querySelector('#' + section + '-hsl .saturation input[type=range]').value = Math.round(color.saturationl())
+    document.querySelector('#' + section + '-hsl .saturationl input[type=range]').value = Math.round(color.saturationl())
     document.querySelector('#' + section + '-hsl .lightness input[type=range]').value = Math.round(color.lightness())
     document.querySelector('#' + section + '-hsl .hue input[type=number]').value = Math.round(color.hue())
-    document.querySelector('#' + section + '-hsl .saturation input[type=number]').value = Math.round(color.saturationl())
+    document.querySelector('#' + section + '-hsl .saturationl input[type=number]').value = Math.round(color.saturationl())
     document.querySelector('#' + section + '-hsl .lightness input[type=number]').value = Math.round(color.lightness())
     if (section === 'foreground') {
         document.querySelector('#' + section + '-hsl .alpha input[type=range]').value = color.alpha()
@@ -218,6 +248,23 @@ function applyColorHSLSliders(section, color) {
             /* only force update of the alpha number input if it's not current;y focused
                as otherwise, when user enters "0.", it's corrected to "0" and prevents correct text entry */
             document.querySelector('#' + section + '-hsl .alpha input[type=number]').value = color.alpha()
+        }  
+    }
+}
+
+function applyColorHSVSliders(section, color) {
+    document.querySelector('#' + section + '-hsv .hue input[type=range]').value = Math.round(color.hue())
+    document.querySelector('#' + section + '-hsv .saturationv input[type=range]').value = Math.round(color.saturationv())
+    document.querySelector('#' + section + '-hsv .value input[type=range]').value = Math.round(color.value())
+    document.querySelector('#' + section + '-hsv .hue input[type=number]').value = Math.round(color.hue())
+    document.querySelector('#' + section + '-hsv .saturationv input[type=number]').value = Math.round(color.saturationv())
+    document.querySelector('#' + section + '-hsv .value input[type=number]').value = Math.round(color.value())
+    if (section === 'foreground') {
+        document.querySelector('#' + section + '-hsv .alpha input[type=range]').value = color.alpha()
+        if (document.activeElement != document.querySelector('#' + section + '-hsv .alpha input[type=number]')) {
+            /* only force update of the alpha number input if it's not current;y focused
+               as otherwise, when user enters "0.", it's corrected to "0" and prevents correct text entry */
+            document.querySelector('#' + section + '-hsv .alpha input[type=number]').value = color.alpha()
         }  
     }
 }
@@ -274,6 +321,10 @@ function validateForegroundText(value) {
             format = 'hsl'
         } else if (Color.isHSLA(string)) {
             format = 'hsla'
+        } else if (Color.isHSV(string)) {
+            format = 'hsv'
+        } else if (Color.isHSVA(string)) {
+            format = 'hsva'
         } else if (Color.isName(string)) {
             format = 'name'
         }
@@ -291,6 +342,8 @@ function validateBackgroundText(value) {
             format = 'rgb'
         } else if (Color.isHSL(string)) {
             format = 'hsl'
+        } else if (Color.isHSV(string)) {
+            format = 'hsv'
         } else if (Color.isName(string)) {
             format = 'name'
         }

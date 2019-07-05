@@ -323,7 +323,6 @@ global.sharedObject = {
 }
 
 function loadPreferences() {
-    if (isDev) { console.log(store.path) } 
     prefs = global.sharedObject.preferences
     prefs.main.checkForUpdates = store.get('main.checkForUpdates', false)
     prefs.main.position.x = store.get('main.position.x', null)

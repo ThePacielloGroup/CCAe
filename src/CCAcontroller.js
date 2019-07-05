@@ -21,6 +21,7 @@ class CCAController {
         })
         ipcMain.on('changeFromRGBComponent', this.updateRGBComponent.bind(this))
         ipcMain.on('changeFromHSLComponent', this.updateHSLComponent.bind(this))
+        ipcMain.on('changeFromHSVComponent', this.updateHSVComponent.bind(this))
         ipcMain.on('changeFromString', this.updateFromString.bind(this))
         ipcMain.on('switchColors', this.switchColors.bind(this))
         ipcMain.on('setPreference', this.setPreference.bind(this))
@@ -105,9 +106,40 @@ class CCAController {
 
         if (component === "hue") {
             color = color.hue(value)
-        } else if (component === "saturation") {
+        } else if (component === "saturationl") {
             color = color.saturationl(value)
         } else if (component === "lightness") {
+            color = color.lightness(value)
+        } else if (component === "alpha") {
+            color = color.alpha(value)
+        }
+
+        this.sharedObject.deficiencies.normal[section + 'Color'] = color
+        this.updateGlobal(section)    
+    }
+
+    updateHSVComponent(event, section, component, value) {
+        if (component === 'alpha') {
+            value = parseFloat(value)
+            if (value > 1) value = 1
+            if (value < 0) value = 0    
+        } else if (component === 'hue') {
+            value = parseFloat(value)
+            if (value > 360) value = 360
+            if (value < 0) value = 0    
+        } else {
+            value = parseInt(value)
+            if (value > 100) value = 100
+            if (value < 0) value = 0    
+        }
+
+        let color = this.sharedObject.deficiencies.normal[section + 'Color']
+
+        if (component === "hue") {
+            color = color.hue(value)
+        } else if (component === "saturationv") {
+            color = color.saturationv(value)
+        } else if (component === "value") {
             color = color.lightness(value)
         } else if (component === "alpha") {
             color = color.alpha(value)
@@ -316,6 +348,12 @@ function getColorTextString(format, colorReal, color) {
         case 'hsla':
             // Return rounded values for HSL. This is due to a bug in `color-string` Qix-/color#127
             return color.hsl().round().string()
+        case 'hsv':
+            // Return rounded values for HSV. This is due to a bug in `color-string` Qix-/color#127
+            return colorReal.hsv().round().string()
+        case 'hsva':
+            // Return rounded values for HSV. This is due to a bug in `color-string` Qix-/color#127
+            return color.hsv().round().string()
         default: //hex
             return colorReal.hex()
     }

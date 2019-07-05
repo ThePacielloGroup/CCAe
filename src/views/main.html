@@ -19,6 +19,8 @@
             <option value="rgba">RGBa</option>
             <option value="hsl">HSL</option>
             <option value="hsla">HSLa</option>
+            <option value="hsv">HSV</option>
+            <option value="hsva">HSVa</option>
           </select>
           <input type="text" class="free-value" aria-label="Foreground colour value" aria-describedby="foreground-free-format" />
           <div id="foreground-free-format" class="free-format sr-only"></div>
@@ -38,6 +40,7 @@
           <li>Names: <code>blue</code>, <code>grey</code>, <code>orange</code>, ...</li>
           <li>RGB: <code>rgb(200,200,200)</code>, <code>rgba(200,60,60,0.3)</code></li>
           <li>HSL: <code>hsl(360,100%,50%)</code>, <code>hsla(360,60%,50%,0.4)</code></li>
+          <li>HSV: <code>hsv(360,100%,50%)</code>, <code>hsva(360,60%,50%,0.4)</code></li>
         </ul>
       </section>
       <section id="foreground-sliders" hidden>
@@ -57,6 +60,14 @@
             tabindex="-1"
             aria-controls="foreground-hsl"
             aria-selected="false">HSL</a>
+          </li>
+          <li role="presentation">
+            <a href="#foreground-hsv"
+            role="tab"
+            id="foreground-hsv-tab"
+            tabindex="-1"
+            aria-controls="foreground-hsv"
+            aria-selected="false">HSV</a>
           </li>
         </ul>
         <div role="tabpanel" id="foreground-rgb" aria-labelledby="foreground-rgb-tab" aria-hidden="false"
@@ -98,10 +109,10 @@
               <input aria-label="Foreground hue" type="range" min="0" max="359" value="0" />
               <input aria-label="Foreground hue" type="number" maxlength="3" />
             </div>
-            <div class="slider slider-hsl saturation">
+            <div class="slider slider-hsl saturationl">
               <label>Saturation</label>
-              <input aria-label="Foreground saturation" type="range" min="0" max="100" value="0" />
-              <input aria-label="Foreground saturation" type="number" maxlength="3" />
+              <input aria-label="Foreground saturationl" type="range" min="0" max="100" value="0" />
+              <input aria-label="Foreground saturationl" type="number" maxlength="3" />
             </div>
             <div class="slider slider-hsl lightness">
               <label>Lightness</label>
@@ -109,6 +120,31 @@
               <input aria-label="Foreground lightness" type="number" maxlength="3" />
             </div>
             <div class="slider slider-hsl alpha">
+              <label>Alpha</label>
+              <input aria-label="Foreground alpha" type="range" min="0" max="1" value="1" step="0.01" />
+              <input aria-label="Foreground alpha" type="number" min="0" max="1" step="0.0001" />
+            </div>
+          </div>
+        </div>
+        <div role="tabpanel" id="foreground-hsv" aria-labelledby="foreground-hsv-tab" aria-hidden="true"
+        aria-expanded="false" hidden>
+            <h2 class="sr-only">Foreground HSV input</h2>
+            <div class="slider slider-hsv hue">
+              <label>Hue</label>
+              <input aria-label="Foreground hue" type="range" min="0" max="359" value="0" />
+              <input aria-label="Foreground hue" type="number" maxlength="3" />
+            </div>
+            <div class="slider slider-hsv saturationv">
+              <label>Saturation</label>
+              <input aria-label="Foreground saturationv" type="range" min="0" max="100" value="0" />
+              <input aria-label="Foreground saturationv" type="number" maxlength="3" />
+            </div>
+            <div class="slider slider-hsv value">
+              <label>Value</label>
+              <input aria-label="Foreground value" type="range" min="0" max="100" value="0" />
+              <input aria-label="Foreground value" type="number" maxlength="3" />
+            </div>
+            <div class="slider slider-hsv alpha">
               <label>Alpha</label>
               <input aria-label="Foreground alpha" type="range" min="0" max="1" value="1" step="0.01" />
               <input aria-label="Foreground alpha" type="number" min="0" max="1" step="0.0001" />
@@ -123,6 +159,7 @@
             <option value="hex">HEX</option>
             <option value="rgb">RGB</option>
             <option value="hsl">HSL</option>
+            <option value="hsv">HSV</option>
           </select>
           <input type="text" class="free-value" aria-label="Background colour value" aria-describedby="background-help" />
           <div id="background-free-format" class="free-format sr-only"></div>
@@ -141,6 +178,7 @@
           <li>Names: <code>blue</code>, <code>grey</code>, <code>orange</code>, ...</li>
           <li>RGB: <code>rgb(200,200,200)</code></li>
           <li>HSL: <code>hsl(360,100%,50%)</code></li>
+          <li>HSV: <code>hsv(360,100%,50%)</code></li>
         </ul>
       </section>
       <section id="background-sliders" hidden>
@@ -160,6 +198,14 @@
               tabindex="-1"
               aria-controls="background-hsl"
               aria-selected="false">HSL</a>
+            </li>
+            <li role="presentation">
+              <a href="#background-hsv"
+              role="tab"
+              id="background-hsv-tab"
+              tabindex="-1"
+              aria-controls="background-hsv"
+              aria-selected="false">HSV</a>
             </li>
           </ul>
           <div role="tabpanel" id="background-rgb" aria-labelledby="background-rgb-tab" aria-hidden="false"
@@ -196,15 +242,35 @@
               <input aria-label="Background hue" type="range" min="0" max="359" value="0" />
               <input aria-label="Background hue" type="number" maxlength="3" />
             </div>
-            <div class="slider slider-hsl saturation">
+            <div class="slider slider-hsl saturationl">
               <label>Saturation</label>
-              <input aria-label="Background saturation" type="range" min="0" max="100" value="0" />
-              <input aria-label="Background saturation" type="number" maxlength="3" />
+              <input aria-label="Background saturationl" type="range" min="0" max="100" value="0" />
+              <input aria-label="Background saturationl" type="number" maxlength="3" />
             </div>
             <div class="slider slider-hsl lightness">
               <label>Lightness</label>
               <input aria-label="Background lightness" type="range" min="0" max="100" value="0" />
               <input aria-label="Background lightness" type="number" maxlength="3" />
+            </div>
+          </div>
+        </div>
+        <div role="tabpanel" id="background-hsv" aria-labelledby="background-hsv-tab" aria-hidden="true"
+        aria-expanded="false" hidden>
+            <h2 class="sr-only">Background HSV input</h2>
+            <div class="slider slider-hsv hue">
+              <label>Hue</label>
+              <input aria-label="Background hue" type="range" min="0" max="359" value="0" />
+              <input aria-label="Background hue" type="number" maxlength="3" />
+            </div>
+            <div class="slider slider-hsv saturationv">
+              <label>Saturation</label>
+              <input aria-label="Background saturationv" type="range" min="0" max="100" value="0" />
+              <input aria-label="Background saturationv" type="number" maxlength="3" />
+            </div>
+            <div class="slider slider-hsv value">
+              <label>Lightness</label>
+              <input aria-label="Background value" type="range" min="0" max="100" value="0" />
+              <input aria-label="Background value" type="number" maxlength="3" />
             </div>
           </div>
         </div>

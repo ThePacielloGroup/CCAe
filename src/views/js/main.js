@@ -1,10 +1,14 @@
 const { ipcRenderer } = require('electron')
 const sharedObject = require('electron').remote.getGlobal('sharedObject')
 const Color = require('../../CCAcolor')
+let i18n = ''
 
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-app'), false)
 
-ipcRenderer.on('init', event => {
+ipcRenderer.on('init', (event, config) => {
+    i18n = JSON.parse(config.i18n).Main
+    translateHTML()
+
     applyColor('foreground')
     applyColor('background')
     applyContrastRatio()
@@ -301,6 +305,21 @@ function applyContrastRatio () {
     } else { // Fail
         level_1_4_6 = '<div><img src="icons/fail.svg" alt="" /> Fail (regular text)</div><div><img src="icons/fail.svg" alt="" /> Fail (large text)</div>'
     }
+
+    // translate results
+    let results = [level_1_4_3, level_1_4_6, level_1_4_11]
+    results.forEach( function(item, index) {
+        results[index] = item.replace(/Pass/g, i18n['Pass'] )
+                .replace(/Fail/g, i18n['Fail'])
+                .replace(/regular text/g, i18n['regular text'])
+                .replace(/large text/g, i18n['large text'])
+                .replace(/UI components and graphical objects/g, i18n['UI components and graphical objects'])
+    })
+
+    level_1_4_3 = results.shift()
+    level_1_4_6 = results.shift()
+    level_1_4_11 = results.shift()
+
     document.getElementById('contrast-ratio-value').innerHTML = normal.contrastRatioString
     document.getElementById('contrast-level-1-4-3').innerHTML = level_1_4_3
     document.getElementById('contrast-level-1-4-6').innerHTML = level_1_4_6
@@ -393,4 +412,119 @@ function changeFormat(section, el) {
         colorReal = color
     }
     applyColorTextString(section, colorReal, color)
+}
+
+function translateHTML(config) {
+
+    // translate html elements.
+    document.querySelector('html').lang = i18n['lang']
+    document.querySelector('title').textContent = i18n['Title']
+
+    document.querySelector('h1').textContent = i18n['CCA Main windows']
+
+    document.querySelector('#foreground-color h2').textContent = i18n['Foreground colour']
+
+    document.querySelector('#foreground-format-selector').setAttribute('aria-label', i18n['Select default format for foreground color']);
+    document.querySelector('#foreground-format-selector+input').setAttribute('aria-label', i18n['Foreground colour value']);
+
+    document.querySelector('#foreground-color div:last-child button.switch').setAttribute('aria-label', i18n['Switch Colors'])
+    document.querySelector('#foreground-color div:last-child button.sliders').setAttribute('aria-label', i18n['Foreground color sliders'])
+    document.querySelector('#foreground-color div:last-child button.picker').setAttribute('aria-label', i18n['Foreground color picker'])
+    document.querySelector('#foreground-color div:last-child button.help').setAttribute('aria-label', i18n['Foreground help'])
+
+    document.querySelector('#foreground-help').innerHTML
+        = document.querySelector('#foreground-help').innerHTML
+            .replace('Supported formats are', i18n['Supported formats are'])
+            .replace('Names', i18n['Names'])
+
+    document.querySelector('#foreground-rgb h2').textContent = i18n['Foreground RGB input']
+    document.querySelector('#foreground-rgb > div.sync > label').innerHTML
+        = document.querySelector('#foreground-rgb > div.sync > label').innerHTML
+            .replace('Synchronize foreground colour values', i18n['Synchronize foreground colour values'])
+            .replace('Synchronize colour values', i18n['Synchronize colour values'])
+
+    document.querySelector('#foreground-rgb > div.slider.slider-rgb.red > label').textContent = i18n['Red']
+    document.querySelector('#foreground-rgb > div.slider.slider-rgb.green > label').textContent = i18n['Green']
+    document.querySelector('#foreground-rgb > div.slider.slider-rgb.blue > label').textContent = i18n['Blue']
+    document.querySelector('#foreground-rgb > div.slider.slider-rgb.alpha > label').textContent = i18n['Alpha']
+
+    document.querySelector('#foreground-hsl > h2').textContent = i18n['Foreground HSL input']
+    document.querySelector('#foreground-hsl > div.slider.slider-hsl.hue > label').textContent = i18n['Hue']
+    document.querySelector('#foreground-hsl > div.slider.slider-hsl.saturationl > label').textContent = i18n['Saturation']
+    document.querySelector('#foreground-hsl > div.slider.slider-hsl.lightness > label').textContent = i18n['Lightness']
+    document.querySelector('#foreground-hsl > div.slider.slider-hsl.alpha > label').textContent = i18n['Alpha']
+
+    document.querySelector('#foreground-hsv > h2').textContent = i18n['Foreground HSV input']
+    document.querySelector('#foreground-hsv > div.slider.slider-hsv.hue > label').textContent = i18n['Hue']
+    document.querySelector('#foreground-hsv > div.slider.slider-hsv.saturationv > label').textContent = i18n['Saturation']
+    document.querySelector('#foreground-hsv > div.slider.slider-hsv.value > label').textContent = i18n['Value']
+    document.querySelector('#foreground-hsv > div.slider.slider-hsv.alpha > label').textContent = i18n['Alpha']
+
+    document.querySelector('#background-color h2').textContent = i18n['Background colour']
+    document.querySelector('#background-format-selector').setAttribute('aria-label', i18n['Select default format for background color'])
+    document.querySelector('#background-color > div.container > input').setAttribute('aria-label', i18n['Background colour value'])
+
+    document.querySelector('#background-color > div.buttons > button.sliders').setAttribute('aria-label', i18n['Background color sliders'])
+    document.querySelector('#background-color > div.buttons > button.picker').setAttribute('aria-label', i18n['Background color picker'])
+    document.querySelector('#background-color > div.buttons > button.help').setAttribute('aria-label', i18n['Background help'])
+
+    document.querySelector('#background-help').innerHTML
+        = document.querySelector('#background-help').innerHTML
+            .replace('Supported formats are', i18n['Supported formats are'])
+            .replace('Names', i18n['Names'])
+
+    document.querySelector('#background-rgb > h2').textContent = i18n['Background RGB input']
+    document.querySelector('#background-rgb > div.sync > label').innerHTML
+        = document.querySelector('#background-rgb > div.sync > label').innerHTML
+            .replace('Synchronize background colour values', i18n['Synchronize background colour values'])
+            .replace('Synchronize colour values', i18n['Synchronize colour values'])
+
+    document.querySelector('#background-rgb > div.slider.slider-rgb.red > label').textContent = i18n['Red']
+    document.querySelector('#background-rgb > div.slider.slider-rgb.green > label').textContent = i18n['Green']
+    document.querySelector('#background-rgb > div.slider.slider-rgb.blue > label').textContent = i18n['Blue']
+
+    document.querySelector('#background-hsl > h2').textContent = i18n['Background HSL input']
+    document.querySelector('#background-hsl > div.slider.slider-hsl.hue > label').textContent = i18n['Hue']
+    document.querySelector('#background-hsl > div.slider.slider-hsl.saturationl > label').textContent = i18n['Saturation']
+    document.querySelector('#background-hsl > div.slider.slider-hsl.lightness > label').textContent = i18n['Lightness']
+
+    document.querySelector('#background-hsv > h2').textContent = i18n['Background HSV input']
+    document.querySelector('#background-hsv > div.slider.slider-hsv.hue > label').textContent = i18n['Hue']
+    document.querySelector('#background-hsv > div.slider.slider-hsv.saturationv > label').textContent = i18n['Saturation']
+    document.querySelector('#background-hsv > div.slider.slider-hsv.value > label').textContent = i18n['Value']
+
+    document.querySelector('#sample-preview details summary h2').textContent = i18n['Sample preview']
+    document.querySelector('#sample-preview details summary+div.preview-box div.text').textContent = i18n['example text showing contrast']
+
+    document.querySelector('#results header h2').textContent = i18n['WCAG 2.1 results']
+    document.querySelector('#contrast-ratio h3').textContent = i18n['Contrast ratio']
+
+    document.querySelector('#results header+details summary h3').textContent = i18n['1.4.3 Contrast (Minimum) (AA)']
+    document.querySelector('#contrast-level-1-4-3+details summary h3').textContent = i18n['1.4.6 Contrast (Enhanced) (AAA)']
+    document.querySelector('#contrast-level-1-4-6+details summary h3').textContent = i18n['1.4.11 Non-text Contrast (AA)']
+
+    document.querySelector('#results > details:nth-child(2) > p').innerHTML
+        = document.querySelector('#results > details:nth-child(2) > p').innerHTML
+            .replace('Paraphrased', i18n['Paraphrased'])
+            .replace(
+                'Text (including images of text) has a contrast ratio of at least <strong>4.5:1</strong> for "regular" sized text and at least <strong>3:1</strong> for large scale text (at least <code>18pt</code> / <code>24px</code>, or bold and at least <code>14pt</code> / <code>18.5px</code>), unless the text is purely decorative.',
+                i18n['sc_1_4_3']
+            )
+
+    document.querySelector('#results > details:nth-child(4) > p').innerHTML
+        = document.querySelector('#results > details:nth-child(4) > p').innerHTML
+            .replace('Paraphrased', i18n['Paraphrased'])
+            .replace(
+                'Text (including images of text) has a contrast ratio of at least <strong>7:1</strong> for "regular" sized text and at least <strong>4.5:1</strong> for large scale text (at least <code>18pt</code> / <code>24px</code>, or bold and at least <code>14pt</code> / <code>18.5px</code>), unless the text is purely decorative.',
+                i18n['sc_1_4_6']
+            )
+    
+            document.querySelector('#results > details:nth-child(6) > p').innerHTML
+            = document.querySelector('#results > details:nth-child(6) > p').innerHTML
+                .replace('Paraphrased', i18n['Paraphrased'])
+                .replace(
+                    'The visual presentation of user interface components (their states – including focus indication – and boundaries) and graphical objects has a contrast ratio of at least <strong>3:1</strong> against adjacent color(s)',
+                    i18n['sc_1_4_11']
+                )
+
 }

@@ -9,6 +9,7 @@ const { checkForUpdates, installUpdate, setUpdatesDisabled } = require('./update
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+    const i18n  = new(require('./i18n'))
     loadPreferences()
     position = global.sharedObject.preferences.main.position
     alwaysOnTop = global.sharedObject.preferences.main.alwaysOnTop
@@ -16,15 +17,15 @@ app.on('ready', () => {
 
     const menuTemplate = [
         {
-            label: 'Colour Contrast Analyser (CCA)',
+            label: i18n.menuT('Colour Contrast Analyser (CCA)'),
             submenu: [
                 {
-                    label: 'About CCA',
+                    label: i18n.menuT('About CCA'),
                     accelerator: 'F1',
                     click: () => about.init()
                 },
                 {
-                    label: 'Preferences',
+                    label: i18n.menuT('Preferences'),
                     accelerator: 'CmdOrCtrl+,',
                     click: () => {
                         // Center panel on main window
@@ -37,44 +38,45 @@ app.on('ready', () => {
                 },
                 {
                     id: 'menuUpdateDisabled',
-                    label: 'Auto Update is disabled',
+                    label: i18n.menuT('Auto Update is disabled'),
                     enabled: false,
                     visible: false
                 },
                 {
                     id: 'menuUpdateChecking',
-                    label: 'Checking for updates...',
+                    label: i18n.menuT('Checking for updates...'),
                     enabled: false,
                     visible: false
                 }, {
                     id: 'menuUpdateNotFound',
-                    label: 'Current version is up-to-date',
+                    label: i18n.menuT('Current version is up-to-date'),
                     enabled: false,
                     visible: false
                 }, {
                     id: 'menuUpdateFound',
-                    label: 'Found updates, downloading...',
+                    label: i18n.menuT('Found updates, downloading...'),
                     enabled: false,
                     visible: false
                 }, {
                     id: 'menuUpdateInstall',
-                    label: 'Install update',
+                    label: i18n.menuT('Install update'),
                     accelerator: 'CmdOrCtrl+Shift+U',
                     click: installUpdate,
                     visible: false
                 }, {
                     type: 'separator'
                 }, {
+                    // label: i18n.menuT('quit AAAA'),
                     role: 'quit',
                     accelerator: 'CmdOrCtrl+Q'
                 }
             ]
         },
         {
-            label: 'Edit',
+            label: i18n.menuT('Edit'),
             submenu: [
                 {
-                    label: 'Copy results',
+                    label: i18n.menuT('Copy results'),
                     accelerator: 'CmdOrCtrl+Shift+C',
                     click: (item) => {
                         mainController.copyResults()
@@ -83,10 +85,10 @@ app.on('ready', () => {
             ]
         },
         {
-            label: 'View',
+            label: i18n.menuT('View'),
             submenu: [
                 {
-                    label: 'Colour blindness simulation',
+                    label: i18n.menuT('Colour blindness simulation'),
                     accelerator: 'CmdOrCtrl+B',
                     click: () => deficiency.init()
                 },
@@ -94,7 +96,7 @@ app.on('ready', () => {
                     type: 'separator'
                 },
                 {
-                    label: 'Always on Top',
+                    label: i18n.menuT('Always on Top'),
                     type: 'checkbox',
                     checked: alwaysOnTop,
                     click: (item) => {
@@ -106,7 +108,7 @@ app.on('ready', () => {
                     type: 'separator'
                 },
                 {
-                    label: 'Actual Size',
+                    label: i18n.menuT('Actual Size'),
                     accelerator: 'CmdOrCtrl+0',		
                     click (item, focusedWindow) {		
                         if (focusedWindow) {
@@ -116,7 +118,7 @@ app.on('ready', () => {
                     }		
                 },
                 {
-                    label: 'Zoom In',
+                    label: i18n.menuT('Zoom In'),
                     accelerator: 'CmdOrCtrl+Plus',		
                     click (item, focusedWindow) {		
                         if (focusedWindow) {		
@@ -129,7 +131,7 @@ app.on('ready', () => {
                     }		
                 },
                 {
-                    label: 'Zoom Out',
+                    label: i18n.menuT('Zoom Out'),
                     accelerator: 'CmdOrCtrl+-',		
                     click (item, focusedWindow) {		
                         if (focusedWindow) {		
@@ -153,15 +155,15 @@ app.on('ready', () => {
             {
                 type: 'separator'
             }, {
-                label: 'Cut',
+                label: i18n.menuT('Cut'),
                 accelerator: 'CmdOrCtrl+X',
                 selector: 'cut:'
             }, {
-                label: 'Copy',
+                label: i18n.menuT('Copy'),
                 accelerator: 'CmdOrCtrl+C',
                 selector: 'copy:'
             }, {
-                label: 'Paste',
+                label: i18n.menuT('Paste'),
                 accelerator: 'CmdOrCtrl+V',
                 selector: 'paste:'
             }
@@ -171,17 +173,17 @@ app.on('ready', () => {
     if (isDev) {
         menuTemplate.push(
             {
-                label: 'Development',
+                label: i18n.menuT('Development'),
                 submenu: [
                     {
-                        label: 'Reload',
+                        label: i18n.menuT('Reload'),
                         accelerator: 'CmdOrCtrl+R',
                         click (item, focusedWindow) {
                             if (focusedWindow) focusedWindow.reload()
                         }
                     },
                     {
-                        label: 'Open Developer Tools',
+                        label: i18n.menuT('Open Developer Tools'),
                         accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
                         click (item, focusedWindow) {
                             if (focusedWindow) focusedWindow.webContents.openDevTools({mode: 'detach'})

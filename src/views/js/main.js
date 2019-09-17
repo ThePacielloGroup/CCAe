@@ -99,7 +99,7 @@ function initEvents () {
     document.querySelector('#foreground-hsv .alpha input[type=number]').oninput = function() {numberHSVOnInput('foreground', 'alpha', this.value)}
     document.querySelector('#background-hsv .hue input[type=number]').oninput = function() {numberHSVOnInput('background', 'hue', this.value)}
     document.querySelector('#background-hsv .saturationv input[type=number]').oninput = function() {numberHSVOnInput('background', 'saturationv', this.value)}
-    document.querySelector('#background-hsv .lightness input[type=number]').oninput = function() {numberHSVOnInput('background', 'lightness', this.value)}
+    document.querySelector('#background-hsv .value input[type=number]').oninput = function() {numberHSVOnInput('background', 'value', this.value)}
 
     // init Details
     document.querySelectorAll('details').forEach(function(details) {

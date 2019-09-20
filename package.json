@@ -7,7 +7,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "cross-env NODE_ENV=dev electron .",
-        "rebuild": "npm rebuild --runtime=electron --target=2.0.11 --disturl=https://atom.io/download/electron --abi=57",
+        "rebuild": "./node_modules/.bin/electron-rebuild",
         "dist": "npm run rebuild && electron-builder",
         "dist-portable32": "npm run rebuild && electron-builder --win portable --ia32"
     },
@@ -15,8 +15,9 @@
     "license": "GPL-3.0",
     "devDependencies": {
         "cross-env": "^5.2.0",
-        "electron": "2.0.11",
-        "electron-builder": "20.40.0"
+        "electron": "4.2.10",
+        "electron-builder": "20.40.0",
+        "electron-rebuild": "^1.8.6"
     },
     "optionalDependencies": {
         "osx-mouse": "^1.3.1",

@@ -14,7 +14,6 @@ app.on('ready', () => {
     position = global.sharedObject.preferences.main.position
     alwaysOnTop = global.sharedObject.preferences.main.alwaysOnTop
     main.init(position.x, position.y, alwaysOnTop)
-
     const menuTemplate = [
         {
             label: i18n.menuT('Colour Contrast Analyser (CCA)'),
@@ -144,6 +143,26 @@ app.on('ready', () => {
                     }	
                 }
             ]
+        },
+        {
+            label: i18n.menuT('Development'),
+            submenu: [
+                {
+                    label: i18n.menuT('Reload'),
+                    accelerator: 'CmdOrCtrl+R',
+                    click (item, focusedWindow) {
+                        if (focusedWindow) focusedWindow.reload()
+                    }
+                },
+                {
+                    label: i18n.menuT('Open Developer Tools'),
+                    accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
+                    click (item, focusedWindow) {
+                        if (focusedWindow) focusedWindow.webContents.openDevTools({mode: 'detach'})
+                    }
+                },
+            ],
+            visible: isDev
         }
     ];
 
@@ -166,31 +185,6 @@ app.on('ready', () => {
                 label: i18n.menuT('Paste'),
                 accelerator: 'CmdOrCtrl+V',
                 selector: 'paste:'
-            }
-        )
-    }
-
-    if (isDev) {
-        menuTemplate.push(
-            {
-                label: i18n.menuT('Development'),
-                submenu: [
-                    {
-                        label: i18n.menuT('Reload'),
-                        accelerator: 'CmdOrCtrl+R',
-                        click (item, focusedWindow) {
-                            if (focusedWindow) focusedWindow.reload()
-                        }
-                    },
-                    {
-                        label: i18n.menuT('Open Developer Tools'),
-                        accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
-                        click (item, focusedWindow) {
-                            if (focusedWindow) focusedWindow.webContents.openDevTools({mode: 'detach'})
-                        }
-                    },
-                ],
-                visible: false
             }
         )
     }

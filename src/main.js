@@ -1,4 +1,4 @@
-const { app, Menu, BrowserWindow } = require('electron')
+const { app, Menu } = require('electron')
 const isDev = ('NODE_ENV' in process.env && process.env.NODE_ENV === 'dev')
 const Store = require('electron-store');
 const store = new Store();
@@ -9,6 +9,9 @@ const { checkForUpdates, installUpdate, setUpdatesDisabled } = require('./update
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+    const { screen } = require('electron')
+    const displays = screen.getAllDisplays()
+    console.log(displays)
     const i18n  = new(require('./i18n'))
     loadPreferences()
     position = global.sharedObject.preferences.main.position

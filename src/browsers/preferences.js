@@ -23,6 +23,9 @@ module.exports = (dirname) => {
       focusable: true,
       alwaysOnTop: true,
       autoHideMenuBar: true,
+      webPreferences: {
+        nodeIntegration: true
+      }
     })
 
     win.loadURL(url.format({

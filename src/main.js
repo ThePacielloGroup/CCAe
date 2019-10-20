@@ -65,7 +65,7 @@ app.on('ready', () => {
                 }, {
                     type: 'separator'
                 }, {
-                    // label: i18n.menuT('quit AAAA'),
+                    label: i18n.menuT('Quit CCA'),
                     role: 'quit',
                     accelerator: 'CmdOrCtrl+Q'
                 }

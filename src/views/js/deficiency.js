@@ -50,11 +50,11 @@ function translateHTML(config) {
     document.querySelector('#deficiency-achromatopsia > h3').innerHTML
         = document.querySelector('#deficiency-achromatopsia > h3').innerHTML
             .replace('Achromatopsia', i18n['Achromatopsia'])
-    document.querySelector('#deficiency-achromatopsia > div.desc').textContent = i18n['no color']
+    document.querySelector('#deficiency-achromatopsia > div.desc').textContent = i18n['no colour']
     document.querySelector('#deficiency-achromatopsia-preview').textContent = i18n['Sample']
 
     document.querySelector('#deficiency-achromatomaly > h3').textContent = i18n['Achromatomaly']
-    document.querySelector('#deficiency-achromatomaly > div.desc').textContent = i18n['almost no color']
+    document.querySelector('#deficiency-achromatomaly > div.desc').textContent = i18n['almost no colour']
     document.querySelector('#deficiency-achromatomaly-preview').textContent = i18n['Sample']
 
     document.querySelector('body > main > h2:nth-child(4)').textContent = i18n['Dichromacy']

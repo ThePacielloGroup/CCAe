@@ -30,7 +30,9 @@ function translateHTML(config) {
     document.querySelector('body > main > div > p:nth-child(3)').textContent
         = document.querySelector('body > main > div > p:nth-child(3)').textContent.replace('Developed by',i18n['Developed by'])
 
-    document.querySelector('h2').textContent = i18n['External links']
+    document.querySelector('h2:nth-child(1)').textContent = i18n['Translations']
+
+    document.querySelector('h2:nth-child(2)').textContent = i18n['External links']
     document.querySelector('body > main > ul > li:nth-child(1) > a').textContent = i18n['TPG Resources']
     document.querySelector('body > main > ul > li:nth-child(2) > a').textContent = i18n['Github page']
     document.querySelector('body > main > ul > li:nth-child(3) > a').textContent = i18n['Report an issue']

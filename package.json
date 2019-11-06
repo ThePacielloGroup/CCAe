@@ -1,6 +1,6 @@
 {
     "name": "CCA",
-    "version": "1.1.2",
+    "version": "1.2.0",
     "description": "Colour Contrast Analyser (CCA)",
     "main": "src/main.js",
     "private": true,

@@ -49,11 +49,11 @@ To build a new version:
   npm run dist
 ```
 
-The CHANGELOG.md is generated using Generate Changelog
-https://github.com/lob/generate-changelog
+The CHANGELOG.md is generated using github-changelog-generator
+https://github.com/github-changelog-generator/github-changelog-generator
 
 ```shell
-github_changelog_generator ThePacielloGroup/CCAe --since-tag=v1.1.1 --future-release=v1.1.2
+github_changelog_generator -u ThePacielloGroup -p CCAe --since-tag=v1.1.2 --future-release=v1.2.0
 ```
 
 Other commands are available in the `package.json` file.

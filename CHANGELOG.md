@@ -1,3 +1,23 @@
+# Changelog
+
+## [v1.2.0](https://github.com/ThePacielloGroup/CCAe/tree/v1.2.0) (2019-11-06)
+
+[Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v1.1.2...v1.2.0)
+
+**Implemented enhancements:**
+
+- Make auto-update process optional [\#120](https://github.com/ThePacielloGroup/CCAe/issues/120)
+- Added French, German, Japanese localization/translation [\#79](https://github.com/ThePacielloGroup/CCAe/issues/79)[\#137](https://github.com/ThePacielloGroup/CCAe/issues/137)
+- HSV color support [\#103](https://github.com/ThePacielloGroup/CCAe/issues/103)
+
+**Merged pull requests:**
+
+- fix: Missing quit menu label. [\#138](https://github.com/ThePacielloGroup/CCAe/pull/138)
+- fix: Label elements for attr. [\#131](https://github.com/ThePacielloGroup/CCAe/pull/131)
+- fix: 'Uncaught TypeError' [\#130](https://github.com/ThePacielloGroup/CCAe/pull/130)
+- Enhancement of i18n \#79 [\#129](https://github.com/ThePacielloGroup/CCAe/pull/129)
+- Prevent accidental publish to npm [\#127](https://github.com/ThePacielloGroup/CCAe/pull/127)
+
 # Change Log
 
 **Known issues**

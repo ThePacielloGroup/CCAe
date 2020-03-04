@@ -75,7 +75,8 @@
         "Paraphrased": "해설",
         "sc_1_4_3": "텍스트(텍스트 이미지 포함)가 순전히 꾸밈 목적이 아니라면, \"보통\" 크기의 텍스트는 적어도 <strong>4.5:1</strong> 이상의 명암비를 가져야 하고 크기가 큰 텍스트(최소 <code>18pt</code> / <code>24px</code>, 혹은 볼드체는 최소 <code>14pt</code> / <code>18.5px</code> 이상)는 적어도 <strong>3:1</strong> 이상의 명암비를 가져야 합니다.",
         "sc_1_4_6": "텍스트(텍스트 이미지 포함)가 순전히 꾸밈 목적이 아니라면, \"보통\" 크기의 텍스트는 적어도 <strong>7:1</strong> 이상의 명암비를 가져야 하고 크기가 큰 텍스트(최소 <code>18pt</code> / <code>24px</code>, 혹은 볼드체는 최소 <code>14pt</code> / <code>18.5px</code> 이상)는 적어도 <strong>4.5:1</strong> 이상의 명암비를 가져야 합니다.",
-        "sc_1_4_11": "사용자 인터페이스 구성 요소 (초점이 강조되었을 때의 모양과 그 경계선 포함) 및 그래픽 객체의 시각적 표현은 인접한 색상에 대해 적어도 <strong>3:1</strong> 이상의 명함비를 가져야 합니다."
+        "sc_1_4_11": "사용자 인터페이스 구성 요소 (초점이 강조되었을 때의 모양과 그 경계선 포함) 및 그래픽 객체의 시각적 표현은 인접한 색상에 대해 적어도 <strong>3:1</strong> 이상의 명함비를 가져야 합니다.",
+        "just below": "just below"
     },
     "Deficiency": {
         "Title": "색각 이상 시뮬레이션",
@@ -125,5 +126,18 @@
         "Github page": "Github 페이지",
         "Report an issue": "오류 보고",
         "Translations": "번역"
+    },
+    "CopyPaste": {
+        "level_1_4_3_pass_large": "Pass for large text only. Fail for regular text",
+        "level_1_4_3_pass_regular": "Pass for large and regular text",
+        "level_1_4_3_fail": "Fail for large and regular text",
+        "level_1_4_11_pass": "Pass for UI components and graphical objects",
+        "level_1_4_11_fail": "Fail for UI components and graphical objects",
+        "level_1_4_6_pass_large": "Pass for large text only. Fail for regular text",
+        "level_1_4_6_pass_regular": "Pass for large and regular text",
+        "level_1_4_6_fail": "Fail for large and regular text",
+        "Foreground": "Foreground",
+        "Background": "Background",
+        "The contrast ratio is": "The contrast ratio is"
     }
 }

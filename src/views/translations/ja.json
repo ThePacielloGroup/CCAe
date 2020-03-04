@@ -75,7 +75,8 @@
         "Paraphrased": "解釈",
         "sc_1_4_3": "「通常」サイズのテキスト(文字画像含む)は、少なくとも<strong>4.5:1</strong>の、大きな文字では少なくとも<strong>3:1</strong>のコントラスト比があること（少なくとも<code>18pt</code> / <code>24px</code>、または太字で少なくとも<code>14pt</code> / <code>18.5px</code>）。ただし文字が純粋な装飾である場合を除く。",
         "sc_1_4_6": "「通常」サイズのテキスト(文字画像含む)は、少なくとも<strong>7:1</strong>の、大きな文字では少なくとも<strong>4.5:1</strong>のコントラスト比があること（少なくとも<code>18pt</code> / <code>24px</code>、または太字で少なくとも<code>14pt</code> / <code>18.5px</code>）。ただし文字が純粋な装飾である場合を除く。",
-        "sc_1_4_11": "ユーザインタフェース コンポーネントの視覚的提示(フォーカスインジケータを含むそれらの状態および境界)およびグラフィカルオブジェクトは、隣接した色との間で少なくとも<strong>3:1</strong>のコントラスト比がある。"
+        "sc_1_4_11": "ユーザインタフェース コンポーネントの視覚的提示(フォーカスインジケータを含むそれらの状態および境界)およびグラフィカルオブジェクトは、隣接した色との間で少なくとも<strong>3:1</strong>のコントラスト比がある。",
+        "just below": "just below"
     },
     "Deficiency": {
         "Title": "色覚タイプごとのシミュレーション",
@@ -125,5 +126,18 @@
         "Github page": "Githubページ",
         "Report an issue": "問題点の報告",
         "Translations": "翻訳"
+    },
+    "CopyPaste": {
+        "level_1_4_3_pass_large": "Pass for large text only. Fail for regular text",
+        "level_1_4_3_pass_regular": "Pass for large and regular text",
+        "level_1_4_3_fail": "Fail for large and regular text",
+        "level_1_4_11_pass": "Pass for UI components and graphical objects",
+        "level_1_4_11_fail": "Fail for UI components and graphical objects",
+        "level_1_4_6_pass_large": "Pass for large text only. Fail for regular text",
+        "level_1_4_6_pass_regular": "Pass for large and regular text",
+        "level_1_4_6_fail": "Fail for large and regular text",
+        "Foreground": "Foreground",
+        "Background": "Background",
+        "The contrast ratio is": "The contrast ratio is"
     }
 }

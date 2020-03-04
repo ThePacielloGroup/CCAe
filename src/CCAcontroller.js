@@ -3,6 +3,7 @@ const { checkForUpdates, setUpdatesDisabled } = require('./update.js')
 const Color = require('./CCAcolor')
 const Store = require('electron-store');
 const store = new Store();
+const i18n = (new(require('./i18n'))).asJSON()
 
 class CCAController {
     constructor(browsers, sharedObject) {
@@ -197,6 +198,8 @@ class CCAController {
     }
 
     updateContrastRatio() {
+        const t = JSON.parse(i18n).Main
+
         let rounding = this.sharedObject.preferences.main.rounding
         Object.keys(this.sharedObject.deficiencies).forEach(function(key, index) {
             if (key === 'normal') {
@@ -206,7 +209,7 @@ class CCAController {
                 this[key].contrastRatioString = `${crr}:1`
                 if ((cr >= 6.95 && cr < 7) || (cr >= 4.45 && cr < 4.5) || (cr >= 2.95 && cr < 3)) {
                     let crr3 = Number(cr.toFixed(3)).toString()
-                    this[key].contrastRatioString = `<span class="smaller">just below </span>${crr}:1<span class="smaller"> (${crr3}:1)</span>`
+                    this[key].contrastRatioString = `<span class="smaller">${t["just below"]} </span>${crr}:1<span class="smaller"> (${crr3}:1)</span>`
                 }
                 this[key].levelAA = 'regular'
                 this[key].levelAAA = 'regular'
@@ -241,38 +244,40 @@ class CCAController {
     }
 
     copyResults() {
+        const t = JSON.parse(i18n)
+
         let normal = this.sharedObject.deficiencies.normal
         let level_1_4_3, level_1_4_6, level_1_4_11
 
         if (normal.levelAA === 'large') {
-            level_1_4_3 = 'Pass for large text only. Fail for regular text'
-            level_1_4_11 = 'Pass for UI components and graphical objects'
+            level_1_4_3 = t.CopyPaste["level_1_4_3_pass_large"]
+            level_1_4_11 = t.CopyPaste["level_1_4_11_pass"]
         } else if (normal.levelAA === 'regular') {
-            level_1_4_3 = 'Pass for large and regular text'
-            level_1_4_11 = 'Pass for UI components and graphical objects'
+            level_1_4_3 = t.CopyPaste["level_1_4_3_pass_regular"]
+            level_1_4_11 = t.CopyPaste["level_1_4_11_pass"]
         } else { // Fail
-            level_1_4_3 = 'Fail for large and regular text'
-            level_1_4_11 = 'Fail for UI components and graphical objects'
+            level_1_4_3 = t.CopyPaste["level_1_4_3_fail"]
+            level_1_4_11 = t.CopyPaste["level_1_4_11_fail"]
         }
         if (normal.levelAAA === 'large') {
-            level_1_4_6 = 'Pass for large text only. Fail for regular text'
+            level_1_4_6 = t.CopyPaste["level_1_4_6_pass_large"]
         } else if (normal.levelAAA === 'regular') {
-            level_1_4_6 = 'Pass for large and regular text'
+            level_1_4_6 = t.CopyPaste["level_1_4_6_pass_regular"]
         } else { // Fail
-            level_1_4_6 = 'Fail for large and regular text'
+            level_1_4_6 = t.CopyPaste["level_1_4_6_fail"]
         }
 
         let foregroundColorString = getColorTextString(sharedObject.preferences['foreground'].format, normal.foregroundColorMixed, normal.foregroundColor)
         let backgroundColorString = getColorTextString(sharedObject.preferences['background'].format, normal.backgroundColor, normal.backgroundColor)
 
-        let text = `Foreground: ${foregroundColorString}
-Background: ${backgroundColorString}
-The contrast ratio is: ${normal.contrastRatioString}
-1.4.3 Contrast (Minimum) (AA)
+        let text = `${t.CopyPaste["Foreground"]}: ${foregroundColorString}
+${t.CopyPaste["Background"]}: ${backgroundColorString}
+${t.CopyPaste["The contrast ratio is"]}: ${normal.contrastRatioString}
+${t.Main["1.4.3 Contrast (Minimum) (AA)"]}
     ${level_1_4_3}
-1.4.6 Contrast (Enhanced) (AAA)
+${t.Main["1.4.6 Contrast (Enhanced) (AAA)"]}
     ${level_1_4_6}
-1.4.11 Non-text Contrast (AA)
+${t.Main["1.4.11 Non-text Contrast (AA)"]}
     ${level_1_4_11}`
 
         // sanitize output (if there's HTML, e.g. in "just below" case)

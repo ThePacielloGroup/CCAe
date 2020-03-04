@@ -1,0 +1,6 @@
+var e=require("fs")
+var r=require("path")
+var s=require("child_process")
+const t=(0,r.join)(__dirname,"./scrot")
+exports.runLinuxSCROT=r=>new Promise((i,c)=>(0,s.execFile)(t,[r],(s,t,n)=>{if(s)return c(s)
+try{(0,e.accessSync)(r,e.constants.R_OK)}catch(s){c(s)}i({stdout:t,stderr:n})}))

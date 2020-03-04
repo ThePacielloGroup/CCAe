@@ -1,10 +1,28 @@
-# Change Log
+# Changelog
 
 **Known issues**
 - [Windows: Application menus aren't keyboard accessible](https://github.com/ThePacielloGroup/CCAe/issues/49)
 - [Windows: Changing slider values is not announced in NVDA](https://github.com/ThePacielloGroup/CCAe/issues/37)
 - [Windows/macOS: issue with colour picker when working with multiple displays at different density](https://github.com/ThePacielloGroup/CCAe/issues/54)
 - [Windows: Downloaded installer from GitHub triggers Windows Defender SmartScreen](https://github.com/ThePacielloGroup/CCAe/issues/66)
+
+## [v1.2.1](https://github.com/ThePacielloGroup/CCAe/tree/v1.2.1) (2019-11-06)
+
+[Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v1.1.2...v1.2.1)
+
+**Implemented enhancements:**
+
+- Make auto-update process optional [\#120](https://github.com/ThePacielloGroup/CCAe/issues/120)
+- Added French, German, Japanese localization/translation [\#79](https://github.com/ThePacielloGroup/CCAe/issues/79)[\#137](https://github.com/ThePacielloGroup/CCAe/issues/137)
+- HSV color support [\#103](https://github.com/ThePacielloGroup/CCAe/issues/103)
+
+**Merged pull requests:**
+
+- fix: Missing quit menu label. [\#138](https://github.com/ThePacielloGroup/CCAe/pull/138)
+- fix: Label elements for attr. [\#131](https://github.com/ThePacielloGroup/CCAe/pull/131)
+- fix: 'Uncaught TypeError' [\#130](https://github.com/ThePacielloGroup/CCAe/pull/130)
+- Enhancement of i18n \#79 [\#129](https://github.com/ThePacielloGroup/CCAe/pull/129)
+- Prevent accidental publish to npm [\#127](https://github.com/ThePacielloGroup/CCAe/pull/127)
 
 ## [v1.1.2](https://github.com/ThePacielloGroup/CCAe/tree/v1.1.2) (2019-06-07)
 [Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v1.1.1...v1.1.2)

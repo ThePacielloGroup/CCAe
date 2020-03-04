@@ -1,5 +1,5 @@
 const { ipcMain, clipboard, globalShortcut } = require('electron')
-const { getColorHexRGB } = require('electron-color-picker')
+const { getColorHexRGB } = require('./picker/index.js')
 const { checkForUpdates, setUpdatesDisabled } = require('./update.js')
 const Color = require('./CCAcolor')
 const Store = require('electron-store');

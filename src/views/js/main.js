@@ -424,12 +424,12 @@ function translateHTML(config) {
 
     document.querySelector('#foreground-color h2').textContent = i18n['Foreground colour']
 
-    document.querySelector('#foreground-format-selector').setAttribute('aria-label', i18n['Select default format for foreground color']);
+    document.querySelector('#foreground-format-selector').setAttribute('aria-label', i18n['Select default format for foreground colour']);
     document.querySelector('#foreground-format-selector+input').setAttribute('aria-label', i18n['Foreground colour value']);
 
-    document.querySelector('#foreground-color div:last-child button.switch').setAttribute('aria-label', i18n['Switch Colors'])
-    document.querySelector('#foreground-color div:last-child button.sliders').setAttribute('aria-label', i18n['Foreground color sliders'])
-    document.querySelector('#foreground-color div:last-child button.picker').setAttribute('aria-label', i18n['Foreground color picker'])
+    document.querySelector('#foreground-color div:last-child button.switch').setAttribute('aria-label', i18n['Switch Colours'])
+    document.querySelector('#foreground-color div:last-child button.sliders').setAttribute('aria-label', i18n['Foreground colour sliders'])
+    document.querySelector('#foreground-color div:last-child button.picker').setAttribute('aria-label', i18n['Foreground colour picker'])
     document.querySelector('#foreground-color div:last-child button.help').setAttribute('aria-label', i18n['Foreground help'])
 
     document.querySelector('#foreground-help').innerHTML
@@ -461,11 +461,11 @@ function translateHTML(config) {
     document.querySelector('#foreground-hsv > div.slider.slider-hsv.alpha > label').textContent = i18n['Alpha']
 
     document.querySelector('#background-color h2').textContent = i18n['Background colour']
-    document.querySelector('#background-format-selector').setAttribute('aria-label', i18n['Select default format for background color'])
+    document.querySelector('#background-format-selector').setAttribute('aria-label', i18n['Select default format for background colour'])
     document.querySelector('#background-color > div.container > input').setAttribute('aria-label', i18n['Background colour value'])
 
-    document.querySelector('#background-color > div.buttons > button.sliders').setAttribute('aria-label', i18n['Background color sliders'])
-    document.querySelector('#background-color > div.buttons > button.picker').setAttribute('aria-label', i18n['Background color picker'])
+    document.querySelector('#background-color > div.buttons > button.sliders').setAttribute('aria-label', i18n['Background colour sliders'])
+    document.querySelector('#background-color > div.buttons > button.picker').setAttribute('aria-label', i18n['Background colour picker'])
     document.querySelector('#background-color > div.buttons > button.help').setAttribute('aria-label', i18n['Background help'])
 
     document.querySelector('#background-help').innerHTML
@@ -523,7 +523,7 @@ function translateHTML(config) {
             = document.querySelector('#results > details:nth-child(6) > p').innerHTML
                 .replace('Paraphrased', i18n['Paraphrased'])
                 .replace(
-                    'The visual presentation of user interface components (their states – including focus indication – and boundaries) and graphical objects has a contrast ratio of at least <strong>3:1</strong> against adjacent color(s)',
+                    'The visual presentation of user interface components (their states – including focus indication – and boundaries) and graphical objects has a contrast ratio of at least <strong>3:1</strong> against adjacent colour(s)',
                     i18n['sc_1_4_11']
                 )
 

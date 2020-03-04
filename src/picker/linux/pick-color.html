@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ColorPicker</title>
+  <style>*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }</style>
+</head>
+<body style="overflow: hidden; pointer-events: none; touch-action: none; user-select: none; cursor: none; width: 100vw; height: 100vh;">
+<canvas id="canvas-source" style="image-rendering: pixelated; position: absolute; pointer-events: auto; width: 100vw; height: 100vh;"></canvas>
+<div id="div-picker" style="visibility: hidden; position: absolute; left: 0; top: 0; overflow: hidden; display: flex; border-radius: 100%; background: #fff; box-shadow: 0 0 20px 0 #666;">
+  <canvas id="canvas-picker" style="image-rendering: pixelated;"></canvas>
+  <pre id="pre-color" style="position: absolute; left: 50%; bottom: 20%; transform: translateX(-50%); padding: 2px 4px; border-radius: 4px; color: #222; background: #ddd;"></pre>
+</div>
+<script src="./pick-color.js"></script>
+</body>
+</html>

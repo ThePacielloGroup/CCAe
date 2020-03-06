@@ -1,4 +1,5 @@
-const Color = require('color') // https://github.com/Qix-/color/
+'use strict';
+const Color = require('./Color.js') // https://github.com/Qix-/color/
 const cssKeywords = require('color-name');
 const blinder = require('color-blind');
 
@@ -9,6 +10,9 @@ for (var key in cssKeywords) {
 	}
 }
 
+Color.prototype.real = null
+Color.prototype.displayedValue = null
+
 Color.prototype.cssname = function() {
     const reversed = reverseKeywords[this.color];
     if (reversed) {
@@ -17,14 +21,22 @@ Color.prototype.cssname = function() {
     return null
 }
 
-Color.prototype.mixed = function(bg) {
+Color.prototype.setMixed = function(bg) {
     // https://stackoverflow.com/a/11615135/3909342
-    if (this.alpha() !== 1) {
+    if (this.alpha() < 1) {
         let a = 1 - this.alpha();
         let r = Math.round((this.alpha() * (this.red() / 255) + (a * (bg.red() / 255))) * 255);
         let g = Math.round((this.alpha() * (this.green() / 255) + (a * (bg.green() / 255))) * 255);
         let b = Math.round((this.alpha() * (this.blue() / 255) + (a * (bg.blue() / 255))) * 255);
-        return Color.rgb(r, g, b)
+        this.real = Color.rgb(r, g, b)
+    } else {
+        this.real = null
+    }
+}
+
+Color.prototype.getReal = function() {
+    if (this.real != null) {
+        return this.real
     } else {
         return this
     }
@@ -136,5 +148,37 @@ Color.prototype.string=function (places) {
         return colorString.to[self.model](args);    
     }
 },
+
+// Qix doesn't display alpha values for hex
+Color.prototype.hexa=function () {
+    if (this.valpha < 1) {
+        return this.hex() + Math.floor(this.valpha*255).toString(16)
+    }
+    return this.hex()
+},
+
+
+Color.prototype.getColorTextString=function (format) {
+    switch (format) {
+        case 'rgb':
+            return this.getReal().rgb().string()
+        case 'rgba':
+            return this.rgb().string()
+        case 'hsl':
+            // Return rounded values for HSL. This is due to a bug in `color-string` Qix-/color#127
+            return this.getReal().hsl().round().string()
+        case 'hsla':
+            // Return rounded values for HSL. This is due to a bug in `color-string` Qix-/color#127
+            return this.hsl().round().string()
+        case 'hsv':
+            // Return rounded values for HSV. This is due to a bug in `color-string` Qix-/color#127
+            return this.getReal().hsv().round().string()
+        case 'hsva':
+            // Return rounded values for HSV. This is due to a bug in `color-string` Qix-/color#127
+            return this.hsv().round().string()
+        default: //hex
+            return this.hexa()
+    }
+}
 
 module.exports = Color

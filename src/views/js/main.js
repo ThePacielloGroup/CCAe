@@ -1,6 +1,6 @@
 const { ipcRenderer } = require('electron')
 const sharedObject = require('electron').remote.getGlobal('sharedObject')
-const Color = require('../../CCAcolor')
+const CCAColor = require('../../CCAcolor')
 let i18n = ''
 
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-app'), false)
@@ -153,51 +153,22 @@ function showHide(el) {
 }
 
 function applyColor(section) {
-    let colorReal
     let color = sharedObject.deficiencies.normal[section + "Color"]
-    if (section == 'foreground') {
-        colorReal = sharedObject.deficiencies.normal.foregroundColorMixed
-    } else {
-        colorReal = color
-    }
 
-    applyColorPreview(section, colorReal)
-    applyColorTextString(section, colorReal, color)
+    applyColorPreview(section, color)
+    applyColorTextString(section, color)
     applyColorRGBSliders(section, color)
     applyColorHSLSliders(section, color)
     applyColorHSVSliders(section, color)
-    applyColorSample(section, colorReal)
+    applyColorSample(section, color)
 }
 
-function getColorTextString(format, colorReal, color) {
-    switch (format) {
-        case 'rgb':
-            return colorReal.rgb().string()
-        case 'rgba':
-            return color.rgb().string()
-        case 'hsl':
-            // Return rounded values for HSL. This is due to a bug in `color-string` Qix-/color#127
-            return colorReal.hsl().round().string()
-        case 'hsla':
-            // Return rounded values for HSL. This is due to a bug in `color-string` Qix-/color#127
-            return color.hsl().round().string()
-        case 'hsv':
-            // Return rounded values for HSV. This is due to a bug in `color-string` Qix-/color#127
-            return colorReal.hsv().round().string()
-        case 'hsva':
-            // Return rounded values for HSV. This is due to a bug in `color-string` Qix-/color#127
-            return color.hsv().round().string()
-        default: //hex
-            return colorReal.hex()
-    }
-}
-
-function applyColorTextString(section, colorReal, color) {
+function applyColorTextString(section, color) {
     /* Only change the text input if this isn't the current focused element */
     const textInput = document.querySelector('#' + section + '-color input.free-value')
     if (textInput != document.activeElement) {
         format = sharedObject.preferences[section].format
-        textInput.value = getColorTextString(format, colorReal, color)
+        textInput.value = color.getColorTextString(format)
         const formatSelector =  document.querySelector('#' + section + '-format-selector')
         const freeFormat =  document.querySelector('#' + section + '-free-format')    
         textInput.removeAttribute('aria-invalid')
@@ -207,10 +178,10 @@ function applyColorTextString(section, colorReal, color) {
     }
 }
 
-function applyColorPreview(section, colorReal) {
-    const colorRGB = colorReal.rgb().string()
-    const name = colorReal.cssname()
-    const isDark = colorReal.isDark()
+function applyColorPreview(section, color) {
+    const colorRGB = color.getReal().rgb().string()
+    const name = color.getReal().cssname()
+    const isDark = color.getReal().isDark()
 
     document.querySelector('#' + section + '-color').style.background = colorRGB 
     if (name) {
@@ -273,8 +244,8 @@ function applyColorHSVSliders(section, color) {
     }
 }
 
-function applyColorSample(section, colorReal) {
-    const colorRGB = colorReal.rgb().string()
+function applyColorSample(section, color) {
+    const colorRGB = color.getReal().rgb().string()
 
     if (section === 'foreground') {
         document.querySelector('#sample-preview .text').style.color = colorRGB
@@ -330,21 +301,21 @@ function validateForegroundText(value) {
     const string = value.toLowerCase().replace(/\s/g, "") // Clean input value
     let format = null
     if (string) {
-        if (Color.isHexA(string)) {
+        if (CCAColor.isHexA(string)) {
             format = 'hex'
-        } else if (Color.isRGB(string)) {
+        } else if (CCAColor.isRGB(string)) {
             format = 'rgb'
-        } else if (Color.isRGBA(string)) {
+        } else if (CCAColor.isRGBA(string)) {
             format = 'rgba'
-        } else if (Color.isHSL(string)) {
+        } else if (CCAColor.isHSL(string)) {
             format = 'hsl'
-        } else if (Color.isHSLA(string)) {
+        } else if (CCAColor.isHSLA(string)) {
             format = 'hsla'
-        } else if (Color.isHSV(string)) {
+        } else if (CCAColor.isHSV(string)) {
             format = 'hsv'
-        } else if (Color.isHSVA(string)) {
+        } else if (CCAColor.isHSVA(string)) {
             format = 'hsva'
-        } else if (Color.isName(string)) {
+        } else if (CCAColor.isName(string)) {
             format = 'name'
         }
     }
@@ -355,15 +326,15 @@ function validateBackgroundText(value) {
     const string = value.toLowerCase().replace(/\s/g, "") // Clean input value
     let format = null
     if (string) {
-        if (Color.isHex(string)) {
+        if (CCAColor.isHex(string)) {
             format = 'hex'
-        } else if (Color.isRGB(string)) {
+        } else if (CCAColor.isRGB(string)) {
             format = 'rgb'
-        } else if (Color.isHSL(string)) {
+        } else if (CCAColor.isHSL(string)) {
             format = 'hsl'
-        } else if (Color.isHSV(string)) {
+        } else if (CCAColor.isHSV(string)) {
             format = 'hsv'
-        } else if (Color.isName(string)) {
+        } else if (CCAColor.isName(string)) {
             format = 'name'
         }
     }
@@ -400,18 +371,11 @@ function leaveText(section, el) {
 }
 
 function changeFormat(section, el) {
-    let colorReal
     // We send the selected format to the controller for saving and sharedObject update
     ipcRenderer.send('setPreference', el.value, section, 'format')
     // Then we update the current text field
-    if (section == 'foreground') {
-        color = sharedObject.deficiencies.normal.foregroundColor
-        colorReal = sharedObject.deficiencies.normal.foregroundColorMixed
-    } else {
-        color = sharedObject.deficiencies.normal.backgroundColor
-        colorReal = color
-    }
-    applyColorTextString(section, colorReal, color)
+    let color = sharedObject.deficiencies.normal[section + "Color"]
+    applyColorTextString(section, color)
 }
 
 function translateHTML(config) {

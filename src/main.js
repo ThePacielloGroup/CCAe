@@ -9,9 +9,9 @@ const { checkForUpdates, installUpdate, setUpdatesDisabled } = require('./update
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-    const { screen } = require('electron')
-    const displays = screen.getAllDisplays()
-    console.log(displays)
+//    const { screen } = require('electron')
+//    const displays = screen.getAllDisplays()
+//    console.log(displays)
     const i18n  = new(require('./i18n'))
     loadPreferences()
     position = global.sharedObject.preferences.main.position
@@ -231,16 +231,15 @@ app.on('before-quit', () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-const Color = require('./CCAcolor')
+const CCAColor = require('./CCAcolor')
 
-let white = Color.rgb(0, 0, 0)
-let black = Color.rgb(255, 255, 255)
+let white = CCAColor.rgb(0, 0, 0)
+let black = CCAColor.rgb(255, 255, 255)
 
 global.sharedObject = {
     deficiencies : {
         normal : {
             foregroundColor : white,
-            foregroundColorMixed : white, // For alpha transparency mix with background
             backgroundColor : black,
             contrastRatioRaw : 0,
             contrastRatioString : "xx:1",

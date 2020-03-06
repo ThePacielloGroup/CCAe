@@ -1,7 +1,7 @@
 const { ipcMain, clipboard, globalShortcut } = require('electron')
 const { getColorHexRGB } = require('./picker/index.js')
 const { checkForUpdates, setUpdatesDisabled } = require('./update.js')
-const Color = require('./CCAcolor')
+const CCAColor = require('./CCAcolor')
 const Store = require('electron-store');
 const store = new Store();
 const i18n = (new(require('./i18n'))).asJSON()
@@ -97,7 +97,6 @@ class CCAController {
                 color = color.alpha(value)
             }    
         }
-
         this.sharedObject.deficiencies.normal[section + 'Color'] = color
         this.updateGlobal(section)
     }
@@ -166,7 +165,7 @@ class CCAController {
 
     updateFromString(event, section, stringColor) {
         try {
-            this.sharedObject.deficiencies.normal[section + "Color"] = Color(stringColor)
+            this.sharedObject.deficiencies.normal[section + "Color"] = CCAColor(stringColor)
         }
         catch(error) {
             console.error(error)
@@ -174,8 +173,9 @@ class CCAController {
         this.updateGlobal(section)
     }
 
-    updateGlobal(section) {
-        this.sharedObject.deficiencies.normal.foregroundColorMixed = this.sharedObject.deficiencies.normal.foregroundColor.mixed(this.sharedObject.deficiencies.normal.backgroundColor)
+    updateGlobal(section, stringValue) {
+        this.sharedObject.deficiencies.normal[section + "Color"].displayedValue = stringValue
+        this.sharedObject.deficiencies.normal.foregroundColor.setMixed(this.sharedObject.deficiencies.normal.backgroundColor)
         this.updateDeficiency(section)
         if (section == 'background' && this.sharedObject.deficiencies.normal.foregroundColor.alpha() !== 1) { // Then mixed has changed
             this.updateDeficiency('foreground')
@@ -189,9 +189,8 @@ class CCAController {
 
     switchColors(event) {
         let background = this.sharedObject.deficiencies.normal.backgroundColor
-        this.sharedObject.deficiencies.normal.backgroundColor = this.sharedObject.deficiencies.normal.foregroundColorMixed
+        this.sharedObject.deficiencies.normal.backgroundColor = this.sharedObject.deficiencies.normal.foregroundColor.getReal()
         this.sharedObject.deficiencies.normal.foregroundColor = background
-        this.sharedObject.deficiencies.normal.foregroundColorMixed = this.sharedObject.deficiencies.normal.foregroundColor.mixed(this.sharedObject.deficiencies.normal.backgroundColor)
         this.updateDeficiency("foreground")
         this.updateDeficiency("background")
         this.updateContrastRatio()
@@ -200,7 +199,7 @@ class CCAController {
     }
 
     updateDeficiency(section) {
-        let fromColor = (section == 'foreground')?'foregroundColorMixed':'backgroundColor' 
+        let fromColor = (section == 'foreground')?'foregroundColor':'backgroundColor' 
         this.sharedObject.deficiencies.protanopia[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].protanopia()
         this.sharedObject.deficiencies.deuteranopia[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].deuteranopia()
         this.sharedObject.deficiencies.tritanopia[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].tritanopia()
@@ -217,7 +216,7 @@ class CCAController {
         let rounding = this.sharedObject.preferences.main.rounding
         Object.keys(this.sharedObject.deficiencies).forEach(function(key, index) {
             if (key === 'normal') {
-                this[key].contrastRatioRaw  = this[key].foregroundColorMixed.contrast(this[key].backgroundColor)
+                this[key].contrastRatioRaw  = this[key].foregroundColor.getReal().contrast(this[key].backgroundColor)
                 let cr = this[key].contrastRatioRaw
                 let crr = Number(cr.toFixed(rounding)).toString() // toString removes trailing zero
                 this[key].contrastRatioString = `${crr}:1`
@@ -281,8 +280,8 @@ class CCAController {
             level_1_4_6 = t.CopyPaste["level_1_4_6_fail"]
         }
 
-        let foregroundColorString = getColorTextString(sharedObject.preferences['foreground'].format, normal.foregroundColorMixed, normal.foregroundColor)
-        let backgroundColorString = getColorTextString(sharedObject.preferences['background'].format, normal.backgroundColor, normal.backgroundColor)
+        let foregroundColorString = ((normal.foregroundColor.displayedValue)?normal.foregroundColor.displayedValue:normal.foregroundColor.getColorTextString(sharedObject.preferences['foreground'].format))
+        let backgroundColorString = ((normal.backgroundColor.displayedValue)?normal.backgroundColor.displayedValue:normal.backgroundColor.getColorTextString(sharedObject.preferences['background'].format))
 
         let text = `${t.CopyPaste["Foreground"]}: ${foregroundColorString}
 ${t.CopyPaste["Background"]}: ${backgroundColorString}
@@ -296,7 +295,6 @@ ${t.Main["1.4.11 Non-text Contrast (AA)"]}
 
         // sanitize output (if there's HTML, e.g. in "just below" case)
         text = text.replace(/<[^>]*>?/g, '')
-
         clipboard.writeText(text)
     }
 
@@ -350,29 +348,6 @@ ${t.Main["1.4.11 Non-text Contrast (AA)"]}
                 })
                 break;
         }
-    }
-}
-
-function getColorTextString(format, colorReal, color) {
-    switch (format) {
-        case 'rgb':
-            return colorReal.rgb().string()
-        case 'rgba':
-            return color.rgb().string()
-        case 'hsl':
-            // Return rounded values for HSL. This is due to a bug in `color-string` Qix-/color#127
-            return colorReal.hsl().round().string()
-        case 'hsla':
-            // Return rounded values for HSL. This is due to a bug in `color-string` Qix-/color#127
-            return color.hsl().round().string()
-        case 'hsv':
-            // Return rounded values for HSV. This is due to a bug in `color-string` Qix-/color#127
-            return colorReal.hsv().round().string()
-        case 'hsva':
-            // Return rounded values for HSV. This is due to a bug in `color-string` Qix-/color#127
-            return color.hsv().round().string()
-        default: //hex
-            return colorReal.hex()
     }
 }
 

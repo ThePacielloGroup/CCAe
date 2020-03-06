@@ -12,7 +12,7 @@ function i18n() {
     const fileext = '.json'
     const translationsPath = path.join(__dirname,'views','translations')
     const localizedFile = path.join(translationsPath, app.getLocale() + fileext)
-    const fallBackFile  = path.join(translationsPath, 'en' + fileext)
+    const fallBackFile  = path.join(translationsPath, 'fr' + fileext)
 
     if (fs.existsSync(localizedFile)) {
         loadedLanguage = JSON.parse(fs.readFileSync(localizedFile), 'utf8')

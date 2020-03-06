@@ -75,7 +75,8 @@
         "Paraphrased": "Erklärung",
         "sc_1_4_3": "Text (einschließlich Text in Bildern) hat ein Kontrastverhältnis von mindestens <strong>4.5:1</strong> für Text mit \"normaler\" Größe und mindestens <strong>3:1</strong> für großen Text (mindestens <code>18pt</code> / <code>24px</code> oder fett und mindestens <code>14pt</code> / <code>18.5px</code>), es sei denn, der Text ist rein dekorativ.",
         "sc_1_4_6": "Text (einschließlich Text in Bildern) hat ein Kontrastverhältnis von mindestens <strong>7:1</strong> für Text mit \"normaler\" Größe und mindestens <strong>4.5:1</strong> für großen Text (mindestens <code>18pt</code> / <code>24px</code> oder fett und mindestens <code>14pt</code> / <code>18.5px</code>), es sei denn, der Text ist rein dekorativ.",
-        "sc_1_4_11": "Die visuelle Darstellung von Komponenten der Benutzeroberfläche (deren Status - einschließlich Fokusanzeige - und Begrenzungen) und von grafischen Objekten hat ein Kontrastverhältnis von mindestens <strong>3:1</strong> gegenüber benachbarten Farben."
+        "sc_1_4_11": "Die visuelle Darstellung von Komponenten der Benutzeroberfläche (deren Status - einschließlich Fokusanzeige - und Begrenzungen) und von grafischen Objekten hat ein Kontrastverhältnis von mindestens <strong>3:1</strong> gegenüber benachbarten Farben.",
+        "just below": "just below"
     },
     "Deficiency": {
         "Title": "Simulation von Farbblindheit",
@@ -125,5 +126,18 @@
         "Github page": "Github Seite",
         "Report an issue": "Ein Problem melden",
         "Translations": "Übersetzungen"
+    },
+    "CopyPaste": {
+        "level_1_4_3_pass_large": "Pass for large text only. Fail for regular text",
+        "level_1_4_3_pass_regular": "Pass for large and regular text",
+        "level_1_4_3_fail": "Fail for large and regular text",
+        "level_1_4_11_pass": "Pass for UI components and graphical objects",
+        "level_1_4_11_fail": "Fail for UI components and graphical objects",
+        "level_1_4_6_pass_large": "Pass for large text only. Fail for regular text",
+        "level_1_4_6_pass_regular": "Pass for large and regular text",
+        "level_1_4_6_fail": "Fail for large and regular text",
+        "Foreground": "Foreground",
+        "Background": "Background",
+        "The contrast ratio is": "The contrast ratio is"
     }
 }

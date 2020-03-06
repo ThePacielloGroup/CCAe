@@ -226,6 +226,10 @@ app.on('before-quit', () => {
     pos = main.getWindow().getPosition()
     store.set('main.position.x', pos[0])
     store.set('main.position.y', pos[1])
+    store.set('main.foreground.sliders.open', global.sharedObject.preferences.foreground.sliders.open)
+    store.set('main.background.sliders.open', global.sharedObject.preferences.background.sliders.open)
+    store.set('main.foreground.sliders.tab', global.sharedObject.preferences.foreground.sliders.tab)
+    store.set('main.background.sliders.tab', global.sharedObject.preferences.background.sliders.tab)
 })
 
 // In this file you can include the rest of your app's specific main process
@@ -309,12 +313,20 @@ global.sharedObject = {
             format : null,
             picker : {
                 shortcut : null
+            },
+            sliders : {
+                open : null,
+                tab : null
             }
         },
         background : {
             format : null,
             picker : {
                 shortcut : null
+            },
+            sliders : {
+                open : null,
+                tab : null
             }
         },
     }
@@ -331,6 +343,10 @@ function loadPreferences() {
     prefs.background.format = store.get('background.format', 'hex')
     prefs.foreground.picker.shortcut = store.get('foreground.picker.shortcut', 'F11')
     prefs.background.picker.shortcut = store.get('background.picker.shortcut', 'F12')
+    prefs.foreground.sliders.open = store.get('main.foreground.sliders.open', false)
+    prefs.background.sliders.open = store.get('main.background.sliders.open', false)
+    prefs.foreground.sliders.tab = store.get('main.foreground.sliders.tab', 'rgb')
+    prefs.background.sliders.tab = store.get('main.background.sliders.tab', 'rgb')
 }
 
 const browsers = require('./browsers')(__dirname)

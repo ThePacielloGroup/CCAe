@@ -51,7 +51,8 @@
             id="foreground-rgb-tab"
             tabindex="0"
             aria-controls="foreground-rgb"
-            aria-selected="true">RGB</a>
+            aria-selected="false"
+            data-tab="rgb">RGB</a>
           </li>
           <li role="presentation">
             <a href="#foreground-hsl"
@@ -59,7 +60,8 @@
             id="foreground-hsl-tab"
             tabindex="-1"
             aria-controls="foreground-hsl"
-            aria-selected="false">HSL</a>
+            aria-selected="false"
+            data-tab="hsl">HSL</a>
           </li>
           <li role="presentation">
             <a href="#foreground-hsv"
@@ -67,11 +69,12 @@
             id="foreground-hsv-tab"
             tabindex="-1"
             aria-controls="foreground-hsv"
-            aria-selected="false">HSV</a>
+            aria-selected="false"
+            data-tab="hsv">HSV</a>
           </li>
         </ul>
-        <div role="tabpanel" id="foreground-rgb" aria-labelledby="foreground-rgb-tab" aria-hidden="false"
-        aria-expanded="true">
+        <div role="tabpanel" id="foreground-rgb" aria-labelledby="foreground-rgb-tab"
+        aria-expanded="false" hidden>
             <h2 class="sr-only">Foreground RGB input</h2>
             <div class="sync">
               <label>
@@ -101,7 +104,7 @@
             </div>
           </div>
         </div>
-        <div role="tabpanel" id="foreground-hsl" aria-labelledby="foreground-hsl-tab" aria-hidden="true"
+        <div role="tabpanel" id="foreground-hsl" aria-labelledby="foreground-hsl-tab"
         aria-expanded="false" hidden>
             <h2 class="sr-only">Foreground HSL input</h2>
             <div class="slider slider-hsl hue">
@@ -126,7 +129,7 @@
             </div>
           </div>
         </div>
-        <div role="tabpanel" id="foreground-hsv" aria-labelledby="foreground-hsv-tab" aria-hidden="true"
+        <div role="tabpanel" id="foreground-hsv" aria-labelledby="foreground-hsv-tab"
         aria-expanded="false" hidden>
             <h2 class="sr-only">Foreground HSV input</h2>
             <div class="slider slider-hsv hue">
@@ -189,7 +192,8 @@
               id="background-rgb-tab"
               tabindex="0"
               aria-controls="background-rgb"
-              aria-selected="true">RGB</a>
+              aria-selected="false"
+              data-tab="rgb">RGB</a>
             </li>
             <li role="presentation">
               <a href="#background-hsl"
@@ -197,7 +201,8 @@
               id="background-hsl-tab"
               tabindex="-1"
               aria-controls="background-hsl"
-              aria-selected="false">HSL</a>
+              aria-selected="false"
+              data-tab="hsl">HSL</a>
             </li>
             <li role="presentation">
               <a href="#background-hsv"
@@ -205,11 +210,12 @@
               id="background-hsv-tab"
               tabindex="-1"
               aria-controls="background-hsv"
-              aria-selected="false">HSV</a>
+              aria-selected="false"
+              data-tab="hsv">HSV</a>
             </li>
           </ul>
-          <div role="tabpanel" id="background-rgb" aria-labelledby="background-rgb-tab" aria-hidden="false"
-          aria-expanded="true">
+          <div role="tabpanel" id="background-rgb" aria-labelledby="background-rgb-tab"
+          aria-expanded="false" hidden>
             <h2 class="sr-only">Background RGB input</h2>
             <div class="sync">
               <label>
@@ -234,7 +240,7 @@
             </div>
           </div>
         </div>
-        <div role="tabpanel" id="background-hsl" aria-labelledby="background-hsl-tab" aria-hidden="true"
+        <div role="tabpanel" id="background-hsl" aria-labelledby="background-hsl-tab"
         aria-expanded="false" hidden>
             <h2 class="sr-only">Background HSL input</h2>
             <div class="slider slider-hsl hue">
@@ -254,7 +260,7 @@
             </div>
           </div>
         </div>
-        <div role="tabpanel" id="background-hsv" aria-labelledby="background-hsv-tab" aria-hidden="true"
+        <div role="tabpanel" id="background-hsv" aria-labelledby="background-hsv-tab"
         aria-expanded="false" hidden>
             <h2 class="sr-only">Background HSV input</h2>
             <div class="slider slider-hsv hue">

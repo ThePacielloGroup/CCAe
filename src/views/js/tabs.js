@@ -167,7 +167,7 @@ function initTabs(section, callback) {
         tab.focus();
       };
 
-      if (callback != null) { callback() }
+      if (callback != null) { callback(tab) }
     };
   
     // Deactivate all tabs and tab panels

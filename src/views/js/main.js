@@ -19,12 +19,28 @@ ipcRenderer.on('init', (event, config) => {
     document.querySelector('#foreground-color .format-selector').value = sharedObject.preferences.foreground.format
     document.querySelector('#background-color .format-selector').value = sharedObject.preferences.background.format
 
+    // init sliders state
+    showHide(document.querySelector('#foreground-color .sliders'), sharedObject.preferences.foreground.sliders.open)
+    showHide(document.querySelector('#background-color .sliders'), sharedObject.preferences.background.sliders.open)
+
     // init tabs
-    initTabs("#foreground-sliders", ()=>{
+    var tab = document.querySelector(`#foreground-sliders a[data-tab="${sharedObject.preferences.foreground.sliders.tab}"]`)
+    tab.setAttribute('aria-selected', 'true');      
+    var controls = tab.getAttribute('aria-controls');
+    document.getElementById(controls).removeAttribute('hidden');
+    var tab = document.querySelector(`#background-sliders a[data-tab="${sharedObject.preferences.background.sliders.tab}"]`)
+    tab.setAttribute('aria-selected', 'true');      
+    var controls = tab.getAttribute('aria-controls');
+    document.getElementById(controls).removeAttribute('hidden');
+
+
+    initTabs("#foreground-sliders", (el)=>{
+        sharedObject.preferences.foreground.sliders.tab = el.getAttribute('data-tab')
         var mainHeight = document.querySelector('main').clientHeight
         ipcRenderer.send('height-changed', mainHeight)
     })
-    initTabs("#background-sliders", ()=>{
+    initTabs("#background-sliders", (el)=>{
+        sharedObject.preferences.background.sliders.tab = el.getAttribute('data-tab')
         var mainHeight = document.querySelector('main').clientHeight
         ipcRenderer.send('height-changed', mainHeight)
     })
@@ -62,8 +78,8 @@ function initEvents () {
     document.querySelector('#background-rgb .red input[type=number]').oninput = function() {numberRGBOnInput('background', 'red', this.value)}
     document.querySelector('#background-rgb .green input[type=number]').oninput = function() {numberRGBOnInput('background', 'green', this.value)}
     document.querySelector('#background-rgb .blue input[type=number]').oninput = function() {numberRGBOnInput('background', 'blue', this.value)}
-    document.querySelector('#foreground-color .sliders').onclick = function() {showHide(this)}
-    document.querySelector('#background-color .sliders').onclick = function() {showHide(this)}
+    document.querySelector('#foreground-color .sliders').onclick = function() {showHideSliders('foreground', this)}
+    document.querySelector('#background-color .sliders').onclick = function() {showHideSliders('background', this)}
     document.querySelector('#foreground-color input').oninput = function() {validateForegroundText(this.value)}
     document.querySelector('#background-color input').oninput = function() {validateBackgroundText(this.value)}
     document.querySelectorAll('input[type=text], input[type=number]').forEach(function(el) { el.onfocus = function() {this.select()} })
@@ -139,9 +155,19 @@ function numberHSVOnInput(section, component, value) {
     ipcRenderer.send('changeFromHSVComponent', section, component, value)
 }
 
-function showHide(el) {
+function showHideSliders(section, el) {
+    let state = (el.getAttribute('aria-expanded') === 'true')
+    sharedObject.preferences[section].sliders.open = !state
+    showHide(el)
+}
+
+function showHide(el, force) {
     let controls = document.querySelector('#' + el.getAttribute('aria-controls'))
-    if (el.getAttribute('aria-expanded') === 'true') {
+    var state = (el.getAttribute('aria-expanded') === 'true')
+    if (force != null) {
+        state = !force
+    }
+    if (state) {
         controls.setAttribute('hidden', '')
         el.setAttribute('aria-expanded', false)
     } else {

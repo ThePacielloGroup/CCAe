@@ -12,8 +12,6 @@ ipcRenderer.on('init', (event, config) => {
     applyColor('foreground')
     applyColor('background')
     applyContrastRatio()
-    var mainHeight = document.querySelector('main').clientHeight;
-    ipcRenderer.send('height-changed', mainHeight)
 
     // init format selector
     document.querySelector('#foreground-color .format-selector').value = sharedObject.preferences.foreground.format
@@ -33,7 +31,9 @@ ipcRenderer.on('init', (event, config) => {
     var controls = tab.getAttribute('aria-controls');
     document.getElementById(controls).removeAttribute('hidden');
 
-
+    var mainHeight = document.querySelector('main').clientHeight;
+    ipcRenderer.send('height-changed', mainHeight)
+    
     initTabs("#foreground-sliders", (el)=>{
         sharedObject.preferences.foreground.sliders.tab = el.getAttribute('data-tab')
         var mainHeight = document.querySelector('main').clientHeight

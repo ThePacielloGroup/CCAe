@@ -1,4 +1,5 @@
 const { ipcMain, clipboard, globalShortcut } = require('electron')
+const { getColorHexRGB } = require('./picker/index.js')
 const { checkForUpdates, setUpdatesDisabled } = require('./update.js')
 const Color = require('./CCAcolor')
 const Store = require('electron-store');
@@ -26,6 +27,19 @@ class CCAController {
         ipcMain.on('changeFromString', this.updateFromString.bind(this))
         ipcMain.on('switchColors', this.switchColors.bind(this))
         ipcMain.on('setPreference', this.setPreference.bind(this))
+        ipcMain.on('showPicker', this.showPicker.bind(this))
+    }
+
+    async showPicker(event, section) {
+        this.sendEventToAll('pickerTogglled', section, true)
+        const hexColor = await getColorHexRGB().catch((error) => {
+          console.warn(`[ERROR] getColor`, error)
+          return ''
+        })
+        if (hexColor) {
+            this.updateFromString(null, section, hexColor)
+        }
+        this.sendEventToAll('pickerTogglled', section, false)
     }
 
     updateRGBComponent(event, section, component, value, synced = false) {
@@ -327,14 +341,12 @@ ${t.Main["1.4.11 Non-text Contrast (AA)"]}
         switch(shortcut) {
             case 'foreground.picker.shortcut':
                 globalShortcut.register(newValue, () => {
-                    global['currentPicker'] = 'foreground'
-                    browsers['picker'].init()
+                    this.showPicker(null, 'foreground')
                 })
                 break;
             case 'background.picker.shortcut':
                 globalShortcut.register(newValue, () => {
-                    global['currentPicker'] = 'background'
-                    browsers['picker'].init()
+                    this.showPicker(null, 'background')
                 })
                 break;
         }

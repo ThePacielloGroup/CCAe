@@ -29,7 +29,10 @@ module.exports = (dirname) => {
             alwaysOnTop: alwaysOnTop,
             resizable: false,
             focusable: true,
-            useContentSize: true
+            useContentSize: true,
+            webPreferences: {
+                nodeIntegration: true
+            }
         })
         // and load the index.html of the app.
         mainWindow.loadURL(url.format({

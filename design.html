@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./src/views/css/global.css" />
+
+  <style>
+    html {
+      height: 100%;
+      font-weight: bold;
+    }
+
+    body {
+      margin: 0;
+      height: 100%;
+      background-color: #ececec;
+      font: caption;
+      /* Default Operating System Font */
+      font-size: 100%;
+
+    }
+
+    *[contenteditable="true"] {
+      user-select: text;
+      cursor: text;
+    }
+
+    summary h2,
+    summary h3 {
+      display: inline-block;
+    }
+
+    /* Buttons */
+    button {
+      background-color: #ffffff;
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      background-size: 90% 90%;
+      width: 2rem;
+      height: 1.2rem;
+      border: 1px solid #cccccc;
+      border-radius: 0.2rem;
+    }
+
+    /* Colors section */
+    #colors {
+      background: linear-gradient(90deg, #000 50%, #FFF 50%);
+      width: 100%;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    #colors .text {
+      text-align: center;
+      font-size: 1.5rem;
+      padding: 10px 20px;
+      color: rgb(255, 255, 255);
+      mix-blend-mode: difference;
+      margin: 2rem 1.5rem 2rem 1.5rem;
+      border: 1px #333 dashed;
+      padding: 0 0.5rem;
+    }
+
+    #colors .color {
+      position: absolute;
+      top: 0.5rem;
+      font-style: italic;
+    }
+
+    #colors .foreground .color {
+      color: #FFF;
+      left: 0.5rem;
+    }
+
+    #colors .background .color {
+      color: #000;
+      right: 0.5rem;
+    }
+
+    #colors button {
+      position: absolute;
+    }
+
+    #colors button.picker {
+      background-image: url('./src/views/icons/picker-black.svg');
+      bottom: 0.5rem;
+    }
+
+    #colors button.switch {
+      background-image: url('../src/views/icons/switch.svg');
+      -webkit-transform: rotate(90deg);
+      -moz-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+      -o-transform: rotate(90deg);
+      transform: rotate(90deg);
+      width: 1.2rem;
+      height: 2rem;
+    }
+
+    #colors .foreground button.picker {
+      left: 0.5rem;
+    }
+
+    #colors .background button.picker {
+      right: 0.5rem;
+    }
+
+    .columns {
+      display: flex;
+      align-items: center;
+    }
+
+    .columns>div {
+      flex: 1;
+      padding: 0.5rem;
+    }
+
+    .columns>div:nth-child(1) {
+      border-right: 1px solid #ccc;
+    }
+
+    /* free inputs */
+    #inputs>div>div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #inputs input {
+      width: 100%;
+      text-align: center;
+    }
+
+    #inputs button.help {
+      background-image: url('./src/views/icons/help-black.svg');
+      background-color: transparent;
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      background-size: 90% 90%;
+      width: 2rem;
+      height: 1.2rem;
+      border: none;
+    }
+
+    /* Results section */
+
+    #results header {
+      background-color: #1B75BC;
+      padding: 0 0.5rem;
+      color: #FFF;
+      border-radius: 3px;
+      padding: 0.5rem 1rem;
+      margin: 0.5rem;
+    }
+    #contrast-ratio {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #results h2 {
+      font-size: 0.8rem;
+    }
+    #contrast-ratio h3 {
+      font-size: 1rem;
+    }
+
+    #contrast-ratio-value {
+      font-size: 1.5rem;
+      margin-left: 1rem;
+    }
+
+    #contrast-ratio-value .smaller {
+      font-size: 1rem;
+    }
+
+
+    #results .wcag {
+      background: #333;
+      color: #FFF;
+      border-radius: 3px;
+      padding: 0.5rem 1rem;
+      margin: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    #results .wcag h3 {
+      display: inline-block;
+    }
+
+    #results .wcag button.help {
+      background-image: url('./src/views/icons/help-white.svg');
+      background-color: transparent;
+      border: none;
+      float: right;
+    }
+
+    #results .contrast-level {
+        margin-left: 2.5rem;
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    #results .contrast-level>div {
+      flex-grow: 1;
+      width: 50%;
+    }
+
+    #results .contrast-level img {
+      height: 1.2rem;
+      width: 1.2rem;
+      margin-bottom: -0.2rem;
+    }
+
+    #result .wcag p {
+      padding: 0.5rem 0.5rem 0.5rem 2rem;
+      margin: 0;
+    }
+
+    #result .wcag p small {
+      background: #dadada;
+      color: #222;
+      padding: 0.1em 0.25em;
+      border: 1px #666 solid;
+      border-radius: 2px;
+      font-size: 0.75em;
+    }
+
+    /* Advanced inputs */
+    #advanced details {
+      margin: 0.5rem;
+      border-radius: 3px;
+      background: #EEE;
+    }
+
+    #advanced summary {
+      background: #1B75BC;
+      color: #FFF;
+      border-radius: 3px;
+      padding: 0.5rem 1rem;
+    }
+
+    #advanced details[open] summary {
+      background: #1B75BC;
+    }
+
+    #advanced .slider,
+    #advanced .slider {
+      display: grid;
+      grid-template-columns: 4rem 1fr 2.5rem;
+      margin-bottom: 1px;
+    }
+
+    #advanced .slider label,
+    #advanced .slider label {
+      font-size: 0.8em;
+    }
+
+    #advanced input[type=number],
+    #advanced input[type=number] {
+      width: 2.5rem;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+
+    #advanced input[type=range],
+    #advanced input[type=range] {
+      margin: 0 0.5rem 0 0.5rem;
+    }
+
+    #advanced input[type=number]::-webkit-inner-spin-button,
+    #advanced input[type=number]::-webkit-outer-spin-button,
+    #advanced input[type=number]::-webkit-inner-spin-button,
+    #advanced input[type=number]::-webkit-outer-spin-button,
+      {
+      -webkit-appearance: none;
+      appearance: none;
+      margin: 0;
+    }
+
+    /* Tooltips*/
+
+    :root {
+      --tooltip-thingy-height: .5em;
+    }
+
+    .tooltip-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    [role=tooltip] {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+      transform: translateX(-50%);
+      padding: .5em 1em;
+      border-radius: .25em;
+      color: #000;
+      background: #ececec;
+      /*  min-width: -webkit-max-content;
+  min-width: -moz-max-content;
+  min-width: max-content;*/
+      min-width: 20rem;
+      max-width: 30rem;
+      box-shadow: 0 1px 2px #8c8c8c;
+    }
+
+    [role=tooltip]::before {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+      transform: translateX(-50%);
+      border: var(--tooltip-thingy-height) solid transparent;
+      border-bottom-color: #000000;
+      content: '';
+    }
+
+    [role=tooltip]::after {
+      position: absolute;
+      right: 0;
+      bottom: 100%;
+      left: 0;
+      display: block;
+      height: calc(var(--tooltip-thingy-height) * 2);
+      content: '';
+    }
+  </style>
+</head>
+
+<body>
+  <section id="colors">
+    <div class="foreground">
+      <div class="color">
+        #000000 (black)
+      </div>
+      <div class="text" contenteditable="true">example text showing contrast</div>
+      <button class="picker"></button>
+    </div>
+    <div class="background">
+      <div class="color">
+        #FFFFFF (white)
+      </div>
+      <div class="text" contenteditable="false">example text showing contrast</div>
+      <button class="picker"></button>
+    </div>
+    <button class="switch"></button>
+  </section>
+
+  <section id="inputs" class="columns">
+    <h2 class="sr-only">Free input</h2>
+    <div class="foreground">
+      <h3>Foreground</h3>
+      <div>
+        <input type="text" class="free-value" value="#000000" />
+        <button class="help"></button>
+      </div>
+    </div>
+    <div class="background">
+      <h3>Background</h3>
+      <div>
+        <input type="text" class="free-value" value="rgba(255,255,255,0)" />
+        <button class="help"></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="results">
+    <header>
+      <h2>WCAG 2.1 results</h2>
+      <div id="contrast-ratio" aria-live="polite" aria-atomic="true">
+        <h3>Contrast ratio</h3>
+        <div id="contrast-ratio-value">21:1</div>
+      </div>
+    </header>
+
+    <div class="wcag">
+      <h3>1.4.3 Contrast (Minimum) (AA)</h3>
+      <div class="tooltip-container"><button class="help" aria-describedby="description"></button>
+        <p id="description" role="tooltip" hidden><small>Paraphrased<span class="sr-only">:</span></small> Text
+          (including images of text) has a contrast ratio of at least <strong>4.5:1</strong> for "regular"; sized text
+          and at least <strong>3:1</strong> for large scale text (at least <code>18pt</code> / <code>24px</code>, or
+          bold and at least <code>14pt</code> / <code>18.5px</code>), unless the text is purely decorative.</p>
+      </div>
+    </div>
+
+    <div id="contrast-level-1-4-3" class="contrast-level">
+      <div><img src="src/views/icons/pass.svg" alt=""> Pass (regular text)</div>
+      <div><img src="src/views/icons/pass.svg" alt=""> Pass (large text)</div>
+    </div>
+
+    <div class="wcag">
+        <h3>1.4.6 Contrast (Enhanced) (AAA)</h3>
+        <div class="tooltip-container"><button class="help" aria-describedby="description"></button>
+          <p id="description" role="tooltip" hidden><small>Paraphrased<span class="sr-only">:</span></small> Text (including images of text) has a contrast ratio
+            of at least <strong>7:1</strong> for "regular" sized text and at least <strong>4.5:1</strong> for large scale
+            text (at least <code>18pt</code> / <code>24px</code>, or bold and at least <code>14pt</code> /
+            <code>18.5px</code>), unless the text is purely decorative.</p>
+        </div>
+      </div>
+
+      <div id="contrast-level-1-4-6" class="contrast-level">
+          <div><img src="src/views/icons/pass.svg" alt=""> Pass (regular text)</div>
+          <div><img src="src/views/icons/pass.svg" alt=""> Pass (large text)</div>
+        </div>
+
+
+    <div class="wcag">
+        <h3>1.4.11 Non-text Contrast (AA)</h3>
+        <div class="tooltip-container"><button class="help" aria-describedby="description"></button>
+          <p id="description" role="tooltip" hidden><small>Paraphrased<span class="sr-only">:</span></small> The visual presentation of user interface components
+            (their states – including focus indication – and boundaries) and graphical objects has a contrast ratio of at
+            least <strong>3:1</strong> against adjacent colour(s).</p>
+        </div>
+      </div>
+
+      <div id="contrast-level-1-4-11" class="contrast-level">
+          <div><img src="src/views/icons/pass.svg" alt=""> Pass (UI components and graphical objects)</div>
+        </div>
+
+  </section>
+
+  <section id="advanced">
+    <details>
+      <summary><h2>Advanced</h2></summary>
+      <div class="columns">
+        <div class="foreground">
+          <div class="slider slider-rgb red">
+            <label>Red</label>
+            <input aria-label="Foreground red" type="range" min="0" max="255" value="0" />
+            <input aria-label="Foreground red" type="text" maxlength="3" />
+          </div>
+          <div class="slider slider-rgb green">
+            <label>Green</label>
+            <input aria-label="Foreground green" type="range" min="0" max="255" value="0" />
+            <input aria-label="Foreground green" type="text" maxlength="3" />
+          </div>
+          <div class="slider slider-rgb blue">
+            <label>Blue</label>
+            <input aria-label="Foreground blue" type="range" min="0" max="255" value="0" />
+            <input aria-label="Foreground blue" type="text" maxlength="3" />
+          </div>
+          <div class="slider slider-rgb alpha">
+            <label>Alpha</label>
+            <input aria-label="Foreground alpha" type="range" min="0" max="1" value="1" step="0.01" />
+            <input aria-label="Foreground alpha" type="text" min="0" max="1" step="0.0001" />
+          </div>
+        </div>
+        <div class="background">
+          <div class="slider slider-rgb red">
+            <label>Red</label>
+            <input aria-label="Foreground red" type="range" min="0" max="255" value="0" />
+            <input aria-label="Foreground red" type="text" maxlength="3" />
+          </div>
+          <div class="slider slider-rgb green">
+            <label>Green</label>
+            <input aria-label="Foreground green" type="range" min="0" max="255" value="0" />
+            <input aria-label="Foreground green" type="text" maxlength="3" />
+          </div>
+          <div class="slider slider-rgb blue">
+            <label>Blue</label>
+            <input aria-label="Foreground blue" type="range" min="0" max="255" value="0" />
+            <input aria-label="Foreground blue" type="text" maxlength="3" />
+          </div>
+        </div>
+      </div>
+    </details>
+  </section>
+  <script id="rendered-js">
+    class Tooltip {
+      constructor(element) {
+        this.element = element
+        this.button = element.querySelector('button')
+        this.tooltip = element.querySelector('[role=tooltip]')
+        this.globalEscapeBound = this.globalEscape.bind(this)
+        this.bindEvents()
+      }
+
+      bindEvents() {
+        this.element.addEventListener('mouseenter', this.open.bind(this))
+        this.button.addEventListener('focus', this.open.bind(this))
+        this.element.addEventListener('mouseleave', this.close.bind(this))
+        this.button.addEventListener('blur', this.close.bind(this))
+      }
+
+      open() {
+        this.showTooltip()
+        this.attachGlobalListener()
+      }
+
+      close() {
+        this.hideTooltip()
+        this.removeGlobalListener()
+      }
+
+      attachGlobalListener() {
+        document.addEventListener('keydown', this.globalEscapeBound)
+      }
+
+      removeGlobalListener() {
+        document.removeEventListener('keydown', this.globalEscapeBound)
+      }
+
+      globalEscape(event) {
+        if (event.key === 'Escape' || event.key === 'Esc') {
+          this.close()
+        }
+      }
+
+      showTooltip() {
+        this.tooltip.removeAttribute('hidden')
+      }
+
+      hideTooltip() {
+        this.tooltip.setAttribute('hidden', 'hidden')
+      }
+    }
+
+    Array.from(document.querySelectorAll('.tooltip-container')).forEach(element => new Tooltip(element));
+  </script>
+</body>
+
+</html>

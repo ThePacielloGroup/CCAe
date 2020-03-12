@@ -3,8 +3,24 @@
 **Known issues**
 - [Windows: Application menus aren't keyboard accessible](https://github.com/ThePacielloGroup/CCAe/issues/49)
 - [Windows: Changing slider values is not announced in NVDA](https://github.com/ThePacielloGroup/CCAe/issues/37)
-- [Windows/macOS: issue with colour picker when working with multiple displays at different density](https://github.com/ThePacielloGroup/CCAe/issues/54)
 - [Windows: Downloaded installer from GitHub triggers Windows Defender SmartScreen](https://github.com/ThePacielloGroup/CCAe/issues/66)
+
+## [v3.0.0](https://github.com/ThePacielloGroup/CCAe/tree/v3.0.0) (2020-03-12)
+
+[Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v1.2.1...v3.0.0)
+
+**Implemented enhancements:**
+
+- Save Application State [\#142](https://github.com/ThePacielloGroup/CCAe/issues/142)
+- New native color picker [\#153](https://github.com/ThePacielloGroup/CCAe/pull/153) (Fixes [\#122](https://github.com/ThePacielloGroup/CCAe/issues/122), [\#82](https://github.com/ThePacielloGroup/CCAe/issues/82), [\#128](https://github.com/ThePacielloGroup/CCAe/issues/128))
+- Add Korean translation [\#148](https://github.com/ThePacielloGroup/CCAe/pull/148)
+
+**Fixed bugs:**
+
+- Various Translation issues [\#149](https://github.com/ThePacielloGroup/CCAe/issues/149), [\#146](https://github.com/ThePacielloGroup/CCAe/issues/146), [\#144](https://github.com/ThePacielloGroup/CCAe/pull/144)
+- A JavaScript error occurred in the main process [\#147](https://github.com/ThePacielloGroup/CCAe/issues/147)
+- RGBa/HSLa/HSVa turn to RGB/HSL/HSV when alpha is 1 [\#139](https://github.com/ThePacielloGroup/CCAe/issues/139)
+- "Copy results" always converts colors to flat HEX [\#119](https://github.com/ThePacielloGroup/CCAe/issues/119)
 
 ## [v1.2.1](https://github.com/ThePacielloGroup/CCAe/tree/v1.2.1) (2019-11-06)
 
@@ -16,7 +32,7 @@
 - Added French, German, Japanese localization/translation [\#79](https://github.com/ThePacielloGroup/CCAe/issues/79)[\#137](https://github.com/ThePacielloGroup/CCAe/issues/137)
 - HSV color support [\#103](https://github.com/ThePacielloGroup/CCAe/issues/103)
 
-**Merged pull requests:**
+**Fixed bugs:**
 
 - fix: Missing quit menu label. [\#138](https://github.com/ThePacielloGroup/CCAe/pull/138)
 - fix: Label elements for attr. [\#131](https://github.com/ThePacielloGroup/CCAe/pull/131)

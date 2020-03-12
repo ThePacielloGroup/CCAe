@@ -1,6 +1,6 @@
 const { ipcRenderer } = require('electron')
 const sharedObject = require('electron').remote.getGlobal('sharedObject')
-const CCAColor = require('../../CCAcolor')
+const CCAColor = require('../../color/CCAcolor.js')
 let i18n = ''
 
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-app'), false)
@@ -206,7 +206,7 @@ function applyColorTextString(section, color) {
 
 function applyColorPreview(section, color) {
     const colorRGB = color.getReal().rgb().string()
-    const name = color.getReal().cssname()
+    const name = color.getReal().keyword()
     const isDark = color.getReal().isDark()
 
     document.querySelector('#' + section + '-color').style.background = colorRGB 
@@ -324,47 +324,28 @@ function applyContrastRatio () {
 }
 
 function validateForegroundText(value) {
-    const string = value.toLowerCase().replace(/\s/g, "") // Clean input value
-    let format = null
-    if (string) {
-        if (CCAColor.isHexA(string)) {
-            format = 'hex'
-        } else if (CCAColor.isRGB(string)) {
-            format = 'rgb'
-        } else if (CCAColor.isRGBA(string)) {
-            format = 'rgba'
-        } else if (CCAColor.isHSL(string)) {
-            format = 'hsl'
-        } else if (CCAColor.isHSLA(string)) {
-            format = 'hsla'
-        } else if (CCAColor.isHSV(string)) {
-            format = 'hsv'
-        } else if (CCAColor.isHSVA(string)) {
-            format = 'hsva'
-        } else if (CCAColor.isName(string)) {
-            format = 'name'
-        }
-    }
-    displayValidate('foreground', format, string)
+    let formats = ["hex", "hexa", "rgb", "rgba", "hsl", "hsla", "hsv", "hsva", "name"]
+    validateText('foreground', value, formats)
 }
 
 function validateBackgroundText(value) {
+    let formats = ["hex", "rgb", "hsl", "hsv", "name"]
+    validateText('background', value, formats)
+}
+
+function validateText(section, value, formats) {
     const string = value.toLowerCase().replace(/\s/g, "") // Clean input value
     let format = null
     if (string) {
-        if (CCAColor.isHex(string)) {
-            format = 'hex'
-        } else if (CCAColor.isRGB(string)) {
-            format = 'rgb'
-        } else if (CCAColor.isHSL(string)) {
-            format = 'hsl'
-        } else if (CCAColor.isHSV(string)) {
-            format = 'hsv'
-        } else if (CCAColor.isName(string)) {
-            format = 'name'
+        for (let i = 0; i < formats.length; ++i) {
+            let f = formats[i];
+            if (CCAColor.is(f, string)) {
+                format = f
+                break
+            }
         }
     }
-    displayValidate('background', format, string)
+    displayValidate(section, format, string)
 }
 
 function displayValidate(section, format, string) {

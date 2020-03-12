@@ -1,7 +1,7 @@
 const { ipcMain, clipboard, globalShortcut } = require('electron')
 const { getColorHexRGB } = require('./picker/index.js')
 const { checkForUpdates, setUpdatesDisabled } = require('./update.js')
-const CCAColor = require('./CCAcolor')
+const CCAColor = require('./color/CCAcolor.js')
 const Store = require('electron-store');
 const store = new Store();
 const i18n = (new(require('./i18n'))).asJSON()
@@ -175,7 +175,7 @@ class CCAController {
 
     updateGlobal(section, stringValue) {
         this.sharedObject.deficiencies.normal[section + "Color"].displayedValue = stringValue
-        this.sharedObject.deficiencies.normal.foregroundColor.setMixed(this.sharedObject.deficiencies.normal.backgroundColor)
+        this.sharedObject.deficiencies.normal.foregroundColor.setReal(this.sharedObject.deficiencies.normal.backgroundColor)
         this.updateDeficiency(section)
         if (section == 'background' && this.sharedObject.deficiencies.normal.foregroundColor.alpha() !== 1) { // Then mixed has changed
             this.updateDeficiency('foreground')

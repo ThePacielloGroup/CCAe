@@ -1,6 +1,4 @@
-'use strict';
-
-var colorString = require('color-string');
+var colorString = require('./color-string.js');
 var convert = require('color-convert');
 
 var _slice = [].slice;
@@ -121,10 +119,10 @@ Color.prototype = {
 		return this[this.model]();
 	},
 
-	string: function (places) {
+	string: function (places, alpha) {
 		var self = this.model in colorString.to ? this : this.rgb();
 		self = self.round(typeof places === 'number' ? places : 1);
-		var args = self.valpha === 1 ? self.color : self.color.concat(this.valpha);
+		var args = (self.valpha === 1 && !alpha) ? self.color : self.color.concat(this.valpha);
 		return colorString.to[self.model](args);
 	},
 
@@ -230,15 +228,24 @@ Color.prototype = {
 			return new Color(val);
 		}
 
-		return convert[this.model].keyword(this.color);
+		return colorString.to.keyword(this.color);
 	},
 
 	hex: function (val) {
 		if (arguments.length) {
 			return new Color(val);
 		}
+		var self = this.rgb();
+		self = self.round(typeof places === 'number' ? places : 1);
+		var args = self.valpha === 1 ? self.color : self.color.concat(this.valpha);
+		return colorString.to.hex(args);
+	},
 
-		return colorString.to.hex(this.rgb().round().color);
+	hexa: function () {
+		var self = this.rgb();
+		self = self.round(1);
+		var args = self.color.concat(this.valpha);
+		return colorString.to.hex(args);
 	},
 
 	rgbNumber: function () {
@@ -380,8 +387,24 @@ Color.prototype = {
 				w1 * color1.green() + w2 * color2.green(),
 				w1 * color1.blue() + w2 * color2.blue(),
 				color1.alpha() * p + color2.alpha() * (1 - p));
+	},
+
+	alphaBg: function(bg) {
+		// https://stackoverflow.com/a/11615135/3909342
+		if (this.alpha() < 1) {
+			let a = 1 - this.alpha();
+			let r = Math.round((this.alpha() * (this.red() / 255) + (a * (bg.red() / 255))) * 255);
+			let g = Math.round((this.alpha() * (this.green() / 255) + (a * (bg.green() / 255))) * 255);
+			let b = Math.round((this.alpha() * (this.blue() / 255) + (a * (bg.blue() / 255))) * 255);
+			return Color.rgb(r, g, b)
+		}
+		return null
 	}
 };
+
+Color.is = function(type, string) {
+	return colorString.is[type](string)
+}
 
 // model conversion methods and static constructors
 Object.keys(convert).forEach(function (model) {

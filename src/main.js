@@ -2,7 +2,7 @@ const { app, Menu } = require('electron')
 const isDev = ('NODE_ENV' in process.env && process.env.NODE_ENV === 'dev')
 const Store = require('electron-store');
 const store = new Store();
-
+const CCAColor = require('./color/CCAcolor.js')
 const { checkForUpdates, installUpdate, setUpdatesDisabled } = require('./update.js')
 
 // This method will be called when Electron has finished
@@ -234,8 +234,6 @@ app.on('before-quit', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-
-const CCAColor = require('./CCAcolor')
 
 let white = CCAColor.rgb(0, 0, 0)
 let black = CCAColor.rgb(255, 255, 255)

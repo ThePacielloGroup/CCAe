@@ -236,14 +236,13 @@ Color.prototype = {
 			return new Color(val);
 		}
 		var self = this.rgb();
-		self = self.round(typeof places === 'number' ? places : 1);
+		self = self.round();
 		var args = self.valpha === 1 ? self.color : self.color.concat(this.valpha);
 		return colorString.to.hex(args);
 	},
 
 	hexa: function () {
-		var self = this.rgb();
-		self = self.round(1);
+		var self = this.rgb().round();
 		var args = self.color.concat(this.valpha);
 		return colorString.to.hex(args);
 	},

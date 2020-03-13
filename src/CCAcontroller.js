@@ -128,7 +128,7 @@ class CCAController {
             color = color.alpha(value)
         }
 
-        this.sharedObject.deficiencies.normal[section + 'Color'] = color
+        this.sharedObject.deficiencies.normal[section + 'Color'] = color.hsl()
         this.updateGlobal(section)    
     }
 
@@ -154,12 +154,12 @@ class CCAController {
         } else if (component === "saturationv") {
             color = color.saturationv(value)
         } else if (component === "value") {
-            color = color.lightness(value)
+            color = color.value(value)
         } else if (component === "alpha") {
             color = color.alpha(value)
         }
 
-        this.sharedObject.deficiencies.normal[section + 'Color'] = color
+        this.sharedObject.deficiencies.normal[section + 'Color'] = color.hsv()
         this.updateGlobal(section)    
     }
 

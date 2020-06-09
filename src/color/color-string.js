@@ -52,8 +52,8 @@ cs.get.rgb = function (string) {
 		return null;
 	}
 
-	var abbr = /^#([a-f0-9]{3,4})$/i;
-	var hex = /^#([a-f0-9]{6})([a-f0-9]{2})?$/i;
+	var abbr = /^#?([a-f0-9]{3,4})$/i;
+	var hex = /^#?([a-f0-9]{6})([a-f0-9]{2})?$/i;
 	var rgba = /^rgba?\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
 	var per = /^rgba?\(\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
 	var keyword = /(\D+)/;
@@ -257,14 +257,14 @@ cs.to.keyword = function (rgb) {
 };
 
 cs.is.hex = function(string) {
-    let abbr = /^#([a-f0-9]{3})$/i;
-    let hex = /^#([a-f0-9]{6})$/i;
+    let abbr = /^#?([a-f0-9]{3})$/i;
+    let hex = /^#?([a-f0-9]{6})$/i;
     return (string.match(hex) || string.match(abbr))
 };
 
 cs.is.hexa = function(string) {
-    let abbr = /^#([a-f0-9]{3,4})$/i;
-    let hexa = /^#([a-f0-9]{6})([a-f0-9]{2})?$/i;
+    let abbr = /^#?([a-f0-9]{3,4})$/i;
+    let hexa = /^#?([a-f0-9]{6})([a-f0-9]{2})?$/i;
     return (string.match(hexa) || string.match(abbr))
 };
 

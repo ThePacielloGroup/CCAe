@@ -345,6 +345,9 @@ function validateText(section, value, formats) {
             }
         }
     }
+    if (format) {
+        ipcRenderer.send('setPreference', format, section, 'format')
+    }
     displayValidate(section, format, string)
 }
 
@@ -369,11 +372,14 @@ function displayValidate(section, format, string) {
 }
 
 function leaveText(section, el) {
-    const freeFormat =  document.querySelector('#' + section + '-free-format')
-    if (freeFormat.getAttribute('aria-live')) {
-        if (el.getAttribute('aria-invalid') === 'true') {
+    if (el.getAttribute('aria-invalid') === 'true') {
+        const freeFormat =  document.querySelector('#' + section + '-free-format')
+        if (freeFormat.getAttribute('aria-live')) {
             freeFormat.innerHTML = 'Error, Incorrect ' + section + ' format'
         }    
+    } else {
+        let color = sharedObject.deficiencies.normal[section + "Color"]
+        applyColorTextString(section, color)
     }
 }
 

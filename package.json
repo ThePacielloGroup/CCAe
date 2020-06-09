@@ -15,7 +15,8 @@
     "devDependencies": {
         "cross-env": "^5.2.0",
         "electron": "2.0.11",
-        "electron-builder": "21.2.0"
+        "electron-builder": "22.7.0",
+        "electron-notarize": "^0.3.0"
     },
     "dependencies": {
         "color-blind": "^0.1.1",
@@ -39,11 +40,19 @@
         "releaseInfo": {
             "releaseNotesFile": "CHANGELOG.md"
         },
+        "afterSign": "scripts/notarize.js",
         "mac": {
+            "hardenedRuntime" : true,
+            "gatekeeperAssess": false,
+            "entitlements": "build/entitlements.mac.plist",
+            "entitlementsInherit": "build/entitlements.mac.plist",
             "category": "public.app-category.developer-tools",
             "artifactName": "${name}-${version}.${ext}",
             "icon": "build/icon.icns",
             "type": "distribution"
+        },
+        "dmg": {
+            "sign": false
         },
         "win": {
             "icon": "build/icon.ico",

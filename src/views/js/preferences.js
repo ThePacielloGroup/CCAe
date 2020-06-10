@@ -6,10 +6,11 @@ document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-prefe
 ipcRenderer.on('init', (event, config) => {
     document.getElementById('option-rounding').value = sharedObject.preferences.main.rounding
     document.getElementById('option-checkForUpdates').checked = sharedObject.preferences.main.checkForUpdates
+    document.getElementById('option-lang').value = sharedObject.preferences.main.lang
     document.getElementById('shortcut-foreground-picker').value = sharedObject.preferences.foreground.picker.shortcut
     document.getElementById('shortcut-background-picker').value = sharedObject.preferences.background.picker.shortcut
 
-    translateHTML(config)
+    translateHTML(config.i18n)
 })
 
 document.getElementById('save').addEventListener('click', function () {
@@ -21,6 +22,10 @@ document.getElementById('save').addEventListener('click', function () {
     if (checkForUpdates != sharedObject.preferences.main.checkForUpdates) {
         ipcRenderer.send('setPreference', checkForUpdates, 'main', 'checkForUpdates')
     } 
+    var lang = document.getElementById('option-lang').value
+    if (lang != sharedObject.preferences.main.lang) {
+        ipcRenderer.send('setPreference', lang, 'main', 'lang')
+    }
     var foregroundPickerShortcut = document.getElementById('shortcut-foreground-picker').value
     if (foregroundPickerShortcut != sharedObject.preferences.foreground.picker.shortcut) {
         ipcRenderer.send('setPreference', foregroundPickerShortcut, 'foreground', 'picker', 'shortcut')
@@ -41,9 +46,8 @@ function close() {
     win.close()
 }
 
-function translateHTML(config) {
+function translateHTML(i18n) {
     // translate html elements.
-    const i18n = JSON.parse(config.i18n).Preferences
 
     document.title = i18n['Title']
     document.querySelector('h1').textContent = i18n['Preferences']
@@ -56,6 +60,8 @@ function translateHTML(config) {
 
     document.querySelector('body > main > fieldset:nth-child(2) > label:nth-child(4)').innerHTML
         = document.querySelector('body > main > fieldset:nth-child(2) > label:nth-child(4)').innerHTML.replace('Enable Auto-Update', i18n['Enable Auto-Update'])
+
+    document.querySelector('label[for="option-lang"]').textContent = i18n['Language']
 
     document.querySelector('body > main > fieldset:nth-child(3) > legend').textContent = i18n['Shortcuts']
 

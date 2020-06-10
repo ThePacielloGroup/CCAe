@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-about
 ipcRenderer.on('init', (event, config) => {
     document.querySelector('#cca-version').innerHTML = config.version
 
-    translateHTML(config)
+    translateHTML(config.i18n)
 })
 
 var externalLinks = document.querySelectorAll('.external-link')
@@ -18,10 +18,12 @@ Array.from(externalLinks).forEach(link => {
     })
 });
 
-function translateHTML(config) {
-    // translate html elements.
-    const i18n = JSON.parse(config.i18n).About
+ipcRenderer.on('langChanged', (event, i18n) => {
+    translateHTML(i18n)
+})
 
+function translateHTML(i18n) {
+    // translate html elements.
     document.title = i18n['Title']
     document.querySelector('h1').textContent = i18n['Colour Contrast Analyser (CCA)']
 

@@ -12,8 +12,8 @@ app.on('ready', () => {
 //    const { screen } = require('electron')
 //    const displays = screen.getAllDisplays()
 //    console.log(displays)
-    const i18n  = new(require('./i18n'))
     loadPreferences()
+    const i18n  = new(require('./i18n'))(global.sharedObject.preferences.main.lang)
     position = global.sharedObject.preferences.main.position
     alwaysOnTop = global.sharedObject.preferences.main.alwaysOnTop
     main.init(position.x, position.y, alwaysOnTop)
@@ -306,6 +306,7 @@ global.sharedObject = {
             },
             rounding : null,
             alwaysOnTop : null,
+            lang: 'auto'
         },
         foreground : {
             format : null,
@@ -337,6 +338,7 @@ function loadPreferences() {
     prefs.main.position.y = store.get('main.position.y', null)
     prefs.main.rounding = store.get('main.rounding', 1)
     prefs.main.alwaysOnTop = store.get('main.alwaysOnTop', true)
+    prefs.main.lang = store.get('main.lang', 'auto')
     prefs.foreground.format = store.get('foreground.format', 'hex')
     prefs.background.format = store.get('background.format', 'hex')
     prefs.foreground.picker.shortcut = store.get('foreground.picker.shortcut', 'F11')
@@ -348,10 +350,9 @@ function loadPreferences() {
 }
 
 const browsers = require('./browsers')(__dirname)
-const {main, about, deficiency, preferences, picker} = browsers
+const {main, about, deficiency, preferences} = browsers
+
+const controllers = require('./controllers')(browsers, global.sharedObject)
 
 const CCAController = require('./CCAcontroller')
-
-const mainController = new CCAController(browsers, global.sharedObject)
-
-require('./controllers')(browsers, mainController)
+const mainController = new CCAController(controllers, global.sharedObject)

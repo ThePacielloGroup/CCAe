@@ -2,14 +2,16 @@ const { ipcMain, clipboard, globalShortcut } = require('electron')
 const { getColorHexRGB } = require('./picker/index.js')
 const { checkForUpdates, setUpdatesDisabled } = require('./update.js')
 const CCAColor = require('./color/CCAcolor.js')
-const Store = require('electron-store');
-const store = new Store();
-const i18n = (new(require('./i18n'))).asJSON()
+const Store = require('electron-store')
+const store = new Store()
+
+let i18n
 
 class CCAController {
-    constructor(browsers, sharedObject) {
-        this.browsers = browsers
+    constructor(controllers, sharedObject) {
+        this.controllers = controllers
         this.sharedObject = sharedObject
+        i18n = new(require('./i18n'))(sharedObject.preferences.main.lang).asObject()
         this.initEvents()
     }
     
@@ -211,8 +213,6 @@ class CCAController {
     }
 
     updateContrastRatio() {
-        const t = JSON.parse(i18n).Main
-
         let rounding = this.sharedObject.preferences.main.rounding
         Object.keys(this.sharedObject.deficiencies).forEach(function(key, index) {
             if (key === 'normal') {
@@ -222,7 +222,7 @@ class CCAController {
                 this[key].contrastRatioString = `${crr}:1`
                 if ((cr >= 6.95 && cr < 7) || (cr >= 4.45 && cr < 4.5) || (cr >= 2.95 && cr < 3)) {
                     let crr3 = Number(cr.toFixed(3)).toString()
-                    this[key].contrastRatioString = `<span class="smaller">${t["just below"]} </span>${crr}:1<span class="smaller"> (${crr3}:1)</span>`
+                    this[key].contrastRatioString = `<span class="smaller">${i18n.Main["just below"]} </span>${crr}:1<span class="smaller"> (${crr3}:1)</span>`
                 }
                 this[key].levelAA = 'regular'
                 this[key].levelAAA = 'regular'
@@ -247,50 +247,45 @@ class CCAController {
     }
 
     sendEventToAll(event, ...params) {
-        const browsers = this.browsers
-        Object.keys(browsers).map(function(key, index) {
-            const browser = browsers[key]
-            if (browser.getWindow()) {
-                browser.getWindow().webContents.send(event, ...params)
-            }
+        const controllers = this.controllers
+        Object.keys(controllers).map(function(key, index) {
+            controllers[key].sendEvent(event, ...params)
         });
     }
 
     copyResults() {
-        const t = JSON.parse(i18n)
-
         let normal = this.sharedObject.deficiencies.normal
         let level_1_4_3, level_1_4_6, level_1_4_11
 
         if (normal.levelAA === 'large') {
-            level_1_4_3 = t.CopyPaste["level_1_4_3_pass_large"]
-            level_1_4_11 = t.CopyPaste["level_1_4_11_pass"]
+            level_1_4_3 = i18n.CopyPaste["level_1_4_3_pass_large"]
+            level_1_4_11 = i18n.CopyPaste["level_1_4_11_pass"]
         } else if (normal.levelAA === 'regular') {
-            level_1_4_3 = t.CopyPaste["level_1_4_3_pass_regular"]
-            level_1_4_11 = t.CopyPaste["level_1_4_11_pass"]
+            level_1_4_3 = i18n.CopyPaste["level_1_4_3_pass_regular"]
+            level_1_4_11 = i18n.CopyPaste["level_1_4_11_pass"]
         } else { // Fail
-            level_1_4_3 = t.CopyPaste["level_1_4_3_fail"]
-            level_1_4_11 = t.CopyPaste["level_1_4_11_fail"]
+            level_1_4_3 = i18n.CopyPaste["level_1_4_3_fail"]
+            level_1_4_11 = i18n.CopyPaste["level_1_4_11_fail"]
         }
         if (normal.levelAAA === 'large') {
-            level_1_4_6 = t.CopyPaste["level_1_4_6_pass_large"]
+            level_1_4_6 = i18n.CopyPaste["level_1_4_6_pass_large"]
         } else if (normal.levelAAA === 'regular') {
-            level_1_4_6 = t.CopyPaste["level_1_4_6_pass_regular"]
+            level_1_4_6 = i18n.CopyPaste["level_1_4_6_pass_regular"]
         } else { // Fail
-            level_1_4_6 = t.CopyPaste["level_1_4_6_fail"]
+            level_1_4_6 = i18n.CopyPaste["level_1_4_6_fail"]
         }
 
         let foregroundColorString = ((normal.foregroundColor.displayedValue)?normal.foregroundColor.displayedValue:normal.foregroundColor.getColorTextString(sharedObject.preferences['foreground'].format))
         let backgroundColorString = ((normal.backgroundColor.displayedValue)?normal.backgroundColor.displayedValue:normal.backgroundColor.getColorTextString(sharedObject.preferences['background'].format))
 
-        let text = `${t.CopyPaste["Foreground"]}: ${foregroundColorString}
-${t.CopyPaste["Background"]}: ${backgroundColorString}
-${t.CopyPaste["The contrast ratio is"]}: ${normal.contrastRatioString}
-${t.Main["1.4.3 Contrast (Minimum) (AA)"]}
+        let text = `${i18n.CopyPaste["Foreground"]}: ${foregroundColorString}
+${i18n.CopyPaste["Background"]}: ${backgroundColorString}
+${i18n.CopyPaste["The contrast ratio is"]}: ${normal.contrastRatioString}
+${i18n.Main["1.4.3 Contrast (Minimum) (AA)"]}
     ${level_1_4_3}
-${t.Main["1.4.6 Contrast (Enhanced) (AAA)"]}
+${i18n.Main["1.4.6 Contrast (Enhanced) (AAA)"]}
     ${level_1_4_6}
-${t.Main["1.4.11 Non-text Contrast (AA)"]}
+${i18n.Main["1.4.11 Non-text Contrast (AA)"]}
     ${level_1_4_11}`
 
         // sanitize output (if there's HTML, e.g. in "just below" case)
@@ -309,29 +304,35 @@ ${t.Main["1.4.11 Non-text Contrast (AA)"]}
             this.sharedObject.preferences[section][level] = value
             option = section + '.' + level   
         }
-        store.set(option, value)    
-        switch(option) {
-            case 'main.rounding':
-                this.updateContrastRatio()
-            break;
-            case 'foreground.picker.shortcut':
-                this.updateShortcut(option, oldValue, value)
-            break;
-            case 'background.picker.shortcut':
-                this.updateShortcut(option, oldValue, value)
-            break;
-            case 'main.checkForUpdates':
-                if (value === true) {
-                    checkForUpdates()
-                } else {
-                    setUpdatesDisabled()
-                }
-            break;
+        if (value != oldValue) {
+            store.set(option, value)
+            switch(option) {
+                case 'main.rounding':
+                    this.updateContrastRatio()
+                break;
+                case 'main.lang':
+                    i18n = new(require('./i18n'))(sharedObject.preferences.main.lang).asObject()
+                    this.sendEventToAll('langChanged')
+                    this.updateContrastRatio()
+                break;
+                case 'foreground.picker.shortcut':
+                    this.updateShortcut(option, oldValue, value)
+                break;
+                case 'background.picker.shortcut':
+                    this.updateShortcut(option, oldValue, value)
+                break;
+                case 'main.checkForUpdates':
+                    if (value === true) {
+                        checkForUpdates()
+                    } else {
+                        setUpdatesDisabled()
+                    }
+                break;
+            }
         }
     }
 
     updateShortcut(shortcut, oldValue, newValue) {
-        const browsers = this.browsers
         if (oldValue) {
             globalShortcut.unregister(oldValue)
         }

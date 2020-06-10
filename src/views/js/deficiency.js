@@ -8,7 +8,7 @@ ipcRenderer.on('init', (event, config) => {
     applyColor('background')
     applyContrastRatio()
 
-    translateHTML(config)
+    translateHTML(config.i18n)
 })
 
 ipcRenderer.on('colorChanged', (event, section) => {
@@ -17,6 +17,10 @@ ipcRenderer.on('colorChanged', (event, section) => {
 
 ipcRenderer.on('contrastRatioChanged', event => {
     applyContrastRatio()
+})
+
+ipcRenderer.on('langChanged', (event, i18n) => {
+    translateHTML(i18n)
 })
 
 function applyColor (section) {
@@ -39,10 +43,8 @@ function applyContrastRatio () {
     }, sharedObject.deficiencies)
 }
 
-function translateHTML(config) {
+function translateHTML(i18n) {
     // translate html elements.
-    const i18n = JSON.parse(config.i18n).Deficiency
-
     document.title = i18n['Title']
     document.querySelector('body > main > h1').textContent = i18n['Colour blindness simulation']
     document.querySelector('body > main > h2:nth-child(2)').textContent = i18n['Monochromacy']

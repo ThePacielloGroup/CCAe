@@ -1,13 +1,13 @@
 const { ipcRenderer } = require('electron')
 const sharedObject = require('electron').remote.getGlobal('sharedObject')
 const CCAColor = require('../../color/CCAcolor.js')
-let i18n = ''
 
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-app'), false)
+let i18n
 
 ipcRenderer.on('init', (event, config) => {
-    i18n = JSON.parse(config.i18n).Main
-    translateHTML()
+    i18n = config.i18n
+    translateHTML(i18n)
 
     applyColor('foreground')
     applyColor('background')
@@ -53,6 +53,12 @@ ipcRenderer.on('colorChanged', (event, section) => {
 })
 
 ipcRenderer.on('contrastRatioChanged', event => {
+    applyContrastRatio()
+})
+
+ipcRenderer.on('langChanged', (event, i18nNew) => {
+    i18n = i18nNew
+    translateHTML(i18n)
     applyContrastRatio()
 })
 
@@ -282,40 +288,26 @@ function applyColorSample(section, color) {
     }
 }
 
-function applyContrastRatio () {
+function applyContrastRatio() {
     let level_1_4_3, level_1_4_6, level_1_4_11
     const normal = sharedObject.deficiencies.normal
     if (normal.levelAA === 'large') {
-        level_1_4_3 = '<div><img src="icons/fail.svg" alt="" /> Fail (regular text)</div><div><img src="icons/pass.svg" alt="" /> Pass (large text)</div>'
-        level_1_4_11 = '<div><img src="icons/pass.svg" alt="" /> Pass (UI components and graphical objects)</div>'
+        level_1_4_3 = `<div><img src="icons/fail.svg" alt="" /> ${i18n['Fail']} (${i18n['regular text']})</div><div><img src="icons/pass.svg" alt="" /> ${i18n['Pass']} (${i18n['large text']})</div>`
+        level_1_4_11 = `<div><img src="icons/pass.svg" alt="" /> ${i18n['Pass']} (${i18n['UI components and graphical objects']})</div>`
     } else if (normal.levelAA === 'regular') {
-        level_1_4_3 = '<div><img src="icons/pass.svg" alt="" /> Pass (regular text)</div><div><img src="icons/pass.svg" alt="" /> Pass (large text)</div>'
-        level_1_4_11 = '<div><img src="icons/pass.svg" alt="" /> Pass (UI components and graphical objects)</div>'
+        level_1_4_3 = `<div><img src="icons/pass.svg" alt="" /> ${i18n['Pass']} (${i18n['regular text']})</div><div><img src="icons/pass.svg" alt="" /> ${i18n['Pass']} (${i18n['large text']})</div>`
+        level_1_4_11 = `<div><img src="icons/pass.svg" alt="" /> ${i18n['Pass']} (${i18n['UI components and graphical objects']})</div>`
     } else { // Fail
-        level_1_4_3 = '<div><img src="icons/fail.svg" alt="" /> Fail (regular text)</div><div><img src="icons/fail.svg" alt="" /> Fail (large text)</div>'
-        level_1_4_11 = '<div><img src="icons/fail.svg" alt="" /> Fail (UI components and graphical objects)</div>'
+        level_1_4_3 = `<div><img src="icons/fail.svg" alt="" /> ${i18n['Fail']} (${i18n['regular text']})</div><div><img src="icons/fail.svg" alt="" /> ${i18n['Fail']} (${i18n['large text']})</div>`
+        level_1_4_11 = `<div><img src="icons/fail.svg" alt="" /> ${i18n['Fail']} (${i18n['UI components and graphical objects']})</div>`
     }
     if (normal.levelAAA === 'large') {
-        level_1_4_6 = '<div><img src="icons/fail.svg" alt="" /> Fail (regular text)</div><div><img src="icons/pass.svg" alt="" /> Pass (large text)</div>'
+        level_1_4_6 = `<div><img src="icons/fail.svg" alt="" /> ${i18n['Fail']} (${i18n['regular text']})</div><div><img src="icons/pass.svg" alt="" /> ${i18n['Pass']} (${i18n['large text']})</div>`
     } else if (normal.levelAAA === 'regular') {
-        level_1_4_6 = '<div><img src="icons/pass.svg" alt="" /> Pass (regular text)</div><div><img src="icons/pass.svg" alt="" /> Pass (large text)</div>'
+        level_1_4_6 = `<div><img src="icons/pass.svg" alt="" /> ${i18n['Pass']} (${i18n['regular text']})</div><div><img src="icons/pass.svg" alt="" /> ${i18n['Pass']} (${i18n['large text']})</div>`
     } else { // Fail
-        level_1_4_6 = '<div><img src="icons/fail.svg" alt="" /> Fail (regular text)</div><div><img src="icons/fail.svg" alt="" /> Fail (large text)</div>'
+        level_1_4_6 = `<div><img src="icons/fail.svg" alt="" /> ${i18n['Fail']} (${i18n['regular text']})</div><div><img src="icons/fail.svg" alt="" /> ${i18n['Fail']} (${i18n['large text']})</div>`
     }
-
-    // translate results
-    let results = [level_1_4_3, level_1_4_6, level_1_4_11]
-    results.forEach( function(item, index) {
-        results[index] = item.replace(/Pass/g, i18n['Pass'] )
-                .replace(/Fail/g, i18n['Fail'])
-                .replace(/regular text/g, i18n['regular text'])
-                .replace(/large text/g, i18n['large text'])
-                .replace(/UI components and graphical objects/g, i18n['UI components and graphical objects'])
-    })
-
-    level_1_4_3 = results.shift()
-    level_1_4_6 = results.shift()
-    level_1_4_11 = results.shift()
 
     document.getElementById('contrast-ratio-value').innerHTML = normal.contrastRatioString
     document.getElementById('contrast-level-1-4-3').innerHTML = level_1_4_3
@@ -391,7 +383,7 @@ function changeFormat(section, el) {
     applyColorTextString(section, color)
 }
 
-function translateHTML(config) {
+function translateHTML(i18n) {
 
     // translate html elements.
     document.querySelector('html').lang = i18n['lang']
@@ -409,16 +401,12 @@ function translateHTML(config) {
     document.querySelector('#foreground-color div:last-child button.picker').setAttribute('aria-label', i18n['Foreground colour picker'])
     document.querySelector('#foreground-color div:last-child button.help').setAttribute('aria-label', i18n['Foreground help'])
 
-    document.querySelector('#foreground-help').innerHTML
-        = document.querySelector('#foreground-help').innerHTML
-            .replace('Supported formats are', i18n['Supported formats are'])
-            .replace('Names', i18n['Names'])
+    document.querySelector('#foreground-help > .title').textContent = i18n['Supported formats are']
+    document.querySelector('#foreground-help > ul > li.names').textContent = i18n['Names']
 
     document.querySelector('#foreground-rgb h2').textContent = i18n['Foreground RGB input']
-    document.querySelector('#foreground-rgb > div.sync > label').innerHTML
-        = document.querySelector('#foreground-rgb > div.sync > label').innerHTML
-            .replace('Synchronize foreground colour values', i18n['Synchronize foreground colour values'])
-            .replace('Synchronize colour values', i18n['Synchronize colour values'])
+    document.querySelector('#foreground-rgb > div.sync > label > span').textContent = i18n['Synchronize colour values']
+    document.querySelector('#foreground-rgb > div.sync > label').setAttribute('aria-label',i18n['Synchronize foreground colour values'])
 
     document.querySelector('#foreground-rgb > div.slider.slider-rgb.red > label').textContent = i18n['Red']
     document.querySelector('#foreground-rgb > div.slider.slider-rgb.green > label').textContent = i18n['Green']
@@ -445,16 +433,12 @@ function translateHTML(config) {
     document.querySelector('#background-color > div.buttons > button.picker').setAttribute('aria-label', i18n['Background colour picker'])
     document.querySelector('#background-color > div.buttons > button.help').setAttribute('aria-label', i18n['Background help'])
 
-    document.querySelector('#background-help').innerHTML
-        = document.querySelector('#background-help').innerHTML
-            .replace('Supported formats are', i18n['Supported formats are'])
-            .replace('Names', i18n['Names'])
+    document.querySelector('#background-help > .title').textContent = i18n['Supported formats are']
+    document.querySelector('#background-help > ul > li.names').textContent = i18n['Names']
 
     document.querySelector('#background-rgb > h2').textContent = i18n['Background RGB input']
-    document.querySelector('#background-rgb > div.sync > label').innerHTML
-        = document.querySelector('#background-rgb > div.sync > label').innerHTML
-            .replace('Synchronize background colour values', i18n['Synchronize background colour values'])
-            .replace('Synchronize colour values', i18n['Synchronize colour values'])
+    document.querySelector('#background-rgb > div.sync > label > span').textContent = i18n['Synchronize colour values']
+    document.querySelector('#background-rgb > div.sync > label').setAttribute('aria-label',i18n['Synchronize background colour values'])
 
     document.querySelector('#background-rgb > div.slider.slider-rgb.red > label').textContent = i18n['Red']
     document.querySelector('#background-rgb > div.slider.slider-rgb.green > label').textContent = i18n['Green']
@@ -480,28 +464,8 @@ function translateHTML(config) {
     document.querySelector('#contrast-level-1-4-3+details summary h3').textContent = i18n['1.4.6 Contrast (Enhanced) (AAA)']
     document.querySelector('#contrast-level-1-4-6+details summary h3').textContent = i18n['1.4.11 Non-text Contrast (AA)']
 
-    document.querySelector('#results > details:nth-child(2) > p').innerHTML
-        = document.querySelector('#results > details:nth-child(2) > p').innerHTML
-            .replace('Paraphrased', i18n['Paraphrased'])
-            .replace(
-                'Text (including images of text) has a contrast ratio of at least <strong>4.5:1</strong> for "regular" sized text and at least <strong>3:1</strong> for large scale text (at least <code>18pt</code> / <code>24px</code>, or bold and at least <code>14pt</code> / <code>18.5px</code>), unless the text is purely decorative.',
-                i18n['sc_1_4_3']
-            )
-
-    document.querySelector('#results > details:nth-child(4) > p').innerHTML
-        = document.querySelector('#results > details:nth-child(4) > p').innerHTML
-            .replace('Paraphrased', i18n['Paraphrased'])
-            .replace(
-                'Text (including images of text) has a contrast ratio of at least <strong>7:1</strong> for "regular" sized text and at least <strong>4.5:1</strong> for large scale text (at least <code>18pt</code> / <code>24px</code>, or bold and at least <code>14pt</code> / <code>18.5px</code>), unless the text is purely decorative.',
-                i18n['sc_1_4_6']
-            )
-    
-            document.querySelector('#results > details:nth-child(6) > p').innerHTML
-            = document.querySelector('#results > details:nth-child(6) > p').innerHTML
-                .replace('Paraphrased', i18n['Paraphrased'])
-                .replace(
-                    'The visual presentation of user interface components (their states – including focus indication – and boundaries) and graphical objects has a contrast ratio of at least <strong>3:1</strong> against adjacent colour(s)',
-                    i18n['sc_1_4_11']
-                )
-
+    document.querySelector('#results > details > p span.paraphrased').textContent = i18n['Paraphrased']
+    document.querySelector('#results > details span#sc_1_4_3').innerHTML = i18n['sc_1_4_3']
+    document.querySelector('#results > details span#sc_1_4_6').innerHTML = i18n['sc_1_4_6']
+    document.querySelector('#results > details span#sc_1_4_11').innerHTML = i18n['sc_1_4_11']
 }

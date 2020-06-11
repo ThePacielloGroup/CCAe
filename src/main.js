@@ -14,9 +14,7 @@ app.on('ready', () => {
 //    console.log(displays)
     loadPreferences()
     const i18n  = new(require('./i18n'))(global.sharedObject.preferences.main.lang)
-    position = global.sharedObject.preferences.main.position
-    alwaysOnTop = global.sharedObject.preferences.main.alwaysOnTop
-    main.init(position.x, position.y, alwaysOnTop)
+    main.init()
     const menuTemplate = [
         {
             label: i18n.menuT('Colour Contrast Analyser (CCA)'),
@@ -100,7 +98,7 @@ app.on('ready', () => {
                 {
                     label: i18n.menuT('Always on Top'),
                     type: 'checkbox',
-                    checked: alwaysOnTop,
+                    checked: global.sharedObject.preferences.main.alwaysOnTop,
                     click: (item) => {
                         main.getWindow().setAlwaysOnTop(item.checked)
                         store.set('main.alwaysOnTop', item.checked)
@@ -215,17 +213,10 @@ app.on('window-all-closed', () => {
     }
 })
 
-app.on('activate', () => {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    main.init()
-})
-
-app.on('before-quit', () => {
+app.on('quit', () => {
     // Save last position
-    pos = main.getWindow().getPosition()
-    store.set('main.position.x', pos[0])
-    store.set('main.position.y', pos[1])
+    store.set('main.position.x', global.sharedObject.preferences.main.position.x)
+    store.set('main.position.y', global.sharedObject.preferences.main.position.y)
     store.set('main.foreground.sliders.open', global.sharedObject.preferences.foreground.sliders.open)
     store.set('main.background.sliders.open', global.sharedObject.preferences.background.sliders.open)
     store.set('main.foreground.sliders.tab', global.sharedObject.preferences.foreground.sliders.tab)
@@ -349,7 +340,7 @@ function loadPreferences() {
     prefs.background.sliders.tab = store.get('main.background.sliders.tab', 'rgb')
 }
 
-const browsers = require('./browsers')(__dirname)
+const browsers = require('./browsers')(__dirname, global.sharedObject)
 const {main, about, deficiency, preferences} = browsers
 
 const controllers = require('./controllers')(browsers, global.sharedObject)

@@ -2,7 +2,7 @@ const {BrowserWindow} = require('electron')
 const path = require('path')
 const url = require('url')
 
-module.exports = (dirname) => {
+module.exports = (dirname, sharedObject) => {
   let win
 
   let init = (x, y) => {

@@ -2,7 +2,7 @@ const {app, BrowserWindow, shell, Menu, MenuItem} = require('electron')
 const path = require('path')
 const url = require('url')
 
-module.exports = (dirname) => {
+module.exports = (dirname, sharedObject) => {
     // Keep a global reference of the window object, if you don't, the window will
     // be closed automatically when the JavaScript object is garbage collected.
     let mainWindow
@@ -13,20 +13,20 @@ module.exports = (dirname) => {
      * @param {int} Y [initial window y position]
      * @param {boolean} force [force launching new window]
      */
-    let init = (x, y, alwaysOnTop, force) => {
-        if (mainWindow === null || mainWindow === undefined || force) createWindow(x, y, alwaysOnTop)
+    let init = (force) => {
+        if (mainWindow === null || mainWindow === undefined || force) createWindow()
         else mainWindow.show()
     }
 
-    let createWindow = (x, y, alwaysOnTop) => {
+    let createWindow = () => {
         // Create the browser window.
         mainWindow = new BrowserWindow({
             show: false, // Hide the application until the page has loaded
             width: 480, 
             height: 0,
-            x: x,
-            y: y,
-            alwaysOnTop: alwaysOnTop,
+            x: sharedObject.preferences.main.position.x,
+            y: sharedObject.preferences.main.position.y,
+            alwaysOnTop: global.sharedObject.preferences.main.alwaysOnTop,
             resizable: false,
             focusable: true,
             useContentSize: true,
@@ -44,25 +44,26 @@ module.exports = (dirname) => {
         // Open the DevTools.
 //        mainWindow.webContents.openDevTools()
 
-        // Emitted when the window is closed.
-        mainWindow.on('closed', function () {
-            // Dereference the window object, usually you would store windows
-            // in an array if your app supports multi windows, this is the time
-            // when you should delete the corresponding element.
-            mainWindow = null
+        mainWindow.on('close', function () {
+            if (mainWindow) {
+                pos = mainWindow.getPosition()
+                sharedObject.preferences.main.position.x = pos[0]
+                sharedObject.preferences.main.position.y = pos[1]
+                mainWindow = null
+            }
             app.quit()
         })
 
         mainWindow.webContents.on('new-window', function(e, url) {
-            e.preventDefault();
-            shell.openExternal(url);
-        });
+            e.preventDefault()
+            shell.openExternal(url)
+        })
 
         // Show the application when the page has loaded
         mainWindow.on('ready-to-show', function() { 
-            mainWindow.show(); 
-            mainWindow.focus(); 
-        });
+            mainWindow.show()
+            mainWindow.focus()
+        })
 
         /* Context menu */
         mainWindow.webContents.on('context-menu', function(e, params){
@@ -107,7 +108,7 @@ module.exports = (dirname) => {
             height = Math.round(height * scale)
     
             mainWindow.setContentSize(width, height)
-        });
+        })
     }
 
     return {

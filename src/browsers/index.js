@@ -1,6 +1,6 @@
-module.exports = (dirname) => ({
-    main: require('./main')(dirname),
-    about: require('./about')(dirname),
-    deficiency: require('./deficiency')(dirname),
-    preferences: require('./preferences')(dirname),
+module.exports = (dirname, sharedObject) => ({
+    main: require('./main')(dirname, sharedObject),
+    about: require('./about')(dirname, sharedObject),
+    deficiency: require('./deficiency')(dirname, sharedObject),
+    preferences: require('./preferences')(dirname, sharedObject),
 })

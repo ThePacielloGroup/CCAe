@@ -123,10 +123,9 @@ app.on('ready', () => {
                     click (item, focusedWindow) {		
                         if (focusedWindow) {		
                             const {webContents} = focusedWindow		
-                            webContents.getZoomLevel((zoomLevel) => {		
-                                webContents.setZoomLevel(zoomLevel + 0.5)
-                                main.changeZoom(zoomLevel + 0.5)
-                            })		
+                            zoomLevel = webContents.getZoomLevel()
+                            webContents.setZoomLevel(zoomLevel + 0.5)
+                            main.changeZoom(zoomLevel + 0.5)
                         }		
                     }		
                 },
@@ -136,10 +135,9 @@ app.on('ready', () => {
                     click (item, focusedWindow) {		
                         if (focusedWindow) {		
                             const {webContents} = focusedWindow		
-                            webContents.getZoomLevel((zoomLevel) => {		
-                                webContents.setZoomLevel(zoomLevel - 0.5)		
-                                main.changeZoom(zoomLevel - 0.5)
-                            })		
+                            zoomLevel = webContents.getZoomLevel()
+                            webContents.setZoomLevel(zoomLevel - 0.5)		
+                            main.changeZoom(zoomLevel - 0.5)
                         }		
                     }	
                 }

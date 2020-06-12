@@ -89,26 +89,25 @@ module.exports = (dirname, sharedObject) => {
   
     let getWindow = () => mainWindow
 
-    let contentHeight = 0
+    let currentHeight = 0
     let changeZoom = () => {
-        changeSize(null, contentHeight)
+        changeSize(null, currentHeight)
     }
     
     let changeSize = (width, height) => {
-        mainWindow.webContents.getZoomLevel((zoomLevel) => {
-            contentHeight = height
-            if (process.platform === 'win32') {
-                height += 20 // Add extra height for menubar size
-            }
-            if (width === null) {
-                width = 480
-            }
-            scale = Math.pow(1.2, zoomLevel)
-            width = Math.round(width * scale)
-            height = Math.round(height * scale)
-    
-            mainWindow.setContentSize(width, height)
-        })
+        zoomLevel = mainWindow.webContents.getZoomLevel()
+        currentHeight = height
+        if (process.platform === 'win32') {
+            height += 20 // Add extra height for menubar size
+        }
+        if (width === null) {
+            width = 480
+        }
+        scale = Math.pow(1.2, zoomLevel)
+        width = Math.round(width * scale)
+        height = Math.round(height * scale)
+
+        mainWindow.setContentSize(width, height)
     }
 
     return {

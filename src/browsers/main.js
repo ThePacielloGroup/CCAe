@@ -90,11 +90,13 @@ module.exports = (dirname, sharedObject) => {
     let getWindow = () => mainWindow
 
     let currentHeight = 0
-    let changeZoom = () => {
+    let changeZoom = (zoomLevel) => {
         changeSize(null, currentHeight)
     }
     
     let changeSize = (width, height) => {
+        mainWindow.webContents.setZoomLevel(sharedObject.preferences.main.zoomLevel)
+        zoomFactor = mainWindow.webContents.getZoomFactor()
         zoomLevel = mainWindow.webContents.getZoomLevel()
         currentHeight = height
         if (process.platform === 'win32') {
@@ -103,11 +105,10 @@ module.exports = (dirname, sharedObject) => {
         if (width === null) {
             width = 480
         }
-        scale = Math.pow(1.2, zoomLevel)
-        width = Math.round(width * scale)
-        height = Math.round(height * scale)
-
+        width = Math.round(width * zoomFactor)
+        height = Math.round(height * zoomFactor)
         mainWindow.setContentSize(width, height)
+        console.log("height", currentHeight, "- heightScaled", height, "- zoomFactor", zoomFactor, "- zoomLevel", zoomLevel)
     }
 
     return {

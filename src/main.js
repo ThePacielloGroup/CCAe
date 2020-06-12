@@ -112,8 +112,8 @@ app.on('ready', () => {
                     accelerator: 'CmdOrCtrl+0',		
                     click (item, focusedWindow) {		
                         if (focusedWindow) {
-                            focusedWindow.webContents.setZoomLevel(0)
-                            main.changeZoom(0)
+                            global.sharedObject.preferences.main.zoomLevel = 0	
+                            main.changeZoom()
                         }
                     }		
                 },
@@ -121,11 +121,9 @@ app.on('ready', () => {
                     label: i18n.menuT('Zoom In'),
                     accelerator: 'CmdOrCtrl+Plus',		
                     click (item, focusedWindow) {		
-                        if (focusedWindow) {		
-                            const {webContents} = focusedWindow		
-                            zoomLevel = webContents.getZoomLevel()
-                            webContents.setZoomLevel(zoomLevel + 0.5)
-                            main.changeZoom(zoomLevel + 0.5)
+                        if (focusedWindow) {
+                            global.sharedObject.preferences.main.zoomLevel = global.sharedObject.preferences.main.zoomLevel + 0.5	
+                            main.changeZoom()
                         }		
                     }		
                 },
@@ -133,11 +131,9 @@ app.on('ready', () => {
                     label: i18n.menuT('Zoom Out'),
                     accelerator: 'CmdOrCtrl+-',		
                     click (item, focusedWindow) {		
-                        if (focusedWindow) {		
-                            const {webContents} = focusedWindow		
-                            zoomLevel = webContents.getZoomLevel()
-                            webContents.setZoomLevel(zoomLevel - 0.5)		
-                            main.changeZoom(zoomLevel - 0.5)
+                        if (focusedWindow) {
+                            global.sharedObject.preferences.main.zoomLevel = global.sharedObject.preferences.main.zoomLevel - 0.5
+                            main.changeZoom()
                         }		
                     }	
                 }
@@ -295,7 +291,8 @@ global.sharedObject = {
             },
             rounding : null,
             alwaysOnTop : null,
-            lang: 'auto'
+            lang: null,
+            zoomLevel: null,
         },
         foreground : {
             format : null,
@@ -328,6 +325,7 @@ function loadPreferences() {
     prefs.main.rounding = store.get('main.rounding', 1)
     prefs.main.alwaysOnTop = store.get('main.alwaysOnTop', true)
     prefs.main.lang = store.get('main.lang', 'auto')
+    prefs.main.zoomLevel = store.get('main.zoomLevel', 0)
     prefs.foreground.format = store.get('foreground.format', 'hex')
     prefs.background.format = store.get('background.format', 'hex')
     prefs.foreground.picker.shortcut = store.get('foreground.picker.shortcut', 'F11')

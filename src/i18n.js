@@ -7,17 +7,20 @@ const path = require("path")
 let loadedLanguage
 let languagesJSON
 let app = electron.app ? electron.app : electron.remote.app
+let localLang
 
 module.exports = i18n
 
+
 function i18n(lang) {
+    localLang = lang
     if (!lang || lang === "auto") {
-        lang = app.getLocale()
+        localLang = app.getLocale()
     }
 
     const fileext = '.json'
     const translationsPath = path.join(__dirname,'views','translations')
-    const localizedFile = path.join(translationsPath, lang + fileext)
+    const localizedFile = path.join(translationsPath, localLang + fileext)
     const fallBackFile  = path.join(translationsPath, 'en' + fileext)
 
     if (fs.existsSync(localizedFile)) {
@@ -42,4 +45,8 @@ i18n.prototype.asJSON = function() {
 
 i18n.prototype.asObject = function() {
     return loadedLanguage
+}
+
+i18n.prototype.lang = function() {
+    return localLang
 }

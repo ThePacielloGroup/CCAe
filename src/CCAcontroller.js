@@ -5,13 +5,14 @@ const CCAColor = require('./color/CCAcolor.js')
 const Store = require('electron-store')
 const store = new Store()
 
-let i18n
+let i18n, t
 
 class CCAController {
     constructor(controllers, sharedObject) {
         this.controllers = controllers
         this.sharedObject = sharedObject
-        i18n = new(require('./i18n'))(sharedObject.preferences.main.lang).asObject()
+        i18n = new(require('./i18n'))(sharedObject.preferences.main.lang)
+        t = i18n.asObject()
         this.initEvents()
     }
     
@@ -214,15 +215,17 @@ class CCAController {
 
     updateContrastRatio() {
         let rounding = this.sharedObject.preferences.main.rounding
+        console.log(i18n.asObject())
         Object.keys(this.sharedObject.deficiencies).forEach(function(key, index) {
             if (key === 'normal') {
                 this[key].contrastRatioRaw  = this[key].foregroundColor.getReal().contrast(this[key].backgroundColor)
                 let cr = this[key].contrastRatioRaw
-                let crr = Number(cr.toFixed(rounding)).toString() // toString removes trailing zero
+                let crr = Number(cr.toFixed(rounding)).toLocaleString(i18n.lang())
+                // toLocalString removes trailing zero and use the correct decimal separator, based on the app select lang.
                 this[key].contrastRatioString = `${crr}:1`
                 if ((cr >= 6.95 && cr < 7) || (cr >= 4.45 && cr < 4.5) || (cr >= 2.95 && cr < 3)) {
-                    let crr3 = Number(cr.toFixed(3)).toString()
-                    this[key].contrastRatioString = `<span class="smaller">${i18n.Main["just below"]} </span>${crr}:1<span class="smaller"> (${crr3}:1)</span>`
+                    let crr3 = Number(cr.toFixed(3)).toLocaleString(i18n.lang())
+                    this[key].contrastRatioString = `<span class="smaller">${t.Main["just below"]} </span>${crr}:1<span class="smaller"> (${crr3}:1)</span>`
                 }
                 this[key].levelAA = 'regular'
                 this[key].levelAAA = 'regular'
@@ -239,7 +242,7 @@ class CCAController {
             } else {
                 this[key].contrastRatioRaw  = this[key].foregroundColor.contrast(this[key].backgroundColor)
                 let cr = this[key].contrastRatioRaw
-                let crr = Number(cr.toFixed(rounding)).toString() // toString removes trailing zero
+                let crr = Number(cr.toFixed(rounding)).toLocaleString(i18n.lang())
                 this[key].contrastRatioString = `${crr}:1`
             }
         }, this.sharedObject.deficiencies)
@@ -258,34 +261,34 @@ class CCAController {
         let level_1_4_3, level_1_4_6, level_1_4_11
 
         if (normal.levelAA === 'large') {
-            level_1_4_3 = i18n.CopyPaste["level_1_4_3_pass_large"]
-            level_1_4_11 = i18n.CopyPaste["level_1_4_11_pass"]
+            level_1_4_3 = t.CopyPaste["level_1_4_3_pass_large"]
+            level_1_4_11 = t.CopyPaste["level_1_4_11_pass"]
         } else if (normal.levelAA === 'regular') {
-            level_1_4_3 = i18n.CopyPaste["level_1_4_3_pass_regular"]
-            level_1_4_11 = i18n.CopyPaste["level_1_4_11_pass"]
+            level_1_4_3 = t.CopyPaste["level_1_4_3_pass_regular"]
+            level_1_4_11 = t.CopyPaste["level_1_4_11_pass"]
         } else { // Fail
-            level_1_4_3 = i18n.CopyPaste["level_1_4_3_fail"]
-            level_1_4_11 = i18n.CopyPaste["level_1_4_11_fail"]
+            level_1_4_3 = t.CopyPaste["level_1_4_3_fail"]
+            level_1_4_11 = t.CopyPaste["level_1_4_11_fail"]
         }
         if (normal.levelAAA === 'large') {
-            level_1_4_6 = i18n.CopyPaste["level_1_4_6_pass_large"]
+            level_1_4_6 = t.CopyPaste["level_1_4_6_pass_large"]
         } else if (normal.levelAAA === 'regular') {
-            level_1_4_6 = i18n.CopyPaste["level_1_4_6_pass_regular"]
+            level_1_4_6 = t.CopyPaste["level_1_4_6_pass_regular"]
         } else { // Fail
-            level_1_4_6 = i18n.CopyPaste["level_1_4_6_fail"]
+            level_1_4_6 = t.CopyPaste["level_1_4_6_fail"]
         }
 
         let foregroundColorString = ((normal.foregroundColor.displayedValue)?normal.foregroundColor.displayedValue:normal.foregroundColor.getColorTextString(sharedObject.preferences['foreground'].format))
         let backgroundColorString = ((normal.backgroundColor.displayedValue)?normal.backgroundColor.displayedValue:normal.backgroundColor.getColorTextString(sharedObject.preferences['background'].format))
 
-        let text = `${i18n.CopyPaste["Foreground"]}: ${foregroundColorString}
-${i18n.CopyPaste["Background"]}: ${backgroundColorString}
-${i18n.CopyPaste["The contrast ratio is"]}: ${normal.contrastRatioString}
-${i18n.Main["1.4.3 Contrast (Minimum) (AA)"]}
+        let text = `${t.CopyPaste["Foreground"]}: ${foregroundColorString}
+${t.CopyPaste["Background"]}: ${backgroundColorString}
+${t.CopyPaste["The contrast ratio is"]}: ${normal.contrastRatioString}
+${t.Main["1.4.3 Contrast (Minimum) (AA)"]}
     ${level_1_4_3}
-${i18n.Main["1.4.6 Contrast (Enhanced) (AAA)"]}
+${t.Main["1.4.6 Contrast (Enhanced) (AAA)"]}
     ${level_1_4_6}
-${i18n.Main["1.4.11 Non-text Contrast (AA)"]}
+${t.Main["1.4.11 Non-text Contrast (AA)"]}
     ${level_1_4_11}`
 
         // sanitize output (if there's HTML, e.g. in "just below" case)

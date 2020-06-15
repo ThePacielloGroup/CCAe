@@ -215,7 +215,6 @@ class CCAController {
 
     updateContrastRatio() {
         let rounding = this.sharedObject.preferences.main.rounding
-        console.log(i18n.asObject())
         Object.keys(this.sharedObject.deficiencies).forEach(function(key, index) {
             if (key === 'normal') {
                 this[key].contrastRatioRaw  = this[key].foregroundColor.getReal().contrast(this[key].backgroundColor)

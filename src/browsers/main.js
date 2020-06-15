@@ -23,7 +23,7 @@ module.exports = (dirname, sharedObject) => {
         mainWindow = new BrowserWindow({
             show: false, // Hide the application until the page has loaded
             width: 480, 
-            height: 0,
+            height: 600,
             x: sharedObject.preferences.main.position.x,
             y: sharedObject.preferences.main.position.y,
             alwaysOnTop: global.sharedObject.preferences.main.alwaysOnTop,

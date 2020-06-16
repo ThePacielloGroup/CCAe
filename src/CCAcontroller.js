@@ -313,7 +313,8 @@ ${t.Main["1.4.11 Non-text Contrast (AA)"]}
                     this.updateContrastRatio()
                 break;
                 case 'main.lang':
-                    i18n = new(require('./i18n'))(sharedObject.preferences.main.lang).asObject()
+                    i18n = new(require('./i18n'))(sharedObject.preferences.main.lang)
+                    t = i18n.asObject()
                     this.sendEventToAll('langChanged')
                     this.updateContrastRatio()
                 break;

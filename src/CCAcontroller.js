@@ -1,15 +1,13 @@
 const { ipcMain, clipboard, globalShortcut } = require('electron')
 const { getColorHexRGB } = require('./picker/index.js')
-const { checkForUpdates, setUpdatesDisabled } = require('./update.js')
+
 const CCAColor = require('./color/CCAcolor.js')
-const Store = require('electron-store')
-const store = new Store()
 
 let i18n, t
 
 class CCAController {
-    constructor(controllers, sharedObject) {
-        this.controllers = controllers
+    constructor(sendEventToAll, sharedObject) {
+        this.sendEventToAll = sendEventToAll
         this.sharedObject = sharedObject
         i18n = new(require('./i18n'))(sharedObject.preferences.main.lang)
         t = i18n.asObject()
@@ -29,7 +27,6 @@ class CCAController {
         ipcMain.on('changeFromHSVComponent', this.updateHSVComponent.bind(this))
         ipcMain.on('changeFromString', this.updateFromString.bind(this))
         ipcMain.on('switchColors', this.switchColors.bind(this))
-        ipcMain.on('setPreference', this.setPreference.bind(this))
         ipcMain.on('showPicker', this.showPicker.bind(this))
     }
 
@@ -43,6 +40,12 @@ class CCAController {
             this.updateFromString(null, section, hexColor)
         }
         this.sendEventToAll('pickerTogglled', section, false)
+    }
+
+    updateLanguage() {
+        i18n = new(require('./i18n'))(this.sharedObject.preferences.main.lang)
+        t = i18n.asObject()
+        this.updateContrastRatio()
     }
 
     updateRGBComponent(event, section, component, value, synced = false) {
@@ -248,13 +251,6 @@ class CCAController {
         this.sendEventToAll('contrastRatioChanged')
     }
 
-    sendEventToAll(event, ...params) {
-        const controllers = this.controllers
-        Object.keys(controllers).map(function(key, index) {
-            controllers[key].sendEvent(event, ...params)
-        });
-    }
-
     copyResults() {
         let normal = this.sharedObject.deficiencies.normal
         let level_1_4_3, level_1_4_6, level_1_4_11
@@ -293,46 +289,6 @@ ${t.Main["1.4.11 Non-text Contrast (AA)"]}
         // sanitize output (if there's HTML, e.g. in "just below" case)
         text = text.replace(/<[^>]*>?/g, '')
         clipboard.writeText(text)
-    }
-
-    setPreference(event, value, section, level, sublevel) {
-        var option, oldValue
-        if (sublevel) {
-            oldValue = this.sharedObject.preferences[section][level][sublevel]
-            this.sharedObject.preferences[section][level][sublevel] = value
-            option = section + '.' + level + '.' + sublevel
-        } else {
-            oldValue = this.sharedObject.preferences[section][level]
-            this.sharedObject.preferences[section][level] = value
-            option = section + '.' + level   
-        }
-        if (value != oldValue) {
-            store.set(option, value)
-            switch(option) {
-                case 'main.rounding':
-                    this.updateContrastRatio()
-                break;
-                case 'main.lang':
-                    i18n = new(require('./i18n'))(sharedObject.preferences.main.lang)
-                    t = i18n.asObject()
-                    this.sendEventToAll('langChanged')
-                    this.updateContrastRatio()
-                break;
-                case 'foreground.picker.shortcut':
-                    this.updateShortcut(option, oldValue, value)
-                break;
-                case 'background.picker.shortcut':
-                    this.updateShortcut(option, oldValue, value)
-                break;
-                case 'main.checkForUpdates':
-                    if (value === true) {
-                        checkForUpdates()
-                    } else {
-                        setUpdatesDisabled()
-                    }
-                break;
-            }
-        }
     }
 
     updateShortcut(shortcut, oldValue, newValue) {

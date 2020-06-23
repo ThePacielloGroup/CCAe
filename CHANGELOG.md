@@ -6,9 +6,9 @@
 - [Windows: Changing slider values is not announced in NVDA](https://github.com/ThePacielloGroup/CCAe/issues/37)
 - [Windows: Downloaded installer from GitHub triggers Windows Defender SmartScreen](https://github.com/ThePacielloGroup/CCAe/issues/66)
 
-## [v3.1.0](https://github.com/ThePacielloGroup/CCAe/tree/v3.1.0) (2020-06-15)
+## [v3.1.1](https://github.com/ThePacielloGroup/CCAe/tree/v3.1.1) (2020-06-23)
 
-[Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.0.1...v3.1.0)
+[Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.0.1...v3.1.1)
 
 **Implemented enhancements:**
 

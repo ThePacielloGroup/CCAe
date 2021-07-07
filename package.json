@@ -10,21 +10,22 @@
         "dist": "electron-builder",
         "dist-portable32": "electron-builder --win portable --ia32"
     },
-    "author": "Cédric Trévisan <ctrevisan@paciellogroup.com>",
+    "author": "Cédric Trévisan <ctrevisan@tpgi.com>",
     "license": "GPL-3.0",
     "devDependencies": {
-        "cross-env": "^5.2.0",
-        "electron": "9.3.3",
-        "electron-builder": "22.9.1",
+        "cross-env": "^7.0.3",
+        "electron": "^9.4.4",
+        "electron-builder": "^22.11.7",
         "electron-notarize": "1.0.0"
     },
     "dependencies": {
         "color-blind": "^0.1.1",
         "color-convert": "^2.0.1",
         "color-name": "^1.1.4",
+        "dotenv": "^10.0.0",
         "electron-log": "^2.2.17",
-        "electron-store": "^2.0.0",
-        "electron-updater": "4.0.0",
+        "electron-store": "^8.0.0",
+        "electron-updater": "^4.3.9",
         "focus-visible": "^4.1.5",
         "simple-swizzle": "^0.2.2"
     },
@@ -32,7 +33,7 @@
         "appId": "com.electron.cca",
         "productName": "Colour Contrast Analyser (CCA)",
         "compression": "maximum",
-        "copyright": "Copyright © 2019 TPG",
+        "copyright": "Copyright © 2021 TPG",
         "directories": {},
         "files": [
             "**/*"
@@ -57,7 +58,7 @@
         "win": {
             "icon": "build/icon.ico",
             "publisherName": [
-                "The Paciello Group, LLC"
+                "TPG Interactive, LLC"
             ],
             "target": [
                 {

@@ -1,40 +1,42 @@
-const { ipcRenderer, remote } = require('electron')
+const { ipcRenderer } = require('electron')
 const sharedObject = require('electron').remote.getGlobal('sharedObject')
 
-document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-preferences'), false)
+ipcRenderer.invoke('get-global-shared').then((sharedObject) => {
+    document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-preferences'), false)
 
-ipcRenderer.on('init', (event, config) => {
-    document.getElementById('option-rounding').value = sharedObject.preferences.main.rounding
-    document.getElementById('option-checkForUpdates').checked = sharedObject.preferences.main.checkForUpdates
-    document.getElementById('option-lang').value = sharedObject.preferences.main.lang
-    document.getElementById('shortcut-foreground-picker').value = sharedObject.preferences.foreground.picker.shortcut
-    document.getElementById('shortcut-background-picker').value = sharedObject.preferences.background.picker.shortcut
+    ipcRenderer.on('init', (event, config) => {
+        document.getElementById('option-rounding').value = sharedObject.preferences.main.rounding
+        document.getElementById('option-checkForUpdates').checked = sharedObject.preferences.main.checkForUpdates
+        document.getElementById('option-lang').value = sharedObject.preferences.main.lang
+        document.getElementById('shortcut-foreground-picker').value = sharedObject.preferences.foreground.picker.shortcut
+        document.getElementById('shortcut-background-picker').value = sharedObject.preferences.background.picker.shortcut
 
-    translateHTML(config.i18n)
-})
+        translateHTML(config.i18n)
+    })
 
-document.getElementById('save').addEventListener('click', function () {
-    var rounding = document.getElementById('option-rounding').value
-    if (rounding != sharedObject.preferences.main.rounding) {
-        ipcRenderer.send('setPreference', rounding, 'main', 'rounding')
-    }
-    var checkForUpdates = document.getElementById('option-checkForUpdates').checked
-    if (checkForUpdates != sharedObject.preferences.main.checkForUpdates) {
-        ipcRenderer.send('setPreference', checkForUpdates, 'main', 'checkForUpdates')
-    } 
-    var lang = document.getElementById('option-lang').value
-    if (lang != sharedObject.preferences.main.lang) {
-        ipcRenderer.send('setPreference', lang, 'main', 'lang')
-    }
-    var foregroundPickerShortcut = document.getElementById('shortcut-foreground-picker').value
-    if (foregroundPickerShortcut != sharedObject.preferences.foreground.picker.shortcut) {
-        ipcRenderer.send('setPreference', foregroundPickerShortcut, 'foreground', 'picker', 'shortcut')
-    } 
-    var backgroundPickerShortcut = document.getElementById('shortcut-background-picker').value
-    if (backgroundPickerShortcut != sharedObject.preferences.background.picker.shortcut) {
-        ipcRenderer.send('setPreference', backgroundPickerShortcut, 'background', 'picker', 'shortcut')
-    } 
-    close()
+    document.getElementById('save').addEventListener('click', function () {
+        var rounding = document.getElementById('option-rounding').value
+        if (rounding != sharedObject.preferences.main.rounding) {
+            ipcRenderer.send('setPreference', rounding, 'main', 'rounding')
+        }
+        var checkForUpdates = document.getElementById('option-checkForUpdates').checked
+        if (checkForUpdates != sharedObject.preferences.main.checkForUpdates) {
+            ipcRenderer.send('setPreference', checkForUpdates, 'main', 'checkForUpdates')
+        } 
+        var lang = document.getElementById('option-lang').value
+        if (lang != sharedObject.preferences.main.lang) {
+            ipcRenderer.send('setPreference', lang, 'main', 'lang')
+        }
+        var foregroundPickerShortcut = document.getElementById('shortcut-foreground-picker').value
+        if (foregroundPickerShortcut != sharedObject.preferences.foreground.picker.shortcut) {
+            ipcRenderer.send('setPreference', foregroundPickerShortcut, 'foreground', 'picker', 'shortcut')
+        } 
+        var backgroundPickerShortcut = document.getElementById('shortcut-background-picker').value
+        if (backgroundPickerShortcut != sharedObject.preferences.background.picker.shortcut) {
+            ipcRenderer.send('setPreference', backgroundPickerShortcut, 'background', 'picker', 'shortcut')
+        } 
+        close()
+    })
 })
 
 document.getElementById('cancel').addEventListener('click', function () {
@@ -42,8 +44,7 @@ document.getElementById('cancel').addEventListener('click', function () {
 })
 
 function close() {
-    var win = remote.getCurrentWindow()
-    win.close()
+    window.close()
 }
 
 function translateHTML(i18n) {

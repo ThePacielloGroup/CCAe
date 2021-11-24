@@ -186,9 +186,14 @@ global.sharedObject = {
                 open : null,
                 tab : null
             }
-        },
+        }
     }
 }
+
+// Provide the global data for renderers
+ipcMain.handle('get-global-shared', async (event) => {
+    return global.sharedObject
+})
 
 function loadPreferences() {
     prefs = global.sharedObject.preferences

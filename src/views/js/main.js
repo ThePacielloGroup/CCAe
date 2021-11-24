@@ -1,69 +1,73 @@
 const { ipcRenderer } = require('electron')
-const sharedObject = require('electron').remote.getGlobal('sharedObject')
 const CCAColor = require('../../color/CCAcolor.js')
 
-document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-app'), false)
+let sharedObject
 let i18n
 
-ipcRenderer.on('init', (event, config) => {
-    i18n = config.i18n
-    translateHTML(i18n)
-
-    applyColor('foreground')
-    applyColor('background')
-    applyContrastRatio()
-
-    // init format selector
-    document.querySelector('#foreground-color .format-selector').value = sharedObject.preferences.foreground.format
-    document.querySelector('#background-color .format-selector').value = sharedObject.preferences.background.format
-
-    // init sliders state
-    showHide(document.querySelector('#foreground-color .sliders'), sharedObject.preferences.foreground.sliders.open)
-    showHide(document.querySelector('#background-color .sliders'), sharedObject.preferences.background.sliders.open)
-
-    // init tabs
-    var tab = document.querySelector(`#foreground-sliders a[data-tab="${sharedObject.preferences.foreground.sliders.tab}"]`)
-    tab.setAttribute('aria-selected', 'true');      
-    var controls = tab.getAttribute('aria-controls');
-    document.getElementById(controls).removeAttribute('hidden');
-    var tab = document.querySelector(`#background-sliders a[data-tab="${sharedObject.preferences.background.sliders.tab}"]`)
-    tab.setAttribute('aria-selected', 'true');      
-    var controls = tab.getAttribute('aria-controls');
-    document.getElementById(controls).removeAttribute('hidden');
-
-    var mainHeight = document.querySelector('main').clientHeight;
-    ipcRenderer.send('height-changed', mainHeight)
+ipcRenderer.invoke('get-global-shared').then((result) => {
+    sharedObject = result
+    document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-app'), false)
     
-    initTabs("#foreground-sliders", (el)=>{
-        sharedObject.preferences.foreground.sliders.tab = el.getAttribute('data-tab')
-        var mainHeight = document.querySelector('main').clientHeight
+    ipcRenderer.on('init', (event, config) => {
+        i18n = config.i18n
+        translateHTML(i18n)
+
+        applyColor('foreground')
+        applyColor('background')
+        applyContrastRatio()
+
+        // init format selector
+        document.querySelector('#foreground-color .format-selector').value = sharedObject.preferences.foreground.format
+        document.querySelector('#background-color .format-selector').value = sharedObject.preferences.background.format
+
+        // init sliders state
+        showHide(document.querySelector('#foreground-color .sliders'), sharedObject.preferences.foreground.sliders.open)
+        showHide(document.querySelector('#background-color .sliders'), sharedObject.preferences.background.sliders.open)
+
+        // init tabs
+        var tab = document.querySelector(`#foreground-sliders a[data-tab="${sharedObject.preferences.foreground.sliders.tab}"]`)
+        tab.setAttribute('aria-selected', 'true');      
+        var controls = tab.getAttribute('aria-controls');
+        document.getElementById(controls).removeAttribute('hidden');
+        var tab = document.querySelector(`#background-sliders a[data-tab="${sharedObject.preferences.background.sliders.tab}"]`)
+        tab.setAttribute('aria-selected', 'true');      
+        var controls = tab.getAttribute('aria-controls');
+        document.getElementById(controls).removeAttribute('hidden');
+
+        var mainHeight = document.querySelector('main').clientHeight;
         ipcRenderer.send('height-changed', mainHeight)
+        
+        initTabs("#foreground-sliders", (el)=>{
+            sharedObject.preferences.foreground.sliders.tab = el.getAttribute('data-tab')
+            var mainHeight = document.querySelector('main').clientHeight
+            ipcRenderer.send('height-changed', mainHeight)
+        })
+        initTabs("#background-sliders", (el)=>{
+            sharedObject.preferences.background.sliders.tab = el.getAttribute('data-tab')
+            var mainHeight = document.querySelector('main').clientHeight
+            ipcRenderer.send('height-changed', mainHeight)
+        })
+
+        initEvents()
     })
-    initTabs("#background-sliders", (el)=>{
-        sharedObject.preferences.background.sliders.tab = el.getAttribute('data-tab')
-        var mainHeight = document.querySelector('main').clientHeight
-        ipcRenderer.send('height-changed', mainHeight)
+
+    ipcRenderer.on('colorChanged', (event, section) => {
+        applyColor(section)
     })
 
-    initEvents()
-})
+    ipcRenderer.on('contrastRatioChanged', event => {
+        applyContrastRatio()
+    })
 
-ipcRenderer.on('colorChanged', (event, section) => {
-    applyColor(section)
-})
+    ipcRenderer.on('langChanged', (event, i18nNew) => {
+        i18n = i18nNew
+        translateHTML(i18n)
+        applyContrastRatio()
+    })
 
-ipcRenderer.on('contrastRatioChanged', event => {
-    applyContrastRatio()
-})
-
-ipcRenderer.on('langChanged', (event, i18nNew) => {
-    i18n = i18nNew
-    translateHTML(i18n)
-    applyContrastRatio()
-})
-
-ipcRenderer.on('pickerTogglled', (event, section, state) => {
-    document.querySelector('#' + section + '-color .picker').setAttribute('aria-pressed', state)
+    ipcRenderer.on('pickerTogglled', (event, section, state) => {
+        document.querySelector('#' + section + '-color .picker').setAttribute('aria-pressed', state)
+    })
 })
 
 function initEvents () {

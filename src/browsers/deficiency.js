@@ -22,7 +22,8 @@ module.exports = (dirname, sharedObject) => {
       alwaysOnTop: true,
       autoHideMenuBar: true,
       webPreferences: {
-        nodeIntegration: true
+        nodeIntegration: true,
+        contextIsolation: false
       }
     })
 

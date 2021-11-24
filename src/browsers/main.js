@@ -31,7 +31,8 @@ module.exports = (dirname, sharedObject) => {
             focusable: true,
             useContentSize: true,
             webPreferences: {
-                nodeIntegration: true
+                nodeIntegration: true,
+                contextIsolation: false
             }
         })
         // and load the index.html of the app.

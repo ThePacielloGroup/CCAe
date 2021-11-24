@@ -1,9 +1,10 @@
 const {ipcMain, app} = require('electron')
 
-module.exports = (browsers, sharedObject) => {
+module.exports = (browsers, preferences) => {
     const {about} = browsers
-    ipcMain.on('init-about', () => {
-        const i18n = new(require('../i18n'))(sharedObject.preferences.main.lang)
+    ipcMain.on('init-about', async () => {
+        const lang = await preferences.get('main.lang')
+        const i18n = new(require('../i18n'))(lang)
         let config = {
             version: app.getVersion(),
             i18n: i18n.asObject().About
@@ -11,13 +12,14 @@ module.exports = (browsers, sharedObject) => {
         sendEvent('init', config)
     })
 
-    let sendEvent = (event, ...params) => {
+    let sendEvent = async (event, ...params) => {
         const win = about.getWindow()
         if (win) {
 
         switch(event) {
             case 'langChanged':
-                const i18n = new(require('../i18n'))(sharedObject.preferences.main.lang)
+                const lang = await preferences.get('main.lang')
+                const i18n = new(require('../i18n'))(lang)
                 win.webContents.send(event, i18n.asObject().About)
                 break
             default:

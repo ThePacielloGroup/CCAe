@@ -2,7 +2,7 @@ const {app, BrowserWindow, shell, Menu, MenuItem} = require('electron')
 const path = require('path')
 const url = require('url')
 
-module.exports = (dirname, sharedObject) => {
+module.exports = (dirname, preferences) => {
     // Keep a global reference of the window object, if you don't, the window will
     // be closed automatically when the JavaScript object is garbage collected.
     let mainWindow
@@ -18,15 +18,19 @@ module.exports = (dirname, sharedObject) => {
         else mainWindow.show()
     }
 
-    let createWindow = () => {
+    let createWindow = async () => {
+        const x = await preferences.get('main.position.x')
+        const y = await preferences.get('main.position.y')
+        const alwaysOnTop = await preferences.get('main.alwaysOnTop')
+        
         // Create the browser window.
         mainWindow = new BrowserWindow({
             show: false, // Hide the application until the page has loaded
             width: 480, 
             height: 600,
-            x: sharedObject.preferences.main.position.x,
-            y: sharedObject.preferences.main.position.y,
-            alwaysOnTop: global.sharedObject.preferences.main.alwaysOnTop,
+            x,
+            y,
+            alwaysOnTop,
             resizable: false,
             focusable: true,
             useContentSize: true,
@@ -48,8 +52,8 @@ module.exports = (dirname, sharedObject) => {
         mainWindow.on('close', function () {
             if (mainWindow) {
                 pos = mainWindow.getPosition()
-                sharedObject.preferences.main.position.x = pos[0]
-                sharedObject.preferences.main.position.y = pos[1]
+                preferences.set('main.position.x', pos[0])
+                preferences.set('main.position.y', pos[1])
                 mainWindow = null
             }
             app.quit()

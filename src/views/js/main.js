@@ -1,73 +1,77 @@
 const { ipcRenderer } = require('electron')
 const CCAColor = require('../../color/CCAcolor.js')
+const GlobalStorage = require('../../globalStorage.js')
 
-let sharedObject
-let i18n
+let i18n, preferences
 
-ipcRenderer.invoke('get-global-shared').then((result) => {
-    sharedObject = result
-    document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-app'), false)
+document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-app'), false)
     
-    ipcRenderer.on('init', (event, config) => {
-        i18n = config.i18n
-        translateHTML(i18n)
+ipcRenderer.on('init', async (event, config) => {
+    preferences = new GlobalStorage(window)
+    i18n = config.i18n
+    translateHTML(i18n)
 
-        applyColor('foreground')
-        applyColor('background')
-        applyContrastRatio()
+    applyColor('foreground')
+    applyColor('background')
+    applyContrastRatio()
 
-        // init format selector
-        document.querySelector('#foreground-color .format-selector').value = sharedObject.preferences.foreground.format
-        document.querySelector('#background-color .format-selector').value = sharedObject.preferences.background.format
+    // init format selector
+    const foregroundFormat = await preferences.get('foreground.format')
+    document.querySelector('#foreground-color .format-selector').value = foregroundFormat
+    const backgroundFormat = await preferences.get('background.format')
+    document.querySelector('#background-color .format-selector').value = backgroundFormat
 
-        // init sliders state
-        showHide(document.querySelector('#foreground-color .sliders'), sharedObject.preferences.foreground.sliders.open)
-        showHide(document.querySelector('#background-color .sliders'), sharedObject.preferences.background.sliders.open)
+    // init sliders state
+    const foregroundSlidersOpen = await preferences.get('foreground.sliders.open')
+    showHide(document.querySelector('#foreground-color .sliders'), foregroundSlidersOpen)
+    const backgroundSlidersOpen = await preferences.get('background.sliders.open')
+    showHide(document.querySelector('#background-color .sliders'), backgroundSlidersOpen)
 
-        // init tabs
-        var tab = document.querySelector(`#foreground-sliders a[data-tab="${sharedObject.preferences.foreground.sliders.tab}"]`)
-        tab.setAttribute('aria-selected', 'true');      
-        var controls = tab.getAttribute('aria-controls');
-        document.getElementById(controls).removeAttribute('hidden');
-        var tab = document.querySelector(`#background-sliders a[data-tab="${sharedObject.preferences.background.sliders.tab}"]`)
-        tab.setAttribute('aria-selected', 'true');      
-        var controls = tab.getAttribute('aria-controls');
-        document.getElementById(controls).removeAttribute('hidden');
+    // init tabs
+    const foregroundSlidersTab = await preferences.get('foreground.sliders.tab')
+    var tab = document.querySelector(`#foreground-sliders a[data-tab="${foregroundSlidersTab}"]`)
+    tab.setAttribute('aria-selected', 'true');      
+    var controls = tab.getAttribute('aria-controls');
+    document.getElementById(controls).removeAttribute('hidden');
+    const backgroundSlidersTab = await preferences.get('background.sliders.tab')
+    var tab = document.querySelector(`#background-sliders a[data-tab="${backgroundSlidersTab}"]`)
+    tab.setAttribute('aria-selected', 'true');      
+    var controls = tab.getAttribute('aria-controls');
+    document.getElementById(controls).removeAttribute('hidden');
 
-        var mainHeight = document.querySelector('main').clientHeight;
+    var mainHeight = document.querySelector('main').clientHeight;
+    ipcRenderer.send('height-changed', mainHeight)
+    
+    initTabs("#foreground-sliders", (el)=>{
+        preferences.set('foreground.sliders.tab', el.getAttribute('data-tab'))
+        var mainHeight = document.querySelector('main').clientHeight
         ipcRenderer.send('height-changed', mainHeight)
-        
-        initTabs("#foreground-sliders", (el)=>{
-            sharedObject.preferences.foreground.sliders.tab = el.getAttribute('data-tab')
-            var mainHeight = document.querySelector('main').clientHeight
-            ipcRenderer.send('height-changed', mainHeight)
-        })
-        initTabs("#background-sliders", (el)=>{
-            sharedObject.preferences.background.sliders.tab = el.getAttribute('data-tab')
-            var mainHeight = document.querySelector('main').clientHeight
-            ipcRenderer.send('height-changed', mainHeight)
-        })
-
-        initEvents()
+    })
+    initTabs("#background-sliders", (el)=>{
+        preferences.set('background.sliders.tab', el.getAttribute('data-tab'))
+        var mainHeight = document.querySelector('main').clientHeight
+        ipcRenderer.send('height-changed', mainHeight)
     })
 
-    ipcRenderer.on('colorChanged', (event, section) => {
-        applyColor(section)
-    })
+    initEvents()
+})
 
-    ipcRenderer.on('contrastRatioChanged', event => {
-        applyContrastRatio()
-    })
+ipcRenderer.on('colorChanged', (event, section) => {
+    applyColor(section)
+})
 
-    ipcRenderer.on('langChanged', (event, i18nNew) => {
-        i18n = i18nNew
-        translateHTML(i18n)
-        applyContrastRatio()
-    })
+ipcRenderer.on('contrastRatioChanged', event => {
+    applyContrastRatio()
+})
 
-    ipcRenderer.on('pickerTogglled', (event, section, state) => {
-        document.querySelector('#' + section + '-color .picker').setAttribute('aria-pressed', state)
-    })
+ipcRenderer.on('langChanged', (event, i18nNew) => {
+    i18n = i18nNew
+    translateHTML(i18n)
+    applyContrastRatio()
+})
+
+ipcRenderer.on('pickerTogglled', (event, section, state) => {
+    document.querySelector('#' + section + '-color .picker').setAttribute('aria-pressed', state)
 })
 
 function initEvents () {
@@ -167,7 +171,7 @@ function numberHSVOnInput(section, component, value) {
 
 function showHideSliders(section, el) {
     let state = (el.getAttribute('aria-expanded') === 'true')
-    sharedObject.preferences[section].sliders.open = !state
+    preferences.set(`${section}.sliders.open`, !state)
     showHide(el)
 }
 
@@ -190,7 +194,6 @@ function showHide(el, force) {
 
 function applyColor(section) {
     let color = sharedObject.deficiencies.normal[section + "Color"]
-
     applyColorPreview(section, color)
     applyColorTextString(section, color)
     applyColorRGBSliders(section, color)
@@ -199,11 +202,11 @@ function applyColor(section) {
     applyColorSample(section, color)
 }
 
-function applyColorTextString(section, color) {
+async function applyColorTextString(section, color) {
     /* Only change the text input if this isn't the current focused element */
     const textInput = document.querySelector('#' + section + '-color input.free-value')
     if (textInput != document.activeElement) {
-        format = sharedObject.preferences[section].format
+        const format = await preferences.get(`${section}.format`)
         textInput.value = color.getColorTextString(format)
         const formatSelector =  document.querySelector('#' + section + '-format-selector')
         const freeFormat =  document.querySelector('#' + section + '-free-format')    
@@ -215,6 +218,8 @@ function applyColorTextString(section, color) {
 }
 
 function applyColorPreview(section, color) {
+    console.log(color)
+    console.log(JSON.stringify(color))
     const colorRGB = color.getReal().rgb().string()
     const name = color.getReal().keyword()
     const isDark = color.getReal().isDark()
@@ -342,7 +347,7 @@ function validateText(section, value, formats) {
         }
     }
     if (format) {
-        ipcRenderer.send('setPreference', format, section, 'format')
+        preferences.set(`${section}.format`, format)
     }
     displayValidate(section, format, string)
 }
@@ -381,7 +386,7 @@ function leaveText(section, el) {
 
 function changeFormat(section, el) {
     // We send the selected format to the controller for saving and sharedObject update
-    ipcRenderer.send('setPreference', el.value, section, 'format')
+    preferences.set(`${section}.format`, el.value)
     // Then we update the current text field
     let color = sharedObject.deficiencies.normal[section + "Color"]
     applyColorTextString(section, color)

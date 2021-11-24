@@ -3,18 +3,20 @@ const { getColorHexRGB } = require('./picker/index.js')
 
 const CCAColor = require('./color/CCAcolor.js')
 
-let i18n, t
+let i18n, t, preferences
 
 class CCAController {
-    constructor(sendEventToAll, sharedObject) {
+    constructor(sendEventToAll, preferences) {
+        this.preferences = preferences
         this.sendEventToAll = sendEventToAll
-        this.sharedObject = sharedObject
-        i18n = new(require('./i18n'))(sharedObject.preferences.main.lang)
-        t = i18n.asObject()
-        this.initEvents()
+        this.init()
     }
     
-    initEvents() {
+    async init() {
+        const lang = await this.preferences.get('main.lang')
+        i18n = new(require('./i18n'))(lang)
+        t = i18n.asObject()
+
         ipcMain.on('init-app', event => {
             this.updateDeficiency('foreground')
             this.updateDeficiency('background')
@@ -43,7 +45,7 @@ class CCAController {
     }
 
     updateLanguage() {
-        i18n = new(require('./i18n'))(this.sharedObject.preferences.main.lang)
+        i18n = new(require('./i18n'))(preferences.get('main.lang'))
         t = i18n.asObject()
         this.updateContrastRatio()
     }
@@ -216,8 +218,8 @@ class CCAController {
         this.sharedObject.deficiencies.achromatomaly[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].achromatomaly()
     }
 
-    updateContrastRatio() {
-        let rounding = this.sharedObject.preferences.main.rounding
+    async updateContrastRatio() {
+        const rounding = await preferences.get('main.rounding')
         Object.keys(this.sharedObject.deficiencies).forEach(function(key, index) {
             if (key === 'normal') {
                 this[key].contrastRatioRaw  = this[key].foregroundColor.getReal().contrast(this[key].backgroundColor)
@@ -292,6 +294,7 @@ ${t.Main["1.4.11 Non-text Contrast (AA)"]}
     }
 
     updateShortcut(shortcut, oldValue, newValue) {
+        console.log(shortcut, oldValue, newValue)
         if (oldValue) {
             globalShortcut.unregister(oldValue)
         }

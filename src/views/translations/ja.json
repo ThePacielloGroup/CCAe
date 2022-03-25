@@ -138,7 +138,6 @@
         "level_1_4_6_pass_regular": "Pass for large and regular text",
         "level_1_4_6_fail": "Fail for large and regular text",
         "Foreground": "Foreground",
-        "Background": "Background",
-        "The contrast ratio is": "The contrast ratio is"
+        "Background": "Background"
     }
 }

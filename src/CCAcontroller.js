@@ -2,25 +2,60 @@ const { ipcMain, clipboard, globalShortcut } = require('electron')
 const { getColorHexRGB } = require('./picker/index.js')
 
 const CCAColor = require('./color/CCAcolor.js')
+const white = CCAColor.rgb(0, 0, 0)
+const black = CCAColor.rgb(255, 255, 255)
 
-let i18n, t
+let i18n, t, preferences
 
 class CCAController {
-    constructor(sendEventToAll, sharedObject) {
+    constructor(sendEventToAll, preferences) {
+        this.preferences = preferences
         this.sendEventToAll = sendEventToAll
-        this.sharedObject = sharedObject
-        i18n = new(require('./i18n'))(sharedObject.preferences.main.lang)
-        t = i18n.asObject()
-        this.initEvents()
+        this.sharedObject = {
+            'general.foregroundColor': white,
+            'general.backgroundColor': black,
+            'general.contrastRatioRaw': 0,
+            'general.levelAA': 'regular',
+            'general.levelAAA': 'regular',
+            'achromatopsia.foregroundColor': null,
+            'achromatopsia.backgroundColor': null,
+            'achromatopsia.contrastRatioRaw': 0,
+            'achromatomaly.foregroundColor': null,
+            'achromatomaly.backgroundColor': null,
+            'achromatomaly.contrastRatioRaw': 0,
+            'protanopia.foregroundColor': null,
+            'protanopia.backgroundColor': null,
+            'protanopia.contrastRatioRaw': 0,
+            'deuteranopia.foregroundColor': null,
+            'deuteranopia.backgroundColor': null,
+            'deuteranopia.contrastRatioRaw': 0,
+            'tritanopia.foregroundColor': null,
+            'tritanopia.backgroundColor': null,
+            'tritanopia.contrastRatioRaw': 0,
+            'protanomaly.foregroundColor': null,
+            'protanomaly.backgroundColor': null,
+            'protanomaly.contrastRatioRaw': 0,
+            'deuteranomaly.foregroundColor': null,
+            'deuteranomaly.backgroundColor': null,
+            'deuteranomaly.contrastRatioRaw': 0,
+            'tritanomaly.foregroundColor': null,
+            'tritanomaly.backgroundColor': null,
+            'tritanomaly.contrastRatioRaw': 0,
+        }
+        this.init()
     }
     
-    initEvents() {
+    async init() {
+        const lang = await this.preferences.get('main.lang')
+        i18n = new(require('./i18n'))(lang)
+        t = i18n.asObject()
+
         ipcMain.on('init-app', event => {
             this.updateDeficiency('foreground')
             this.updateDeficiency('background')
             this.updateContrastRatio()
-            this.sendEventToAll('colorChanged', 'foreground')        
-            this.sendEventToAll('colorChanged', 'background')
+            this.updateColor('foreground')
+            this.updateColor('background')
         })
         ipcMain.on('changeFromRGBComponent', this.updateRGBComponent.bind(this))
         ipcMain.on('changeFromHSLComponent', this.updateHSLComponent.bind(this))
@@ -28,6 +63,12 @@ class CCAController {
         ipcMain.on('changeFromString', this.updateFromString.bind(this))
         ipcMain.on('switchColors', this.switchColors.bind(this))
         ipcMain.on('showPicker', this.showPicker.bind(this))
+        ipcMain.handle('getColorObject', (event, section) => {
+            return this.getColorObject(section)
+        })
+        ipcMain.handle('getContrastRatioObject', (event) => {
+            return this.updateContrastRatio()
+        })
     }
 
     async showPicker(event, section) {
@@ -43,7 +84,7 @@ class CCAController {
     }
 
     updateLanguage() {
-        i18n = new(require('./i18n'))(this.sharedObject.preferences.main.lang)
+        i18n = new(require('./i18n'))(preferences.get('main.lang'))
         t = i18n.asObject()
         this.updateContrastRatio()
     }
@@ -59,7 +100,7 @@ class CCAController {
             if (value < 0) value = 0    
         }
 
-        let color = this.sharedObject.deficiencies.normal[section + 'Color']
+        let color = this.sharedObject[`general.${section}Color`]
 
         let dist
         if (synced && component !== "alpha") {
@@ -103,7 +144,7 @@ class CCAController {
                 color = color.alpha(value)
             }    
         }
-        this.sharedObject.deficiencies.normal[section + 'Color'] = color
+        this.sharedObject[`general.${section}Color`] = color
         this.updateGlobal(section)
     }
 
@@ -122,7 +163,7 @@ class CCAController {
             if (value < 0) value = 0    
         }
 
-        let color = this.sharedObject.deficiencies.normal[section + 'Color']
+        let color = this.sharedObject[`general.${section}Color`]
 
         if (component === "hue") {
             color = color.hue(value)
@@ -134,7 +175,7 @@ class CCAController {
             color = color.alpha(value)
         }
 
-        this.sharedObject.deficiencies.normal[section + 'Color'] = color.hsl()
+        this.sharedObject[`general.${section}Color`] = color.hsl()
         this.updateGlobal(section)    
     }
 
@@ -153,7 +194,7 @@ class CCAController {
             if (value < 0) value = 0    
         }
 
-        let color = this.sharedObject.deficiencies.normal[section + 'Color']
+        let color = this.sharedObject[`general.${section}Color`]
 
         if (component === "hue") {
             color = color.hue(value)
@@ -165,13 +206,13 @@ class CCAController {
             color = color.alpha(value)
         }
 
-        this.sharedObject.deficiencies.normal[section + 'Color'] = color.hsv()
+        this.sharedObject[`general.${section}Color`] = color.hsv()
         this.updateGlobal(section)    
     }
 
     updateFromString(event, section, stringColor) {
         try {
-            this.sharedObject.deficiencies.normal[section + "Color"] = CCAColor(stringColor)
+            this.sharedObject[`general.${section}Color`] = CCAColor(stringColor)
         }
         catch(error) {
             console.error(error)
@@ -179,106 +220,154 @@ class CCAController {
         this.updateGlobal(section)
     }
 
-    updateGlobal(section, stringValue) {
-        this.sharedObject.deficiencies.normal[section + "Color"].displayedValue = stringValue
-        this.sharedObject.deficiencies.normal.foregroundColor.setReal(this.sharedObject.deficiencies.normal.backgroundColor)
+    updateGlobal(section) {
+        this.sharedObject[`general.foregroundColor`].setReal(this.sharedObject[`general.backgroundColor`])
         this.updateDeficiency(section)
-        if (section == 'background' && this.sharedObject.deficiencies.normal.foregroundColor.alpha() !== 1) { // Then mixed has changed
+        if (section == 'background' && this.sharedObject[`general.foregroundColor`].alpha() !== 1) { // Then mixed has changed
             this.updateDeficiency('foreground')
         }
         this.updateContrastRatio()
-        if (section == 'background' && this.sharedObject.deficiencies.normal.foregroundColor.alpha() !== 1) { // Then mixed has changed
-            this.sendEventToAll('colorChanged', 'foreground')
+        if (section == 'background' && this.sharedObject[`general.foregroundColor`].alpha() !== 1) { // Then mixed has changed
+            this.updateColor('foreground')
         }
-        this.sendEventToAll('colorChanged', section)    
+        this.updateColor(section)
     }
 
     switchColors(event) {
-        let background = this.sharedObject.deficiencies.normal.backgroundColor
-        this.sharedObject.deficiencies.normal.backgroundColor = this.sharedObject.deficiencies.normal.foregroundColor.getReal()
-        this.sharedObject.deficiencies.normal.foregroundColor = background
+        let background = this.sharedObject[`general.backgroundColor`]
+        this.sharedObject[`general.backgroundColor`] = this.sharedObject[`general.foregroundColor`].getReal()
+        this.sharedObject[`general.foregroundColor`] = background
         this.updateDeficiency("foreground")
         this.updateDeficiency("background")
         this.updateContrastRatio()
-        this.sendEventToAll('colorChanged', 'foreground')    
-        this.sendEventToAll('colorChanged', 'background')        
+        this.updateColor('foreground')    
+        this.updateColor('background')        
     }
 
     updateDeficiency(section) {
-        let fromColor = (section == 'foreground')?'foregroundColor':'backgroundColor' 
-        this.sharedObject.deficiencies.protanopia[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].protanopia()
-        this.sharedObject.deficiencies.deuteranopia[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].deuteranopia()
-        this.sharedObject.deficiencies.tritanopia[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].tritanopia()
-        this.sharedObject.deficiencies.protanomaly[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].protanomaly()
-        this.sharedObject.deficiencies.deuteranomaly[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].deuteranomaly()
-        this.sharedObject.deficiencies.tritanomaly[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].tritanomaly()
-        this.sharedObject.deficiencies.achromatopsia[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].achromatopsia()
-        this.sharedObject.deficiencies.achromatomaly[section + "Color"] = this.sharedObject.deficiencies.normal[fromColor].achromatomaly()
+        this.sharedObject[`protanopia.${section}Color`] = this.sharedObject[`general.${section}Color`].protanopia()
+        this.sharedObject[`deuteranopia.${section}Color`] = this.sharedObject[`general.${section}Color`].deuteranopia()
+        this.sharedObject[`tritanopia.${section}Color`] = this.sharedObject[`general.${section}Color`].tritanopia()
+        this.sharedObject[`protanomaly.${section}Color`] = this.sharedObject[`general.${section}Color`].protanomaly()
+        this.sharedObject[`deuteranomaly.${section}Color`] = this.sharedObject[`general.${section}Color`].deuteranomaly()
+        this.sharedObject[`tritanomaly.${section}Color`] = this.sharedObject[`general.${section}Color`].tritanomaly()
+        this.sharedObject[`achromatopsia.${section}Color`] = this.sharedObject[`general.${section}Color`].achromatopsia()
+        this.sharedObject[`achromatomaly.${section}Color`] = this.sharedObject[`general.${section}Color`].achromatomaly()
     }
 
-    updateContrastRatio() {
-        let rounding = this.sharedObject.preferences.main.rounding
-        Object.keys(this.sharedObject.deficiencies).forEach(function(key, index) {
-            if (key === 'normal') {
-                this[key].contrastRatioRaw  = this[key].foregroundColor.getReal().contrast(this[key].backgroundColor)
-                let cr = this[key].contrastRatioRaw
-                let crr = Number(cr.toFixed(rounding)).toLocaleString(i18n.lang())
-                // toLocalString removes trailing zero and use the correct decimal separator, based on the app select lang.
-                this[key].contrastRatioString = `${crr}:1`
-                if ((cr >= 6.95 && cr < 7) || (cr >= 4.45 && cr < 4.5) || (cr >= 2.95 && cr < 3)) {
-                    let crr3 = Number(cr.toFixed(3)).toLocaleString(i18n.lang())
-                    this[key].contrastRatioString = `<span class="smaller">${t.Main["just below"]} </span>${crr}:1<span class="smaller"> (${crr3}:1)</span>`
-                }
-                this[key].levelAA = 'regular'
-                this[key].levelAAA = 'regular'
-                if (cr < 7) {
-                    this[key].levelAAA = 'large'
-                }
-                if (cr < 4.5) {
-                    this[key].levelAA = 'large'
-                    this[key].levelAAA = 'fail'
-                }
-                if (cr < 3) {
-                    this[key].levelAA = 'fail'
-                }
-            } else {
-                this[key].contrastRatioRaw  = this[key].foregroundColor.contrast(this[key].backgroundColor)
-                let cr = this[key].contrastRatioRaw
-                let crr = Number(cr.toFixed(rounding)).toLocaleString(i18n.lang())
-                this[key].contrastRatioString = `${crr}:1`
-            }
-        }, this.sharedObject.deficiencies)
-        this.sendEventToAll('contrastRatioChanged')
+    async getColorObject(section) {
+        const color = this.sharedObject[`general.${section}Color`]
+        const format = await this.preferences.get(`${section}.format`) // to remove from loop
+
+        const object = {
+            string: color.getColorTextString(format),
+            format,
+            rgb: color.getReal().rgb().string(),
+            name: color.getReal().keyword(),
+            isDark: color.getReal().isDark(),
+            red: Math.round(color.red()),
+            green: Math.round(color.green()),
+            blue: Math.round(color.blue()),
+            alpha: color.alpha(),
+            hue: Math.round(color.hue()),
+            saturationl: Math.round(color.saturationl()),
+            lightness: Math.round(color.lightness()),
+            hue: Math.round(color.hue()),
+            saturationv: Math.round(color.saturationv()),
+            value: Math.round(color.value()),
+        }
+
+        const def = ['achromatopsia', 'achromatomaly', 'protanopia', 'protanomaly', 'deuteranopia', 'deuteranomaly', 'tritanopia', 'tritanomaly']
+        def.forEach(key => {
+            object[key] = this.sharedObject[`${key}.${section}Color`].rgb().string()
+        })
+        return object
     }
 
-    copyResults() {
-        let normal = this.sharedObject.deficiencies.normal
+    async updateColor(section) {
+        const object = await this.getColorObject(section)
+        this.sendEventToAll('colorChanged', section, object)
+    }
+
+    async getContrastRatioObject() {
+        const rounding = await this.preferences.get('main.rounding') // TO REMOVE FROM THE UPDATE LOOP
+
+        this.sharedObject['general.contrastRatioRaw']  = this.sharedObject['general.foregroundColor'].getReal().contrast(this.sharedObject['general.backgroundColor'])
+        const cr = this.sharedObject['general.contrastRatioRaw']
+        const crr = Number(cr.toFixed(rounding))
+
+        this.sharedObject['general.levelAA'] = 'regular'
+        this.sharedObject['general.levelAAA'] = 'regular'
+        if (cr < 7) {
+            this.sharedObject['general.levelAAA'] = 'large'
+        }
+        if (cr < 4.5) {
+            this.sharedObject['general.levelAA'] = 'large'
+            this.sharedObject['general.levelAAA'] = 'fail'
+        }
+        if (cr < 3) {
+            this.sharedObject['general.levelAA'] = 'fail'
+        }
+        
+        const object = {
+            levelAA: this.sharedObject['general.levelAA'],
+            levelAAA: this.sharedObject['general.levelAAA'],
+            raw: cr,
+            rounded: crr,
+        }
+        const def = ['achromatopsia', 'achromatomaly', 'protanopia', 'protanomaly', 'deuteranopia', 'deuteranomaly', 'tritanopia', 'tritanomaly']
+        def.forEach(key => {
+            const cr = this.sharedObject[`${key}.foregroundColor`].contrast(this.sharedObject[`${key}.backgroundColor`])
+            this.sharedObject[`${key}.contrastRatioRaw`] = cr
+            const crr = Number(cr.toFixed(rounding))
+            object[key] = crr
+        })
+        return object
+    }
+
+    async updateContrastRatio() {
+        const object = await this.getContrastRatioObject()
+        this.sendEventToAll('contrastRatioChanged', object)
+    }
+
+    async copyResults() {
         let level_1_4_3, level_1_4_6, level_1_4_11
-
-        if (normal.levelAA === 'large') {
+        const levelAA = this.sharedObject['general.levelAA']
+        const levelAAA = this.sharedObject['general.levelAAA']
+        if (levelAA === 'large') {
             level_1_4_3 = t.CopyPaste["level_1_4_3_pass_large"]
             level_1_4_11 = t.CopyPaste["level_1_4_11_pass"]
-        } else if (normal.levelAA === 'regular') {
+        } else if (levelAA === 'regular') {
             level_1_4_3 = t.CopyPaste["level_1_4_3_pass_regular"]
             level_1_4_11 = t.CopyPaste["level_1_4_11_pass"]
         } else { // Fail
             level_1_4_3 = t.CopyPaste["level_1_4_3_fail"]
             level_1_4_11 = t.CopyPaste["level_1_4_11_fail"]
         }
-        if (normal.levelAAA === 'large') {
+        if (levelAAA === 'large') {
             level_1_4_6 = t.CopyPaste["level_1_4_6_pass_large"]
-        } else if (normal.levelAAA === 'regular') {
+        } else if (levelAAA === 'regular') {
             level_1_4_6 = t.CopyPaste["level_1_4_6_pass_regular"]
         } else { // Fail
             level_1_4_6 = t.CopyPaste["level_1_4_6_fail"]
         }
 
-        let foregroundColorString = ((normal.foregroundColor.displayedValue)?normal.foregroundColor.displayedValue:normal.foregroundColor.getColorTextString(sharedObject.preferences['foreground'].format))
-        let backgroundColorString = ((normal.backgroundColor.displayedValue)?normal.backgroundColor.displayedValue:normal.backgroundColor.getColorTextString(sharedObject.preferences['background'].format))
+        const foregroundColor = this.sharedObject[`general.foregroundColor`]
+        const foregroundFormat = await this.preferences.get(`foreground.format`)
+        const foregroundColorString = foregroundColor.getColorTextString(foregroundFormat)
+
+        const backgroundColor = this.sharedObject[`general.backgroundColor`]
+        const backgroundFormat = await this.preferences.get(`background.format`)
+        const backgroundColorString = backgroundColor.getColorTextString(backgroundFormat)
+
+        const rounding = await this.preferences.get('main.rounding')
+        const cr = this.sharedObject['general.contrastRatioRaw']
+        const crr = Number(cr.toFixed(rounding)).toLocaleString(i18n.lang)
+        // toLocalString removes trailing zero and use the correct decimal separator, based on the app select lang.
 
         let text = `${t.CopyPaste["Foreground"]}: ${foregroundColorString}
 ${t.CopyPaste["Background"]}: ${backgroundColorString}
-${t.CopyPaste["The contrast ratio is"]}: ${normal.contrastRatioString}
+${t.Main["Contrast ratio"]}: ${crr}:1
 ${t.Main["1.4.3 Contrast (Minimum) (AA)"]}
     ${level_1_4_3}
 ${t.Main["1.4.6 Contrast (Enhanced) (AAA)"]}
@@ -286,12 +375,11 @@ ${t.Main["1.4.6 Contrast (Enhanced) (AAA)"]}
 ${t.Main["1.4.11 Non-text Contrast (AA)"]}
     ${level_1_4_11}`
 
-        // sanitize output (if there's HTML, e.g. in "just below" case)
-        text = text.replace(/<[^>]*>?/g, '')
         clipboard.writeText(text)
     }
 
     updateShortcut(shortcut, oldValue, newValue) {
+        console.log(shortcut, oldValue, newValue)
         if (oldValue) {
             globalShortcut.unregister(oldValue)
         }

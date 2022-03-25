@@ -1,39 +1,40 @@
-const { ipcRenderer, remote } = require('electron')
-const sharedObject = require('electron').remote.getGlobal('sharedObject')
+const { ipcRenderer } = require('electron')
+const GlobalStorage = require('../../globalStorage.js')
+
+let i18n, preferences
 
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-preferences'), false)
 
-ipcRenderer.on('init', (event, config) => {
-    document.getElementById('option-rounding').value = sharedObject.preferences.main.rounding
-    document.getElementById('option-checkForUpdates').checked = sharedObject.preferences.main.checkForUpdates
-    document.getElementById('option-lang').value = sharedObject.preferences.main.lang
-    document.getElementById('shortcut-foreground-picker').value = sharedObject.preferences.foreground.picker.shortcut
-    document.getElementById('shortcut-background-picker').value = sharedObject.preferences.background.picker.shortcut
+ipcRenderer.on('init', async (event, config) => {
+    preferences = new GlobalStorage(window)
 
-    translateHTML(config.i18n)
+    const rounding = await preferences.get('main.rounding')
+    document.getElementById('option-rounding').value = rounding
+    const checkForUpdates = await preferences.get('main.checkForUpdates')
+    document.getElementById('option-checkForUpdates').checked = checkForUpdates
+    const lang = await preferences.get('main.lang')
+    document.getElementById('option-lang').value = lang
+    const foregroundPickerShortcut = preferences.get('foreground.picker.shortcut')
+    document.getElementById('shortcut-foreground-picker').value = foregroundPickerShortcut
+    const backgroundPickerShortcut = await preferences.get('background.picker.shortcut')
+    document.getElementById('shortcut-background-picker').value = backgroundPickerShortcut
+
+    i18n = config.i18n
+    translateHTML(i18n)
+
 })
 
 document.getElementById('save').addEventListener('click', function () {
-    var rounding = document.getElementById('option-rounding').value
-    if (rounding != sharedObject.preferences.main.rounding) {
-        ipcRenderer.send('setPreference', rounding, 'main', 'rounding')
-    }
-    var checkForUpdates = document.getElementById('option-checkForUpdates').checked
-    if (checkForUpdates != sharedObject.preferences.main.checkForUpdates) {
-        ipcRenderer.send('setPreference', checkForUpdates, 'main', 'checkForUpdates')
-    } 
-    var lang = document.getElementById('option-lang').value
-    if (lang != sharedObject.preferences.main.lang) {
-        ipcRenderer.send('setPreference', lang, 'main', 'lang')
-    }
-    var foregroundPickerShortcut = document.getElementById('shortcut-foreground-picker').value
-    if (foregroundPickerShortcut != sharedObject.preferences.foreground.picker.shortcut) {
-        ipcRenderer.send('setPreference', foregroundPickerShortcut, 'foreground', 'picker', 'shortcut')
-    } 
-    var backgroundPickerShortcut = document.getElementById('shortcut-background-picker').value
-    if (backgroundPickerShortcut != sharedObject.preferences.background.picker.shortcut) {
-        ipcRenderer.send('setPreference', backgroundPickerShortcut, 'background', 'picker', 'shortcut')
-    } 
+    const rounding = document.getElementById('option-rounding').value
+    preferences.set('main.rounding', rounding)
+    const checkForUpdates = document.getElementById('option-checkForUpdates').checked
+    preferences.set(checkForUpdates, 'main', 'checkForUpdates')
+    const lang = document.getElementById('option-lang').value
+    preferences.set('main.lang', lang)
+    const foregroundPickerShortcut = document.getElementById('shortcut-foreground-picker').value
+    preferences.set('foreground.picker.shortcut', foregroundPickerShortcut)
+    let backgroundPickerShortcut = document.getElementById('shortcut-background-picker').value
+    preferences.set('background.picker.shortcut', backgroundPickerShortcut)
     close()
 })
 
@@ -42,8 +43,7 @@ document.getElementById('cancel').addEventListener('click', function () {
 })
 
 function close() {
-    var win = remote.getCurrentWindow()
-    win.close()
+    window.close()
 }
 
 function translateHTML(i18n) {

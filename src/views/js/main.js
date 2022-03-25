@@ -1,32 +1,36 @@
 const { ipcRenderer } = require('electron')
-const sharedObject = require('electron').remote.getGlobal('sharedObject')
 const CCAColor = require('../../color/CCAcolor.js')
+const GlobalStorage = require('../../globalStorage.js')
+
+let i18n, preferences
 
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-app'), false)
-let i18n
-
-ipcRenderer.on('init', (event, config) => {
+    
+ipcRenderer.on('init', async (event, config) => {
+    preferences = new GlobalStorage(window)
     i18n = config.i18n
     translateHTML(i18n)
 
-    applyColor('foreground')
-    applyColor('background')
-    applyContrastRatio()
-
     // init format selector
-    document.querySelector('#foreground-color .format-selector').value = sharedObject.preferences.foreground.format
-    document.querySelector('#background-color .format-selector').value = sharedObject.preferences.background.format
+    const foregroundFormat = await preferences.get('foreground.format')
+    document.querySelector('#foreground-color .format-selector').value = foregroundFormat
+    const backgroundFormat = await preferences.get('background.format')
+    document.querySelector('#background-color .format-selector').value = backgroundFormat
 
     // init sliders state
-    showHide(document.querySelector('#foreground-color .sliders'), sharedObject.preferences.foreground.sliders.open)
-    showHide(document.querySelector('#background-color .sliders'), sharedObject.preferences.background.sliders.open)
+    const foregroundSlidersOpen = await preferences.get('foreground.sliders.open')
+    showHide(document.querySelector('#foreground-color .sliders'), foregroundSlidersOpen)
+    const backgroundSlidersOpen = await preferences.get('background.sliders.open')
+    showHide(document.querySelector('#background-color .sliders'), backgroundSlidersOpen)
 
     // init tabs
-    var tab = document.querySelector(`#foreground-sliders a[data-tab="${sharedObject.preferences.foreground.sliders.tab}"]`)
+    const foregroundSlidersTab = await preferences.get('foreground.sliders.tab')
+    var tab = document.querySelector(`#foreground-sliders a[data-tab="${foregroundSlidersTab}"]`)
     tab.setAttribute('aria-selected', 'true');      
     var controls = tab.getAttribute('aria-controls');
     document.getElementById(controls).removeAttribute('hidden');
-    var tab = document.querySelector(`#background-sliders a[data-tab="${sharedObject.preferences.background.sliders.tab}"]`)
+    const backgroundSlidersTab = await preferences.get('background.sliders.tab')
+    var tab = document.querySelector(`#background-sliders a[data-tab="${backgroundSlidersTab}"]`)
     tab.setAttribute('aria-selected', 'true');      
     var controls = tab.getAttribute('aria-controls');
     document.getElementById(controls).removeAttribute('hidden');
@@ -35,12 +39,12 @@ ipcRenderer.on('init', (event, config) => {
     ipcRenderer.send('height-changed', mainHeight)
     
     initTabs("#foreground-sliders", (el)=>{
-        sharedObject.preferences.foreground.sliders.tab = el.getAttribute('data-tab')
+        preferences.set('foreground.sliders.tab', el.getAttribute('data-tab'))
         var mainHeight = document.querySelector('main').clientHeight
         ipcRenderer.send('height-changed', mainHeight)
     })
     initTabs("#background-sliders", (el)=>{
-        sharedObject.preferences.background.sliders.tab = el.getAttribute('data-tab')
+        preferences.set('background.sliders.tab', el.getAttribute('data-tab'))
         var mainHeight = document.querySelector('main').clientHeight
         ipcRenderer.send('height-changed', mainHeight)
     })
@@ -48,18 +52,18 @@ ipcRenderer.on('init', (event, config) => {
     initEvents()
 })
 
-ipcRenderer.on('colorChanged', (event, section) => {
-    applyColor(section)
+ipcRenderer.on('colorChanged', (event, section, color) => {
+    applyColor(section, color)
 })
 
-ipcRenderer.on('contrastRatioChanged', event => {
-    applyContrastRatio()
+ipcRenderer.on('contrastRatioChanged', (event, contrastRatio) => {
+    applyContrastRatio(contrastRatio)
 })
 
 ipcRenderer.on('langChanged', (event, i18nNew) => {
     i18n = i18nNew
     translateHTML(i18n)
-    applyContrastRatio()
+    //TODO applyContrastRatio()
 })
 
 ipcRenderer.on('pickerTogglled', (event, section, state) => {
@@ -163,7 +167,7 @@ function numberHSVOnInput(section, component, value) {
 
 function showHideSliders(section, el) {
     let state = (el.getAttribute('aria-expanded') === 'true')
-    sharedObject.preferences[section].sliders.open = !state
+    preferences.set(`${section}.sliders.open`, !state)
     showHide(el)
 }
 
@@ -184,9 +188,7 @@ function showHide(el, force) {
     ipcRenderer.send('height-changed', mainHeight);
 }
 
-function applyColor(section) {
-    let color = sharedObject.deficiencies.normal[section + "Color"]
-
+function applyColor(section, color) {
     applyColorPreview(section, color)
     applyColorTextString(section, color)
     applyColorRGBSliders(section, color)
@@ -195,121 +197,121 @@ function applyColor(section) {
     applyColorSample(section, color)
 }
 
-function applyColorTextString(section, color) {
+async function applyColorTextString(section, color) {
     /* Only change the text input if this isn't the current focused element */
     const textInput = document.querySelector('#' + section + '-color input.free-value')
     if (textInput != document.activeElement) {
-        format = sharedObject.preferences[section].format
-        textInput.value = color.getColorTextString(format)
+        textInput.value = color.string
         const formatSelector =  document.querySelector('#' + section + '-format-selector')
         const freeFormat =  document.querySelector('#' + section + '-free-format')    
         textInput.removeAttribute('aria-invalid')
         freeFormat.removeAttribute('aria-live')
-        freeFormat.innerHTML = format.toUpperCase() + " format"
+        freeFormat.innerHTML = color.format.toUpperCase() + " format"
         formatSelector.style.display = "block";
     }
 }
 
 function applyColorPreview(section, color) {
-    const colorRGB = color.getReal().rgb().string()
-    const name = color.getReal().keyword()
-    const isDark = color.getReal().isDark()
-
-    document.querySelector('#' + section + '-color').style.background = colorRGB 
-    if (name) {
-        document.querySelector('#' + section + '-color .name-value').innerHTML = '&nbsp;(' + name + ')'
+    document.querySelector('#' + section + '-color').style.background = color.rgb
+    if (color.name) {
+        document.querySelector('#' + section + '-color .name-value').innerHTML = '&nbsp;(' + color.name + ')'
     } else {
         document.querySelector('#' + section + '-color .name-value').innerHTML = null        
     }
-    document.querySelector('#' + section + '-color').classList.toggle('darkMode', isDark)
-
+    document.querySelector('#' + section + '-color').classList.toggle('darkMode', color.isDark)
 }
 
 function applyColorRGBSliders(section, color) {
-    document.querySelector('#' + section + '-rgb .red input[type=range]').value = Math.round(color.red())
-    document.querySelector('#' + section + '-rgb .green input[type=range]').value = Math.round(color.green())
-    document.querySelector('#' + section + '-rgb .blue input[type=range]').value = Math.round(color.blue())
-    document.querySelector('#' + section + '-rgb .red input[type=number]').value = Math.round(color.red())
-    document.querySelector('#' + section + '-rgb .green input[type=number]').value = Math.round(color.green())
-    document.querySelector('#' + section + '-rgb .blue input[type=number]').value = Math.round(color.blue())
+    document.querySelector('#' + section + '-rgb .red input[type=range]').value = color.red
+    document.querySelector('#' + section + '-rgb .green input[type=range]').value = color.green
+    document.querySelector('#' + section + '-rgb .blue input[type=range]').value = color.blue
+    document.querySelector('#' + section + '-rgb .red input[type=number]').value = color.red
+    document.querySelector('#' + section + '-rgb .green input[type=number]').value = color.green
+    document.querySelector('#' + section + '-rgb .blue input[type=number]').value = color.blue
     if (section === 'foreground') {
-        document.querySelector('#' + section + '-rgb .alpha input[type=range]').value = color.alpha()
+        document.querySelector('#' + section + '-rgb .alpha input[type=range]').value = color.alpha
         if (document.activeElement != document.querySelector('#' + section + '-rgb .alpha input[type=number]')) {
             /* only force update of the alpha number input if it's not current;y focused
                as otherwise, when user enters "0.", it's corrected to "0" and prevents correct text entry */
-            document.querySelector('#' + section + '-rgb .alpha input[type=number]').value = color.alpha()
+            document.querySelector('#' + section + '-rgb .alpha input[type=number]').value = color.alpha
         }  
     }
 }
 
 function applyColorHSLSliders(section, color) {
-    document.querySelector('#' + section + '-hsl .hue input[type=range]').value = Math.round(color.hue())
-    document.querySelector('#' + section + '-hsl .saturationl input[type=range]').value = Math.round(color.saturationl())
-    document.querySelector('#' + section + '-hsl .lightness input[type=range]').value = Math.round(color.lightness())
-    document.querySelector('#' + section + '-hsl .hue input[type=number]').value = Math.round(color.hue())
-    document.querySelector('#' + section + '-hsl .saturationl input[type=number]').value = Math.round(color.saturationl())
-    document.querySelector('#' + section + '-hsl .lightness input[type=number]').value = Math.round(color.lightness())
+    document.querySelector('#' + section + '-hsl .hue input[type=range]').value = color.hue
+    document.querySelector('#' + section + '-hsl .saturationl input[type=range]').value = color.saturationl
+    document.querySelector('#' + section + '-hsl .lightness input[type=range]').value = color.lightness
+    document.querySelector('#' + section + '-hsl .hue input[type=number]').value = color.hue
+    document.querySelector('#' + section + '-hsl .saturationl input[type=number]').value = color.saturationl
+    document.querySelector('#' + section + '-hsl .lightness input[type=number]').value = color.lightness
     if (section === 'foreground') {
-        document.querySelector('#' + section + '-hsl .alpha input[type=range]').value = color.alpha()
+        document.querySelector('#' + section + '-hsl .alpha input[type=range]').value = color.alpha
         if (document.activeElement != document.querySelector('#' + section + '-hsl .alpha input[type=number]')) {
             /* only force update of the alpha number input if it's not current;y focused
                as otherwise, when user enters "0.", it's corrected to "0" and prevents correct text entry */
-            document.querySelector('#' + section + '-hsl .alpha input[type=number]').value = color.alpha()
+            document.querySelector('#' + section + '-hsl .alpha input[type=number]').value = color.alpha
         }  
     }
 }
 
 function applyColorHSVSliders(section, color) {
-    document.querySelector('#' + section + '-hsv .hue input[type=range]').value = Math.round(color.hue())
-    document.querySelector('#' + section + '-hsv .saturationv input[type=range]').value = Math.round(color.saturationv())
-    document.querySelector('#' + section + '-hsv .value input[type=range]').value = Math.round(color.value())
-    document.querySelector('#' + section + '-hsv .hue input[type=number]').value = Math.round(color.hue())
-    document.querySelector('#' + section + '-hsv .saturationv input[type=number]').value = Math.round(color.saturationv())
-    document.querySelector('#' + section + '-hsv .value input[type=number]').value = Math.round(color.value())
+    document.querySelector('#' + section + '-hsv .hue input[type=range]').value = color.hue
+    document.querySelector('#' + section + '-hsv .saturationv input[type=range]').value = color.saturationv
+    document.querySelector('#' + section + '-hsv .value input[type=range]').value = color.value
+    document.querySelector('#' + section + '-hsv .hue input[type=number]').value = color.hue
+    document.querySelector('#' + section + '-hsv .saturationv input[type=number]').value = color.saturationv
+    document.querySelector('#' + section + '-hsv .value input[type=number]').value = color.value
     if (section === 'foreground') {
-        document.querySelector('#' + section + '-hsv .alpha input[type=range]').value = color.alpha()
+        document.querySelector('#' + section + '-hsv .alpha input[type=range]').value = color.alpha
         if (document.activeElement != document.querySelector('#' + section + '-hsv .alpha input[type=number]')) {
             /* only force update of the alpha number input if it's not current;y focused
                as otherwise, when user enters "0.", it's corrected to "0" and prevents correct text entry */
-            document.querySelector('#' + section + '-hsv .alpha input[type=number]').value = color.alpha()
+            document.querySelector('#' + section + '-hsv .alpha input[type=number]').value = color.alpha
         }  
     }
 }
 
 function applyColorSample(section, color) {
-    const colorRGB = color.getReal().rgb().string()
-
     if (section === 'foreground') {
-        document.querySelector('#sample-preview .text').style.color = colorRGB
-        document.querySelector('#sample-preview .icon svg').style.stroke = colorRGB    
+        document.querySelector('#sample-preview .text').style.color = color.rgb
+        document.querySelector('#sample-preview .icon svg').style.stroke = color.rgb    
     } else {
-        document.querySelector('#sample-preview .text').style.background = colorRGB
-        document.querySelector('#sample-preview .icon').style.background = colorRGB
+        document.querySelector('#sample-preview .text').style.background = color.rgb
+        document.querySelector('#sample-preview .icon').style.background = color.rgb
     }
 }
 
-function applyContrastRatio() {
+function applyContrastRatio(contrastRatio) {
     let level_1_4_3, level_1_4_6, level_1_4_11
-    const normal = sharedObject.deficiencies.normal
-    if (normal.levelAA === 'large') {
+    if (contrastRatio.levelAA === 'large') {
         level_1_4_3 = `<div><img src="icons/fail.svg" alt="" /> ${i18n['Fail']} (${i18n['regular text']})</div><div><img src="icons/pass.svg" alt="" /> ${i18n['Pass']} (${i18n['large text']})</div>`
         level_1_4_11 = `<div><img src="icons/pass.svg" alt="" /> ${i18n['Pass']} (${i18n['UI components and graphical objects']})</div>`
-    } else if (normal.levelAA === 'regular') {
+    } else if (contrastRatio.levelAA === 'regular') {
         level_1_4_3 = `<div><img src="icons/pass.svg" alt="" /> ${i18n['Pass']} (${i18n['regular text']})</div><div><img src="icons/pass.svg" alt="" /> ${i18n['Pass']} (${i18n['large text']})</div>`
         level_1_4_11 = `<div><img src="icons/pass.svg" alt="" /> ${i18n['Pass']} (${i18n['UI components and graphical objects']})</div>`
     } else { // Fail
         level_1_4_3 = `<div><img src="icons/fail.svg" alt="" /> ${i18n['Fail']} (${i18n['regular text']})</div><div><img src="icons/fail.svg" alt="" /> ${i18n['Fail']} (${i18n['large text']})</div>`
         level_1_4_11 = `<div><img src="icons/fail.svg" alt="" /> ${i18n['Fail']} (${i18n['UI components and graphical objects']})</div>`
     }
-    if (normal.levelAAA === 'large') {
+    if (contrastRatio.levelAAA === 'large') {
         level_1_4_6 = `<div><img src="icons/fail.svg" alt="" /> ${i18n['Fail']} (${i18n['regular text']})</div><div><img src="icons/pass.svg" alt="" /> ${i18n['Pass']} (${i18n['large text']})</div>`
-    } else if (normal.levelAAA === 'regular') {
+    } else if (contrastRatio.levelAAA === 'regular') {
         level_1_4_6 = `<div><img src="icons/pass.svg" alt="" /> ${i18n['Pass']} (${i18n['regular text']})</div><div><img src="icons/pass.svg" alt="" /> ${i18n['Pass']} (${i18n['large text']})</div>`
     } else { // Fail
         level_1_4_6 = `<div><img src="icons/fail.svg" alt="" /> ${i18n['Fail']} (${i18n['regular text']})</div><div><img src="icons/fail.svg" alt="" /> ${i18n['Fail']} (${i18n['large text']})</div>`
     }
 
-    document.getElementById('contrast-ratio-value').innerHTML = normal.contrastRatioString
+    let cr = contrastRatio.raw
+    let crr = contrastRatio.rounded.toLocaleString(i18n.lang)
+    // toLocalString removes trailing zero and use the correct decimal separator, based on the app select lang.
+    contrastRatioString = `${crr}:1`
+    if ((cr >= 6.95 && cr < 7) || (cr >= 4.45 && cr < 4.5) || (cr >= 2.95 && cr < 3)) {
+        let crr3 = Number(cr.toFixed(3)).toLocaleString(i18n.lang)
+        contrastRatioString = `<span class="smaller">${t.Main["just below"]} </span>${crr}:1<span class="smaller"> (${crr3}:1)</span>`
+    }
+
+    document.getElementById('contrast-ratio-value').innerHTML = contrastRatioString
     document.getElementById('contrast-level-1-4-3').innerHTML = level_1_4_3
     document.getElementById('contrast-level-1-4-6').innerHTML = level_1_4_6
     document.getElementById('contrast-level-1-4-11').innerHTML = level_1_4_11   
@@ -338,7 +340,7 @@ function validateText(section, value, formats) {
         }
     }
     if (format) {
-        ipcRenderer.send('setPreference', format, section, 'format')
+        preferences.set(`${section}.format`, format)
     }
     displayValidate(section, format, string)
 }
@@ -377,7 +379,7 @@ function leaveText(section, el) {
 
 function changeFormat(section, el) {
     // We send the selected format to the controller for saving and sharedObject update
-    ipcRenderer.send('setPreference', el.value, section, 'format')
+    preferences.set(`${section}.format`, el.value)
     // Then we update the current text field
     let color = sharedObject.deficiencies.normal[section + "Color"]
     applyColorTextString(section, color)

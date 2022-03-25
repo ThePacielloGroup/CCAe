@@ -14,19 +14,20 @@
     "license": "GPL-3.0",
     "devDependencies": {
         "cross-env": "^7.0.3",
-        "electron": "^9.4.4",
-        "electron-builder": "^22.11.7",
-        "electron-notarize": "1.0.0"
+        "electron": "^16.0.1",
+        "electron-builder": "^22.14.5",
+        "electron-notarize": "1.1.1"
     },
     "dependencies": {
         "color-blind": "^0.1.1",
         "color-convert": "^2.0.1",
         "color-name": "^1.1.4",
         "dotenv": "^10.0.0",
-        "electron-log": "^2.2.17",
-        "electron-store": "^8.0.0",
-        "electron-updater": "^4.3.9",
-        "focus-visible": "^4.1.5",
+        "electron-browser-storage": "^1.0.7",
+        "electron-log": "^4.4.1",
+        "electron-store": "^8.0.1",
+        "electron-updater": "^4.6.1",
+        "focus-visible": "^5.2.0",
         "simple-swizzle": "^0.2.2"
     },
     "build": {

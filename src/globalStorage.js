@@ -40,10 +40,10 @@ const defaults = {
     'background.format': 'hex',
     'foreground.picker.shortcut': 'F11',
     'background.picker.shortcut': 'F12',
-    'main.foreground.sliders.open': false,
-    'main.background.sliders.open': false,
-    'main.foreground.sliders.tab': 'rgb',
-    'main.background.sliders.tab': 'rgb',
+    'foreground.sliders.open': false,
+    'background.sliders.open': false,
+    'foreground.sliders.tab': 'rgb',
+    'background.sliders.tab': 'rgb',
 }
 
 function GlobalStorage(win) {
@@ -61,7 +61,6 @@ GlobalStorage.prototype = {
         if (value === null && name in defaults) {
             value = defaults[name]
         }
-        console.log('storage get', name, value)
         return value
     },
     set: function (name, value) {

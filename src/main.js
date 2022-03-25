@@ -84,73 +84,8 @@ app.on('quit', () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-let white = CCAColor.rgb(0, 0, 0)
-let black = CCAColor.rgb(255, 255, 255)
-
-global.sharedObject = {
-    deficiencies : {
-        normal : {
-            foregroundColor : white,
-            backgroundColor : black,
-            contrastRatioRaw : 0,
-            contrastRatioString : "xx:1",
-            levelAA : 'regular',
-            levelAAA : 'regular'
-        },
-        achromatopsia : {
-            foregroundColor : null,
-            backgroundColor : null,
-            contrastRatioRaw : 0,
-            contrastRatioString : "xx:1",
-        },
-        achromatomaly : {
-            foregroundColor : null,
-            backgroundColor : null,
-            contrastRatioRaw : 0,
-            contrastRatioString : "xx:1",
-        },
-        protanopia : {
-            foregroundColor : null,
-            backgroundColor : null,
-            contrastRatioRaw : 0,
-            contrastRatioString : "xx:1",
-        },
-        deuteranopia : {
-            foregroundColor : null,
-            backgroundColor : null,
-            contrastRatioRaw : 0,
-            contrastRatioString : "xx:1",
-        },
-        tritanopia : {
-            foregroundColor : null,
-            backgroundColor : null,
-            contrastRatioRaw : 0,
-            contrastRatioString : "xx:1",
-        },
-        protanomaly : {
-            foregroundColor : null,
-            backgroundColor : null,
-            contrastRatioRaw : 0,
-            contrastRatioString : "xx:1",
-        },
-        deuteranomaly : {
-            foregroundColor : null,
-            backgroundColor : null,
-            contrastRatioRaw : 0,
-            contrastRatioString : "xx:1",
-        },
-        tritanomaly : {
-            foregroundColor : null,
-            backgroundColor : null,
-            contrastRatioRaw : 0,
-            contrastRatioString : "xx:1",
-        }
-    },
-    advanced : ''
-}
-
 function sendEventToAll(event, ...params) {
     Object.keys(controllers).map(function(key, index) {
         controllers[key].sendEvent(event, ...params)
-    });
+    })
 }

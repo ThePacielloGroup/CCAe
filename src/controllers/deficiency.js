@@ -4,7 +4,7 @@ module.exports = (browsers, preferences) => {
     const {deficiency} = browsers
     ipcMain.on('init-deficiency', async () => {
         const lang = await preferences.get('main.lang')
-        const i18n = new(require('./i18n'))(lang)
+        const i18n = new(require('../i18n'))(lang)
         let config = {
             i18n: i18n.asObject().Deficiency
         }
@@ -18,7 +18,7 @@ module.exports = (browsers, preferences) => {
         switch(event) {
             case 'langChanged':
                 const lang = await preferences.get('main.lang')
-                const i18n = new(require('./i18n'))(lang)
+                const i18n = new(require('../i18n'))(lang)
                 win.webContents.send(event, i18n.asObject().Deficiency)
                 break
             default:

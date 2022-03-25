@@ -138,7 +138,6 @@
         "level_1_4_6_pass_regular": "Conforme pour large et texte normal",
         "level_1_4_6_fail": "Échec pour large et texte normal",
         "Foreground": "Premier plan",
-        "Background": "Arrière plan",
-        "The contrast ratio is": "Le ratio de contraste est"
+        "Background": "Arrière plan"
     }
 }

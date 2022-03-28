@@ -32,7 +32,7 @@
     },
     "build": {
         "appId": "com.electron.cca",
-        "productName": "Colour Contrast Analyser (CCA)",
+        "productName": "Colour Contrast Analyser",
         "compression": "maximum",
         "copyright": "Copyright © 2021 TPG",
         "directories": {},

@@ -115,7 +115,8 @@
         "Picker foreground": "Picker foreground",
         "Picker background": "Picker background",
         "Save": "Save",
-        "Cancel": "Cancel"
+        "Cancel": "Cancel",
+        "Color Picker type": "Color Picker type"
     },
     "About": {
         "Title": "About",

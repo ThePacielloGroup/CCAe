@@ -31,11 +31,10 @@
 
 const defaults = {
     'main.checkForUpdates': false,
-    'main.lang': 'auto',
-    'main.checkForUpdates': false,
     'main.rounding': 1,
     'main.alwaysOnTop': true,
     'main.lang': 'auto',
+    'main.picker': 1,
     'foreground.format': 'hex',
     'background.format': 'hex',
     'foreground.picker.shortcut': 'F11',

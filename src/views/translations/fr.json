@@ -115,7 +115,8 @@
         "Picker foreground": "Sélecteur de Premier plan",
         "Picker background": "Sélecteur d'Arrière plan",
         "Save": "Sauvegarder",
-        "Cancel": "Annuler"
+        "Cancel": "Annuler",
+        "Color Picker type": "Type de Sélecteur"
     },
     "About": {
         "Title": "A propos",

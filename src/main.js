@@ -1,6 +1,5 @@
 const { ipcMain, app } = require('electron')
 const GlobalStorage = require('./globalStorage.js')
-const CCAColor = require('./color/CCAcolor.js')
 const { checkForUpdates, setUpdatesDisabled } = require('./update.js')
 const CCAController = require('./CCAcontroller')
 let browsers, controllers, mainController, setMenu, i18n, preferences

@@ -115,7 +115,8 @@
         "Picker foreground": "Auswahl Vordergrundfarbe",
         "Picker background": "Auswahl Hintergrundfarbe",
         "Save": "Speichern",
-        "Cancel": "Abbrechen"
+        "Cancel": "Abbrechen",
+        "Color Picker type": "Color Picker type"
     },
     "About": {
         "Title": "Über",

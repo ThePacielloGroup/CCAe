@@ -66,14 +66,24 @@ ipcRenderer.on('langChanged', (event, i18nNew) => {
     //TODO applyContrastRatio()
 })
 
-ipcRenderer.on('pickerTogglled', (event, section, state) => {
+ipcRenderer.on('pickerToggled', (event, section, state) => {
     document.querySelector('#' + section + '-color .picker').setAttribute('aria-pressed', state)
+})
+
+ipcRenderer.on('showPicker', (event, section) => {
+    const eyeDropper = new EyeDropper();
+    eyeDropper.open()
+        .then((returned)=>{
+            ipcRenderer.send('colorFromPicker', section, returned.sRGBHex)
+        })
+        .catch((error)=>{console.log(error)})
+    
 })
 
 function initEvents () {
     // Opens color picker on button click
-    document.querySelector('#foreground-color .picker').onclick = () => ipcRenderer.send('showPicker', 'foreground')
-    document.querySelector('#background-color .picker').onclick = () => ipcRenderer.send('showPicker', 'background')
+    document.querySelector('#foreground-color .picker').onclick = () => ipcRenderer.send('getColorFromPicker', 'foreground')
+    document.querySelector('#background-color .picker').onclick = () => ipcRenderer.send('getColorFromPicker', 'background')
     document.querySelector('#foreground-rgb .red input[type=range]').oninput = function() {sliderRGBOnInput('foreground', 'red', this.value)}
     document.querySelector('#foreground-rgb .green input[type=range]').oninput = function() {sliderRGBOnInput('foreground', 'green', this.value)}
     document.querySelector('#foreground-rgb .blue input[type=range]').oninput = function() {sliderRGBOnInput('foreground', 'blue', this.value)}

@@ -115,7 +115,8 @@
         "Picker foreground": "본문 글자 색 채집기",
         "Picker background": "배경색 채집기",
         "Save": "저장",
-        "Cancel": "취소"
+        "Cancel": "취소",
+        "Color Picker type": "Color Picker type"
     },
     "About": {
         "Title": "CCA에 관하여",

@@ -115,7 +115,8 @@
         "Picker foreground": "Voorgrondkiezer",
         "Picker background": "Achtergrondkiezer",
         "Save": "Bewaar",
-        "Cancel": "Annuleer"
+        "Cancel": "Annuleer",
+        "Color Picker type": "Color Picker type"
     },
     "About": {
         "Title": "Over",

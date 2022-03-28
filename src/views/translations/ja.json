@@ -115,7 +115,8 @@
         "Picker foreground": "前景色ピッカー",
         "Picker background": "背景色ピッカー",
         "Save": "保存",
-        "Cancel": "キャンセル"
+        "Cancel": "キャンセル",
+        "Color Picker type": "Color Picker type"
     },
     "About": {
         "Title": "CCAについて",

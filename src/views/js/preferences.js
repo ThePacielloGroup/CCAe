@@ -14,10 +14,12 @@ ipcRenderer.on('init', async (event, config) => {
     document.getElementById('option-checkForUpdates').checked = checkForUpdates
     const lang = await preferences.get('main.lang')
     document.getElementById('option-lang').value = lang
-    const foregroundPickerShortcut = preferences.get('foreground.picker.shortcut')
+    const foregroundPickerShortcut = await preferences.get('foreground.picker.shortcut')
     document.getElementById('shortcut-foreground-picker').value = foregroundPickerShortcut
     const backgroundPickerShortcut = await preferences.get('background.picker.shortcut')
     document.getElementById('shortcut-background-picker').value = backgroundPickerShortcut
+    const picker = await preferences.get('main.picker')
+    document.getElementById('option-picker').value = picker
 
     i18n = config.i18n
     translateHTML(i18n)
@@ -33,8 +35,11 @@ document.getElementById('save').addEventListener('click', function () {
     preferences.set('main.lang', lang)
     const foregroundPickerShortcut = document.getElementById('shortcut-foreground-picker').value
     preferences.set('foreground.picker.shortcut', foregroundPickerShortcut)
-    let backgroundPickerShortcut = document.getElementById('shortcut-background-picker').value
+    const backgroundPickerShortcut = document.getElementById('shortcut-background-picker').value
     preferences.set('background.picker.shortcut', backgroundPickerShortcut)
+    const picker = document.getElementById('option-picker').value
+    preferences.set('main.picker', picker)
+
     close()
 })
 
@@ -62,6 +67,8 @@ function translateHTML(i18n) {
         = document.querySelector('body > main > fieldset:nth-child(2) > label:nth-child(4)').innerHTML.replace('Enable Auto-Update', i18n['Enable Auto-Update'])
 
     document.querySelector('label[for="option-lang"]').textContent = i18n['Language']
+
+    document.querySelector('label[for="option-picker"]').textContent = i18n['Color Picker type']
 
     document.querySelector('body > main > fieldset:nth-child(3) > legend').textContent = i18n['Shortcuts']
 

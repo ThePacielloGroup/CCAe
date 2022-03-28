@@ -1,5 +1,5 @@
 const { ipcMain, clipboard, globalShortcut } = require('electron')
-const { getColorHexRGB } = require('./picker/index.js')
+const { getColorFromPickerAddOn } = require('./picker/index.js')
 
 const CCAColor = require('./color/CCAcolor.js')
 const white = CCAColor.rgb(0, 0, 0)
@@ -62,25 +62,36 @@ class CCAController {
         ipcMain.on('changeFromHSVComponent', this.updateHSVComponent.bind(this))
         ipcMain.on('changeFromString', this.updateFromString.bind(this))
         ipcMain.on('switchColors', this.switchColors.bind(this))
-        ipcMain.on('showPicker', this.showPicker.bind(this))
+        ipcMain.on('getColorFromPicker', this.getColorFromPicker.bind(this))
         ipcMain.handle('getColorObject', (event, section) => {
             return this.getColorObject(section)
         })
         ipcMain.handle('getContrastRatioObject', (event) => {
             return this.updateContrastRatio()
         })
+        ipcMain.on('colorFromPicker', this.receivedColorFromPicker.bind(this))
     }
 
-    async showPicker(event, section) {
-        this.sendEventToAll('pickerTogglled', section, true)
-        const hexColor = await getColorHexRGB().catch((error) => {
-          console.warn(`[ERROR] getColor`, error)
-          return ''
-        })
+    async getColorFromPicker(event, section) {
+        this.sendEventToAll('pickerToggled', section, true)
+        const pickerType = await this.preferences.get(`main.picker`)
+        let hexColor
+        if (pickerType == 2) { // legacy add-on picker
+            hexColor = await getColorFromPickerAddOn()
+                .catch((error) => {
+                    console.warn(`[ERROR] getColorFromPickerAddOn`, error)
+                })      
+            this.receivedColorFromPicker(event, section, hexColor)
+        } else { // Electron picker
+            this.sendEventToAll('showPicker', section)
+        }
+    }
+
+    receivedColorFromPicker(event, section, hexColor) {
         if (hexColor) {
             this.updateFromString(null, section, hexColor)
         }
-        this.sendEventToAll('pickerTogglled', section, false)
+        this.sendEventToAll('pickerToggled', section, false)
     }
 
     updateLanguage() {
@@ -387,12 +398,12 @@ ${t.Main["1.4.11 Non-text Contrast (AA)"]}
         switch(shortcut) {
             case 'foreground.picker.shortcut':
                 globalShortcut.register(newValue, () => {
-                    this.showPicker(null, 'foreground')
+                    this.getColorFromPicker(null, 'foreground')
                 })
                 break;
             case 'background.picker.shortcut':
                 globalShortcut.register(newValue, () => {
-                    this.showPicker(null, 'background')
+                    this.getColorFromPicker(null, 'background')
                 })
                 break;
         }

@@ -18,8 +18,13 @@ ipcRenderer.on('init', async (event, config) => {
     document.getElementById('shortcut-foreground-picker').value = foregroundPickerShortcut
     const backgroundPickerShortcut = await preferences.get('background.picker.shortcut')
     document.getElementById('shortcut-background-picker').value = backgroundPickerShortcut
-    const picker = await preferences.get('main.picker')
-    document.getElementById('option-picker').value = picker
+
+    if (process.platform === 'win32' || process.platform === 'win64' || /^(msys|cygwin)$/.test(process.env.OSTYPE)) {
+        document.getElementById('option-picker').hidden = true
+    } else {
+        const picker = await preferences.get('main.picker')
+        document.getElementById('option-picker').value = picker
+    }
 
     i18n = config.i18n
     translateHTML(i18n)
@@ -37,9 +42,10 @@ document.getElementById('save').addEventListener('click', function () {
     preferences.set('foreground.picker.shortcut', foregroundPickerShortcut)
     const backgroundPickerShortcut = document.getElementById('shortcut-background-picker').value
     preferences.set('background.picker.shortcut', backgroundPickerShortcut)
-    const picker = document.getElementById('option-picker').value
-    preferences.set('main.picker', picker)
-
+    if (!(process.platform === 'win32' || process.platform === 'win64' || /^(msys|cygwin)$/.test(process.env.OSTYPE))) {
+        const picker = document.getElementById('option-picker').value
+        preferences.set('main.picker', picker)
+    }
     close()
 })
 

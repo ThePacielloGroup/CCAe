@@ -34,7 +34,7 @@ const defaults = {
     'main.rounding': 1,
     'main.alwaysOnTop': true,
     'main.lang': 'auto',
-    'main.picker': 1,
+    'main.picker': (process.platform === 'win32' || process.platform === 'win64' || /^(msys|cygwin)$/.test(process.env.OSTYPE))?2:1, // Disable for Windows until https://github.com/electron/electron/issues/27980
     'foreground.format': 'hex',
     'background.format': 'hex',
     'foreground.picker.shortcut': 'F11',

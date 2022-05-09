@@ -99,7 +99,9 @@
             "perMachine": true,
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
-            "additionalWixArgs": "-sval"
+            "additionalWixArgs": [
+                "-sval"
+            ]
         },
         "portable": {
             "artifactName": "${name}-Portable-${version}.${ext}"

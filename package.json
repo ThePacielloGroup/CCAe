@@ -16,7 +16,7 @@
         "cross-env": "^7.0.3",
         "electron": "18.1.0",
         "electron-builder": "^23.0.3",
-        "electron-notarize": "1.2.1"
+        "electron-builder-notarize": "^1.4.0"
     },
     "dependencies": {
         "color-blind": "^0.1.1",
@@ -41,7 +41,7 @@
         "releaseInfo": {
             "releaseNotesFile": "CHANGELOG.md"
         },
-        "afterSign": "scripts/notarize.js",
+        "afterSign": "electron-builder-notarize",
         "mac": {
             "hardenedRuntime": true,
             "gatekeeperAssess": false,
@@ -68,12 +68,6 @@
                     ]
                 },
                 {
-                    "target": "msi",
-                    "arch": [
-                        "x64"
-                    ]
-                },
-                {
                     "target": "portable",
                     "arch": [
                         "x64"
@@ -92,13 +86,6 @@
             "uninstallerIcon": "build/icon.ico",
             "uninstallDisplayName": "Uninstall Colour Contrast Analyser (CCA)",
             "createDesktopShortcut": true
-        },
-        "msi": {
-            "artifactName": "${name}-Setup-${version}.${ext}",
-            "oneClick": false,
-            "perMachine": true,
-            "createDesktopShortcut": true,
-            "createStartMenuShortcut": true
         },
         "portable": {
             "artifactName": "${name}-Portable-${version}.${ext}"

@@ -1,35 +1,35 @@
 const { ipcRenderer } = require('electron')
 const CCAColor = require('../../color/CCAcolor.js')
-const GlobalStorage = require('../../globalStorage.js')
+const store = require('../../store.js')
 
-let i18n, preferences
+let i18n
 
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-app'), false)
     
 ipcRenderer.on('init', async (event, config) => {
-    preferences = new GlobalStorage(window)
     i18n = config.i18n
     translateHTML(i18n)
 
     // init format selector
-    const foregroundFormat = await preferences.get('foreground.format')
+    const foregroundFormat = await store.get('foreground.format')
+    console.log('foregroundFormat', foregroundFormat)
     document.querySelector('#foreground-color .format-selector').value = foregroundFormat
-    const backgroundFormat = await preferences.get('background.format')
+    const backgroundFormat = await store.get('background.format')
     document.querySelector('#background-color .format-selector').value = backgroundFormat
 
     // init sliders state
-    const foregroundSlidersOpen = await preferences.get('foreground.sliders.open')
+    const foregroundSlidersOpen = await store.get('foreground.sliders.open')
     showHide(document.querySelector('#foreground-color .sliders'), foregroundSlidersOpen)
-    const backgroundSlidersOpen = await preferences.get('background.sliders.open')
+    const backgroundSlidersOpen = await store.get('background.sliders.open')
     showHide(document.querySelector('#background-color .sliders'), backgroundSlidersOpen)
 
     // init tabs
-    const foregroundSlidersTab = await preferences.get('foreground.sliders.tab')
+    const foregroundSlidersTab = await store.get('foreground.sliders.tab')
     var tab = document.querySelector(`#foreground-sliders a[data-tab="${foregroundSlidersTab}"]`)
-    tab.setAttribute('aria-selected', 'true');      
+    tab.setAttribute('aria-selected', 'true');
     var controls = tab.getAttribute('aria-controls');
     document.getElementById(controls).removeAttribute('hidden');
-    const backgroundSlidersTab = await preferences.get('background.sliders.tab')
+    const backgroundSlidersTab = await store.get('background.sliders.tab')
     var tab = document.querySelector(`#background-sliders a[data-tab="${backgroundSlidersTab}"]`)
     tab.setAttribute('aria-selected', 'true');      
     var controls = tab.getAttribute('aria-controls');
@@ -39,12 +39,12 @@ ipcRenderer.on('init', async (event, config) => {
     ipcRenderer.send('height-changed', mainHeight)
     
     initTabs("#foreground-sliders", (el)=>{
-        preferences.set('foreground.sliders.tab', el.getAttribute('data-tab'))
+        store.set('foreground.sliders.tab', el.getAttribute('data-tab'))
         var mainHeight = document.querySelector('main').clientHeight
         ipcRenderer.send('height-changed', mainHeight)
     })
     initTabs("#background-sliders", (el)=>{
-        preferences.set('background.sliders.tab', el.getAttribute('data-tab'))
+        store.set('background.sliders.tab', el.getAttribute('data-tab'))
         var mainHeight = document.querySelector('main').clientHeight
         ipcRenderer.send('height-changed', mainHeight)
     })
@@ -177,7 +177,7 @@ function numberHSVOnInput(section, component, value) {
 
 function showHideSliders(section, el) {
     let state = (el.getAttribute('aria-expanded') === 'true')
-    preferences.set(`${section}.sliders.open`, !state)
+    store.set(`${section}.sliders.open`, !state)
     showHide(el)
 }
 
@@ -350,7 +350,7 @@ function validateText(section, value, formats) {
         }
     }
     if (format) {
-        preferences.set(`${section}.format`, format)
+        store.set(`${section}.format`, format)
     }
     displayValidate(section, format, string)
 }
@@ -389,10 +389,7 @@ function leaveText(section, el) {
 
 function changeFormat(section, el) {
     // We send the selected format to the controller for saving and sharedObject update
-    preferences.set(`${section}.format`, el.value)
-    // Then we update the current text field
-    let color = sharedObject.deficiencies.normal[section + "Color"]
-    applyColorTextString(section, color)
+    store.set(`${section}.format`, el.value)
 }
 
 function translateHTML(i18n) {

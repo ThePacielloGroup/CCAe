@@ -1,9 +1,9 @@
 const {ipcMain, app} = require('electron')
 
-module.exports = (browsers, preferences) => {
+module.exports = (browsers, store) => {
     const {about} = browsers
     ipcMain.on('init-about', async () => {
-        const lang = await preferences.get('main.lang')
+        const lang = store.get('lang')
         const i18n = new(require('../i18n'))(lang)
         let config = {
             version: app.getVersion(),
@@ -18,7 +18,7 @@ module.exports = (browsers, preferences) => {
 
         switch(event) {
             case 'langChanged':
-                const lang = await preferences.get('main.lang')
+                const lang = store.get('lang')
                 const i18n = new(require('../i18n'))(lang)
                 win.webContents.send(event, i18n.asObject().About)
                 break

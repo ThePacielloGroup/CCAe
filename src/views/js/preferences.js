@@ -1,28 +1,26 @@
 const { ipcRenderer } = require('electron')
-const GlobalStorage = require('../../globalStorage.js')
+const store = require('../../store.js')
 
-let i18n, preferences
+let i18n
 
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-preferences'), false)
 
 ipcRenderer.on('init', async (event, config) => {
-    preferences = new GlobalStorage(window)
-
-    const rounding = await preferences.get('main.rounding')
+    const rounding = await store.get('rounding')
     document.getElementById('option-rounding').value = rounding
-    const checkForUpdates = await preferences.get('main.checkForUpdates')
+    const checkForUpdates = await store.get('checkForUpdates')
     document.getElementById('option-checkForUpdates').checked = checkForUpdates
-    const lang = await preferences.get('main.lang')
+    const lang = await store.get('lang')
     document.getElementById('option-lang').value = lang
-    const foregroundPickerShortcut = await preferences.get('foreground.picker.shortcut')
+    const foregroundPickerShortcut = await store.get('foreground.picker.shortcut')
     document.getElementById('shortcut-foreground-picker').value = foregroundPickerShortcut
-    const backgroundPickerShortcut = await preferences.get('background.picker.shortcut')
+    const backgroundPickerShortcut = await store.get('background.picker.shortcut')
     document.getElementById('shortcut-background-picker').value = backgroundPickerShortcut
 
     if (process.platform === 'win32' || process.platform === 'win64' || /^(msys|cygwin)$/.test(process.env.OSTYPE)) {
         document.getElementById('option-picker').hidden = true
     } else {
-        const picker = await preferences.get('main.picker')
+        const picker = await store.get('picker')
         document.getElementById('option-picker').value = picker
     }
 
@@ -33,18 +31,18 @@ ipcRenderer.on('init', async (event, config) => {
 
 document.getElementById('save').addEventListener('click', function () {
     const rounding = document.getElementById('option-rounding').value
-    preferences.set('main.rounding', rounding)
+    store.set('rounding', parseInt(rounding))
     const checkForUpdates = document.getElementById('option-checkForUpdates').checked
-    preferences.set(checkForUpdates, 'main', 'checkForUpdates')
+    store.set('checkForUpdates', checkForUpdates)
     const lang = document.getElementById('option-lang').value
-    preferences.set('main.lang', lang)
+    store.set('lang', lang)
     const foregroundPickerShortcut = document.getElementById('shortcut-foreground-picker').value
-    preferences.set('foreground.picker.shortcut', foregroundPickerShortcut)
+    store.set('foreground.picker.shortcut', foregroundPickerShortcut)
     const backgroundPickerShortcut = document.getElementById('shortcut-background-picker').value
-    preferences.set('background.picker.shortcut', backgroundPickerShortcut)
+    store.set('background.picker.shortcut', backgroundPickerShortcut)
     if (!(process.platform === 'win32' || process.platform === 'win64' || /^(msys|cygwin)$/.test(process.env.OSTYPE))) {
         const picker = document.getElementById('option-picker').value
-        preferences.set('main.picker', picker)
+        store.set('picker', parseInt(picker))
     }
     close()
 })

@@ -5,11 +5,11 @@ const CCAColor = require('./color/CCAcolor.js')
 const white = CCAColor.rgb(0, 0, 0)
 const black = CCAColor.rgb(255, 255, 255)
 
-let i18n, t, preferences
+let i18n, t, store
 
 class CCAController {
-    constructor(sendEventToAll, preferences) {
-        this.preferences = preferences
+    constructor(sendEventToAll, store) {
+        this.store = store
         this.sendEventToAll = sendEventToAll
         this.sharedObject = {
             'general.foregroundColor': white,
@@ -46,7 +46,7 @@ class CCAController {
     }
     
     async init() {
-        const lang = await this.preferences.get('main.lang')
+        const lang = this.store.get('lang')
         i18n = new(require('./i18n'))(lang)
         t = i18n.asObject()
 
@@ -74,7 +74,7 @@ class CCAController {
 
     async getColorFromPicker(event, section) {
         this.sendEventToAll('pickerToggled', section, true)
-        const pickerType = await this.preferences.get(`main.picker`)
+        const pickerType = this.store.get(`picker`)
         let hexColor
         if (pickerType == 2) { // legacy add-on picker
             hexColor = await getColorFromPickerAddOn()
@@ -95,7 +95,8 @@ class CCAController {
     }
 
     updateLanguage() {
-        i18n = new(require('./i18n'))(preferences.get('main.lang'))
+        const lang = this.store.get('lang')
+        i18n = new(require('./i18n'))(lang)
         t = i18n.asObject()
         this.updateContrastRatio()
     }
@@ -268,7 +269,7 @@ class CCAController {
 
     async getColorObject(section) {
         const color = this.sharedObject[`general.${section}Color`]
-        const format = await this.preferences.get(`${section}.format`) // to remove from loop
+        const format = this.store.get(`${section}.format`) // to remove from loop
 
         const object = {
             string: color.getColorTextString(format),
@@ -301,7 +302,7 @@ class CCAController {
     }
 
     async getContrastRatioObject() {
-        const rounding = await this.preferences.get('main.rounding') // TO REMOVE FROM THE UPDATE LOOP
+        const rounding = this.store.get('rounding') // TO REMOVE FROM THE UPDATE LOOP
 
         this.sharedObject['general.contrastRatioRaw']  = this.sharedObject['general.foregroundColor'].getReal().contrast(this.sharedObject['general.backgroundColor'])
         const cr = this.sharedObject['general.contrastRatioRaw']
@@ -364,14 +365,14 @@ class CCAController {
         }
 
         const foregroundColor = this.sharedObject[`general.foregroundColor`]
-        const foregroundFormat = await this.preferences.get(`foreground.format`)
+        const foregroundFormat = this.store.get(`foreground.format`)
         const foregroundColorString = foregroundColor.getColorTextString(foregroundFormat)
 
         const backgroundColor = this.sharedObject[`general.backgroundColor`]
-        const backgroundFormat = await this.preferences.get(`background.format`)
+        const backgroundFormat = this.store.get(`background.format`)
         const backgroundColorString = backgroundColor.getColorTextString(backgroundFormat)
 
-        const rounding = await this.preferences.get('main.rounding')
+        const rounding = this.store.get('rounding')
         const cr = this.sharedObject['general.contrastRatioRaw']
         const crr = Number(cr.toFixed(rounding)).toLocaleString(i18n.lang)
         // toLocalString removes trailing zero and use the correct decimal separator, based on the app select lang.

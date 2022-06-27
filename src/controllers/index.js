@@ -1,6 +1,6 @@
-module.exports = (browsers, preferences) => ({
-    main: require('./main')(browsers, preferences),
-    about: require('./about')(browsers, preferences),
-    deficiency: require('./deficiency')(browsers, preferences),
-    preferences: require('./preferences')(browsers, preferences),
+module.exports = (browsers, store) => ({
+    main: require('./main')(browsers, store),
+    about: require('./about')(browsers, store),
+    deficiency: require('./deficiency')(browsers, store),
+    preferences: require('./preferences')(browsers, store),
 })

@@ -1,9 +1,167 @@
 const { ipcMain, app } = require('electron')
-const GlobalStorage = require('./globalStorage.js')
+const Store = require('electron-store');
 const { checkForUpdates, setUpdatesDisabled } = require('./update.js')
 const CCAController = require('./CCAcontroller')
-let browsers, controllers, mainController, setMenu, i18n, preferences
+let browsers, controllers, mainController, setMenu, i18n
 
+// Set application name for Windows 10+ notifications
+if (process.platform === 'win32') app.setAppUserModelId(app.getName())
+
+// https://json-schema.org/understanding-json-schema/reference
+const schema = {
+    position : {
+        type: 'object',
+        properties: {
+            x: {
+                type: 'integer',
+            },
+            y: {
+                type: 'integer',
+            },
+        }
+    },
+    checkForUpdates: {
+        type: 'boolean',
+        default: false,
+    },
+    rounding: {
+        type: 'number',
+        minimum: 0,
+        maximum: 3,
+        default: 1,
+    },
+    alwaysOnTop: {
+        type: 'boolean',
+        default: true,
+    },
+    lang: {
+        type: 'string',
+        default: 'auto',
+    },
+    picker: {
+        type: 'integer',
+        default: (process.platform === 'win32' || process.platform === 'win64' || /^(msys|cygwin)$/.test(process.env.OSTYPE))?2:1, // Disable for Windows until https://github.com/electron/electron/issues/27980
+    },
+    foreground : {
+        type: 'object',
+        properties: {
+            format: {
+                type: 'string',
+                default: 'hex',
+            },
+            picker : {
+                type: 'object',
+                properties: {
+                    shortcut: {
+                        type: 'string',
+                        default: 'F11'
+                    }
+                },
+                default: {}
+            },
+            sliders : {
+                type: 'object',
+                properties: {
+                    open: {
+                        type: 'boolean',
+                        default: false,
+                    },
+                    tab: {
+                        type: 'string',
+                        default: 'rgb'
+                    }
+                },
+                default: {}
+            }
+        },
+        default: {}
+    },
+    background : {
+        type: 'object',
+        properties: {
+            format: {
+                type: 'string',
+                default: 'hex',
+            },
+            picker : {
+                type: 'object',
+                properties: {
+                    shortcut: {
+                        type: 'string',
+                        default: 'F12'
+                    }
+                },
+                default: {}
+            },
+            sliders : {
+                type: 'object',
+                properties: {
+                    open: {
+                        type: 'boolean',
+                        default: false,
+                    },
+                    tab: {
+                        type: 'string',
+                        default: 'rgb'
+                    }
+                },
+                default: {}
+            }
+        },
+        default: {}
+    }
+}
+
+const store = new Store({schema,
+    migrations: {
+        '3.2.0': store => {
+            store.clear();
+        },
+    }
+})
+
+// Expose 'electron-store' to Renderer-process through 'ipcMain.handle'
+ipcMain.handle('store',
+  async (_event, methodSign, ...args) => {
+    if (typeof (store)[methodSign] === 'function') {
+      return (store)[methodSign](...args)
+    }
+    return (store)[methodSign]
+  }
+)
+
+// Monitor store changes
+store.onDidChange('rounding', () => {
+    mainController.updateContrastRatio()
+})
+store.onDidChange('lang', (newValue) => {
+    i18n = new(require('./i18n'))(newValue)
+    setMenu(i18n)
+    mainController.sendEventToAll('langChanged')
+    mainController.updateLanguage()
+})
+store.onDidChange('foreground.format', ()=>{
+    mainController.updateColor('foreground')
+})
+store.onDidChange('background.format', ()=>{
+    mainController.updateColor('background')
+})
+store.onDidChange('foreground.picker.shortcut', (newValue, oldValue) => {
+    mainController.updateShortcut('foreground.picker.shortcut', oldValue, value)
+})
+store.onDidChange('background.picker.shortcut', (newValue, oldValue) => {
+    mainController.updateShortcut('background.picker.shortcut', oldValue, value)
+})
+store.onDidChange('main.checkForUpdates', (newValue) => {
+    if (newValue === true) {
+        checkForUpdates()
+    } else {
+        setUpdatesDisabled()
+    }
+})
+
+console.log(store.path)
+console.log(store.store)
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -11,60 +169,31 @@ app.on('ready', async () => {
 //    const { screen } = require('electron')
 //    const displays = screen.getAllDisplays()
 //    console.log(displays)
-    preferences = new GlobalStorage()
-    const lang = await preferences.get('main.lang')
+    const lang = store.get('lang')
     i18n = new(require('./i18n'))(lang)
 
-    browsers = require('./browsers')(__dirname, preferences)
-    controllers = require('./controllers')(browsers, preferences)
-    mainController = new CCAController(sendEventToAll, preferences)
-    setMenu = require('./menu.js')(browsers, mainController, preferences).setMenu
+    browsers = require('./browsers')(__dirname, store)
+    controllers = require('./controllers')(browsers, store)
+    mainController = new CCAController(sendEventToAll, store)
+    setMenu = require('./menu.js')(browsers, mainController, store).setMenu
 
     browsers.main.init()
 
     setMenu(i18n)
 
     // Register shortcuts
-    const foregroundShortcut = await preferences.get('foreground.picker.shortcut')
+    const foregroundShortcut = store.get('foreground.picker.shortcut')
+
     mainController.updateShortcut('foreground.picker.shortcut', null, foregroundShortcut)
-    const backgroundShortcut = await preferences.get('background.picker.shortcut')
+    const backgroundShortcut = store.get('background.picker.shortcut')
     mainController.updateShortcut('background.picker.shortcut', null, backgroundShortcut)
 
-    const updates = await preferences.get('main.checkForUpdates')
+    const updates = store.get('checkForUpdates')
     if (updates === true) {
         checkForUpdates()
     } else {
         setUpdatesDisabled()
     }
-    // Monitor preferences changes
-    // TODO
-    // window.addEventListener('storage', async function(e) {
-    //     switch(e.key) {
-    //         case 'main.rounding':
-    //             mainController.updateContrastRatio()
-    //         break;
-    //         case 'main.lang':
-    //             const lang = await preferences.get('main.lang')
-    //             i18n = new(require('./i18n'))(lang)
-    //             setMenu(i18n)
-    //             mainController.sendEventToAll('langChanged')
-    //             mainController.updateLanguage()
-    //         break;
-    //         case 'foreground.picker.shortcut':
-    //             mainController.updateShortcut(option, oldValue, value)
-    //         break;
-    //         case 'background.picker.shortcut':
-    //             mainController.updateShortcut(option, oldValue, value)
-    //         break;
-    //         case 'main.checkForUpdates':
-    //             if (value === true) {
-    //                 checkForUpdates()
-    //             } else {
-    //                 setUpdatesDisabled()
-    //             }
-    //         break;
-    //     }
-    // })
 })
 
 // Quit when all windows are closed.
@@ -88,3 +217,4 @@ function sendEventToAll(event, ...params) {
         controllers[key].sendEvent(event, ...params)
     })
 }
+

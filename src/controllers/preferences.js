@@ -1,9 +1,9 @@
 const {ipcMain, app} = require('electron')
 
-module.exports = (browsers, prefs) => {
+module.exports = (browsers, store) => {
     const {preferences} = browsers
     ipcMain.on('init-preferences', () => {
-        const i18n = new(require('../i18n'))(prefs.get('main.lang'))
+        const i18n = new(require('../i18n'))(store.get('lang'))
         let config = {
             i18n: i18n.asObject().Preferences
         }

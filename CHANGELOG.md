@@ -12,7 +12,8 @@
 - Added funder credit [\#219](https://github.com/ThePacielloGroup/CCAe/issues/219)
 - Errors when trying to compile/run source on Windows [\#239](https://github.com/ThePacielloGroup/CCAe/issues/239)
 - Spanish language version [\#228](https://github.com/ThePacielloGroup/CCAe/issues/228)
-- Upgrade to Electron [\#238](https://github.com/ThePacielloGroup/CCAe/pull/238)
+- Upgrade Electron [\#238](https://github.com/ThePacielloGroup/CCAe/pull/238)
+- [refactor] storage system with electron-store
 
 ## [v3.1.4](https://github.com/ThePacielloGroup/CCAe/tree/v3.1.4) (2021-07-07)
 

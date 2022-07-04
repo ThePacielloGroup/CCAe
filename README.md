@@ -10,7 +10,7 @@ This repository contains the source code for the new Colour Contrast Analyser (C
 
 ![CCA Interface](cca.png)
 
-For further information, see [The Paciello Group's Colour Contrast Analyser resource page](https://developer.paciellogroup.com/resources/contrastanalyser/).
+For further information, see [TPGi's Colour Contrast Analyser resource page](https://www.tpgi.com/color-contrast-checker/).
 
 ## Features
 - WCAG 2.1 compliance indicators

@@ -50,7 +50,10 @@
             "category": "public.app-category.developer-tools",
             "artifactName": "${name}-${version}.${ext}",
             "icon": "build/icon.icns",
-            "type": "distribution"
+            "type": "distribution",
+            "publish": [
+                "github"
+            ]
         },
         "dmg": {
             "sign": false
@@ -73,6 +76,9 @@
                         "x64"
                     ]
                 }
+            ],
+            "publish": [
+                "github"
             ]
         },
         "nsis": {

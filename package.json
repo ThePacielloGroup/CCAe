@@ -35,9 +35,6 @@
         "productName": "Colour Contrast Analyser",
         "compression": "maximum",
         "directories": {},
-        "files": [
-            "**/*"
-        ],
         "releaseInfo": {
             "releaseNotesFile": "CHANGELOG.md"
         },
@@ -95,6 +92,12 @@
         },
         "portable": {
             "artifactName": "${name}-Portable-${version}.${ext}"
+        },
+        "publish": {
+            "provider": "github",
+            "repo": "CCAe",
+            "owner": "ferllings",
+            "releaseType": "release"
         }
     }
 }

@@ -12,7 +12,6 @@ ipcRenderer.on('init', async (event, config) => {
 
     // init format selector
     const foregroundFormat = await store.get('foreground.format')
-    console.log('foregroundFormat', foregroundFormat)
     document.querySelector('#foreground-color .format-selector').value = foregroundFormat
     const backgroundFormat = await store.get('background.format')
     document.querySelector('#background-color .format-selector').value = backgroundFormat

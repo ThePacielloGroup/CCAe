@@ -27,10 +27,8 @@ function translateHTML(i18n) {
     document.title = i18n['Title']
     document.querySelector('h1').textContent = i18n['Colour Contrast Analyser (CCA)']
 
-    document.querySelector('body > main > div > p:nth-child(1)').textContent
-        = document.querySelector('body > main > div > p:nth-child(1)').textContent.replace('Version', i18n['Version'])
-    document.querySelector('body > main > div > p:nth-child(3)').textContent
-        = document.querySelector('body > main > div > p:nth-child(3)').textContent.replace('Developed by',i18n['Developed by'])
+    document.querySelector('#i18n-version').textContent = i18n['Version']
+    document.querySelector('#i18n-developed').textContent = i18n['Developed by']
 
     document.querySelector('h2:nth-child(1)').textContent = i18n['Translations']
 

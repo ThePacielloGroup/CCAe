@@ -98,7 +98,6 @@
         },
         "msi": {
             "artifactName": "${name}-Setup-${version}.${ext}",
-            "installerIcon": "build/icon.ico",
             "oneClick": false,
             "perMachine": true,
             "createDesktopShortcut": true,

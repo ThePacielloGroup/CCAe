@@ -68,6 +68,12 @@
                     ]
                 },
                 {
+                    "target": "msi",
+                    "arch": [
+                        "x64"
+                    ]
+                },
+                {
                     "target": "portable",
                     "arch": [
                         "x64"
@@ -89,6 +95,14 @@
             "uninstallerIcon": "build/icon.ico",
             "uninstallDisplayName": "Uninstall Colour Contrast Analyser (CCA)",
             "createDesktopShortcut": true
+        },
+        "msi": {
+            "artifactName": "${name}-Setup-${version}.${ext}",
+            "installerIcon": "build/icon.ico",
+            "oneClick": false,
+            "perMachine": true,
+            "createDesktopShortcut": true,
+            "createStartMenuShortcut": true
         },
         "portable": {
             "artifactName": "${name}-Portable-${version}.${ext}"

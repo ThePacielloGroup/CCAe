@@ -317,7 +317,7 @@ function applyContrastRatio(contrastRatio) {
     contrastRatioString = `${crr}:1`
     if ((cr >= 6.95 && cr < 7) || (cr >= 4.45 && cr < 4.5) || (cr >= 2.95 && cr < 3)) {
         let crr3 = Number(cr.toFixed(3)).toLocaleString(i18n.lang)
-        contrastRatioString = `<span class="smaller">${t.Main["just below"]} </span>${crr}:1<span class="smaller"> (${crr3}:1)</span>`
+        contrastRatioString = `<span class="smaller">${i18n["just below"]} </span>${crr}:1<span class="smaller"> (${crr3}:1)</span>`
     }
 
     document.getElementById('contrast-ratio-value').innerHTML = contrastRatioString

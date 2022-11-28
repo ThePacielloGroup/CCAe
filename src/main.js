@@ -32,7 +32,7 @@ const schema = {
     },
     alwaysOnTop: {
         type: 'boolean',
-        default: true,
+        default: false,
     },
     lang: {
         type: 'string',
@@ -116,6 +116,9 @@ const store = new Store({schema,
     migrations: {
         '3.2.0': store => {
             store.clear();
+        },
+        '3.3.0': store => {
+            store.delete('main');
         },
     }
 })

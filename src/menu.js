@@ -88,10 +88,10 @@ module.exports = (browsers, mainController, prefs) => {
                     {
                         label: i18n.menuT('Always on Top'),
                         type: 'checkbox',
-                        checked: prefs.get('main.alwaysOnTop'),
+                        checked: prefs.get('alwaysOnTop'),
                         click: (item) => {
                             main.getWindow().setAlwaysOnTop(item.checked)
-                            prefs.set('main.alwaysOnTop', item.checked)
+                            prefs.set('alwaysOnTop', item.checked)
                         }
                     },
                     {

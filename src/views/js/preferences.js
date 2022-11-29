@@ -18,7 +18,7 @@ ipcRenderer.on('init', async (event, config) => {
     document.getElementById('shortcut-background-picker').value = backgroundPickerShortcut
 
     if (process.platform === 'win32' || process.platform === 'win64' || /^(msys|cygwin)$/.test(process.env.OSTYPE)) {
-        document.getElementById('option-picker').hidden = true
+        document.getElementById('option-picker-group').hidden = true
     } else {
         const picker = await store.get('picker')
         document.getElementById('option-picker').value = picker

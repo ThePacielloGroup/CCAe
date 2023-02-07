@@ -18,6 +18,12 @@
             <option value="2">2 decimal places</option>
           </select>
           <label for="option-checkForUpdates"><input type="checkbox" id="option-checkForUpdates"/>Enable Auto-Update</label>
+          <label for="option-theme">Theme Mode</label>
+          <select id="option-theme">
+            <option value="system">System (Default)</option>
+            <option value="force-light">Light</option>
+            <option value="force-dark">Dark</option>
+          </select>
           <label for="option-lang">Language</label>
           <select id="option-lang">
             <option value="auto">Auto</option>
@@ -78,7 +84,7 @@
     </main>
     <script>
       // You can also require other files to run in this process
-      require('./js/preferences.js')
+      require('./js/preferences.js');
     </script>
   </body>
 </html>

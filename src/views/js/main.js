@@ -1,15 +1,14 @@
 const { ipcRenderer } = require('electron')
 const CCAColor = require('../../color/CCAcolor.js')
 const store = require('../../store.js')
-
 let i18n
-
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-app'), false)
-    
+
 ipcRenderer.on('init', async (event, config) => {
     i18n = config.i18n
     translateHTML(i18n)
-
+    const theme = await store.get("colorScheme");
+    setColorScheme(theme);
     // init format selector
     const foregroundFormat = await store.get('foreground.format')
     document.querySelector('#foreground-color .format-selector').value = foregroundFormat
@@ -24,27 +23,27 @@ ipcRenderer.on('init', async (event, config) => {
 
     // init tabs
     const foregroundSlidersTab = await store.get('foreground.sliders.tab')
-    var tab = document.querySelector(`#foreground-sliders a[data-tab="${foregroundSlidersTab}"]`)
-    tab.setAttribute('aria-selected', 'true');
-    var controls = tab.getAttribute('aria-controls');
-    document.getElementById(controls).removeAttribute('hidden');
+    const fgTab = document.querySelector(`#foreground-sliders a[data-tab="${foregroundSlidersTab}"]`)
+    fgTab.setAttribute('aria-selected', 'true');
+    const fgControls = fgTab.getAttribute('aria-controls');
+    document.getElementById(fgControls).removeAttribute('hidden');
     const backgroundSlidersTab = await store.get('background.sliders.tab')
-    var tab = document.querySelector(`#background-sliders a[data-tab="${backgroundSlidersTab}"]`)
-    tab.setAttribute('aria-selected', 'true');      
-    var controls = tab.getAttribute('aria-controls');
-    document.getElementById(controls).removeAttribute('hidden');
+    const bgTab = document.querySelector(`#background-sliders a[data-tab="${backgroundSlidersTab}"]`)
+    bgTab.setAttribute('aria-selected', 'true');      
+    const bgControls = bgTab.getAttribute('aria-controls');
+    document.getElementById(bgControls).removeAttribute('hidden');
 
-    var mainHeight = document.querySelector('main').clientHeight;
+    const mainHeight = document.querySelector('main').clientHeight;
     ipcRenderer.send('height-changed', mainHeight)
     
     initTabs("#foreground-sliders", (el)=>{
         store.set('foreground.sliders.tab', el.getAttribute('data-tab'))
-        var mainHeight = document.querySelector('main').clientHeight
+        const mainHeight = document.querySelector('main').clientHeight
         ipcRenderer.send('height-changed', mainHeight)
     })
     initTabs("#background-sliders", (el)=>{
         store.set('background.sliders.tab', el.getAttribute('data-tab'))
-        var mainHeight = document.querySelector('main').clientHeight
+        const mainHeight = document.querySelector('main').clientHeight
         ipcRenderer.send('height-changed', mainHeight)
     })
 
@@ -57,6 +56,10 @@ ipcRenderer.on('colorChanged', (event, section, color) => {
 
 ipcRenderer.on('contrastRatioChanged', (event, contrastRatio) => {
     applyContrastRatio(contrastRatio)
+})
+
+ipcRenderer.on('colorSchemeChanged',async (event,newScheme)=>{
+    setColorScheme(newScheme);
 })
 
 ipcRenderer.on('langChanged', (event, i18nNew) => {
@@ -227,7 +230,10 @@ function applyColorPreview(section, color) {
     } else {
         document.querySelector('#' + section + '-color .name-value').innerHTML = null        
     }
-    document.querySelector('#' + section + '-color').classList.toggle('darkMode', color.isDark)
+
+    
+    document.querySelector('#' + section + '-color').classList.toggle('black',!color.isDark)
+    document.querySelector('#' + section + '-color').classList.toggle('white',color.isDark)
 }
 
 function applyColorRGBSliders(section, color) {
@@ -399,6 +405,7 @@ function translateHTML(i18n) {
 
     document.querySelector('h1').textContent = i18n['CCA Main windows']
 
+    // -- color sliders and --
     document.querySelector('#foreground-color h2').textContent = i18n['Foreground colour']
 
     document.querySelector('#foreground-format-selector').setAttribute('aria-label', i18n['Select default format for foreground colour']);
@@ -419,19 +426,17 @@ function translateHTML(i18n) {
     document.querySelector('#foreground-rgb > div.slider.slider-rgb.red > label').textContent = i18n['Red']
     document.querySelector('#foreground-rgb > div.slider.slider-rgb.green > label').textContent = i18n['Green']
     document.querySelector('#foreground-rgb > div.slider.slider-rgb.blue > label').textContent = i18n['Blue']
-    document.querySelector('#foreground-rgb > div.slider.slider-rgb.alpha > label').textContent = i18n['Alpha']
+    document.querySelectorAll('#foreground-rgb > div.alpha > label').forEach(alphaLabel=>{alphaLabel.textContent = i18n['Alpha']})
 
     document.querySelector('#foreground-hsl > h2').textContent = i18n['Foreground HSL input']
     document.querySelector('#foreground-hsl > div.slider.slider-hsl.hue > label').textContent = i18n['Hue']
     document.querySelector('#foreground-hsl > div.slider.slider-hsl.saturationl > label').textContent = i18n['Saturation']
     document.querySelector('#foreground-hsl > div.slider.slider-hsl.lightness > label').textContent = i18n['Lightness']
-    document.querySelector('#foreground-hsl > div.slider.slider-hsl.alpha > label').textContent = i18n['Alpha']
 
     document.querySelector('#foreground-hsv > h2').textContent = i18n['Foreground HSV input']
     document.querySelector('#foreground-hsv > div.slider.slider-hsv.hue > label').textContent = i18n['Hue']
     document.querySelector('#foreground-hsv > div.slider.slider-hsv.saturationv > label').textContent = i18n['Saturation']
     document.querySelector('#foreground-hsv > div.slider.slider-hsv.value > label').textContent = i18n['Value']
-    document.querySelector('#foreground-hsv > div.slider.slider-hsv.alpha > label').textContent = i18n['Alpha']
 
     document.querySelector('#background-color h2').textContent = i18n['Background colour']
     document.querySelector('#background-format-selector').setAttribute('aria-label', i18n['Select default format for background colour'])
@@ -462,6 +467,60 @@ function translateHTML(i18n) {
     document.querySelector('#background-hsv > div.slider.slider-hsv.saturationv > label').textContent = i18n['Saturation']
     document.querySelector('#background-hsv > div.slider.slider-hsv.value > label').textContent = i18n['Value']
 
+    /*
+    
+    var-naming rule:
+    - Prefixes
+        fg = constants for foreground elements
+        bg = constants for background elements
+    
+    - Middle Tags
+        input = constants for <input> tags
+        rgb / hsl / hsv = constants for sliders and spinbutton NodeList
+        
+    */
+    const fg_input_rgb_r = document.querySelectorAll('#foreground-rgb > div.slider.slider-rgb.red > input')
+    const fg_input_rgb_g = document.querySelectorAll('#foreground-rgb > div.slider.slider-rgb.green > input')
+    const fg_input_rgb_b = document.querySelectorAll('#foreground-rgb > div.slider.slider-rgb.blue > input');
+    const fg_input_hsl_h = document.querySelectorAll('#foreground-hsl > div.slider.slider-hsl.hue > input')
+    const fg_input_hsl_s = document.querySelectorAll('#foreground-hsl > div.slider.slider-hsl.saturationl > input')
+    const fg_input_hsl_l = document.querySelectorAll('#foreground-hsl > div.slider.slider-hsl.lightness > input')
+    const fg_input_hsv_h = document.querySelectorAll('#foreground-hsv > div.slider.slider-hsv.hue > input')
+    const fg_input_hsv_s = document.querySelectorAll('#foreground-hsv > div.slider.slider-hsv.saturationv > input')
+    const fg_input_hsv_v = document.querySelectorAll('#foreground-hsv > div.slider.slider-hsv.value > input')
+    const fg_input_all_a = document.querySelectorAll('#foreground-sliders .alpha > input')
+
+    const bg_input_rgb_r = document.querySelectorAll('#background-rgb > div.slider.slider-rgb.red > input')
+    const bg_input_rgb_g = document.querySelectorAll('#background-rgb > div.slider.slider-rgb.green > input')
+    const bg_input_rgb_b = document.querySelectorAll('#background-rgb > div.slider.slider-rgb.blue > input');
+    const bg_input_hsl_h = document.querySelectorAll('#background-hsl > div.slider.slider-hsl.hue > input')
+    const bg_input_hsl_s = document.querySelectorAll('#background-hsl > div.slider.slider-hsl.saturationl > input')
+    const bg_input_hsl_l = document.querySelectorAll('#background-hsl > div.slider.slider-hsl.lightness > input')
+    const bg_input_hsv_h = document.querySelectorAll('#background-hsv > div.slider.slider-hsv.hue > input')
+    const bg_input_hsv_s = document.querySelectorAll('#background-hsv > div.slider.slider-hsv.saturationv > input')
+    const bg_input_hsv_v = document.querySelectorAll('#background-hsv > div.slider.slider-hsv.value > input')
+
+    fg_input_rgb_r.forEach(r => {r.setAttribute("aria-label",i18n['Foreground red input'])})
+    fg_input_rgb_g.forEach(g => {g.setAttribute("aria-label",i18n['Foreground green input'])})
+    fg_input_rgb_b.forEach(b => {b.setAttribute("aria-label",i18n['Foreground blue input'])})
+    fg_input_hsl_h.forEach(h => {h.setAttribute("aria-label",i18n['Foreground hue input'])})
+    fg_input_hsl_s.forEach(s => {s.setAttribute("aria-label",i18n['Foreground saturationl input'])})    
+    fg_input_hsl_l.forEach(l => {l.setAttribute("aria-label",i18n['Foreground lightness input'])})
+    fg_input_hsv_h.forEach(h => {h.setAttribute("aria-label",i18n["Foreground hue input"])})
+    fg_input_hsv_s.forEach(s => {s.setAttribute('aria-label',i18n["Foreground saturationv input"])})
+    fg_input_hsv_v.forEach(v => {v.setAttribute('aria-label',i18n["Foreground value input"])})
+    fg_input_all_a.forEach(a => {a.setAttribute("aria-label",i18n['Foreground alpha input'])})
+    
+    bg_input_rgb_r.forEach(r => {r.setAttribute("aria-label",i18n['Background red input'])})
+    bg_input_rgb_g.forEach(g => {g.setAttribute("aria-label",i18n['Background green input'])})
+    bg_input_rgb_b.forEach(b => {b.setAttribute("aria-label",i18n['Background blue input'])})
+    bg_input_hsl_h.forEach(h => {h.setAttribute("aria-label",i18n['Background hue input'])})
+    bg_input_hsl_s.forEach(s => {s.setAttribute("aria-label",i18n['Background saturationl input'])})    
+    bg_input_hsl_l.forEach(l => {l.setAttribute("aria-label",i18n['Background lightness input'])})
+    bg_input_hsv_h.forEach(h => {h.setAttribute("aria-label",i18n["Background hue input"])})
+    bg_input_hsv_s.forEach(s => {s.setAttribute('aria-label',i18n["Background saturationv input"])})
+    bg_input_hsv_v.forEach(v => {v.setAttribute('aria-label',i18n["Background value input"])})
+
     document.querySelector('#sample-preview details summary h2').textContent = i18n['Sample preview']
     document.querySelector('#sample-preview details summary+div.preview-box div.text').textContent = i18n['example text showing contrast']
 
@@ -472,8 +531,29 @@ function translateHTML(i18n) {
     document.querySelector('#contrast-level-1-4-3+details summary h3').textContent = i18n['1.4.6 Contrast (Enhanced) (AAA)']
     document.querySelector('#contrast-level-1-4-6+details summary h3').textContent = i18n['1.4.11 Non-text Contrast (AA)']
 
-    document.querySelector('#results > details > p span.paraphrased').textContent = i18n['Paraphrased']
+    document.querySelectorAll('#results > details p span.paraphrased').forEach(paraphrased=>{paraphrased.textContent = i18n['Paraphrased']})
     document.querySelector('#results > details span#sc_1_4_3').innerHTML = i18n['sc_1_4_3']
     document.querySelector('#results > details span#sc_1_4_6').innerHTML = i18n['sc_1_4_6']
     document.querySelector('#results > details span#sc_1_4_11').innerHTML = i18n['sc_1_4_11']
 }
+
+function setColorScheme (v) {
+    switch (v) {
+        case "system":
+            document.documentElement.classList.remove('force-dark','force-light');
+            document.documentElement.classList.add("system")
+        break;
+        case "force-dark":
+            document.documentElement.classList.remove('force-light','system');
+            document.documentElement.classList.add("force-dark");
+            break;
+        case "force-dark":
+            document.documentElement.classList.remove('force-light','system');
+            document.documentElement.classList.add("force-dark");
+            break;
+        case "force-light":
+            document.documentElement.classList.remove('force-dark','system');
+            document.documentElement.classList.add('force-light');
+        break;
+    }
+};

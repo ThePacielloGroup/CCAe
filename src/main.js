@@ -38,6 +38,10 @@ const schema = {
         type: 'string',
         default: 'auto',
     },
+    colorScheme: {
+        type: 'string',
+        default: "system"
+    },
     picker: {
         type: 'integer',
         default: (process.platform === 'win32' || process.platform === 'win64' || /^(msys|cygwin)$/.test(process.env.OSTYPE))?2:1, // Disable for Windows until https://github.com/electron/electron/issues/27980
@@ -142,6 +146,9 @@ store.onDidChange('lang', (newValue) => {
     setMenu(i18n)
     mainController.sendEventToAll('langChanged')
     mainController.updateLanguage()
+});
+store.onDidChange('colorScheme',(newValue)=> {
+    mainController.sendEventToAll("colorSchemeChanged",newValue);
 })
 store.onDidChange('foreground.format', ()=>{
     mainController.updateColor('foreground')
@@ -220,4 +227,3 @@ function sendEventToAll(event, ...params) {
         controllers[key].sendEvent(event, ...params)
     })
 }
-

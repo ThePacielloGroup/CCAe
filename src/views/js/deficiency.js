@@ -1,9 +1,11 @@
-const { ipcRenderer } = require('electron')
+const { ipcRenderer } = require('electron');
+const store = require("../store.js");
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-deficiency'), false)
-
 let i18n
 
-ipcRenderer.on('init', (event, config) => {
+ipcRenderer.on('init', async (event, config) => {
+    const theme = await store.get("colorScheme");
+    setColorScheme(theme)
     i18n = config.i18n
     translateHTML(i18n)
     ipcRenderer.invoke('getColorObject', 'foreground').then((color) => {
@@ -86,4 +88,25 @@ function translateHTML(i18n) {
     document.querySelector('#deficiency-tritanomaly > h3 > span.text').textContent = i18n['Tritanomaly']
     document.querySelector('#deficiency-tritanomaly > div.desc').textContent = i18n['low blue']
     document.querySelector('#deficiency-tritanomaly-preview').textContent = i18n['Sample']
+}
+
+function setColorScheme (v) {
+    switch (v) {
+        case "system":
+            document.documentElement.classList.remove('force-dark','force-light');
+            document.documentElement.classList.add("system")
+        break;
+        case "force-dark":
+            document.documentElement.classList.remove('force-light','system');
+            document.documentElement.classList.add("force-dark");
+            break;
+        case "force-dark":
+            document.documentElement.classList.remove('force-light','system');
+            document.documentElement.classList.add("force-dark");
+            break;
+        case "force-light":
+            document.documentElement.classList.remove('force-dark','system');
+            document.documentElement.classList.add('force-light');
+        break;
+    }
 }

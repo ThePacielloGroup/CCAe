@@ -45,7 +45,7 @@
             "entitlements": "build/entitlements.mac.plist",
             "entitlementsInherit": "build/entitlements.mac.plist",
             "category": "public.app-category.developer-tools",
-            "artifactName": "${name}-${version}.${ext}",
+            "artifactName": "${name}-${env.ARCH}-${version}.${ext}",
             "icon": "build/icon.icns",
             "type": "distribution",
             "publish": [
@@ -79,7 +79,7 @@
             ]
         },
         "nsis": {
-            "artifactName": "${name}-Setup-${version}.${ext}",
+            "artifactName": "${name}-Setup-${env.ARCH}-${version}.${ext}",
             "oneClick": false,
             "perMachine": true,
             "allowElevation": true,
@@ -91,7 +91,7 @@
             "createDesktopShortcut": true
         },
         "portable": {
-            "artifactName": "${name}-Portable-${version}.${ext}"
+            "artifactName": "${name}-Portable-${env.ARCH}-${version}.${ext}"
         },
         "publish": {
             "provider": "github",

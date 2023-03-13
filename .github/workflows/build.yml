@@ -13,6 +13,7 @@ jobs:
 
     strategy:
         matrix:
+          include:
           - os: windows-latest
             platform: win32
             arch: x64

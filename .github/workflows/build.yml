@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - 'v*'
+    branches:
+      - "*"
 
 jobs:
   release:
@@ -11,7 +13,15 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, windows-latest]
+         - os: windows-latest
+            platform: win32
+            arch: x64
+          - os: macos-latest
+            platform: darwin
+            arch: x64
+          - os: macos-latest
+            platform: darwin
+            arch: arm64
 
     steps:
       - name: Check out Git repository

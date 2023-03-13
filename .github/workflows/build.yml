@@ -12,8 +12,8 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
-      matrix:
-         - os: windows-latest
+        matrix:
+          - os: windows-latest
             platform: win32
             arch: x64
           - os: macos-latest

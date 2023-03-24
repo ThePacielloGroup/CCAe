@@ -32,7 +32,8 @@ ipcRenderer.on('init', async (event, config) => {
 })
 
 document.getElementById('save').addEventListener('click', function () {
-    const rounding = document.getElementById('option-rounding').value
+    console.log("save")
+    const rounding = document.getElementById('option-rounding').value;
     store.set('rounding', parseInt(rounding))
     const checkForUpdates = document.getElementById('option-checkForUpdates').checked
     store.set('checkForUpdates', checkForUpdates)
@@ -44,6 +45,7 @@ document.getElementById('save').addEventListener('click', function () {
     store.set('foreground.picker.shortcut', foregroundPickerShortcut)
     const backgroundPickerShortcut = document.getElementById('shortcut-background-picker').value
     store.set('background.picker.shortcut', backgroundPickerShortcut)
+    
     if (!(process.platform === 'win32' || process.platform === 'win64' || /^(msys|cygwin)$/.test(process.env.OSTYPE))) {
         const picker = document.getElementById('option-picker').value
         store.set('picker', parseInt(picker))
@@ -80,7 +82,7 @@ function translateHTML(i18n) {
         }
     })
 
-    document.querySelector('label[for="option-checkForUpdates"]').innerHTML = i18n['Enable Auto-Update'];
+    document.querySelector('label[for="option-checkForUpdates"] span').innerText = i18n["Enable Auto-Update"];
 
     document.querySelector('label[for="option-lang"]').textContent = i18n['Language']
     document.querySelector('label[for="option-theme"]').textContent = i18n['Application Theme']

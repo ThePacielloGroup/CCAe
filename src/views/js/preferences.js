@@ -62,17 +62,25 @@ function close() {
 function translateHTML(i18n) {
     // translate html elements.
 
-    document.title = i18n['Title']
-    document.querySelector('h1').textContent = i18n['Preferences']
+    document.title = i18n['Title'];
+    document.querySelector('h1').textContent = i18n['Preferences'];
 
-    document.querySelector('body > main > fieldset:nth-child(2) > legend').textContent = i18n['Options']
-    document.querySelector('body > main > fieldset:nth-child(2) > label:nth-child(2)').textContent = i18n['Contrast ratio precision']
+    document.querySelector('fieldset#options>legend').textContent = i18n['Options']
+    document.querySelector('label[for="option-rounding"]').textContent = i18n['Contrast ratio precision']
 
-    document.querySelector('#option-rounding > option:nth-child(1)').textContent = i18n['1 decimal place']
-    document.querySelector('#option-rounding > option:nth-child(2)').textContent = i18n['2 decimal places']
+    document.querySelectorAll('#option-rounding > option').forEach((opt,idx)=>{
+        const optNum = idx+1;
+        switch(idx){
+            case 0:
+                opt.textContent = i18n[`${optNum} decimal place`];
+                break;
+            case 1:
+                opt.textContent = i18n[`${optNum} decimal places`];
+                break;
+        }
+    })
 
-    document.querySelector('body > main > fieldset:nth-child(2) > label:nth-child(4)').innerHTML
-        = document.querySelector('body > main > fieldset:nth-child(2) > label:nth-child(4)').innerHTML.replace('Enable Auto-Update', i18n['Enable Auto-Update'])
+    document.querySelector('label[for="option-checkForUpdates"]').innerHTML = i18n['Enable Auto-Update'];
 
     document.querySelector('label[for="option-lang"]').textContent = i18n['Language']
     document.querySelector('label[for="option-theme"]').textContent = i18n['Application Theme']
@@ -88,16 +96,17 @@ function translateHTML(i18n) {
                 opt.textContent = i18n["Dark"];
                 break;
         }
-    })
+    });
+
     document.querySelector('label[for="option-picker"]').textContent = i18n['Color Picker type']
 
-    document.querySelector('body > main > fieldset:nth-child(3) > legend').textContent = i18n['Shortcuts']
+    document.querySelector('fieldset#shortcuts > legend').textContent = i18n['Shortcuts']
 
-    document.querySelector('body > main > fieldset:nth-child(3) > label:nth-child(2)').textContent = i18n['Picker foreground']
-    document.querySelector('body > main > fieldset:nth-child(3) > label:nth-child(4)').textContent = i18n['Picker background']
+    document.querySelector('label[for="shortcut-background-picker"]').textContent = i18n['Picker foreground']
+    document.querySelector('label[for="shortcut-foreground-picker"]').textContent = i18n['Picker background']
 
-    document.getElementById('save').innerText = i18n['Save']
-    document.getElementById('cancel').innerText = i18n['Cancel']
+    document.getElementById('save').innerText = i18n['Save'];
+    document.getElementById('cancel').innerText = i18n['Cancel'];
 }
 
 function setColorScheme ( v ) {

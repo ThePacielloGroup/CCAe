@@ -8,14 +8,19 @@ body{
     overflow: hidden;
 }
 
-.darkMode {
-    color: #ffffff;
+.black {
+    color: #000;
+}
+.white {
+    color: #fff;
 }
 
 section {
     position: relative;
-    border-top: 1px solid #eeeeee;
+    border-top: 1px solid var(--fg-border-primary);
 }
+
+
 
 *[contenteditable="true"] {
     user-select: text;
@@ -26,7 +31,7 @@ summary h2, summary h3 {
     display: inline-block;
 }
 
-section#foreground-color h2, 
+section#foreground-color h2,
 section#background-color h2 {
     position: absolute;
     top: 0.5rem;
@@ -35,7 +40,6 @@ section#background-color h2 {
 
 section {
     padding: 0.5rem;
-    background-color: #ececec;
 }
 
 /* Color sections */
@@ -73,7 +77,7 @@ section#foreground-color input.free-value,
 section#background-color input.free-value  {
     appearance: none;
     -webkit-appearance: none;
-    border: 1px #cccccc dashed;
+    border: 1px var(--fg-border-primary) dashed;
     padding: 0.2rem;
     background: transparent;
     text-align: center;
@@ -84,8 +88,6 @@ section#background-color input.free-value  {
 
 section#foreground-color select.format-selector,
 section#background-color select.format-selector  {
-    background-color: #1B75BC;
-    color: #ffffff;
     padding: 0.2rem 0.5rem 0.1rem 0.5rem;
     border-radius: 0.2rem;
     position: absolute;
@@ -115,62 +117,70 @@ section#foreground-color input.free-value:focus,
 section#background-color input.free-value:focus {
     appearance: textfield;
     -webkit-appearance: textfield;
-    border: 1px solid #cccccc;
-    color: #000000;
-    background: #ffffff;
+    border: 1px solid var(--fg-border-primary);
+    color: var(--fg-primary);
+    background: var(--bg-primary);
 }
 
 section#foreground-color button, 
 section#background-color button {
-    background-color: #ffffff;
+    background:var(--bg-control-primary);
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: 90% 90%;
     width: 2rem;
     height: 1.2rem;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--fg-border-primary);
     border-radius: 0.2rem;
+    padding: 0.5em;
 }
 
 section#foreground-color button.picker, 
 section#background-color button.picker {
-    background-image: url('../icons/picker-black.svg');
+    background-image: var(--icon-picker);
 }
 
 section#foreground-color button.sliders, 
 section#background-color button.sliders {
-    background-image: url('../icons/sliders-black.svg');
+    background-image: var(--icon-sliders);
 }
 
 section#foreground-color button.help, 
 section#background-color button.help {
-    background-image: url('../icons/help-black.svg');
+    background-image: var(--icon-help);
 }
 
 section#foreground-color button.switch {
-    background-image: url('../icons/switch.svg');
+    background-image: var(--icon-switch);
+}
+
+section#foreground-color button[aria-pressed=true],
+section#foreground-color button[aria-expanded=true],
+section#background-color button[aria-pressed=true],
+section#background-color button[aria-expanded=true]{
+    box-shadow:inset 0 0 0.1em 0.1em rgba(0, 0, 0, 0.4);
 }
 
 section#foreground-color button[aria-pressed=true].picker,
 section#background-color button[aria-pressed=true].picker {
-    background-image: url('../icons/picker-white.svg');
+    background-image: var(--icon-picker-pressed);
 }
 
 section#foreground-color button[aria-expanded=true].sliders,
 section#background-color button[aria-expanded=true].sliders {
-    background-image: url('../icons/sliders-white.svg');
+    background-image: var(--icon-sliders-pressed);
 }
 
 section#foreground-color button[aria-expanded=true].help,
 section#background-color button[aria-expanded=true].help {
-    background-image: url('../icons/help-white.svg');
+    background-image: var(--icon-help-pressed);
 }
 
 section#foreground-color button[aria-expanded=true],
 section#background-color button[aria-expanded=true],
 section#foreground-color button[aria-pressed=true],
 section#background-color button[aria-pressed=true] {
-    background-color: #1B75BC;
+    background-color: var(--bg-accent);
 }
 
 /* Sliders */
@@ -232,12 +242,14 @@ section#background-sliders input[type=number]::-webkit-outer-spin-button {
 /* Help section */
 section#foreground-help,
 section#background-help {
-    background: #f5f5f5;
+    background: var(--bg-secondary);
     line-height: 1.5;
 }
 
 /* Sample preview section */
-
+section#sample-preview {
+    background-color: var(--bg-details);
+}
 section#sample-preview .preview-box {
     display: flex;
     align-items: center;
@@ -247,7 +259,7 @@ section#sample-preview .preview-box {
 }
 
 section#sample-preview .preview-box .text {
-    border: 1px #cccccc dashed;
+    border: 1px var(--fg-border-primary) dashed;
     padding: 0.5rem;
 }
 
@@ -266,7 +278,8 @@ section#sample-preview .icon svg {
 
 #contrast-ratio {
     margin-right: 0.5rem;
-    border: 1px solid #ccc;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--fg-border-primary);
     text-align: center;
     padding: 0 0.5rem;
 }
@@ -284,7 +297,7 @@ section#sample-preview .icon svg {
 }
 
 section#results {
-    background-color: #ffffff;
+    background-color: var(--bg-primary);
 }
 
 section#results header {
@@ -295,18 +308,18 @@ section#results header {
 section#results details {
     margin: 0.5rem;
     border-radius: 3px;
-    background: #EEE;
+    background: var(--bg-details);
 }
 
 section#results summary {
-    background: #333;
+    background: var(--bg-summary);
     color: #FFF;
     border-radius: 3px;
     padding: 0.5rem 1rem;
 }
 
 section#results details[open] summary {
-    background: #1B75BC;
+    background: var(--bg-accent);
 }
 
 section#results details p {
@@ -315,8 +328,8 @@ section#results details p {
 }
 
 section#results details p small {
-    background: #dadada;
-    color: #222;
+    background: var(--bg-paraphrased);
+    color: var(--fg-paraphrased);
     padding: 0.1em 0.25em;
     border: 1px #666 solid;
     border-radius: 2px;

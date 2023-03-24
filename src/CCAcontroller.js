@@ -62,6 +62,7 @@ class CCAController {
         ipcMain.on('changeFromHSVComponent', this.updateHSVComponent.bind(this))
         ipcMain.on('changeFromString', this.updateFromString.bind(this))
         ipcMain.on('switchColors', this.switchColors.bind(this))
+        ipcMain.on("darkMode",this.updateColor)
         ipcMain.on('getColorFromPicker', this.getColorFromPicker.bind(this))
         ipcMain.handle('getColorObject', (event, section) => {
             return this.getColorObject(section)

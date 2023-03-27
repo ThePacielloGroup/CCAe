@@ -100,6 +100,20 @@ function translateHTML(i18n) {
         }
     });
 
+    document.querySelector('label[for="option-theme"]').textContent = i18n['Application Theme']
+    document.querySelectorAll('#option-theme>option').forEach((opt,idx)=>{
+        switch(idx) {
+            case 0:
+                opt.textContent = i18n["System (Default)"];
+                break;
+            case 1:
+                opt.textContent = i18n["Light"];
+                break;
+            case 2:
+                opt.textContent = i18n["Dark"];
+                break;
+        }
+    })
     document.querySelector('label[for="option-picker"]').textContent = i18n['Color Picker type']
 
     document.querySelector('fieldset#shortcuts > legend').textContent = i18n['Shortcuts']
@@ -107,8 +121,8 @@ function translateHTML(i18n) {
     document.querySelector('label[for="shortcut-background-picker"]').textContent = i18n['Picker foreground']
     document.querySelector('label[for="shortcut-foreground-picker"]').textContent = i18n['Picker background']
 
-    document.getElementById('save').innerText = i18n['Save'];
-    document.getElementById('cancel').innerText = i18n['Cancel'];
+    document.getElementById('save').innerText = i18n['Save']
+    document.getElementById('cancel').innerText = i18n['Cancel']
 }
 
 function setColorScheme ( v ) {

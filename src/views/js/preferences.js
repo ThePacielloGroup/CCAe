@@ -32,7 +32,6 @@ ipcRenderer.on('init', async (event, config) => {
 })
 
 document.getElementById('save').addEventListener('click', function () {
-    console.log("save")
     const rounding = document.getElementById('option-rounding').value;
     store.set('rounding', parseInt(rounding))
     const checkForUpdates = document.getElementById('option-checkForUpdates').checked

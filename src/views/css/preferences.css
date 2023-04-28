@@ -9,13 +9,12 @@ body {
     right: 1rem;
 }
 
-fieldset {
+.option {
     display: flex;
-    align-items: stretch;
-    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 0.5rem;
 }
 
-select {
-    margin-left:auto;
-    align-self: flex-end;
+.option select, .width-8 {
+    min-width: 8rem;
 }

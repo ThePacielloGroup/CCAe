@@ -32,11 +32,15 @@ const schema = {
     },
     alwaysOnTop: {
         type: 'boolean',
-        default: true,
+        default: false,
     },
     lang: {
         type: 'string',
         default: 'auto',
+    },
+    colorScheme: {
+        type: 'string',
+        default: "system"
     },
     picker: {
         type: 'integer',
@@ -117,6 +121,9 @@ const store = new Store({schema,
         '3.2.0': store => {
             store.clear();
         },
+        '3.3.0': store => {
+            store.delete('main');
+        },
     }
 })
 
@@ -139,6 +146,9 @@ store.onDidChange('lang', (newValue) => {
     setMenu(i18n)
     mainController.sendEventToAll('langChanged')
     mainController.updateLanguage()
+});
+store.onDidChange('colorScheme',(newValue)=> {
+    mainController.sendEventToAll("colorSchemeChanged",newValue);
 })
 store.onDidChange('foreground.format', ()=>{
     mainController.updateColor('foreground')
@@ -217,4 +227,3 @@ function sendEventToAll(event, ...params) {
         controllers[key].sendEvent(event, ...params)
     })
 }
-

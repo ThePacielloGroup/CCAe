@@ -45,7 +45,7 @@ jobs:
         if: startsWith(matrix.os, 'windows')
         # Import Signing key for app signing on Windows
         run: |
-          echo ${{ secrets.windows_certs }} | base64 -d > ~/private_keys/Windows_Certificate.pfx
+          echo "$windows_certs" | base64 -d > ~/private_keys/Windows_Certificate.pfx
         shell: bash
         env:
           windows_certs: ${{ secrets.windows_certs }}

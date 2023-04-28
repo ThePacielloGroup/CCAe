@@ -1,6 +1,6 @@
 appId: com.electron.cca
 productName: Colour Contrast Analyser
-compression: maximum,
+compression: maximum
 directories:
   output: dist
 files:

@@ -14,6 +14,7 @@
 - \[fix\] Msi action, closes \#265 [\#295](https://github.com/ThePacielloGroup/CCAe/pull/295)
 - Reduce repeated translation codes. [\#291](https://github.com/ThePacielloGroup/CCAe/pull/291)
 - Darkmode support [\#279](https://github.com/ThePacielloGroup/CCAe/pull/279)
+- Native support for ARM based Macs [\#248](https://github.com/ThePacielloGroup/CCAe/issues/248) [\#284](https://github.com/ThePacielloGroup/CCAe/issues/284)
 
 ## [v3.2.1](https://github.com/ThePacielloGroup/CCAe/tree/v3.2.1) (2023-03-14)
 

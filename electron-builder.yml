@@ -12,13 +12,15 @@ extraResources:
   - "icons/**"
 
 mac:
-  target: dmg
+  target:
+    - target: dmg
+      arch: universal
   hardenedRuntime: true
   gatekeeperAssess: false
   entitlements: "build/entitlements.mac.plist"
   entitlementsInherit: "build/entitlements.mac.plist"
   category: public.app-category.developer-tools
-  artifactName: "${name}-${env.ARCH}-${version}.${ext}"
+  artifactName: "${name}-${version}.${ext}"
   icon: "build/icon.icns"
   type: distribution
   publish:

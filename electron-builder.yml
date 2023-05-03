@@ -70,5 +70,5 @@ portable:
 publish:
   provider: github
   repo: CCAe
-  owner: ferllings
+  owner: ThePacielloGroup
   releaseType: release

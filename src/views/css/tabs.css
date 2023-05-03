@@ -22,7 +22,7 @@ ul[role=tablist] > li > a {
 }
 
 ul[role=tablist] > li > a[aria-selected="true"] {
-    color: var(--fg-primary);
+    color: white;
     background-color: var(--bg-accent);
     font-weight: bold;
 }

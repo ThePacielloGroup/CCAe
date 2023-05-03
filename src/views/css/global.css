@@ -132,7 +132,9 @@ a {
 button, input {
     font-size: 1.2rem;
     color-scheme: var(--scheme-type);
-    border: var(--fg-control-border-primary) solid 1px;
+    border-color: var(--fg-control-border-primary);
+    border-style: solid;
+    border-width: 1px;
 }
 
 input[type=number] {

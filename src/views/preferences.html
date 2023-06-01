@@ -10,27 +10,46 @@
   <body>
     <main>
       <h1 class="sr-only">Preferences</h1>
-      <fieldset>
+      <fieldset id="options">
         <legend>Options</legend>
-          <label for="option-rounding">Contrast ratio precision</label>
-          <select id="option-rounding">
-            <option value="1">1 decimal place</option>
-            <option value="2">2 decimal places</option>
-          </select>
-          <label for="option-checkForUpdates"><input type="checkbox" id="option-checkForUpdates"/>Enable Auto-Update</label>
-          <label for="option-lang">Language</label>
-          <select id="option-lang">
-            <option value="auto">Auto</option>
-            <option value="de" lang="de">Deutsch</option>
-            <option value="nl" lang="nl">Dutch</option>
-            <option value="en" lang="en">English</option>
-            <option value="es" lang="es">Español</option>>
-            <option value="fr" lang="fr">Français</option>
-            <option value="pl" lang="pl">Polski</option>
-            <option value="ja" lang="ja">日本語</option>
-            <option value="ko" lang="ko">한국어</option>
-          </select>
-          <div id="option-picker-group">
+          <div class="option">
+            <label id="lb-option-rounding" for="option-rounding">Contrast ratio precision</label>
+            <select id="option-rounding">
+              <option value="1">1 decimal place</option>
+              <option value="2">2 decimal places</option>
+            </select>
+          </div>
+          <div class="option">
+            <label for="option-checkForUpdates"><input type="checkbox" id="option-checkForUpdates"/>
+              <span>
+                Enable Auto-Update
+              </span>
+            </label>
+          </div>
+          <div class="option">
+            <label for="option-theme" id="lb-option-theme">Application Theme</label>
+            <select id="option-theme">
+              <option value="system">System (Default)</option>
+              <option value="force-light">Light</option>
+              <option value="force-dark">Dark</option>
+            </select>
+          </div>
+          <div class="option">
+            <label for="option-lang">Language</label>
+            <select id="option-lang">
+              <option value="auto">Auto</option>
+              <option value="de" lang="de">Deutsch</option>
+              <option value="nl" lang="nl">Dutch</option>
+              <option value="en" lang="en">English</option>
+              <option value="es" lang="es">Español</option>>
+              <option value="fr" lang="fr">Français</option>
+              <option value="hu" lang="hu">Magyar</option>
+              <option value="pl" lang="pl">Polski</option>
+              <option value="ja" lang="ja">日本語</option>
+              <option value="ko" lang="ko">한국어</option>
+            </select>
+          </div>
+          <div class="option" id="option-picker-group">
             <label for="option-picker">Color Picker type</label>
             <select id="option-picker">
               <option value="1">Electron</option>
@@ -38,8 +57,9 @@
             </select>  
           </div>
       </fieldset>
-      <fieldset>
+      <fieldset id="shortcuts">
         <legend>Shortcuts</legend>
+        <div class="option">
           <label for="shortcut-foreground-picker">Picker foreground</label>
           <select id="shortcut-foreground-picker">
             <option value="F1">F1</option>
@@ -55,6 +75,8 @@
             <option value="F11">F11</option>
             <option value="F12">F12</option>
           </select>
+        </div>
+        <div class="option">
           <label for="shortcut-background-picker">Picker background</label>
           <select id="shortcut-background-picker">
             <option value="F1">F1</option>
@@ -70,6 +92,7 @@
             <option value="F11">F11</option>
             <option value="F12">F12</option>
           </select>
+        </div>
       </fieldset>
       <div class="buttons">
         <button id="save">Save</button>
@@ -78,7 +101,7 @@
     </main>
     <script>
       // You can also require other files to run in this process
-      require('./js/preferences.js')
+      require('./js/preferences.js');
     </script>
   </body>
 </html>

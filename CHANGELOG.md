@@ -1,8 +1,36 @@
 # Changelog
+
 **Known issues**
 - [MacOS: Color picker picks the color *after* browser/application color management](https://github.com/ThePacielloGroup/CCAe/issues/76)
 - [Windows: Application menus aren't keyboard accessible](https://github.com/ThePacielloGroup/CCAe/issues/49)
 - [Windows: Changing slider values is not announced in NVDA](https://github.com/ThePacielloGroup/CCAe/issues/37)
+
+## [v3.3.0](https://github.com/ThePacielloGroup/CCAe/tree/v3.3.0) (2023-05-03)
+
+[Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.2.1...v3.3.0)
+
+- Expired Certificate [\#294](https://github.com/ThePacielloGroup/CCAe/issues/294)
+- CCA 3.2.0 - MSI installer missing [\#265](https://github.com/ThePacielloGroup/CCAe/issues/265)
+- \[fix\] Msi action, closes \#265 [\#295](https://github.com/ThePacielloGroup/CCAe/pull/295)
+- Reduce repeated translation codes. [\#291](https://github.com/ThePacielloGroup/CCAe/pull/291)
+- Darkmode support [\#279](https://github.com/ThePacielloGroup/CCAe/pull/279)
+- Native support for ARM based Macs [\#248](https://github.com/ThePacielloGroup/CCAe/issues/248) [\#284](https://github.com/ThePacielloGroup/CCAe/issues/284)
+
+## [v3.2.1](https://github.com/ThePacielloGroup/CCAe/tree/v3.2.1) (2023-03-14)
+
+[Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.2.0...v3.2.1)
+
+- Polish translation [\#263](https://github.com/ThePacielloGroup/CCAe/issues/263)
+- Russian translation [\#286](https://github.com/ThePacielloGroup/CCAe/pull/286)
+- French translation [\#285](https://github.com/ThePacielloGroup/CCAe/pull/285)
+- Glitches in the Preferences [\#280](https://github.com/ThePacielloGroup/CCAe/issues/280)
+- Color Contrast Ratio not updated correctly [\#277](https://github.com/ThePacielloGroup/CCAe/issues/277)
+- Preferences \> "Color Picker type" without options to choose [\#272](https://github.com/ThePacielloGroup/CCAe/issues/272)
+- CCA 3.2.0 - Specific colour value not giving correct ratio [\#269](https://github.com/ThePacielloGroup/CCAe/issues/269)
+- Window "About CCA \(F1\)" opens links with attr "\_self" instead of "\_blank" [\#260](https://github.com/ThePacielloGroup/CCAe/issues/260)
+- Always on Top = Off setting does not work on app launch [\#254](https://github.com/ThePacielloGroup/CCAe/issues/254)
+- Contrast ratio not updated for certain colour values [\#287](https://github.com/ThePacielloGroup/CCAe/issues/287)
+- Version number is missing in the About window [\#255](https://github.com/ThePacielloGroup/CCAe/issues/255)
 
 ## [v3.2.0](https://github.com/ThePacielloGroup/CCAe/tree/v3.2.0) (2022-05-09)
 

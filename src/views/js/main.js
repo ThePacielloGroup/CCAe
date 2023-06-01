@@ -1,15 +1,14 @@
 const { ipcRenderer } = require('electron')
 const CCAColor = require('../../color/CCAcolor.js')
 const store = require('../../store.js')
-
 let i18n
-
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-app'), false)
-    
+
 ipcRenderer.on('init', async (event, config) => {
     i18n = config.i18n
     translateHTML(i18n)
-
+    const theme = await store.get("colorScheme");
+    setColorScheme(theme);
     // init format selector
     const foregroundFormat = await store.get('foreground.format')
     document.querySelector('#foreground-color .format-selector').value = foregroundFormat
@@ -24,27 +23,27 @@ ipcRenderer.on('init', async (event, config) => {
 
     // init tabs
     const foregroundSlidersTab = await store.get('foreground.sliders.tab')
-    var tab = document.querySelector(`#foreground-sliders a[data-tab="${foregroundSlidersTab}"]`)
-    tab.setAttribute('aria-selected', 'true');
-    var controls = tab.getAttribute('aria-controls');
-    document.getElementById(controls).removeAttribute('hidden');
+    const fgTab = document.querySelector(`#foreground-sliders a[data-tab="${foregroundSlidersTab}"]`)
+    fgTab.setAttribute('aria-selected', 'true');
+    const fgControls = fgTab.getAttribute('aria-controls');
+    document.getElementById(fgControls).removeAttribute('hidden');
     const backgroundSlidersTab = await store.get('background.sliders.tab')
-    var tab = document.querySelector(`#background-sliders a[data-tab="${backgroundSlidersTab}"]`)
-    tab.setAttribute('aria-selected', 'true');      
-    var controls = tab.getAttribute('aria-controls');
-    document.getElementById(controls).removeAttribute('hidden');
+    const bgTab = document.querySelector(`#background-sliders a[data-tab="${backgroundSlidersTab}"]`)
+    bgTab.setAttribute('aria-selected', 'true');      
+    const bgControls = bgTab.getAttribute('aria-controls');
+    document.getElementById(bgControls).removeAttribute('hidden');
 
-    var mainHeight = document.querySelector('main').clientHeight;
+    const mainHeight = document.querySelector('main').clientHeight;
     ipcRenderer.send('height-changed', mainHeight)
     
     initTabs("#foreground-sliders", (el)=>{
         store.set('foreground.sliders.tab', el.getAttribute('data-tab'))
-        var mainHeight = document.querySelector('main').clientHeight
+        const mainHeight = document.querySelector('main').clientHeight
         ipcRenderer.send('height-changed', mainHeight)
     })
     initTabs("#background-sliders", (el)=>{
         store.set('background.sliders.tab', el.getAttribute('data-tab'))
-        var mainHeight = document.querySelector('main').clientHeight
+        const mainHeight = document.querySelector('main').clientHeight
         ipcRenderer.send('height-changed', mainHeight)
     })
 
@@ -57,6 +56,10 @@ ipcRenderer.on('colorChanged', (event, section, color) => {
 
 ipcRenderer.on('contrastRatioChanged', (event, contrastRatio) => {
     applyContrastRatio(contrastRatio)
+})
+
+ipcRenderer.on('colorSchemeChanged',async (event,newScheme)=>{
+    setColorScheme(newScheme);
 })
 
 ipcRenderer.on('langChanged', (event, i18nNew) => {
@@ -227,7 +230,10 @@ function applyColorPreview(section, color) {
     } else {
         document.querySelector('#' + section + '-color .name-value').innerHTML = null        
     }
-    document.querySelector('#' + section + '-color').classList.toggle('darkMode', color.isDark)
+
+    
+    document.querySelector('#' + section + '-color').classList.toggle('black',!color.isDark)
+    document.querySelector('#' + section + '-color').classList.toggle('white',color.isDark)
 }
 
 function applyColorRGBSliders(section, color) {
@@ -396,84 +402,99 @@ function translateHTML(i18n) {
     // translate html elements.
     document.querySelector('html').lang = i18n['lang']
     document.querySelector('title').textContent = i18n['Title']
-
     document.querySelector('h1').textContent = i18n['CCA Main windows']
 
+    // Color Controls
     document.querySelector('#foreground-color h2').textContent = i18n['Foreground colour']
-
     document.querySelector('#foreground-format-selector').setAttribute('aria-label', i18n['Select default format for foreground colour']);
     document.querySelector('#foreground-format-selector+input').setAttribute('aria-label', i18n['Foreground colour value']);
-
-    document.querySelector('#foreground-color div:last-child button.switch').setAttribute('aria-label', i18n['Switch Colours'])
-    document.querySelector('#foreground-color div:last-child button.sliders').setAttribute('aria-label', i18n['Foreground colour sliders'])
-    document.querySelector('#foreground-color div:last-child button.picker').setAttribute('aria-label', i18n['Foreground colour picker'])
-    document.querySelector('#foreground-color div:last-child button.help').setAttribute('aria-label', i18n['Foreground help'])
-
+    
     document.querySelector('#foreground-help > .title').textContent = i18n['Supported formats are']
     document.querySelector('#foreground-help > ul > li.names').textContent = i18n['Names']
-
+    
     document.querySelector('#foreground-rgb h2').textContent = i18n['Foreground RGB input']
+    document.querySelector('#foreground-hsl > h2').textContent = i18n['Foreground HSL input']
+    document.querySelector('#foreground-hsv > h2').textContent = i18n['Foreground HSV input']
+    
     document.querySelector('#foreground-rgb > div.sync > label > span').textContent = i18n['Synchronize colour values']
     document.querySelector('#foreground-rgb > div.sync > label').setAttribute('aria-label',i18n['Synchronize foreground colour values'])
-
-    document.querySelector('#foreground-rgb > div.slider.slider-rgb.red > label').textContent = i18n['Red']
-    document.querySelector('#foreground-rgb > div.slider.slider-rgb.green > label').textContent = i18n['Green']
-    document.querySelector('#foreground-rgb > div.slider.slider-rgb.blue > label').textContent = i18n['Blue']
-    document.querySelector('#foreground-rgb > div.slider.slider-rgb.alpha > label').textContent = i18n['Alpha']
-
-    document.querySelector('#foreground-hsl > h2').textContent = i18n['Foreground HSL input']
-    document.querySelector('#foreground-hsl > div.slider.slider-hsl.hue > label').textContent = i18n['Hue']
-    document.querySelector('#foreground-hsl > div.slider.slider-hsl.saturationl > label').textContent = i18n['Saturation']
-    document.querySelector('#foreground-hsl > div.slider.slider-hsl.lightness > label').textContent = i18n['Lightness']
-    document.querySelector('#foreground-hsl > div.slider.slider-hsl.alpha > label').textContent = i18n['Alpha']
-
-    document.querySelector('#foreground-hsv > h2').textContent = i18n['Foreground HSV input']
-    document.querySelector('#foreground-hsv > div.slider.slider-hsv.hue > label').textContent = i18n['Hue']
-    document.querySelector('#foreground-hsv > div.slider.slider-hsv.saturationv > label').textContent = i18n['Saturation']
-    document.querySelector('#foreground-hsv > div.slider.slider-hsv.value > label').textContent = i18n['Value']
-    document.querySelector('#foreground-hsv > div.slider.slider-hsv.alpha > label').textContent = i18n['Alpha']
-
+    
     document.querySelector('#background-color h2').textContent = i18n['Background colour']
     document.querySelector('#background-format-selector').setAttribute('aria-label', i18n['Select default format for background colour'])
     document.querySelector('#background-color > div.container > input').setAttribute('aria-label', i18n['Background colour value'])
-
-    document.querySelector('#background-color > div.buttons > button.sliders').setAttribute('aria-label', i18n['Background colour sliders'])
-    document.querySelector('#background-color > div.buttons > button.picker').setAttribute('aria-label', i18n['Background colour picker'])
-    document.querySelector('#background-color > div.buttons > button.help').setAttribute('aria-label', i18n['Background help'])
-
+    
     document.querySelector('#background-help > .title').textContent = i18n['Supported formats are']
     document.querySelector('#background-help > ul > li.names').textContent = i18n['Names']
-
+    
     document.querySelector('#background-rgb > h2').textContent = i18n['Background RGB input']
+    document.querySelector('#background-hsl > h2').textContent = i18n['Background HSL input']
+    document.querySelector('#background-hsv > h2').textContent = i18n['Background HSV input']
+   
     document.querySelector('#background-rgb > div.sync > label > span').textContent = i18n['Synchronize colour values']
     document.querySelector('#background-rgb > div.sync > label').setAttribute('aria-label',i18n['Synchronize background colour values'])
 
-    document.querySelector('#background-rgb > div.slider.slider-rgb.red > label').textContent = i18n['Red']
-    document.querySelector('#background-rgb > div.slider.slider-rgb.green > label').textContent = i18n['Green']
-    document.querySelector('#background-rgb > div.slider.slider-rgb.blue > label').textContent = i18n['Blue']
 
-    document.querySelector('#background-hsl > h2').textContent = i18n['Background HSL input']
-    document.querySelector('#background-hsl > div.slider.slider-hsl.hue > label').textContent = i18n['Hue']
-    document.querySelector('#background-hsl > div.slider.slider-hsl.saturationl > label').textContent = i18n['Saturation']
-    document.querySelector('#background-hsl > div.slider.slider-hsl.lightness > label').textContent = i18n['Lightness']
+    /* 
+        [ForEach Patterns]
+        This allows you to avoid repeating similar codes
+        But, sliders must be have the same "aria-label" value with i18n keys
+    */
+    //  switch color, sliders, picker, help buttons in both color section
+    document.querySelectorAll("div.buttons > button").forEach(button=>{
+        const label = button.getAttribute('aria-label');
+        if(label) button.setAttribute('aria-label',i18n[label]);
+    })
+    /* translate aria-label for color sliders */
+    document.querySelectorAll('section[id$="-sliders"]').forEach(section=>{ // get both slider sections, background and foreground.
+        const sliders = section.querySelectorAll('input[type="range"]'); // get sliders.
+        sliders.forEach(slider=>{
+            const label = slider.getAttribute("aria-label");
+            if(label) {
+                slider.setAttribute("aria-label",i18n[label]); // recycling written aria-label markup of main.html
+            }
+        })
+    })
+    // Visible Slider Labels for Foreground and Background.
+    document.querySelectorAll('label.slider-lb').forEach((el)=>{
+        const label = el.textContent.trim();
+        el.textContent = i18n[label];
+    });
 
-    document.querySelector('#background-hsv > h2').textContent = i18n['Background HSV input']
-    document.querySelector('#background-hsv > div.slider.slider-hsv.hue > label').textContent = i18n['Hue']
-    document.querySelector('#background-hsv > div.slider.slider-hsv.saturationv > label').textContent = i18n['Saturation']
-    document.querySelector('#background-hsv > div.slider.slider-hsv.value > label').textContent = i18n['Value']
+    /* [End of ForEach Patterns] */
 
-    document.querySelector('#sample-preview details summary h2').textContent = i18n['Sample preview']
-    document.querySelector('#sample-preview details summary+div.preview-box div.text').textContent = i18n['example text showing contrast']
+    document.querySelector('#sample-preview summary h2').textContent = i18n['Sample preview']
+    document.querySelector('#sample-preview div.text').textContent = i18n['example text showing contrast']
 
     document.querySelector('#results header h2').textContent = i18n['WCAG 2.1 results']
     document.querySelector('#contrast-ratio h3').textContent = i18n['Contrast ratio']
 
-    document.querySelector('#results header+details summary h3').textContent = i18n['1.4.3 Contrast (Minimum) (AA)']
-    document.querySelector('#contrast-level-1-4-3+details summary h3').textContent = i18n['1.4.6 Contrast (Enhanced) (AAA)']
-    document.querySelector('#contrast-level-1-4-6+details summary h3').textContent = i18n['1.4.11 Non-text Contrast (AA)']
+    document.querySelector('details#criteria_1-4-3 h3').textContent = i18n['1.4.3 Contrast (Minimum) (AA)']
+    document.querySelector('details#criteria_1-4-6 h3').textContent = i18n['1.4.6 Contrast (Enhanced) (AAA)']
+    document.querySelector('details#criteria_1-4-11 h3').textContent = i18n['1.4.11 Non-text Contrast (AA)']
 
-    document.querySelector('#results > details > p span.paraphrased').textContent = i18n['Paraphrased']
-    document.querySelector('#results > details span#sc_1_4_3').innerHTML = i18n['sc_1_4_3']
-    document.querySelector('#results > details span#sc_1_4_6').innerHTML = i18n['sc_1_4_6']
-    document.querySelector('#results > details span#sc_1_4_11').innerHTML = i18n['sc_1_4_11']
+    document.querySelectorAll('details[id^=criteria] span.paraphrased').forEach(paraphrased=>{paraphrased.textContent = i18n['Paraphrased']})
+    document.querySelector('details span#sc_1_4_3').innerHTML = i18n['sc_1_4_3']
+    document.querySelector('details span#sc_1_4_6').innerHTML = i18n['sc_1_4_6']
+    document.querySelector('details span#sc_1_4_11').innerHTML = i18n['sc_1_4_11']
 }
+
+function setColorScheme (v) {
+    switch (v) {
+        case "system":
+            document.documentElement.classList.remove('force-dark','force-light');
+            document.documentElement.classList.add("system")
+        break;
+        case "force-dark":
+            document.documentElement.classList.remove('force-light','system');
+            document.documentElement.classList.add("force-dark");
+            break;
+        case "force-dark":
+            document.documentElement.classList.remove('force-light','system');
+            document.documentElement.classList.add("force-dark");
+            break;
+        case "force-light":
+            document.documentElement.classList.remove('force-dark','system');
+            document.documentElement.classList.add('force-light');
+        break;
+    }
+};

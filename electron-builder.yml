@@ -1,0 +1,76 @@
+appId: com.electron.cca
+productName: Colour Contrast Analyser
+compression: maximum
+directories:
+  output: dist
+files:
+  - "**/*"
+releaseInfo:
+  releaseNotesFile: CHANGELOG.md
+extraResources:
+  - "resources/**"
+  - "icons/**"
+
+mac:
+  target:
+    - target: dmg
+      arch: universal
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: "build/entitlements.mac.plist"
+  entitlementsInherit: "build/entitlements.mac.plist"
+  category: public.app-category.developer-tools
+  artifactName: "${name}-${version}.${ext}"
+  icon: "build/icon.icns"
+  type: distribution
+  publish:
+    - github
+
+afterSign: "electron-builder-notarize"
+
+dmg:
+  sign: false
+
+win:
+  icon: "build/icon.ico"
+  publisherName: "TPG Interactive, LLC"
+  target:
+    - target: nsis
+      arch:
+        - x64
+    - target: msi
+      arch:
+        - x64
+    - target: portable
+      arch:
+        - x64
+  publish:
+    - github
+
+nsis:
+  artifactName: "${name}-Setup-${env.ARCH}-${version}.${ext}"
+  oneClick: false
+  perMachine: true
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  deleteAppDataOnUninstall: true
+  installerIcon: "build/icon.ico"
+  uninstallerIcon: "build/icon.ico"
+  uninstallDisplayName: "Uninstall Colour Contrast Analyser (CCA)"
+  createDesktopShortcut: true
+
+msi:
+  artifactName: "${name}-Setup-${version}.${ext}"
+  oneClick: false
+  perMachine: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+
+portable:
+  artifactName: "${name}-Portable-${env.ARCH}-${version}.${ext}"
+
+publish:
+  provider: github
+  repo: CCAe
+  owner: ThePacielloGroup
+  releaseType: release

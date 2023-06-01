@@ -2,6 +2,109 @@ html, body{
     margin: 0;
     font: caption; /* Default Operating System Font */
     font-size: 100%;
+    color:var(--fg-primary);
+    background-color: var(--bg-primary);
+}
+
+:root {
+    --bg-primary:#fff;
+    --bg-secondary:#f5f5f5;
+    --bg-paraphrased:#dadada;
+    --bg-control-primary: #dfdfdf;
+    --bg-accent:#1B75BC;
+    --bg-summary:#151515;
+    --bg-details:#ECECEC;
+    --fg-primary:#000;
+    --fg-paraphrased:#222;
+    --bg-code:var(--bg-paraphrased);
+    --fg-border-primary:#ccc;
+    --fg-border-secondary:#aaa;
+    --fg-link:#4865FF;
+    --bg-code:#ccc;
+    --fg-control-border-primary: #8f8f8f;
+    --icon-switch:url("../icons/switch-black.svg");
+    --icon-sliders:url("../icons/sliders-black.svg");
+    --icon-picker:url("../icons/picker-black.svg");
+    --icon-help:url("../icons/help-black.svg");
+    --icon-sliders-pressed:url("../icons/sliders-white.svg");
+    --icon-picker-pressed:url("../icons/picker-white.svg");
+    --icon-help-pressed:url("../icons/help-white.svg");
+    --scheme-type:light;
+}
+
+@media ( prefers-color-scheme : dark ) {
+    :root {
+        --bg-primary:#121212;
+        --bg-secondary:#1f1f1f;
+        --bg-control-primary: #343434;
+        --bg-summary:#2f2f2f;
+        --bg-details:var(--bg-summary);
+        --bg-paraphrased:#1f1f1f;
+        --fg-paraphrased:#dadada;
+        --bg-code:var(--bg-paraphrased);
+        --fg-primary:#fff;
+        --fg-border-primary:#666;
+        --fg-border-secondary:#5a5a5a;
+        --fg-control-border-primary: #6f6f6f;
+        --fg-link:#58A5FF;
+        --icon-switch:url("../icons/switch-white.svg");
+        --icon-sliders:url("../icons/sliders-white.svg");
+        --icon-picker:url("../icons/picker-white.svg");
+        --icon-help:url("../icons/help-white.svg");
+        --icon-sliders-pressed:url("../icons/sliders-white.svg");
+        --icon-picker-pressed:url("../icons/picker-white.svg");
+        --icon-help-pressed:url("../icons/help-white.svg");
+        --scheme-type:dark;
+    }
+}
+
+html.force-light {
+    --bg-primary:#fff;
+    --bg-secondary:#f5f5f5;
+    --bg-paraphrased:#dadada;
+    --bg-control-primary: #dfdfdf;
+    --bg-accent:#1B75BC;
+    --bg-summary:#151515;
+    --bg-details:#ECECEC;
+    --fg-primary:#000;
+    --fg-paraphrased:#222;
+    --bg-code:var(--bg-paraphrased);
+    --fg-border-primary:#bbb;
+    --fg-border-secondary:#aaa;
+    --fg-link:#4865FF;
+    --fg-control-border-primary: #8f8f8f;
+    --icon-switch:url("../icons/switch-black.svg");
+    --icon-sliders:url("../icons/sliders-black.svg");
+    --icon-picker:url("../icons/picker-black.svg");
+    --icon-help:url("../icons/help-black.svg");
+    --icon-sliders-pressed:url("../icons/sliders-white.svg");
+    --icon-picker-pressed:url("../icons/picker-white.svg");
+    --icon-help-pressed:url("../icons/help-white.svg");
+    --scheme-type:light;
+}
+
+html.force-dark {
+    --bg-primary:#121212;
+    --bg-secondary:#1f1f1f;
+    --bg-control-primary: #343434;
+    --bg-summary:#2f2f2f;
+    --bg-details:var(--bg-summary);
+    --bg-paraphrased:#1f1f1f;
+    --bg-code:var(--bg-paraphrased);
+    --fg-primary:#fff;
+    --fg-paraphrased:#dadada;
+    --fg-border-primary:#666;
+    --fg-border-secondary:#5a5a5a;
+    --fg-control-border-primary: #6f6f6f;
+    --fg-link:#58A5FF;
+    --icon-switch:url("../icons/switch-white.svg");
+    --icon-sliders:url("../icons/sliders-white.svg");
+    --icon-picker:url("../icons/picker-white.svg");
+    --icon-help:url("../icons/help-white.svg");
+    --icon-sliders-pressed:url("../icons/sliders-white.svg");
+    --icon-picker-pressed:url("../icons/picker-white.svg");
+    --icon-help-pressed:url("../icons/help-white.svg");
+    --scheme-type:dark;
 }
 
 h1 {
@@ -23,31 +126,41 @@ h3 {
 }
 
 a {
-    color: #4865FF;
+    color: var(--fg-link);
 }
 
 button, input {
     font-size: 1.2rem;
+    color-scheme: var(--scheme-type);
+    border-color: var(--fg-control-border-primary);
+    border-style: solid;
+    border-width: 1px;
 }
 
+input[type=number] {
+    background-color: var(--bg-secondary);
+    color: var(--fg-primary);
+}
 select {
+    color-scheme: var(--scheme-type);
     font-size: 1rem;
+    background-color: var(--bg-secondary);
+    color: var(--fg-primary);
 }
-
 :focus {
     outline-color: orangered;
     outline-width: 3px;
 }
 
 button:focus {
-    outline-offset: -4px;
+    outline-offset: -1px;
 }
 
 code {
     font-size: 1.1em;
-    background: #eff8ff;
+    background: var(--bg-code);
     padding: 0.025em 0.3em;
-    border: 1px #aaa solid;
+    border: 1px var(--fg-border-secondary) solid;
     border-radius: 3px;
 }
 

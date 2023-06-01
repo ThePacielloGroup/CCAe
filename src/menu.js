@@ -71,6 +71,13 @@ module.exports = (browsers, mainController, prefs) => {
                         click: (item) => {
                             mainController.copyResults()
                         }
+                    },
+                    {
+                        label: i18n.menuT('Copy short results'),
+                        accelerator: 'CmdOrCtrl+Alt+C',
+                        click: (item) => {
+                            mainController.copyShortResults()
+                        }
                     }
                 ]
             },

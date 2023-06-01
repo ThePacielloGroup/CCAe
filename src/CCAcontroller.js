@@ -390,6 +390,24 @@ ${t.Main["1.4.11 Non-text Contrast (AA)"]}
         clipboard.writeText(text)
     }
 
+    async copyShortResults() {
+        const foregroundColor = this.sharedObject[`general.foregroundColor`]
+        const foregroundFormat = this.store.get(`foreground.format`)
+        const foregroundColorString = foregroundColor.getColorTextString(foregroundFormat)
+        const backgroundColor = this.sharedObject[`general.backgroundColor`]
+        const backgroundFormat = this.store.get(`background.format`)
+        const backgroundColorString = backgroundColor.getColorTextString(backgroundFormat)
+        const rounding = this.store.get('rounding')
+        const cr = this.sharedObject['general.contrastRatioRaw']
+        const crr = Number(cr.toFixed(rounding)).toLocaleString(i18n.lang)
+        // toLocalString removes trailing zero and use the correct decimal separator, based on the app select lang.
+
+        let text = `${t.CopyPaste["Foreground"]}: ${foregroundColorString}
+${t.CopyPaste["Background"]}: ${backgroundColorString}
+${t.Main["Contrast ratio"]}: ${crr}:1`
+        clipboard.writeText(text)
+    }
+
     updateShortcut(shortcut, oldValue, newValue) {
         console.log(shortcut, oldValue, newValue)
         if (oldValue) {

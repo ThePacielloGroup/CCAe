@@ -12,6 +12,7 @@
         "Preferences": "Preferencje",
         "Edit": "Edycja",
         "Copy results": "Skopiuj wyniki",
+        "Copy short results": "Copy short results",
         "Cut": "Wytnij",
         "Copy": "Kopiuj",
         "Paste": "Wklej",
@@ -94,7 +95,12 @@
         "sc_1_4_3": "Tekst (w tym obrazy tekstu) ma współczynnik kontrastu co najmniej <strong>4.5:1</strong> dla \"zwykłego\" tekstu i co najmniej <strong>3:1</strong> dla dużego tekstu (przynajmniej <code>18pt</code> / <code>24px</code>, lub pogrubionego i co najmniej <code>14pt</code> / <code>18.5px</code>), chyba że tekst jest czysto dekoracyjny.",
         "sc_1_4_6": "Tekst (w tym obrazy tekstu) ma współczynnik kontrastu co najmniej <strong>7:1</strong> dla \"zwykłego\" tekstu i co najmniej <strong>4.5:1</strong>  dla dużego tekstu (przynajmniej <code>18pt</code> / <code>24px</code>, lub pogrubionego i co najmniej <code>14pt</code> / <code>18.5px</code>), chyba że tekst jest czysto dekoracyjny.",
         "sc_1_4_11": "Wizualna prezentacja komponentów interfejsu użytkownika (ich stanów – w tym wskaźnika fokusa – i granic) oraz obiektów graficznych ma współczynnik kontrastu co najmniej <strong>3:1</strong> w stosunku do sąsiedniego koloru lub kolorów.",
-        "just below": "tuż poniżej"
+        "just below": "tuż poniżej",
+        "messages":{
+            "Between the background and foreground colors have swapped.":"Between the background and foreground colors have swapped.",
+            "Results copied.":"Results copied.",
+            "Short results copied.":"Short results copied."
+        }
     },
     "Deficiency": {
         "Title": "Symulacja ślepoty barw",

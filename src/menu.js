@@ -77,7 +77,7 @@ module.exports = (browsers, mainController, prefs) => {
                         accelerator: 'CmdOrCtrl+Alt+C',
                         click: (item) => {
                             mainController.copyShortResults()
-                        }
+                        },
                     }
                 ]
             },
@@ -142,6 +142,7 @@ module.exports = (browsers, mainController, prefs) => {
             },
             {
                 label: i18n.menuT('Development'),
+
                 submenu: [
                     {
                         label: i18n.menuT('Reload'),

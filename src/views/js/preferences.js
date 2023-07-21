@@ -26,7 +26,12 @@ ipcRenderer.on('init', async (event, config) => {
         document.getElementById('option-picker').value = picker
     }
 
-    i18n = config.i18n
+    const regularResultsTemplate = await store.get('copy.regularTemplate')
+    document.getElementById('copy-regular-results-template').textContent = replaceTemplateValues(config.i18n, regularResultsTemplate)
+    const shortResultsTemplate = await store.get('copy.shortTemplate')
+    document.getElementById('copy-short-results-template').textContent = replaceTemplateValues(config.i18n, shortResultsTemplate)
+
+    i18n = config.i18n.Preferences
     translateHTML(i18n)
 
 })
@@ -44,11 +49,17 @@ document.getElementById('save').addEventListener('click', function () {
     store.set('foreground.picker.shortcut', foregroundPickerShortcut)
     const backgroundPickerShortcut = document.getElementById('shortcut-background-picker').value
     store.set('background.picker.shortcut', backgroundPickerShortcut)
-    
+
     if (!(process.platform === 'win32' || process.platform === 'win64' || /^(msys|cygwin)$/.test(process.env.OSTYPE))) {
         const picker = document.getElementById('option-picker').value
         store.set('picker', parseInt(picker))
     }
+
+    const regularResultsTemplate = document.getElementById('copy-regular-results-template').textContent
+    store.set('copy.regularTemplate', regularResultsTemplate)
+    const shortResultsTemplate = document.getElementById('copy-short-results-template').textContent
+    store.set('copy.shortTemplate', shortResultsTemplate)
+
     close()
 })
 
@@ -144,3 +155,17 @@ function setColorScheme ( v ) {
         break;
     }
 };
+
+function replaceTemplateValues(i18n, template) {
+    for (const item of [
+        ['%i18n.f%', i18n.CopyPaste["Foreground"]],
+        ['%i18n.b%', i18n.CopyPaste["Background"]],
+        ['%i18n.cr%', i18n.Main["Contrast ratio"]],
+        ['%i18n.1.4.3%', i18n.Main["1.4.3 Contrast (Minimum) (AA)"]],
+        ['%i18n.1.4.6%', i18n.Main["1.4.6 Contrast (Enhanced) (AAA)"]],
+        ['%i18n.1.4.11%', i18n.Main["1.4.11 Non-text Contrast (AA)"]],
+    ]) {
+        template = template.replaceAll(item[0], item[1])
+    }
+    return template
+}

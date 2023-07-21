@@ -94,6 +94,22 @@
           </select>
         </div>
       </fieldset>
+      <fieldset id="copy">
+        <legend>Copy results</legend>
+        <ul>
+          <li><strong>%f.hex%:</strong> Foreground colour in hexa format</li>
+          <li><strong>%b.hex%:</strong> Background colour in hexa format</li>
+          <li><strong>%cr%:</strong> Contrast ratio (raw)</li>
+          <li><strong>%crr%:</strong> Contrast ratio (rounded)</li>
+          <li><strong>%1.4.3%:</strong> 1.4.3 Contrast (Minimum) result</li>
+          <li><strong>%1.4.6%:</strong> 1.4.6 Contrast (Enhanced) result</li>
+          <li><strong>%1.4.11%:</strong> 1.4.11 Non-text Contrast</li>
+        </ul>
+        <label class="block" for="copy-regular-results-template">Regular results template</label>
+        <textarea id="copy-regular-results-template" rows="5"></textarea>
+        <label class="block" for="copy-short-results-template">Short results template</label>
+        <textarea id="copy-short-results-template" rows="5"></textarea>
+      </fieldset>
       <div class="buttons">
         <button id="save">Save</button>
         <button id="cancel">Cancel</button>

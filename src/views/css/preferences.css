@@ -3,10 +3,8 @@ body {
 }
 
 .buttons {
-    display: inline-block;
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
+    text-align: right;
+    margin: 1rem;
 }
 
 .option {
@@ -17,4 +15,26 @@ body {
 
 .option select, .width-8 {
     min-width: 8rem;
+}
+
+label.block {
+    display: block;
+}
+
+textarea {
+    width: 100%;
+    display: block;
+}
+
+#copy ul {
+    margin: 0 0 0.5rem 0;
+    padding: 0;
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+}
+
+#copy ul li {
+    font-size: 0.8rem;
+    margin: 0 0 0 0.5rem;
 }

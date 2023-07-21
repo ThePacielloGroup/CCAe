@@ -15,8 +15,8 @@ module.exports = (dirname) => {
 
   let createWindow = (x, y) => {
     win = new BrowserWindow({
-      width: 400,
-      height: 380,
+      width: 500,
+      height: 600,
       x: x,
       y: y,
       resizable: false,

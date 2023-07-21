@@ -42,6 +42,37 @@ const schema = {
         type: 'string',
         default: "system"
     },
+    copy: {
+        type: 'object',
+        properties: {
+            regularTemplate: {
+                type: 'string',
+                default: '%i18n.f%: %f.hex%\n\
+%i18n.b%: %b.hex%\n\
+%i18n.cr%: %cr%:1\n\
+%i18n.1.4.3%\n\
+    %1.4.3%\n\
+%i18n.1.4.6%\n\
+    %1.4.6%\n\
+%i18n.1.4.11%\n\
+    %1.4.11%',
+            },
+            shortTemplate: {
+                type: 'string',
+                default: '%i18n.f%: %f.hex%\n\
+%i18n.b%: %b.hex%\n\
+%i18n.cr%: %cr%:1',
+            },
+        },
+        default: {}
+        // Replaced on first modification, to match the user lang.
+        //%i18n.f% : "Foreground"
+        //%i18n.b% : "Background"
+        //%i18n.cr% : "Contrast ratio"
+        //%i18n.1.4.3% : "1.4.3 Contrast (Minimum)"
+        //%i18n.1.4.6% : "1.4.6 Contrast (Enhanced)"
+        //%i18n.1.4.11% : "1.4.11 Non-text Contrast"
+    },
     picker: {
         type: 'integer',
         default: (process.platform === 'win32' || process.platform === 'win64' || /^(msys|cygwin)$/.test(process.env.OSTYPE))?2:1, // Disable for Windows until https://github.com/electron/electron/issues/27980

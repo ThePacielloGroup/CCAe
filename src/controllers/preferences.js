@@ -5,7 +5,7 @@ module.exports = (browsers, store) => {
     ipcMain.on('init-preferences', () => {
         const i18n = new(require('../i18n'))(store.get('lang'))
         let config = {
-            i18n: i18n.asObject().Preferences
+            i18n: i18n.asObject()
         }
         sendEvent('init', config)
     })

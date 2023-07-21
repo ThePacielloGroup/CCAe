@@ -81,7 +81,7 @@ class CCAController {
             hexColor = await getColorFromPickerAddOn()
                 .catch((error) => {
                     console.warn(`[ERROR] getColorFromPickerAddOn`, error)
-                })      
+                })
             this.receivedColorFromPicker(event, section, hexColor)
         } else { // Electron picker
             this.sendEventToAll('showPicker', section)
@@ -106,11 +106,11 @@ class CCAController {
         if (component === 'alpha') {
             value = parseFloat(value)
             if (value > 1) value = 1
-            if (value < 0) value = 0    
+            if (value < 0) value = 0
         } else {
             value = parseInt(value)
             if (value > 255) value = 255
-            if (value < 0) value = 0    
+            if (value < 0) value = 0
         }
 
         let color = this.sharedObject[`general.${section}Color`]
@@ -123,7 +123,7 @@ class CCAController {
                 dist = value - color.green()
             } else if (component === "blue") {
                 dist = value - color.blue()
-            }    
+            }
             let red = color.red()
             if ((red + dist) > 255) {
                 dist -= red + dist - 255
@@ -155,7 +155,7 @@ class CCAController {
                 color = color.blue(value)
             } else if (component === "alpha") {
                 color = color.alpha(value)
-            }    
+            }
         }
         this.sharedObject[`general.${section}Color`] = color
         this.updateGlobal(section)
@@ -253,8 +253,8 @@ class CCAController {
         this.updateDeficiency("foreground")
         this.updateDeficiency("background")
         this.updateContrastRatio()
-        this.updateColor('foreground')    
-        this.updateColor('background')        
+        this.updateColor('foreground')
+        this.updateColor('background')
     }
 
     updateDeficiency(section) {
@@ -321,7 +321,7 @@ class CCAController {
         if (cr < 3) {
             this.sharedObject['general.levelAA'] = 'fail'
         }
-        
+
         const object = {
             levelAA: this.sharedObject['general.levelAA'],
             levelAAA: this.sharedObject['general.levelAAA'],
@@ -343,7 +343,7 @@ class CCAController {
         this.sendEventToAll('contrastRatioChanged', object)
     }
 
-    async copyResults() {
+    async copyResults(template) {
         let level_1_4_3, level_1_4_6, level_1_4_11
         const levelAA = this.sharedObject['general.levelAA']
         const levelAAA = this.sharedObject['general.levelAAA']
@@ -378,35 +378,36 @@ class CCAController {
         const crr = Number(cr.toFixed(rounding)).toLocaleString(i18n.lang)
         // toLocalString removes trailing zero and use the correct decimal separator, based on the app select lang.
 
-        let text = `${t.CopyPaste["Foreground"]}: ${foregroundColorString}
-${t.CopyPaste["Background"]}: ${backgroundColorString}
-${t.Main["Contrast ratio"]}: ${crr}:1
-${t.Main["1.4.3 Contrast (Minimum) (AA)"]}
-    ${level_1_4_3}
-${t.Main["1.4.6 Contrast (Enhanced) (AAA)"]}
-    ${level_1_4_6}
-${t.Main["1.4.11 Non-text Contrast (AA)"]}
-    ${level_1_4_11}`
+        let text = template
+        for (const item of [
+            ['%f.hex%', foregroundColorString],
+            ['%b.hex%', backgroundColorString],
+            ['%cr%', cr],
+            ['%crr%', crr],
+            ['%1.4.3%', level_1_4_3],
+            ['%1.4.6%', level_1_4_6],
+            ['%1.4.11%', level_1_4_11],
+            ['%i18n.f%', t.CopyPaste["Foreground"]],
+            ['%i18n.b%', t.CopyPaste["Background"]],
+            ['%i18n.cr%', t.Main["Contrast ratio"]],
+            ['%i18n.1.4.3%', t.Main["1.4.3 Contrast (Minimum) (AA)"]],
+            ['%i18n.1.4.6%', t.Main["1.4.6 Contrast (Enhanced) (AAA)"]],
+            ['%i18n.1.4.11%', t.Main["1.4.11 Non-text Contrast (AA)"]],
+        ]) {
+            text = text.replaceAll(item[0], item[1])
+        }
 
         clipboard.writeText(text)
     }
 
-    async copyShortResults() {
-        const foregroundColor = this.sharedObject[`general.foregroundColor`]
-        const foregroundFormat = this.store.get(`foreground.format`)
-        const foregroundColorString = foregroundColor.getColorTextString(foregroundFormat)
-        const backgroundColor = this.sharedObject[`general.backgroundColor`]
-        const backgroundFormat = this.store.get(`background.format`)
-        const backgroundColorString = backgroundColor.getColorTextString(backgroundFormat)
-        const rounding = this.store.get('rounding')
-        const cr = this.sharedObject['general.contrastRatioRaw']
-        const crr = Number(cr.toFixed(rounding)).toLocaleString(i18n.lang)
-        // toLocalString removes trailing zero and use the correct decimal separator, based on the app select lang.
+    async copyRegularResults() {
+        const template = await this.store.get('copy.regularTemplate')
+        this.copyResults(template)
+    }
 
-        let text = `${t.CopyPaste["Foreground"]}: ${foregroundColorString}
-${t.CopyPaste["Background"]}: ${backgroundColorString}
-${t.Main["Contrast ratio"]}: ${crr}:1`
-        clipboard.writeText(text)
+    async copyShortResults() {
+        const template = await this.store.get('copy.shortTemplate')
+        this.copyResults(template)
     }
 
     updateShortcut(shortcut, oldValue, newValue) {

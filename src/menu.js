@@ -69,7 +69,7 @@ module.exports = (browsers, mainController, prefs) => {
                         label: i18n.menuT('Copy results'),
                         accelerator: 'CmdOrCtrl+Shift+C',
                         click: (item) => {
-                            mainController.copyResults()
+                            mainController.copyRegularResults()
                         }
                     },
                     {
@@ -106,37 +106,37 @@ module.exports = (browsers, mainController, prefs) => {
                     },
                     {
                         label: i18n.menuT('Actual Size'),
-                        accelerator: 'CmdOrCtrl+0',		
-                        click (item, focusedWindow) {		
+                        accelerator: 'CmdOrCtrl+0',
+                        click (item, focusedWindow) {
                             if (focusedWindow) {
                                 focusedWindow.webContents.setZoomLevel(0)
                                 main.changeZoom(0)
                             }
-                        }		
+                        }
                     },
                     {
                         label: i18n.menuT('Zoom In'),
-                        accelerator: 'CmdOrCtrl+Plus',		
-                        click (item, focusedWindow) {		
-                            if (focusedWindow) {		
-                                const {webContents} = focusedWindow		
+                        accelerator: 'CmdOrCtrl+Plus',
+                        click (item, focusedWindow) {
+                            if (focusedWindow) {
+                                const {webContents} = focusedWindow
                                 zoomLevel = webContents.getZoomLevel()
                                 webContents.setZoomLevel(zoomLevel + 0.5)
                                 main.changeZoom(zoomLevel + 0.5)
-                            }		
-                        }		
+                            }
+                        }
                     },
                     {
                         label: i18n.menuT('Zoom Out'),
-                        accelerator: 'CmdOrCtrl+-',		
-                        click (item, focusedWindow) {		
-                            if (focusedWindow) {		
-                                const {webContents} = focusedWindow		
+                        accelerator: 'CmdOrCtrl+-',
+                        click (item, focusedWindow) {
+                            if (focusedWindow) {
+                                const {webContents} = focusedWindow
                                 zoomLevel = webContents.getZoomLevel()
-                                webContents.setZoomLevel(zoomLevel - 0.5)		
+                                webContents.setZoomLevel(zoomLevel - 0.5)
                                 main.changeZoom(zoomLevel - 0.5)
-                            }		
-                        }	
+                            }
+                        }
                     }
                 ]
             },

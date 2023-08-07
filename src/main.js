@@ -1,4 +1,17 @@
-const { ipcMain, app } = require('electron')
+const { ipcMain, app, crashReporter } = require('electron')
+const log = require('electron-log/main')
+const path = require('node:path')
+// Clear logs every launch
+log.transports.file.getFile().clear()
+// initialize the logger for any renderer process
+log.initialize({ preload: true })
+// Redirect all console.* to logger
+Object.assign(console, log.functions)
+
+console.log(`app.getPath('logs')       = ${app.getPath('logs')}`)
+app.setPath('crashDumps', path.join(app.getPath('logs'), 'crashes'))
+crashReporter.start({ uploadToServer: false })
+
 const Store = require('electron-store');
 const { checkForUpdates, setUpdatesDisabled } = require('./update.js')
 const CCAController = require('./CCAcontroller')

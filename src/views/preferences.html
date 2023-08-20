@@ -37,7 +37,7 @@
           <div class="option">
             <label for="option-lang">Language</label>
             <select id="option-lang">
-              <option value="auto">Auto</option>
+              <option value="auto">System (Default)</option>
               <option value="de" lang="de">Deutsch</option>
               <option value="nl" lang="nl">Dutch</option>
               <option value="en" lang="en">English</option>
@@ -96,18 +96,24 @@
       </fieldset>
       <fieldset id="copy">
         <legend>Copy results</legend>
-        <ul>
-          <li><strong>%f.hex%:</strong> Foreground colour in hexa format</li>
-          <li><strong>%b.hex%:</strong> Background colour in hexa format</li>
-          <li><strong>%cr%:</strong> Contrast ratio (raw)</li>
-          <li><strong>%crr%:</strong> Contrast ratio (rounded)</li>
-          <li><strong>%1.4.3%:</strong> 1.4.3 Contrast (Minimum) result</li>
-          <li><strong>%1.4.6%:</strong> 1.4.6 Contrast (Enhanced) result</li>
-          <li><strong>%1.4.11%:</strong> 1.4.11 Non-text Contrast</li>
+        <ul id="copy-format-example">
+          <li><strong>%f.hex%:</strong> <span id="ex-hexa-foreground">Foreground colour in hexa format</span></li>
+          <li><strong>%b.hex%:</strong> <span id="ex-hexa-background">Background colour in hexa format</span></li>
+          <li><strong>%cr%:</strong> <span id="ex-contrast-raw">Contrast ratio (raw)</span></li>
+          <li><strong>%crr%:</strong> <span id="ex-contrast-rounded">Contrast ratio (rounded)</span></li>
+          <li><strong>%1.4.3%:</strong> <span id="crt-1_4_3">1.4.3 Contrast (Minimum) result</span></li>
+          <li><strong>%1.4.6%:</strong> <span id="crt-1_4_6">1.4.6 Contrast (Enhanced) result</span></li>
+          <li><strong>%1.4.11%:</strong> <span id="crt-1_4_11">1.4.11 Non-text Contrast</span></li>
         </ul>
-        <label class="block" for="copy-regular-results-template">Regular results template</label>
+        <span class="block">
+          <label for="copy-regular-results-template">Regular results template</label>
+          <button class="reset-button" id="reset-regular-text">Reset</button>
+        </span>
         <textarea id="copy-regular-results-template" rows="5"></textarea>
-        <label class="block" for="copy-short-results-template">Short results template</label>
+        <span class="block">
+          <label for="copy-short-results-template">Short results template</label>
+          <button class="reset-button" id="reset-short-text">Reset</button>
+        </span>
         <textarea id="copy-short-results-template" rows="5"></textarea>
       </fieldset>
       <div class="buttons">

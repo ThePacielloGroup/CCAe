@@ -56,7 +56,8 @@ document.getElementById('save').addEventListener('click', function () {
     const shortResultsTemplate = document.getElementById('copy-short-results-template').value;
     store.set('copy.regularTemplate', regularResultsTemplate);
     store.set('copy.shortTemplate', shortResultsTemplate);
-})
+    close();
+});
 
 document.getElementById("reset-regular-text").addEventListener("click",async function(){
     const regularText = "%i18n.f%: %f.hex%\n\

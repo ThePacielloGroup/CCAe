@@ -11,6 +11,7 @@
         "Preferences": "Voorkeuren",
         "Edit": "Bewerk",
         "Copy results": "Kopieer resultaten",
+        "Copy short results": "Copy short results",
         "Cut": "Knippen",
         "Copy": "Kopiëren",
         "Paste": "Plakken",
@@ -93,7 +94,12 @@
         "sc_1_4_3": "De visuele weergave van tekst en afbeeldingen heeft een contrastverhouding van\nten minste <strong>4,5:1</strong> voor standaardtekst en ten minste\n<strong>3:1</strong> voor grote tekst (vanaf <code>18pt</code> /\n<code>24px</code> of <code>14pt</code> / <code>18.5px</code> voor vette tekst).\nDit geldt niet voor decoratieve tekst.",
         "sc_1_4_6": "De visuele weergave van tekst en afbeeldingen heeft een contrastverhouding van\nten minste <strong>7:1</strong> voor standaardtekst en ten minste\n<strong>4.5:1</strong> voor grote tekst (vanaf <code>18pt</code> /\n<code>24px</code> of <code>14pt</code> / <code>18.5px</code> voor vette tekst).\nDit geldt niet voor decoratieve tekst.",
         "sc_1_4_11": "De visuele weergave van componenten van de gebruikersinterface (inclusief statussen, focusstijlen en randen) moet een contrastverhouding hebben van minstens <strong>3:1</strong> ten opzichte van de aangrenzende kleur(en). ",
-        "just below": "net onder"
+        "just below": "net onder",
+        "messages":{
+            "Between the background and foreground colors have swapped.":"Between the background and foreground colors have swapped.",
+            "Results copied.":"Results copied.",
+            "Short results copied.":"Short results copied."
+        }
     },
     "Deficiency": {
         "Title": "Simulatie kleurenblindheid",

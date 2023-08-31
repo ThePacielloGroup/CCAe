@@ -28,10 +28,10 @@
         </div>
         <div class="name-value"></div>
         <div class="buttons">
-          <button class="switch" aria-label="Switch Colours"></button>
-          <button class="sliders" aria-label="Foreground colour sliders" aria-controls="foreground-sliders" aria-expanded="false"></button>
-          <button class="picker" aria-label="Foreground colour picker" aria-pressed="false"></button>
-          <button class="help" aria-label="Foreground help" aria-controls="foreground-help" aria-expanded="false"></button>
+          <button class="switch" aria-label="Switch Colours" title="Ctrl+Tab"></button>
+          <button class="sliders" data-label="Color sliders" aria-label="Foreground colour sliders" aria-controls="foreground-sliders" aria-expanded="false"></button>
+          <button class="picker" data-label="Color picker" aria-label="Foreground colour picker" aria-pressed="false"></button>
+          <button class="help" data-label="Help" aria-label="Foreground help" aria-controls="foreground-help" aria-expanded="false"></button>
         </div>
       </section>
       <section id="foreground-help" hidden>
@@ -337,12 +337,13 @@
         </details>
         <div id="contrast-level-1-4-11" class="contrast-level">Pass</div>
       </section>
+      <div class="sr-announcer sr-only" aria-atomic="true" aria-live="polite" aria-relevant="additions text"></div>
     </main>
     <script src="js/tabs.js"></script>
     <script>
       // You can also require other files to run in this process
       require('./js/main.js')
       require('../../node_modules/focus-visible/dist/focus-visible.min.js');
-    </script>
+      </script>
   </body>
 </html>

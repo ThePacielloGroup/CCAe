@@ -1,4 +1,17 @@
-const { ipcMain, app } = require('electron')
+const { ipcMain, app, crashReporter } = require('electron')
+const log = require('electron-log/main')
+const path = require('node:path')
+// Clear logs every launch
+log.transports.file.getFile().clear()
+// initialize the logger for any renderer process
+log.initialize({ preload: true })
+// Redirect all console.* to logger
+Object.assign(console, log.functions)
+
+console.log(`app.getPath('logs')       = ${app.getPath('logs')}`)
+app.setPath('crashDumps', path.join(app.getPath('logs'), 'crashes'))
+crashReporter.start({ uploadToServer: false })
+
 const Store = require('electron-store');
 const { checkForUpdates, setUpdatesDisabled } = require('./update.js')
 const CCAController = require('./CCAcontroller')
@@ -41,6 +54,37 @@ const schema = {
     colorScheme: {
         type: 'string',
         default: "system"
+    },
+    copy: {
+        type: 'object',
+        properties: {
+            regularTemplate: {
+                type: 'string',
+                default: '%i18n.f%: %f.hex%\n\
+%i18n.b%: %b.hex%\n\
+%i18n.cr%: %cr%:1\n\
+%i18n.1.4.3%\n\
+    %1.4.3%\n\
+%i18n.1.4.6%\n\
+    %1.4.6%\n\
+%i18n.1.4.11%\n\
+    %1.4.11%',
+            },
+            shortTemplate: {
+                type: 'string',
+                default: '%i18n.f%: %f.hex%\n\
+%i18n.b%: %b.hex%\n\
+%i18n.cr%: %cr%:1',
+            },
+        },
+        default: {}
+        // Replaced on first modification, to match the user lang.
+        //%i18n.f% : "Foreground"
+        //%i18n.b% : "Background"
+        //%i18n.cr% : "Contrast ratio"
+        //%i18n.1.4.3% : "1.4.3 Contrast (Minimum)"
+        //%i18n.1.4.6% : "1.4.6 Contrast (Enhanced)"
+        //%i18n.1.4.11% : "1.4.11 Non-text Contrast"
     },
     picker: {
         type: 'integer',

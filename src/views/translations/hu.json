@@ -11,7 +11,7 @@
     "Preferences" : "Beállítások",
     "Edit" : "Szerkesztés",
     "Copy results" : "Eredmények másolása",
-    "Copy short results": "Copy short results",
+    "Copy short results": "Tömör eredmények másolása",
     "Cut" : "Kivágás",
     "Copy" : "Másolás",
     "Paste" : "Beillesztés",
@@ -96,9 +96,9 @@
     "sc_1_4_11" : "A felhasználói felület komponenseinek (határvonalaiknak és a fókuszjelzést is magába foglaló állapotaiknak) és a grafikus objektumoknak a szomszédos színnel/színekkel legalább <strong>3:1</strong> kontrasztarányú a vizuális megjelenítése.",
     "just below" : "majdnem",
     "messages":{
-      "Between the background and foreground colors have swapped.":"Between the background and foreground colors have swapped.",
-      "Results copied.":"Results copied.",
-      "Short results copied.":"Short results copied."
+      "Between the background and foreground colors have swapped.":"A háttér és előtér színek felcserélődtek.",
+      "Results copied.":"Eredmények másolva.",
+      "Short results copied.":"Tömör eredmények másolva."
     }
   },
   "Deficiency" : {

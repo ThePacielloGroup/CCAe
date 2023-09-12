@@ -17,13 +17,18 @@ body {
     min-width: 8rem;
 }
 
-label.block {
+.block {
     display: block;
+    padding: 0.2rem;
 }
 
 textarea {
     width: 100%;
     display: block;
+}
+
+.reset-button {
+    font-size: 0.9rem;
 }
 
 #copy ul {

@@ -1,3 +1,4 @@
+*{color-scheme: var(--scheme-type);}
 html, body{
     margin: 0;
     font: caption; /* Default Operating System Font */

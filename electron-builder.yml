@@ -69,6 +69,26 @@ msi:
 portable:
   artifactName: "${name}-Portable-${env.ARCH}-${version}.${ext}"
 
+linux:
+  icon: "build/icon.png"
+  category: "Utility"
+  desktop:
+    StartupNotify: "false"
+    Encoding: "UTF-8"
+    MimeType: "x-scheme-handler/deeplink"
+  target: ["AppImage", "rpm", "deb"]
+  artifactName: "${productName}-Setup-${version}.${ext}"
+  publish:
+    - github
+
+deb:
+  priority: "optional"
+  #afterInstall:"installer/linux/after-install.tpl",
+
+#rpm:
+  #fpm: ["--before-install", "installer/linux/before-install.tpl"],
+  #afterInstall:"installer/linux/after-install.tpl",
+
 publish:
   provider: github
   repo: CCAe

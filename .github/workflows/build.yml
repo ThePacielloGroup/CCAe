@@ -1,23 +1,10 @@
-name: Build/release
+name: Build/Release
 
-on:
-  push:
-    tags:
-      - 'v*'
+on: [push]
 
 jobs:
-  release:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        include:
-        - os: windows-latest
-          platform: win32
-          arch: x64
-        - os: macos-latest
-          platform: darwin
-          arch: universal
+  MacOS:
+    runs-on: macos-latest
 
     steps:
       - name: Check out Git repository
@@ -33,13 +20,75 @@ jobs:
           mkdir -p ~/private_keys/
 
       - name: Prepare for app notarization
-        if: startsWith(matrix.os, 'macos')
         # Import Apple API key for app notarization on macOS
         run: |
           echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
 
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Build Electron app
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        run: yarn build
+        env:
+          # macOS Signing
+          CSC_LINK: ${{ secrets.mac_certs }}
+          CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
+
+          # macOS notarization API key
+          API_KEY_ID: ${{ secrets.api_key_id }}
+          API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
+          ARCH: universal
+
+      - name: Release Electron app
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        run: yarn release
+        env:
+          # GitHub token, automatically provided to the action
+          # (No need to define this secret in the repo settings)
+          GH_TOKEN: ${{ secrets.github_token }}
+          # macOS Signing
+          CSC_LINK: ${{ secrets.mac_certs }}
+          CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
+
+          # macOS notarization API key
+          API_KEY_ID: ${{ secrets.api_key_id }}
+          API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
+          ARCH: universal
+
+      - name: .dmg artifacts
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: dmg file
+          path: |
+            dist/*.dmg
+
+      - name: log artifacts
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: log files
+          path: |
+            *.log
+
+  Windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@master
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@master
+        with:
+          node-version: 16
+
+      - name: Prepare for private keys
+        run: |
+          mkdir -p ~/private_keys/
+
       - name: Prepare for Windows signing
-        if: startsWith(matrix.os, 'windows')
         # Import Signing key for app signing on Windows
         run: |
           echo "$windows_certs" | base64 -d > ~/private_keys/Windows_Certificate.pfx
@@ -47,25 +96,95 @@ jobs:
         env:
           windows_certs: ${{ secrets.windows_certs }}
 
-      - name: Build/release Electron app
-        uses: samuelmeuli/action-electron-builder@v1
-        with:
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Build Electron app
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        run: yarn build
+        env:
+          CSC_LINK: ~/private_keys/Windows_Certificate.pfx
+          CSC_KEY_PASSWORD: ${{ secrets.windows_certs_password }}
+          ARCH: x64
+
+      - name: Release Electron app
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        run: yarn release
+        env:
           # GitHub token, automatically provided to the action
           # (No need to define this secret in the repo settings)
-          github_token: ${{ secrets.github_token }}
+          GH_TOKEN: ${{ secrets.github_token }}
 
-          mac_certs: ${{ secrets.mac_certs }}
-          mac_certs_password: ${{ secrets.mac_certs_password }}
+          CSC_LINK: ~/private_keys/Windows_Certificate.pfx
+          CSC_KEY_PASSWORD: ${{ secrets.windows_certs_password }}
+          ARCH: x64
 
-          windows_certs: ~/private_keys/Windows_Certificate.pfx
-          windows_certs_password: ${{ secrets.windows_certs_password }}
+      - name: .exe artifacts
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: exe file
+          path: |
+            dist/*.exe
 
-          # If the commit is tagged with a version (e.g. "v1.0.0"),
-          # release the app after building
-          release: true #${{ startsWith(github.ref, 'refs/tags/v') }}
-          args: ${{ matrix.electron-arch-overrides }}
+      - name: .msi artifacts
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: msi file
+          path: |
+            dist/*.msi
+
+  Linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@master
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@master
+        with:
+          node-version: 16
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Build Electron app
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        run: yarn build
         env:
-          # macOS notarization API key
-          API_KEY_ID: ${{ secrets.api_key_id }}
-          API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
-          ARCH: ${{ matrix.arch }}
+          ARCH: x64
+
+      - name: Release Electron app
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        run: yarn release
+        env:
+          # GitHub token, automatically provided to the action
+          # (No need to define this secret in the repo settings)
+          GH_TOKEN: ${{ secrets.github_token }}
+
+          ARCH: x64
+
+      - name: .deb artifacts
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: deb file
+          path: |
+            dist/*.deb
+
+      - name: .rpm artifacts
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: rpm file
+          path: |
+            dist/*.rpm
+
+      - name: .AppImage artifacts
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: AppImage file
+          path: |
+            dist/*.AppImage

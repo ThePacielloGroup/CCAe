@@ -5,9 +5,9 @@
 - [Windows: Application menus aren't keyboard accessible](https://github.com/ThePacielloGroup/CCAe/issues/49)
 - [Windows: Changing slider values is not announced in NVDA](https://github.com/ThePacielloGroup/CCAe/issues/37)
 
-## [v3.4.1](https://github.com/ThePacielloGroup/CCAe/tree/v3.4.1) (2023-09-11)
+## [v3.4.2](https://github.com/ThePacielloGroup/CCAe/tree/v3.4.2) (2023-09-26)
 
-[Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.3.0...v3.4.1)
+[Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.3.0...v3.4.2)
 
 - \[feat\] Added customizable copy-paste
 - \[debug\] Add logger and crash reporter

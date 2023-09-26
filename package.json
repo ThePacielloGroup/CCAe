@@ -14,8 +14,8 @@
     "license": "GPL-3.0",
     "devDependencies": {
         "cross-env": "^7.0.3",
-        "electron": "21.2.2",
-        "electron-builder": "^24.6.3",
+        "electron": "26.2.2",
+        "electron-builder": "^24.6.4",
         "electron-builder-notarize": "^1.5.1"
     },
     "dependencies": {
@@ -26,7 +26,7 @@
         "electron-browser-storage": "^1.0.7",
         "electron-log": "^5.0.0-beta.25",
         "electron-store": "^8.1.0",
-        "electron-updater": "^6.1.1",
+        "electron-updater": "^6.1.4",
         "focus-visible": "^5.2.0",
         "simple-swizzle": "^0.2.2"
     }

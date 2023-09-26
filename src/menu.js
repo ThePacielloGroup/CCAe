@@ -126,6 +126,21 @@ module.exports = (browsers, mainController, prefs) => {
                             }
                         }
                     },
+                    // By default zoomIn works by "CommandOrControl + +" ("CommandOrControl + SHIFT + =")
+                    // Hidden menu item adds zoomIn without SHIFT
+                    {
+                        label: i18n.menuT('Zoom In'),
+                        accelerator: 'CommandOrControl+=',
+                        visible: false,
+                        click (item, focusedWindow) {
+                            if (focusedWindow) {
+                                const {webContents} = focusedWindow
+                                zoomLevel = webContents.getZoomLevel()
+                                webContents.setZoomLevel(zoomLevel + 0.5)
+                                main.changeZoom(zoomLevel + 0.5)
+                            }
+                        }
+                    },
                     {
                         label: i18n.menuT('Zoom Out'),
                         accelerator: 'CmdOrCtrl+-',

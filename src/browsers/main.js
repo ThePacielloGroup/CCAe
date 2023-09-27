@@ -49,19 +49,7 @@ module.exports = (dirname, store) => {
         // Open the DevTools.
 //        mainWindow.webContents.openDevTools()
 
-  globalShortcut.register('CommandOrControl+D', () => {
-    const eyeDropper = new EyeDropper();
-    // Ouvrez l'API EyeDropper en réponse au raccourci clavier
-    eyeDropper.open()
-      .then((result) => {
-        const pickedColor = result.color;
-        console.log('Couleur sélectionnée :', pickedColor);
-        // Utilisez "pickedColor" comme nécessaire
-      })
-      .catch((error) => {
-        console.error('Erreur lors de l\'ouverture de l\'API EyeDropper :', error);
-      });
-  });
+
 
         mainWindow.on('close', function () {
             if (mainWindow) {

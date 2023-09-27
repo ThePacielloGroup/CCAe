@@ -44,7 +44,7 @@ class CCAController {
         }
         this.init()
     }
-    
+
     async init() {
         const lang = this.store.get('lang')
         i18n = new(require('./i18n'))(lang)
@@ -165,15 +165,15 @@ class CCAController {
         if (component === 'alpha') {
             value = parseFloat(value)
             if (value > 1) value = 1
-            if (value < 0) value = 0    
+            if (value < 0) value = 0
         } else if (component === 'hue') {
             value = parseFloat(value)
             if (value > 360) value = 360
-            if (value < 0) value = 0    
+            if (value < 0) value = 0
         } else {
             value = parseInt(value)
             if (value > 100) value = 100
-            if (value < 0) value = 0    
+            if (value < 0) value = 0
         }
 
         let color = this.sharedObject[`general.${section}Color`]
@@ -196,15 +196,15 @@ class CCAController {
         if (component === 'alpha') {
             value = parseFloat(value)
             if (value > 1) value = 1
-            if (value < 0) value = 0    
+            if (value < 0) value = 0
         } else if (component === 'hue') {
             value = parseFloat(value)
             if (value > 360) value = 360
-            if (value < 0) value = 0    
+            if (value < 0) value = 0
         } else {
             value = parseInt(value)
             if (value > 100) value = 100
-            if (value < 0) value = 0    
+            if (value < 0) value = 0
         }
 
         let color = this.sharedObject[`general.${section}Color`]
@@ -220,7 +220,7 @@ class CCAController {
         }
 
         this.sharedObject[`general.${section}Color`] = color.hsv()
-        this.updateGlobal(section)    
+        this.updateGlobal(section)
     }
 
     updateFromString(event, section, stringColor) {
@@ -408,26 +408,6 @@ class CCAController {
     async copyShortResults() {
         const template = await this.store.get('copy.shortTemplate')
         this.copyResults(template)
-    }
-
-    updateShortcut(shortcut, oldValue, newValue) {
-        console.log(shortcut, oldValue, newValue)
-        if (oldValue) {
-            globalShortcut.unregister(oldValue)
-        }
-
-        switch(shortcut) {
-            case 'foreground.picker.shortcut':
-                globalShortcut.register(newValue, () => {
-                    this.getColorFromPicker(null, 'foreground')
-                })
-                break;
-            case 'background.picker.shortcut':
-                globalShortcut.register(newValue, () => {
-                    this.getColorFromPicker(null, 'background')
-                })
-                break;
-        }
     }
 }
 

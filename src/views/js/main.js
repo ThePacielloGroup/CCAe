@@ -2,7 +2,7 @@ const { ipcRenderer } = require('electron')
 const isMacOS = process.platform === 'darwin'
 const CCAColor = require('../../color/CCAcolor.js')
 const store = require('../../store.js')
-let i18n
+let i18n, pickerShortcutForeground, pickerShortcutBackground
 document.addEventListener('DOMContentLoaded', () => {
     ipcRenderer.send('init-app')
     document.body.addEventListener("keydown",(evt)=>{
@@ -15,13 +15,24 @@ document.addEventListener('DOMContentLoaded', () => {
         //keyboard event for copy results announcement
         const ctrlOrCmd = isMacOS ? evt.metaKey : evt.ctrlKey;
         if(ctrlOrCmd && evt.shiftKey && evt.code == "KeyC"){
+            evt.preventDefault();
             announceForAccessibility(i18n["messages"]["Results copied."]);
         }
-        
+
         if(ctrlOrCmd && evt.altKey && evt.code == "KeyC"){
+            evt.preventDefault();
             announceForAccessibility(i18n["messages"]["Short results copied."]);
         }
 
+        //keyboard event for colorpickers
+        if (pickerShortcutForeground && evt.code == pickerShortcutForeground){
+            evt.preventDefault();
+            ipcRenderer.send('getColorFromPicker', 'foreground')
+        }
+        if (pickerShortcutBackground && evt.code == pickerShortcutBackground){
+            evt.preventDefault();
+            ipcRenderer.send('getColorFromPicker', 'background')
+        }
     })
 }, false);
 
@@ -35,6 +46,7 @@ const announceForAccessibility = (message)=>{
 }
 
 ipcRenderer.on('init', async (event, config) => {
+    console.debug(config)
     i18n = config.i18n
     translateHTML(i18n)
     const theme = await store.get("colorScheme");
@@ -59,13 +71,13 @@ ipcRenderer.on('init', async (event, config) => {
     document.getElementById(fgControls).removeAttribute('hidden');
     const backgroundSlidersTab = await store.get('background.sliders.tab')
     const bgTab = document.querySelector(`#background-sliders a[data-tab="${backgroundSlidersTab}"]`)
-    bgTab.setAttribute('aria-selected', 'true');      
+    bgTab.setAttribute('aria-selected', 'true');
     const bgControls = bgTab.getAttribute('aria-controls');
     document.getElementById(bgControls).removeAttribute('hidden');
 
     const mainHeight = document.querySelector('main').clientHeight;
     ipcRenderer.send('height-changed', mainHeight)
-    
+
     initTabs("#foreground-sliders", (el)=>{
         store.set('foreground.sliders.tab', el.getAttribute('data-tab'))
         const mainHeight = document.querySelector('main').clientHeight
@@ -78,6 +90,21 @@ ipcRenderer.on('init', async (event, config) => {
     })
 
     initEvents()
+
+    // Init shortcuts
+    pickerShortcutForeground = await store.get("foreground.picker.shortcut")
+    pickerShortcutBackground = await store.get("background.picker.shortcut")
+})
+
+ipcRenderer.on('configChanged', (event, key, value) => {
+    switch (key) {
+        case "foreground.picker.shortcut":
+            pickerShortcutForeground = value
+            break
+        case "background.picker.shortcut":
+            pickerShortcutBackground = value
+            break
+    }
 })
 
 ipcRenderer.on('colorChanged', (event, section, color) => {
@@ -106,10 +133,13 @@ ipcRenderer.on('showPicker', (event, section) => {
     const eyeDropper = new EyeDropper();
     eyeDropper.open()
         .then((returned)=>{
+            console.debug("a")
             ipcRenderer.send('colorFromPicker', section, returned.sRGBHex)
         })
-        .catch((error)=>{console.log(error)})
-    
+        .catch((error)=>{
+            console.log(error)
+            ipcRenderer.send('colorFromPicker', section, null)
+        })
 })
 
 function initEvents () {
@@ -128,7 +158,7 @@ function initEvents () {
     document.querySelector('#background-color .help').onclick = function() {showHide(this)};
     document.querySelector('#foreground-color .format-selector').onchange = function() {changeFormat('foreground', this)};
     document.querySelector('#background-color .format-selector').onchange = function() {changeFormat('background', this)};
-    
+
     // screen reader announcement for screen reader user.
     document.querySelector('#foreground-color .switch').addEventListener("click",function() { 
         ipcRenderer.send('switchColors');
@@ -250,7 +280,6 @@ function applyColorPreview(section, color) {
         document.querySelector('#' + section + '-color .name-value').innerHTML = null        
     }
 
-    
     document.querySelector('#' + section + '-color').classList.toggle('black',!color.isDark)
     document.querySelector('#' + section + '-color').classList.toggle('white',color.isDark)
 }
@@ -268,7 +297,7 @@ function applyColorRGBSliders(section, color) {
             /* only force update of the alpha number input if it's not current;y focused
                as otherwise, when user enters "0.", it's corrected to "0" and prevents correct text entry */
             document.querySelector('#' + section + '-rgb .alpha input[type=number]').value = color.alpha
-        }  
+        }
     }
 }
 
@@ -285,7 +314,7 @@ function applyColorHSLSliders(section, color) {
             /* only force update of the alpha number input if it's not current;y focused
                as otherwise, when user enters "0.", it's corrected to "0" and prevents correct text entry */
             document.querySelector('#' + section + '-hsl .alpha input[type=number]').value = color.alpha
-        }  
+        }
     }
 }
 
@@ -302,7 +331,7 @@ function applyColorHSVSliders(section, color) {
             /* only force update of the alpha number input if it's not current;y focused
                as otherwise, when user enters "0.", it's corrected to "0" and prevents correct text entry */
             document.querySelector('#' + section + '-hsv .alpha input[type=number]').value = color.alpha
-        }  
+        }
     }
 }
 
@@ -427,31 +456,30 @@ function translateHTML(i18n) {
     document.querySelector('#foreground-color h2').textContent = i18n['Foreground colour']
     document.querySelector('#foreground-format-selector').setAttribute('aria-label', i18n['Select default format for foreground colour']);
     document.querySelector('#foreground-format-selector+input').setAttribute('aria-label', i18n['Foreground colour value']);
-    
+
     document.querySelector('#foreground-help > .title').textContent = i18n['Supported formats are']
     document.querySelector('#foreground-help > ul > li.names').textContent = i18n['Names']
-    
+
     document.querySelector('#foreground-rgb h2').textContent = i18n['Foreground RGB input']
     document.querySelector('#foreground-hsl > h2').textContent = i18n['Foreground HSL input']
     document.querySelector('#foreground-hsv > h2').textContent = i18n['Foreground HSV input']
-    
+
     document.querySelector('#foreground-rgb > div.sync > label > span').textContent = i18n['Synchronize colour values']
     document.querySelector('#foreground-rgb > div.sync > label').setAttribute('aria-label',i18n['Synchronize foreground colour values'])
-    
+
     document.querySelector('#background-color h2').textContent = i18n['Background colour']
     document.querySelector('#background-format-selector').setAttribute('aria-label', i18n['Select default format for background colour'])
     document.querySelector('#background-color > div.container > input').setAttribute('aria-label', i18n['Background colour value'])
-    
+
     document.querySelector('#background-help > .title').textContent = i18n['Supported formats are']
     document.querySelector('#background-help > ul > li.names').textContent = i18n['Names']
-    
+
     document.querySelector('#background-rgb > h2').textContent = i18n['Background RGB input']
     document.querySelector('#background-hsl > h2').textContent = i18n['Background HSL input']
     document.querySelector('#background-hsv > h2').textContent = i18n['Background HSV input']
-   
+
     document.querySelector('#background-rgb > div.sync > label > span').textContent = i18n['Synchronize colour values']
     document.querySelector('#background-rgb > div.sync > label').setAttribute('aria-label',i18n['Synchronize background colour values'])
-
 
     /* 
         [ForEach Patterns]

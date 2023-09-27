@@ -200,11 +200,11 @@ store.onDidChange('foreground.format', ()=>{
 store.onDidChange('background.format', ()=>{
     mainController.updateColor('background')
 })
-store.onDidChange('foreground.picker.shortcut', (newValue, oldValue) => {
-    mainController.updateShortcut('foreground.picker.shortcut', oldValue, value)
+store.onDidChange('foreground.picker.shortcut', (newValue) => {
+    mainController.sendEventToAll('configChanged', 'foreground.picker.shortcut', newValue)
 })
-store.onDidChange('background.picker.shortcut', (newValue, oldValue) => {
-    mainController.updateShortcut('background.picker.shortcut', oldValue, value)
+store.onDidChange('background.picker.shortcut', (newValue) => {
+    mainController.sendEventToAll('configChanged', 'background.picker.shortcut', newValue)
 })
 store.onDidChange('main.checkForUpdates', (newValue) => {
     if (newValue === true) {
@@ -235,13 +235,6 @@ app.on('ready', async () => {
 
     setMenu(i18n)
 
-    // Register shortcuts
-    const foregroundShortcut = store.get('foreground.picker.shortcut')
-
-    mainController.updateShortcut('foreground.picker.shortcut', null, foregroundShortcut)
-    const backgroundShortcut = store.get('background.picker.shortcut')
-    mainController.updateShortcut('background.picker.shortcut', null, backgroundShortcut)
-
     const updates = store.get('checkForUpdates')
     if (updates === true) {
         checkForUpdates()
@@ -262,9 +255,6 @@ app.on('window-all-closed', () => {
 app.on('quit', () => {
 
 })
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
 
 function sendEventToAll(event, ...params) {
     Object.keys(controllers).map(function(key, index) {

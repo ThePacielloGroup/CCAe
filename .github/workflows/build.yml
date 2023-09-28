@@ -38,6 +38,7 @@ jobs:
           # macOS notarization API key
           APPLE_ID: ${{ secrets.apple_id }}
           APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.apple_id_password }}
           APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
           ARCH: universal
 
@@ -55,6 +56,7 @@ jobs:
           # macOS notarization API key
           APPLE_ID: ${{ secrets.apple_id }}
           APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.apple_id_password }}
           APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
           ARCH: universal
 

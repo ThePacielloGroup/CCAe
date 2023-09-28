@@ -36,8 +36,9 @@ jobs:
           CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
 
           # macOS notarization API key
-          API_KEY_ID: ${{ secrets.api_key_id }}
-          API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
+          APPLE_ID: ${{ secrets.apple_id }}
+          APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
+          APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
           ARCH: universal
 
       - name: Release Electron app
@@ -52,8 +53,9 @@ jobs:
           CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
 
           # macOS notarization API key
-          API_KEY_ID: ${{ secrets.api_key_id }}
-          API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
+          APPLE_ID: ${{ secrets.apple_id }}
+          APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
+          APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
           ARCH: universal
 
       - name: .dmg artifacts
@@ -63,14 +65,6 @@ jobs:
           name: dmg file
           path: |
             dist/*.dmg
-
-      - name: log artifacts
-        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
-        uses: actions/upload-artifact@v3
-        with:
-          name: log files
-          path: |
-            *.log
 
   Windows:
     runs-on: windows-latest

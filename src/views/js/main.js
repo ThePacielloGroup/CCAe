@@ -46,7 +46,6 @@ const announceForAccessibility = (message)=>{
 }
 
 ipcRenderer.on('init', async (event, config) => {
-    console.debug(config)
     i18n = config.i18n
     translateHTML(i18n)
     const theme = await store.get("colorScheme");
@@ -133,7 +132,6 @@ ipcRenderer.on('showPicker', (event, section) => {
     const eyeDropper = new EyeDropper();
     eyeDropper.open()
         .then((returned)=>{
-            console.debug("a")
             ipcRenderer.send('colorFromPicker', section, returned.sRGBHex)
         })
         .catch((error)=>{

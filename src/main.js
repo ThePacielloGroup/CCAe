@@ -33,9 +33,13 @@ const schema = {
             },
         }
     },
+    allowUpdates: {
+        type: 'boolean',
+        default: true,
+    },
     checkForUpdates: {
         type: 'boolean',
-        default: false,
+        default: true,
     },
     rounding: {
         type: 'number',
@@ -163,10 +167,13 @@ const schema = {
 const store = new Store({schema,
     migrations: {
         '3.2.0': store => {
-            store.clear();
+            store.clear()
         },
         '3.3.0': store => {
-            store.delete('main');
+            store.delete('main')
+        },
+        '3.5.0': store => {
+            store.set('allowUpdates', true)
         },
     }
 })
@@ -206,13 +213,16 @@ store.onDidChange('foreground.picker.shortcut', (newValue) => {
 store.onDidChange('background.picker.shortcut', (newValue) => {
     mainController.sendEventToAll('configChanged', 'background.picker.shortcut', newValue)
 })
-store.onDidChange('main.checkForUpdates', (newValue) => {
-    if (newValue === true) {
-        checkForUpdates()
-    } else {
-        setUpdatesDisabled()
-    }
-})
+if (store.get('allowUpdates') === true) {
+    // If the CheckForUpdates preference changes, we trigger (or not) the check
+    store.onDidChange('main.checkForUpdates', (newValue) => {
+        if (newValue === true) {
+            checkForUpdates()
+        } else {
+            setUpdatesDisabled()
+        }
+    })
+}
 
 console.log(store.path)
 console.log(store.store)
@@ -235,11 +245,13 @@ app.on('ready', async () => {
 
     setMenu(i18n)
 
-    const updates = store.get('checkForUpdates')
-    if (updates === true) {
-        checkForUpdates()
-    } else {
-        setUpdatesDisabled()
+    // Initiate Update checking if required and allowed
+    if (store.get('allowUpdates') === true) {
+        if (store.get('checkForUpdates') === true) {
+           checkForUpdates()
+        } else {
+            setUpdatesDisabled()
+        }
     }
 })
 

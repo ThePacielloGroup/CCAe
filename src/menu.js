@@ -2,7 +2,7 @@ const { Menu } = require('electron')
 const isDev = ('NODE_ENV' in process.env && process.env.NODE_ENV === 'dev')
 const { installUpdate } = require('./update.js')
 
-module.exports = (browsers, mainController, prefs) => {
+module.exports = (browsers, mainController, store) => {
     const { main, about, deficiency, preferences } = browsers
     let setMenu = (i18n) => {
         const menuTemplate = [
@@ -95,10 +95,10 @@ module.exports = (browsers, mainController, prefs) => {
                     {
                         label: i18n.menuT('Always on Top'),
                         type: 'checkbox',
-                        checked: prefs.get('alwaysOnTop'),
+                        checked: store.get('alwaysOnTop'),
                         click: (item) => {
                             main.getWindow().setAlwaysOnTop(item.checked)
-                            prefs.set('alwaysOnTop', item.checked)
+                            store.set('alwaysOnTop', item.checked)
                         }
                     },
                     {

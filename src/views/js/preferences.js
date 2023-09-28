@@ -8,8 +8,14 @@ ipcRenderer.on('init', async (event, config) => {
     const rounding = await store.get('rounding')
     setColorScheme(theme)
     document.getElementById('option-rounding').value = rounding
-    const checkForUpdates = await store.get('checkForUpdates')
-    document.getElementById('option-checkForUpdates').checked = checkForUpdates
+
+    const allowUpdates = await store.get('allowUpdates')
+    if (allowUpdates) {
+        document.getElementById('checkForUpdates').hidden = false
+        const checkForUpdates = await store.get('checkForUpdates')
+        document.getElementById('option-checkForUpdates').checked = checkForUpdates
+    }
+
     const lang = await store.get('lang')
     document.getElementById('option-lang').value = lang
     document.getElementById('option-theme').value = theme
@@ -33,11 +39,16 @@ ipcRenderer.on('init', async (event, config) => {
 })
 
 
-document.getElementById('save').addEventListener('click', function () {
+document.getElementById('save').addEventListener('click', async () => {
     const rounding = document.getElementById('option-rounding').value;
     store.set('rounding', parseInt(rounding));
-    const checkForUpdates = document.getElementById('option-checkForUpdates').checked;
-    store.set('checkForUpdates', checkForUpdates);
+    const allowUpdates = await store.get('allowUpdates')
+    if (allowUpdates) {
+        const checkForUpdates = document.getElementById('option-checkForUpdates').checked;
+        store.set('checkForUpdates', checkForUpdates);
+    } else {
+        store.set('checkForUpdates', false);
+    }
     const lang = document.getElementById('option-lang').value;
     store.set('lang', lang);
     const theme = document.getElementById('option-theme').value;

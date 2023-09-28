@@ -7,7 +7,7 @@ body {
     margin: 1rem;
 }
 
-.option {
+.option:not([hidden]) {
     display: flex;
     justify-content: space-between;
     padding-top: 0.5rem;

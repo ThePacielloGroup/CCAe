@@ -28,13 +28,13 @@ module.exports = (browsers, mainController, prefs) => {
                     },
                     {
                         id: 'menuUpdateDisabled',
-                        label: i18n.menuT('Auto Update is disabled'),
+                        label: i18n.menuT('Checking for update is disabled'),
                         enabled: false,
                         visible: false
                     },
                     {
                         id: 'menuUpdateChecking',
-                        label: i18n.menuT('Checking for updates...'),
+                        label: i18n.menuT('Checking for update...'),
                         enabled: false,
                         visible: false
                     }, {
@@ -44,7 +44,7 @@ module.exports = (browsers, mainController, prefs) => {
                         visible: false
                     }, {
                         id: 'menuUpdateFound',
-                        label: i18n.menuT('Found updates, downloading...'),
+                        label: i18n.menuT('Found update, downloading...'),
                         enabled: false,
                         visible: false
                     }, {

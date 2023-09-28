@@ -113,7 +113,7 @@ function translateHTML(_i18n) {
     });
 
     // Check for update
-    document.querySelector('label[for="option-checkForUpdates"] span').innerText = i18n["Enable Auto-Update"];
+    document.querySelector('label[for="option-checkForUpdates"] span').innerText = i18n["Enable update checking"];
 
     // Language
     document.querySelector('label[for="option-lang"]').textContent = i18n['Language'];

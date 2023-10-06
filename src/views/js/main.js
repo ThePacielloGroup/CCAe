@@ -368,14 +368,14 @@ function applyContrastRatio(contrastRatio) {
     // toLocalString removes trailing zero and use the correct decimal separator, based on the app select lang.
     contrastRatioString = `${crr}:1`
     if ((cr >= 6.95 && cr < 7) || (cr >= 4.45 && cr < 4.5) || (cr >= 2.95 && cr < 3)) {
-        let crr3 = Number(cr.toFixed(3)).toLocaleString(i18n.lang)
+        let crr3 = cr.toLocaleString(i18n.lang)
         contrastRatioString = `<span class="smaller">${i18n["just below"]} </span>${crr}:1<span class="smaller"> (${crr3}:1)</span>`
     }
 
     document.getElementById('contrast-ratio-value').innerHTML = contrastRatioString
     document.getElementById('contrast-level-1-4-3').innerHTML = level_1_4_3
     document.getElementById('contrast-level-1-4-6').innerHTML = level_1_4_6
-    document.getElementById('contrast-level-1-4-11').innerHTML = level_1_4_11   
+    document.getElementById('contrast-level-1-4-11').innerHTML = level_1_4_11
 }
 
 function validateForegroundText(value) {

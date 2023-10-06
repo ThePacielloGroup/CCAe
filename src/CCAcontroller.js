@@ -306,6 +306,7 @@ class CCAController {
         const rounding = this.store.get('rounding') // TO REMOVE FROM THE UPDATE LOOP
 
         this.sharedObject['general.contrastRatioRaw']  = this.sharedObject['general.foregroundColor'].getReal().contrast(this.sharedObject['general.backgroundColor'])
+        this.sharedObject['general.contrastRatioRaw'] = Number(this.sharedObject['general.contrastRatioRaw'].toFixed(3))
         const cr = this.sharedObject['general.contrastRatioRaw']
         const crr = Number(cr.toFixed(rounding))
 
@@ -331,7 +332,7 @@ class CCAController {
         const def = ['achromatopsia', 'achromatomaly', 'protanopia', 'protanomaly', 'deuteranopia', 'deuteranomaly', 'tritanopia', 'tritanomaly']
         def.forEach(key => {
             const cr = this.sharedObject[`${key}.foregroundColor`].contrast(this.sharedObject[`${key}.backgroundColor`])
-            this.sharedObject[`${key}.contrastRatioRaw`] = cr
+            this.sharedObject[`${key}.contrastRatioRaw`] = Number(cr.toFixed(3))
             const crr = Number(cr.toFixed(rounding))
             object[key] = crr
         })

@@ -5,21 +5,22 @@ const url = require('url')
 module.exports = (dirname) => {
   let win
 
-  let init = () => {
+  let init = (parent) => {
     if (win === null || win === undefined) {
       if (process.platform === 'darwin' || process.platform === 'win32') {
-        createWindow()
+        createWindow(parent)
       }
     }
   }
 
-  let createWindow = () => {
+  let createWindow = (parent) => {
     win = new BrowserWindow({
       width: 300,
       height: 400,
       resizable: false,
       focusable: true,
-      alwaysOnTop: true,
+      parent,
+      modal: true,
       autoHideMenuBar: true,
       webPreferences: {
         nodeIntegration: true,
@@ -32,7 +33,7 @@ module.exports = (dirname) => {
         protocol: 'file:',
         slashes: true
     }))
-  
+
     win.on('closed', () => {
       win = undefined
     })

@@ -10,6 +10,10 @@ ipcRenderer.on('init', async (event, config) => {
     });
 })
 
+document.getElementById('close').addEventListener('click', () => {
+    window.close();
+});
+
 var externalLinks = document.querySelectorAll('.external-link')
 
 Array.from(externalLinks).forEach(link => {

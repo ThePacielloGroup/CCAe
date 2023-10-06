@@ -185,7 +185,7 @@ function translateHTML(_i18n) {
     reset_short.textContent = i18n["Reset"];
     reset_regular.setAttribute('aria-description',i18n["Regular results template"]);
     reset_short.setAttribute('aria-description',i18n["Reset results template"]);
-    
+
     // Save, Cancel button
     document.getElementById('save').innerText = i18n['Save'];
     document.getElementById('cancel').innerText = i18n['Cancel'];

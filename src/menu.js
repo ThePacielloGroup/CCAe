@@ -12,18 +12,22 @@ module.exports = (browsers, mainController, store) => {
                     {
                         label: i18n.menuT('About CCA'),
                         accelerator: 'F1',
-                        click: () => about.init()
+                        click: () => {
+                            const parent = main.getWindow()
+                            about.init(parent)
+                        }
                     },
                     {
                         label: i18n.menuT('Preferences'),
                         accelerator: 'CmdOrCtrl+,',
                         click: () => {
                             // Center panel on main window
-                            pos = main.getWindow().getPosition()
-                            size = main.getWindow().getSize()
-                            x = Math.round(pos[0] + (size[0]/2) - (300/2))
-                            y = Math.round(pos[1] + (size[1]/2) - (400/2))
-                            preferences.init(x, y)
+                            const parent = main.getWindow()
+                            // pos = parent.getPosition()
+                            // size = parent.getSize()
+                            // x = Math.round(pos[0] + (size[0]/2) - (300/2))
+                            // y = Math.round(pos[1] + (size[1]/2) - (400/2))
+                            preferences.init(parent)
                         }
                     },
                     {
@@ -87,7 +91,10 @@ module.exports = (browsers, mainController, store) => {
                     {
                         label: i18n.menuT('Colour blindness simulation'),
                         accelerator: 'CmdOrCtrl+B',
-                        click: () => deficiency.init()
+                        click: () => {
+                            const parent = main.getWindow()
+                            deficiency.init(parent)
+                        }
                     },
                     {
                         type: 'separator'

@@ -431,7 +431,7 @@ function leaveText(section, el) {
         const freeFormat =  document.querySelector('#' + section + '-free-format')
         if (freeFormat.getAttribute('aria-live')) {
             freeFormat.innerHTML = 'Error, Incorrect ' + section + ' format'
-        }    
+        }
     } else {
         let color = sharedObject.deficiencies.normal[section + "Color"]
         applyColorTextString(section, color)

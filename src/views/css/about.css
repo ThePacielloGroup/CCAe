@@ -5,3 +5,8 @@ body {
 .center {
     text-align: center;
 }
+
+.buttons {
+    text-align: right;
+    margin: 1rem;
+}

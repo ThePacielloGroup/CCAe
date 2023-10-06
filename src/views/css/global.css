@@ -187,3 +187,17 @@ code {
     outline: none;
     box-shadow: initial;
 }
+
+button[title]:focus:after  {
+    content:attr(title);
+    background-color: black;
+    color: white;
+    padding: 5px;
+    margin-top: 1rem;
+    margin-left: -1rem;
+    position: absolute;
+    max-width: 20rem;
+    border-radius: 5px;
+    z-index: 1;
+    font-size: 0.8rem;
+}

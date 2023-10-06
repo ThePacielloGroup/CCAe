@@ -451,6 +451,17 @@ function translateHTML(i18n) {
     document.querySelector('h1').textContent = i18n['CCA Main windows']
 
     // Color Controls
+
+    document.querySelector('#foreground-color .switch').setAttribute('aria-label', i18n['Switch Colours']);
+    document.querySelector('#foreground-color .switch').setAttribute('title', i18n['Switch Colours']);
+
+    document.querySelector('#foreground-color .sliders').setAttribute('title', i18n['Colour sliders']);
+    document.querySelector('#foreground-color .picker').setAttribute('title', i18n['Colour picker']);
+    document.querySelector('#foreground-color .help').setAttribute('title', i18n['Help']);
+    document.querySelector('#foreground-color .sliders').setAttribute('aria-label', i18n['Foreground colour sliders']);
+    document.querySelector('#foreground-color .picker').setAttribute('aria-label', i18n['Foreground colour picker']);
+    document.querySelector('#foreground-color .help').setAttribute('aria-label', i18n['Foreground help']);
+
     document.querySelector('#foreground-color h2').textContent = i18n['Foreground colour']
     document.querySelector('#foreground-format-selector').setAttribute('aria-label', i18n['Select default format for foreground colour']);
     document.querySelector('#foreground-format-selector+input').setAttribute('aria-label', i18n['Foreground colour value']);
@@ -464,6 +475,13 @@ function translateHTML(i18n) {
 
     document.querySelector('#foreground-rgb > div.sync > label > span').textContent = i18n['Synchronize colour values']
     document.querySelector('#foreground-rgb > div.sync > label').setAttribute('aria-label',i18n['Synchronize foreground colour values'])
+
+    document.querySelector('#background-color .sliders').setAttribute('title', i18n['Colour sliders']);
+    document.querySelector('#background-color .picker').setAttribute('title', i18n['Colour picker']);
+    document.querySelector('#background-color .help').setAttribute('title', i18n['Help']);
+    document.querySelector('#background-color .sliders').setAttribute('aria-label', i18n['Background colour sliders']);
+    document.querySelector('#background-color .picker').setAttribute('aria-label', i18n['Background colour picker']);
+    document.querySelector('#background-color .help').setAttribute('aria-label', i18n['Background help']);
 
     document.querySelector('#background-color h2').textContent = i18n['Background colour']
     document.querySelector('#background-format-selector').setAttribute('aria-label', i18n['Select default format for background colour'])

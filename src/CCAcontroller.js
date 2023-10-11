@@ -328,6 +328,7 @@ class CCAController {
             levelAAA: this.sharedObject['general.levelAAA'],
             raw: cr,
             rounded: crr,
+            rounding: rounding,
         }
         const def = ['achromatopsia', 'achromatomaly', 'protanopia', 'protanomaly', 'deuteranopia', 'deuteranomaly', 'tritanopia', 'tritanomaly']
         def.forEach(key => {

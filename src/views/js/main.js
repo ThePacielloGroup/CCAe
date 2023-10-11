@@ -365,9 +365,11 @@ function applyContrastRatio(contrastRatio) {
 
     let cr = contrastRatio.raw
     let crr = contrastRatio.rounded.toLocaleString(i18n.lang)
+    let r = contrastRatio.rounding
     // toLocalString removes trailing zero and use the correct decimal separator, based on the app select lang.
     contrastRatioString = `${crr}:1`
-    if ((cr >= 6.95 && cr < 7) || (cr >= 4.45 && cr < 4.5) || (cr >= 2.95 && cr < 3)) {
+    if (((r == 1) && ((cr >= 6.95 && cr < 7) || (cr >= 4.45 && cr < 4.5) || (cr >= 2.95 && cr < 3))) || 
+        ((r == 2) && ((cr >= 6.995 && cr < 7) || (cr >= 4.495 && cr < 4.5) || (cr >= 2.995 && cr < 3)))) {
         let crr3 = cr.toLocaleString(i18n.lang)
         contrastRatioString = `<span class="smaller">${i18n["just below"]} </span>${crr}:1<span class="smaller"> (${crr3}:1)</span>`
     }

@@ -12,7 +12,7 @@
         "Preferences": "Preferencje",
         "Edit": "Edycja",
         "Copy results": "Skopiuj wyniki",
-        "Copy short results": "Copy short results",
+        "Copy short results": "Skopiuj krótkie wyniki",
         "Cut": "Wytnij",
         "Copy": "Kopiuj",
         "Paste": "Wklej",
@@ -100,9 +100,9 @@
         "sc_1_4_11": "Wizualna prezentacja komponentów interfejsu użytkownika (ich stanów – w tym wskaźnika fokusa – i granic) oraz obiektów graficznych ma współczynnik kontrastu co najmniej <strong>3:1</strong> w stosunku do sąsiedniego koloru lub kolorów.",
         "just below": "tuż poniżej",
         "messages":{
-            "Between the background and foreground colors have swapped.":"Between the background and foreground colors have swapped.",
-            "Results copied.":"Results copied.",
-            "Short results copied.":"Short results copied."
+            "Between the background and foreground colors have swapped.":"Zamieniły się kolory tła i pierwszego planu.",
+            "Results copied.":"Skopiowano wyniki.",
+            "Short results copied.":"Skopiowano krótkie wyniki."
         }
     },
     "Deficiency": {

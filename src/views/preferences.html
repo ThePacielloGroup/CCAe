@@ -1,129 +1,134 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Preferences</title>
-    <link rel="stylesheet" href="css/global.css" />
-    <link rel="stylesheet" href="css/preferences.css" />
-    <link rel="stylesheet" href="css/tabs.css" />
-  </head>
-  <body>
-    <main>
-      <h1 class="sr-only">Preferences</h1>
-      <fieldset id="options">
-        <legend>Options</legend>
-          <div class="option">
-            <label id="lb-option-rounding" for="option-rounding">Contrast ratio precision</label>
-            <select id="option-rounding">
-              <option value="1">1 decimal place</option>
-              <option value="2">2 decimal places</option>
-            </select>
-          </div>
-          <div class="option" id="checkForUpdates" hidden>
-            <label for="option-checkForUpdates"><input type="checkbox" id="option-checkForUpdates"/>
-              <span>
-                Enable update checking
-              </span>
-            </label>
-          </div>
-          <div class="option">
-            <label for="option-theme" id="lb-option-theme">Application Theme</label>
-            <select id="option-theme">
-              <option value="system">System (Default)</option>
-              <option value="force-light">Light</option>
-              <option value="force-dark">Dark</option>
-            </select>
-          </div>
-          <div class="option">
-            <label for="option-lang">Language</label>
-            <select id="option-lang">
-              <option value="auto">System (Default)</option>
-              <option value="de" lang="de">Deutsch</option>
-              <option value="nl" lang="nl">Dutch</option>
-              <option value="en" lang="en">English</option>
-              <option value="es" lang="es">Español</option>>
-              <option value="fr" lang="fr">Français</option>
-              <option value="hu" lang="hu">Magyar</option>
-              <option value="pl" lang="pl">Polski</option>
-              <option value="ja" lang="ja">日本語</option>
-              <option value="ko" lang="ko">한국어</option>
-            </select>
-          </div>
-          <div class="option" id="option-picker-group">
-            <label for="option-picker">Color Picker type</label>
-            <select id="option-picker">
-              <option value="1">Electron</option>
-              <option value="2">Add-on</option>
-            </select>  
-          </div>
-      </fieldset>
-      <fieldset id="shortcuts">
-        <legend>Shortcuts</legend>
-        <div class="option">
-          <label for="shortcut-foreground-picker">Picker foreground</label>
-          <select id="shortcut-foreground-picker">
-            <option value="F1">F1</option>
-            <option value="F2">F2</option>
-            <option value="F3">F3</option>
-            <option value="F4">F4</option>
-            <option value="F5">F5</option>
-            <option value="F6">F6</option>
-            <option value="F7">F7</option>
-            <option value="F8">F8</option>
-            <option value="F9">F9</option>
-            <option value="F10">F10</option>
-            <option value="F11">F11</option>
-            <option value="F12">F12</option>
-          </select>
-        </div>
-        <div class="option">
-          <label for="shortcut-background-picker">Picker background</label>
-          <select id="shortcut-background-picker">
-            <option value="F1">F1</option>
-            <option value="F2">F2</option>
-            <option value="F3">F3</option>
-            <option value="F4">F4</option>
-            <option value="F5">F5</option>
-            <option value="F6">F6</option>
-            <option value="F7">F7</option>
-            <option value="F8">F8</option>
-            <option value="F9">F9</option>
-            <option value="F10">F10</option>
-            <option value="F11">F11</option>
-            <option value="F12">F12</option>
-          </select>
-        </div>
-      </fieldset>
-      <fieldset id="copy">
-        <legend>Copy results</legend>
-        <ul id="copy-format-example">
-          <li><strong>%f.hex%:</strong> <span id="ex-hexa-foreground">Foreground colour in hexa format</span></li>
-          <li><strong>%b.hex%:</strong> <span id="ex-hexa-background">Background colour in hexa format</span></li>
-          <li><strong>%cr%:</strong> <span id="ex-contrast-raw">Contrast ratio (raw)</span></li>
-          <li><strong>%crr%:</strong> <span id="ex-contrast-rounded">Contrast ratio (rounded)</span></li>
-          <li><strong>%1.4.3%:</strong> <span id="crt-1_4_3">1.4.3 Contrast (Minimum) result</span></li>
-          <li><strong>%1.4.6%:</strong> <span id="crt-1_4_6">1.4.6 Contrast (Enhanced) result</span></li>
-          <li><strong>%1.4.11%:</strong> <span id="crt-1_4_11">1.4.11 Non-text Contrast</span></li>
-        </ul>
-        <span class="block">
-          <label for="copy-regular-results-template">Regular results template</label>
-          <button class="reset-button" id="reset-regular-text">Reset</button>
-        </span>
-        <textarea id="copy-regular-results-template" rows="5"></textarea>
-        <span class="block">
-          <label for="copy-short-results-template">Short results template</label>
-          <button class="reset-button" id="reset-short-text">Reset</button>
-        </span>
-        <textarea id="copy-short-results-template" rows="5"></textarea>
-      </fieldset>
-      <div class="buttons">
-        <button id="save">Save</button>
-        <button id="cancel">Cancel</button>
-      </div>
-    </main>
-    <script>
-      // You can also require other files to run in this process
-      require('./js/preferences.js');
-    </script>
-  </body>
+
+    <head>
+        <meta charset="utf-8">
+        <title>Preferences</title>
+        <link rel="stylesheet" href="css/global.css" />
+        <link rel="stylesheet" href="css/preferences.css" />
+        <link rel="stylesheet" href="css/tabs.css" />
+    </head>
+
+    <body>
+        <main>
+            <h1 class="sr-only">Preferences</h1>
+            <fieldset id="options">
+                <legend>Options</legend>
+                <div class="option">
+                    <label id="lb-option-rounding" for="option-rounding">Contrast ratio precision</label>
+                    <select id="option-rounding">
+                        <option value="1">1 decimal place</option>
+                        <option value="2">2 decimal places</option>
+                    </select>
+                </div>
+                <div class="option" id="checkForUpdates" hidden>
+                    <label for="option-checkForUpdates"><input type="checkbox" id="option-checkForUpdates" />
+                        <span>
+                            Enable update checking
+                        </span>
+                    </label>
+                </div>
+                <div class="option">
+                    <label for="option-theme" id="lb-option-theme">Application Theme</label>
+                    <select id="option-theme">
+                        <option value="system">System (Default)</option>
+                        <option value="force-light">Light</option>
+                        <option value="force-dark">Dark</option>
+                    </select>
+                </div>
+                <div class="option">
+                    <label for="option-lang">Language</label>
+                    <select id="option-lang">
+                        <option value="auto">System (Default)</option>
+                        <option value="de" lang="de">Deutsch</option>
+                        <option value="nl" lang="nl">Dutch</option>
+                        <option value="en" lang="en">English</option>
+                        <option value="es" lang="es">Español</option>>
+                        <option value="fr" lang="fr">Français</option>
+                        <option value="hu" lang="hu">Magyar</option>
+                        <option value="pl" lang="pl">Polski</option>
+                        <option value="ja" lang="ja">日本語</option>
+                        <option value="ko" lang="ko">한국어</option>
+                        <option value="zh-CN" lang="zh-CN">简体中文</option>
+                        <option value="zh-TW" lang="zh-TW">繁体中文</option>
+                    </select>
+                </div>
+                <div class="option" id="option-picker-group">
+                    <label for="option-picker">Color Picker type</label>
+                    <select id="option-picker">
+                        <option value="1">Electron</option>
+                        <option value="2">Add-on</option>
+                    </select>
+                </div>
+            </fieldset>
+            <fieldset id="shortcuts">
+                <legend>Shortcuts</legend>
+                <div class="option">
+                    <label for="shortcut-foreground-picker">Picker foreground</label>
+                    <select id="shortcut-foreground-picker">
+                        <option value="F1">F1</option>
+                        <option value="F2">F2</option>
+                        <option value="F3">F3</option>
+                        <option value="F4">F4</option>
+                        <option value="F5">F5</option>
+                        <option value="F6">F6</option>
+                        <option value="F7">F7</option>
+                        <option value="F8">F8</option>
+                        <option value="F9">F9</option>
+                        <option value="F10">F10</option>
+                        <option value="F11">F11</option>
+                        <option value="F12">F12</option>
+                    </select>
+                </div>
+                <div class="option">
+                    <label for="shortcut-background-picker">Picker background</label>
+                    <select id="shortcut-background-picker">
+                        <option value="F1">F1</option>
+                        <option value="F2">F2</option>
+                        <option value="F3">F3</option>
+                        <option value="F4">F4</option>
+                        <option value="F5">F5</option>
+                        <option value="F6">F6</option>
+                        <option value="F7">F7</option>
+                        <option value="F8">F8</option>
+                        <option value="F9">F9</option>
+                        <option value="F10">F10</option>
+                        <option value="F11">F11</option>
+                        <option value="F12">F12</option>
+                    </select>
+                </div>
+            </fieldset>
+            <fieldset id="copy">
+                <legend>Copy results</legend>
+                <ul id="copy-format-example">
+                    <li><strong>%f.hex%:</strong> <span id="ex-hexa-foreground">Foreground colour in hexa format</span></li>
+                    <li><strong>%b.hex%:</strong> <span id="ex-hexa-background">Background colour in hexa format</span></li>
+                    <li><strong>%cr%:</strong> <span id="ex-contrast-raw">Contrast ratio (raw)</span></li>
+                    <li><strong>%crr%:</strong> <span id="ex-contrast-rounded">Contrast ratio (rounded)</span></li>
+                    <li><strong>%1.4.3%:</strong> <span id="crt-1_4_3">1.4.3 Contrast (Minimum) result</span></li>
+                    <li><strong>%1.4.6%:</strong> <span id="crt-1_4_6">1.4.6 Contrast (Enhanced) result</span></li>
+                    <li><strong>%1.4.11%:</strong> <span id="crt-1_4_11">1.4.11 Non-text Contrast</span></li>
+                </ul>
+                <span class="block">
+                    <label for="copy-regular-results-template">Regular results template</label>
+                    <button class="reset-button" id="reset-regular-text">Reset</button>
+                </span>
+                <textarea id="copy-regular-results-template" rows="5"></textarea>
+                <span class="block">
+                    <label for="copy-short-results-template">Short results template</label>
+                    <button class="reset-button" id="reset-short-text">Reset</button>
+                </span>
+                <textarea id="copy-short-results-template" rows="5"></textarea>
+            </fieldset>
+            <div class="buttons">
+                <button id="save">Save</button>
+                <button id="cancel">Cancel</button>
+            </div>
+        </main>
+        <script>
+            // You can also require other files to run in this process
+            require('./js/preferences.js');
+        </script>
+    </body>
+
 </html>

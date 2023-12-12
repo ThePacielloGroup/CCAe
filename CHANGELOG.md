@@ -5,11 +5,9 @@
 - [Windows: Application menus aren't keyboard accessible](https://github.com/ThePacielloGroup/CCAe/issues/49)
 - [Windows: Changing slider values is not announced in NVDA](https://github.com/ThePacielloGroup/CCAe/issues/37)
 
-## [v3.5.0](https://github.com/ThePacielloGroup/CCAe/tree/v3.5.0) (2023-12-12)
+## [v3.5.1](https://github.com/ThePacielloGroup/CCAe/tree/v3.5.1) (2023-12-12)
 
-[Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.4.2...v3.5.0)
-
-**Implemented enhancements:**
+[Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.4.2...v3.5.1)
 
 - Copy contrast ratio from UI [\#168](https://github.com/ThePacielloGroup/CCAe/issues/168)
 - Add support for macOS Dark Mode [\#67](https://github.com/ThePacielloGroup/CCAe/issues/67)

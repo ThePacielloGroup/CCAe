@@ -5,6 +5,33 @@
 - [Windows: Application menus aren't keyboard accessible](https://github.com/ThePacielloGroup/CCAe/issues/49)
 - [Windows: Changing slider values is not announced in NVDA](https://github.com/ThePacielloGroup/CCAe/issues/37)
 
+## [v3.5.0](https://github.com/ThePacielloGroup/CCAe/tree/v3.5.0) (2023-12-12)
+
+[Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.4.2...v3.5.0)
+
+**Implemented enhancements:**
+
+- Copy contrast ratio from UI [\#168](https://github.com/ThePacielloGroup/CCAe/issues/168)
+- Add support for macOS Dark Mode [\#67](https://github.com/ThePacielloGroup/CCAe/issues/67)
+- Auto Update Error to version 4.4.2 [\#314](https://github.com/ThePacielloGroup/CCAe/issues/314)
+- For contrast just below the threshold, "Copy results" gives a contradictory number [\#300](https://github.com/ThePacielloGroup/CCAe/issues/300)
+- Auto Update Error [\#293](https://github.com/ThePacielloGroup/CCAe/issues/293)
+- In cases wrong colour shown, not corresponding to hex [\#273](https://github.com/ThePacielloGroup/CCAe/issues/273)
+- Shortcuts for pickers are not settable and shortcut for picker background doesn't work [\#262](https://github.com/ThePacielloGroup/CCAe/issues/262)
+- Doesn't work Ctrl+"+" shortcut for zoom in CCA [\#261](https://github.com/ThePacielloGroup/CCAe/issues/261)
+- command =  should also zoom up   [\#218](https://github.com/ThePacielloGroup/CCAe/issues/218)
+- CCAe window resizes/resets when changing RBG/HSL/HSV slider mode [\#190](https://github.com/ThePacielloGroup/CCAe/issues/190)
+- CCA Window resizes after minimizing - portion of content truncated [\#161](https://github.com/ThePacielloGroup/CCAe/issues/161)
+- Updated Polish translation  [\#319](https://github.com/ThePacielloGroup/CCAe/issues/319)
+- Wrong number when calculating luminosity? [\#318](https://github.com/ThePacielloGroup/CCAe/issues/318)
+- CCA doesn't support Windows shortcut for moving windows between displays [\#305](https://github.com/ThePacielloGroup/CCAe/issues/305)
+- Issue: About dialogue box stuck behind instead of appearing in front when Always On Top activated [\#256](https://github.com/ThePacielloGroup/CCAe/issues/256)
+- No alt text for button icons [\#110](https://github.com/ThePacielloGroup/CCAe/issues/110)
+- Linux support \(AppImage\) [\#87](https://github.com/ThePacielloGroup/CCAe/issues/87)
+- Update Polish translation [\#320](https://github.com/ThePacielloGroup/CCAe/pull/320)
+- Chinese CN and TW translation json files [\#317](https://github.com/ThePacielloGroup/CCAe/pull/317)
+- Fix "just below" display [\#315](https://github.com/ThePacielloGroup/CCAe/pull/315)
+
 ## [v3.4.2](https://github.com/ThePacielloGroup/CCAe/tree/v3.4.2) (2023-09-26)
 
 [Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.3.0...v3.4.2)

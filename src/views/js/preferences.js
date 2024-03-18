@@ -103,12 +103,13 @@ function close() {window.close();}
  * @description translate html elements.
 */
 function translateHTML(_i18n) {
+    document.querySelector('html').lang = _i18n.Main['lang']
     const i18n = _i18n["Preferences"];
     document.title = i18n['Title'];
     document.querySelector('h1').textContent = i18n['Preferences'];
 
     /* Options fieldset */
-    document.querySelector('fieldset#options>legend').textContent = i18n['Options'];   
+    document.querySelector('fieldset#options>legend').textContent = i18n['Options'];
     // Rounding Precision
     document.querySelector('label[for="option-rounding"]').textContent = i18n['Contrast ratio precision'];
     document.querySelectorAll('#option-rounding > option').forEach((opt,idx)=>{
@@ -164,8 +165,8 @@ function translateHTML(_i18n) {
     // background, foreground picker
     document.querySelector('label[for="shortcut-background-picker"]').textContent = i18n['Picker foreground'];
     document.querySelector('label[for="shortcut-foreground-picker"]').textContent = i18n['Picker background'];
-    
-    document.querySelector('fieldset#copy > legend').textContent = i18n['Copy results'];
+
+    document.querySelector('fieldset#copy > legend').textContent = _i18n.Menu['Copy results'];
     /* Copy results fieldset */
     document.querySelectorAll("#copy-format-example>li>span").forEach((el,idx)=>{
         const i18nTexts = [i18n["Foreground colour in hexa format"],

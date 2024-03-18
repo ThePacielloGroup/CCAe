@@ -46,8 +46,8 @@ const announceForAccessibility = (message)=>{
 }
 
 ipcRenderer.on('init', async (event, config) => {
-    i18n = config.i18n
-    translateHTML(i18n)
+    i18n = config.i18n["Main"];
+    translateHTML()
     const theme = await store.get("colorScheme");
     setColorScheme(theme);
     // init format selector
@@ -118,8 +118,7 @@ ipcRenderer.on('colorSchemeChanged',async (event,newScheme)=>{
     setColorScheme(newScheme);
 })
 
-ipcRenderer.on('langChanged', (event, i18nNew) => {
-    i18n = i18nNew
+ipcRenderer.on('langChanged', (event, i18n) => {
     translateHTML(i18n)
     //TODO applyContrastRatio()
 })
@@ -336,7 +335,7 @@ function applyColorHSVSliders(section, color) {
 function applyColorSample(section, color) {
     if (section === 'foreground') {
         document.querySelector('#sample-preview .text').style.color = color.rgb
-        document.querySelector('#sample-preview .icon svg').style.stroke = color.rgb    
+        document.querySelector('#sample-preview .icon svg').style.stroke = color.rgb
     } else {
         document.querySelector('#sample-preview .text').style.background = color.rgb
         document.querySelector('#sample-preview .icon').style.background = color.rgb
@@ -445,8 +444,7 @@ function changeFormat(section, el) {
     store.set(`${section}.format`, el.value)
 }
 
-function translateHTML(i18n) {
-
+function translateHTML() {
     // translate html elements.
     document.querySelector('html').lang = i18n['lang']
     document.querySelector('title').textContent = i18n['Title']

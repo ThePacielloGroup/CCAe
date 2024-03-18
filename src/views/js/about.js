@@ -28,7 +28,9 @@ ipcRenderer.on('langChanged', (event, i18n) => {
     translateHTML(i18n)
 })
 
-function translateHTML(i18n) {
+function translateHTML(_i18n) {
+    document.querySelector('html').lang = _i18n.Main['lang']
+    const i18n = _i18n["About"];
     // translate html elements.
     document.title = i18n['Title'];
     document.querySelector('h1#header-main').textContent = i18n['Colour Contrast Analyser (CCA)'];

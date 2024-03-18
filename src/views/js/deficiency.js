@@ -27,8 +27,7 @@ ipcRenderer.on('contrastRatioChanged', (event, contrastRatio) => {
     applyContrastRatio(contrastRatio)
 })
 
-ipcRenderer.on('langChanged', (event, i18nNew) => {
-    i18n = i18nNew
+ipcRenderer.on('langChanged', (event, i18n) => {
     translateHTML(i18n)
 })
 
@@ -49,7 +48,10 @@ function applyContrastRatio (contrastRatio) {
     })
 }
 
-function translateHTML(i18n) {
+function translateHTML(_i18n) {
+    document.querySelector('html').lang = _i18n.Main['lang']
+    const i18n = _i18n["Deficiency"];
+
     // translate html elements.
     document.title = i18n['Title']
     document.querySelector('body > main > h1').textContent = i18n['Colour blindness simulation']

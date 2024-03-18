@@ -7,7 +7,7 @@ module.exports = (browsers, store) => {
         const i18n = new(require('../i18n'))(lang)
         let config = {
             version: app.getVersion(),
-            i18n: i18n.asObject().About
+            i18n: i18n.asObject()
         }
         sendEvent('init', config)
     })
@@ -20,7 +20,7 @@ module.exports = (browsers, store) => {
             case 'langChanged':
                 const lang = store.get('lang')
                 const i18n = new(require('../i18n'))(lang)
-                win.webContents.send(event, i18n.asObject().About)
+                win.webContents.send(event, i18n.asObject())
                 break
             default:
                 win.webContents.send(event, ...params)

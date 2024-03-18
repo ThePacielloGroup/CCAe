@@ -34,6 +34,7 @@ function translateHTML(i18n) {
     document.querySelector('h1#header-main').textContent = i18n['Colour Contrast Analyser (CCA)'];
     document.querySelector('#i18n-version').textContent = i18n['Version'];
     document.querySelector('#i18n-developed').textContent = i18n['Developed by'];
+    if (i18n['NIDRR']) document.querySelector('#i18n-nidrr').textContent = i18n['NIDRR'];
     document.querySelector('h2#header-translations').textContent = i18n['Translations'];
     document.querySelector('h2#header-exLinks').textContent = i18n['External links'];
     const exLink_listitem = document.querySelectorAll('ul#list-exLinks > li > A');

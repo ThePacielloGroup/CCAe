@@ -37,7 +37,7 @@ function translateHTML(i18n) {
     document.querySelector('h2#header-translations').textContent = i18n['Translations'];
     document.querySelector('h2#header-exLinks').textContent = i18n['External links'];
     const exLink_listitem = document.querySelectorAll('ul#list-exLinks > li > A');
-    exLink_listitem[0].textContent = i18n['TPG Resources'];
+    exLink_listitem[0].textContent = i18n['TPGi Resources'];
     exLink_listitem[1].textContent = i18n['Github page'];
     exLink_listitem[2].textContent = i18n['Report an issue'];
 }

@@ -35,7 +35,7 @@ dmg:
 
 win:
   icon: "build/icon.ico"
-  publisherName: "TPG Interactive, LLC"
+  publisherName: "TPGi Interactive, LLC"
   target:
     - target: nsis
       arch:

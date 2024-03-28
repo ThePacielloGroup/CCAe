@@ -91,7 +91,7 @@ jobs:
       - name: Download jsign
         run: |
           wget https://github.com/ebourg/jsign/releases/download/6.0/jsign-6.0.jar -O jsign.jar
-        shell: bash
+        shell: pwsh
 
       - name: Install Dependencies
         run: yarn

@@ -90,7 +90,7 @@ jobs:
       
       - name: Download jsign
         run: |
-          curl https://github.com/ebourg/jsign/releases/download/6.0/jsign-6.0.jar > jsign.jar
+          curl -L -o jsign.jar https://github.com/ebourg/jsign/releases/download/6.0/jsign-6.0.jar
         shell: bash
 
       - name: Install Dependencies

@@ -1,6 +1,6 @@
 name: Build/Release
 
-on: [push]
+on: [push, workflow_dispatch]
 
 jobs:
   MacOS:

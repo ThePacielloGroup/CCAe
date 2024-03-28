@@ -36,6 +36,7 @@ dmg:
 win:
   icon: "build/icon.ico"
   publisherName: "TPGi Interactive, LLC"
+  sign: "./src/custom-sign.js"
   target:
     - target: nsis
       arch:

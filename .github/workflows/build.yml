@@ -100,7 +100,7 @@ jobs:
         if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
         run: yarn build
         env:
-          CERT_PATH: $(Agent.TempDirectory)/cert.p7b
+          CERT_PATH: cert.p7b
           AWS_REGION: ${{ secrets.aws_region }}
           AWS_ACCESS_KEY: ${{ secrets.aws_access_key }}
           AWS_SECRET_KEY: ${{ secrets.aws_secret_key }}
@@ -115,7 +115,7 @@ jobs:
           # (No need to define this secret in the repo settings)
           GH_TOKEN: ${{ secrets.github_token }}
 
-          CERT_PATH: $(Agent.TempDirectory)/cert.p7b
+          CERT_PATH: cert.p7b
           AWS_REGION: ${{ secrets.aws_region }}
           AWS_ACCESS_KEY: ${{ secrets.aws_access_key }}
           AWS_SECRET_KEY: ${{ secrets.aws_secret_key }}

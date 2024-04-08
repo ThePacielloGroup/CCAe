@@ -8,6 +8,9 @@ exports.default = async function(configuration) {
         --alias "${process.env.KMS_ARN}" \
         --certfile "${process.env.CERT_PATH}" \
         --alg "SHA256" \
+        --tsaurl "http://timestamp.digicert.com" \
+        --tsretries 10 \
+        --replace \
         "${configuration.path}"
         `,
         { stdio: "inherit"}

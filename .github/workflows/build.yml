@@ -1,6 +1,6 @@
 name: Build/Release
 
-on: [push]
+on: [push, workflow_dispatch]
 
 jobs:
   MacOS:
@@ -80,17 +80,18 @@ jobs:
         with:
           node-version: 16
 
-      - name: Prepare for private keys
+      - name: Create Windows certificate file
+        # Import certificate from secret store
         run: |
-          mkdir -p ~/private_keys/
-
-      - name: Prepare for Windows signing
-        # Import Signing key for app signing on Windows
-        run: |
-          echo "$windows_certs" | base64 -d > ~/private_keys/Windows_Certificate.pfx
+          echo "$windows_certs" > cert.p7b
         shell: bash
         env:
           windows_certs: ${{ secrets.windows_certs }}
+      
+      - name: Download jsign
+        run: |
+          curl -L -o jsign.jar https://github.com/ebourg/jsign/releases/download/6.0/jsign-6.0.jar
+        shell: bash
 
       - name: Install Dependencies
         run: yarn
@@ -99,8 +100,11 @@ jobs:
         if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
         run: yarn build
         env:
-          CSC_LINK: ~/private_keys/Windows_Certificate.pfx
-          CSC_KEY_PASSWORD: ${{ secrets.windows_certs_password }}
+          CERT_PATH: cert.p7b
+          AWS_REGION: ${{ secrets.aws_region }}
+          AWS_ACCESS_KEY: ${{ secrets.aws_access_key }}
+          AWS_SECRET_KEY: ${{ secrets.aws_secret_key }}
+          KMS_ARN: ${{ secrets.kms_arn }}
           ARCH: x64
 
       - name: Release Electron app
@@ -111,8 +115,11 @@ jobs:
           # (No need to define this secret in the repo settings)
           GH_TOKEN: ${{ secrets.github_token }}
 
-          CSC_LINK: ~/private_keys/Windows_Certificate.pfx
-          CSC_KEY_PASSWORD: ${{ secrets.windows_certs_password }}
+          CERT_PATH: cert.p7b
+          AWS_REGION: ${{ secrets.aws_region }}
+          AWS_ACCESS_KEY: ${{ secrets.aws_access_key }}
+          AWS_SECRET_KEY: ${{ secrets.aws_secret_key }}
+          KMS_ARN: ${{ secrets.kms_arn }}
           ARCH: x64
 
       - name: .exe artifacts

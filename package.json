@@ -17,7 +17,7 @@
         "cross-env": "^7.0.3",
         "electron": "29.1.4",
         "electron-builder": "^24.13.3",
-        "electron-builder-notarize": "^1.5.1"
+        "electron-builder-notarize": "^1.5.2"
     },
     "dependencies": {
         "color-blind": "^0.1.3",

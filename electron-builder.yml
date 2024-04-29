@@ -27,6 +27,7 @@ mac:
   type: distribution
   publish:
     - github
+  notarize: false
 
 afterSign: "electron-builder-notarize"
 

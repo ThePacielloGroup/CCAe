@@ -5,6 +5,15 @@
 - [Windows: Application menus aren't keyboard accessible](https://github.com/ThePacielloGroup/CCAe/issues/49)
 - [Windows: Changing slider values is not announced in NVDA](https://github.com/ThePacielloGroup/CCAe/issues/37)
 
+## [v3.5.2](https://github.com/ThePacielloGroup/CCAe/tree/v3.5.2) (2024-04-29)
+
+[Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.5.1...v3.5.2)
+
+- French windows missing translations and popups missing language tagging \(WCAG SC 11.2.4.4 - 11.3.1.1\) [\#329](https://github.com/ThePacielloGroup/CCAe/issues/329)
+- CCA icon alternative text in English in the French interface "About" \(WCAG SC 11.1.1.1\) [\#325](https://github.com/ThePacielloGroup/CCAe/issues/325)
+- Update electron library to 26.2.4 to mitigate High vulnerability CVE-2023-5217 [\#322](https://github.com/ThePacielloGroup/CCAe/issues/322)
+- New signing certificate [\#333](https://github.com/ThePacielloGroup/CCAe/pull/333)
+
 ## [v3.5.1](https://github.com/ThePacielloGroup/CCAe/tree/v3.5.1) (2023-12-12)
 
 [Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.4.2...v3.5.1)

@@ -5,6 +5,14 @@
 - [Windows: Application menus aren't keyboard accessible](https://github.com/ThePacielloGroup/CCAe/issues/49)
 - [Windows: Changing slider values is not announced in NVDA](https://github.com/ThePacielloGroup/CCAe/issues/37)
 
+## [v3.5.3](https://github.com/ThePacielloGroup/CCAe/tree/v3.5.3) (2024-05-06)
+
+[Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.5.2...v3.5.3)
+
+- Odd coloured highlight for top-level menus on Windows [\#251](https://github.com/ThePacielloGroup/CCAe/issues/251)
+- Signed ColorPicker32.exe [\#337](https://github.com/ThePacielloGroup/CCAe/pull/337)
+- Update pl.json [\#336](https://github.com/ThePacielloGroup/CCAe/pull/336)
+
 ## [v3.5.2](https://github.com/ThePacielloGroup/CCAe/tree/v3.5.2) (2024-04-29)
 
 [Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.5.1...v3.5.2)

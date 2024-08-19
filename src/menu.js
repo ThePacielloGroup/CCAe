@@ -71,15 +71,15 @@ module.exports = (browsers, mainController, store) => {
                 submenu: [
                     {
                         label: i18n.menuT('Copy results'),
-                        accelerator: 'CmdOrCtrl+Shift+C',
-                        click: (item) => {
+                        accelerator: 'CmdOrCtrl+F',
+                        click: () => {
                             mainController.copyRegularResults()
                         }
                     },
                     {
                         label: i18n.menuT('Copy short results'),
-                        accelerator: 'CmdOrCtrl+Alt+C',
-                        click: (item) => {
+                        accelerator: 'CmdOrCtrl+S',
+                        click: () => {
                             mainController.copyShortResults()
                         },
                     }

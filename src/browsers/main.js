@@ -1,4 +1,4 @@
-const {app, BrowserWindow, shell, Menu, MenuItem, globalShortcut, screen} = require('electron')
+const {app, BrowserWindow, shell, Menu, MenuItem, screen} = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -49,31 +49,6 @@ module.exports = (dirname, store) => {
         // Open the DevTools.
 //        mainWindow.webContents.openDevTools()
 
-        if (process.platform === 'darwin') { // MacOS only, native on Window
-            // Move the window to the previous monitor
-            globalShortcut.register('Command+Shift+Left', () => {
-                const pos = mainWindow.getBounds()
-                const currentScreen = screen.getDisplayNearestPoint(pos)
-                const allScreens = screen.getAllDisplays()
-                const monitorIndex = allScreens.findIndex(monitor => monitor.id === currentScreen.id)
-
-                const nextIndex = (monitorIndex==0)?allScreens.length-1:monitorIndex-1
-                const nextMonitor = allScreens[nextIndex]
-                displayOnScreen(mainWindow, nextMonitor)
-            });
-
-            // Move the window to the next monitor
-            globalShortcut.register('Command+Shift+Right', () => {
-                const pos = mainWindow.getBounds()
-                const currentScreen = screen.getDisplayNearestPoint(pos)
-                const allScreens = screen.getAllDisplays()
-                const monitorIndex = allScreens.findIndex(monitor => monitor.id === currentScreen.id)
-
-                const nextIndex = (monitorIndex==allScreens.length-1)?0:monitorIndex+1
-                const nextMonitor = allScreens[nextIndex]
-                displayOnScreen(mainWindow, nextMonitor)
-            });
-        }
 
         mainWindow.on('close', function () {
             if (mainWindow) {
@@ -160,10 +135,34 @@ module.exports = (dirname, store) => {
         win.setPosition(winX, winY)
     }
 
+    let movePreviousMonitor = () => {
+        const pos = mainWindow.getBounds()
+        const currentScreen = screen.getDisplayNearestPoint(pos)
+        const allScreens = screen.getAllDisplays()
+        const monitorIndex = allScreens.findIndex(monitor => monitor.id === currentScreen.id)
+
+        const nextIndex = (monitorIndex==0)?allScreens.length-1:monitorIndex-1
+        const nextMonitor = allScreens[nextIndex]
+        displayOnScreen(mainWindow, nextMonitor)
+    }
+
+    let moveNextMonitor = () => {
+        const pos = mainWindow.getBounds()
+        const currentScreen = screen.getDisplayNearestPoint(pos)
+        const allScreens = screen.getAllDisplays()
+        const monitorIndex = allScreens.findIndex(monitor => monitor.id === currentScreen.id)
+
+        const nextIndex = (monitorIndex==allScreens.length-1)?0:monitorIndex+1
+        const nextMonitor = allScreens[nextIndex]
+        displayOnScreen(mainWindow, nextMonitor)
+    }
+
     return {
         init: init,
         getWindow: getWindow,
         changeZoom: changeZoom,
-        changeSize: changeSize
+        changeSize: changeSize,
+        movePreviousMonitor: movePreviousMonitor,
+        moveNextMonitor: moveNextMonitor
     }
 }

@@ -23,7 +23,9 @@
         "Zoom Out": "Zoom arrière",
         "Development": "Développement",
         "Reload": "Recharger",
-        "Open Developer Tools": "Ouvrir les outils de développement"
+        "Open Developer Tools": "Ouvrir les outils de développement",
+        "Move to previous monitor": "Déplacer sur écran précédent",
+        "Move to next monitor": "Déplacer sur écran suivant"
     },
     "Main": {
         "lang": "fr",

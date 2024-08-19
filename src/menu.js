@@ -1,5 +1,6 @@
 const { Menu } = require('electron')
 const isDev = ('NODE_ENV' in process.env && process.env.NODE_ENV === 'dev')
+const isMacOS = process.platform === 'darwin'
 const { installUpdate } = require('./update.js')
 
 module.exports = (browsers, mainController, store) => {
@@ -200,8 +201,12 @@ module.exports = (browsers, mainController, store) => {
                 ]
             },
             {
+                label: i18n.menuT('Window'),
+                submenu: [],
+                visible: isMacOS // MacOS only, native on Window
+            },
+            {
                 label: i18n.menuT('Development'),
-
                 submenu: [
                     {
                         label: i18n.menuT('Reload'),
@@ -212,7 +217,7 @@ module.exports = (browsers, mainController, store) => {
                     },
                     {
                         label: i18n.menuT('Open Developer Tools'),
-                        accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
+                        accelerator: isMacOS ? 'Alt+Command+I' : 'Ctrl+Shift+I',
                         click (item, focusedWindow) {
                             if (focusedWindow) focusedWindow.webContents.openDevTools({mode: 'detach'})
                         }
@@ -225,7 +230,7 @@ module.exports = (browsers, mainController, store) => {
         /* On macOS, cut/copy/paste doesn't work by default unless the options
         are added to the edit menu, or some custom clipboard API implementation is
         used. On Windows and Linux, these work out of the box...so only add on macOS */
-        if (process.platform === 'darwin') {
+        if (isMacOS) {
             menuTemplate[1].submenu.push(
                 {
                     type: 'separator'
@@ -242,6 +247,23 @@ module.exports = (browsers, mainController, store) => {
                     accelerator: 'CmdOrCtrl+V',
                     selector: 'paste:'
                 }
+            )
+
+            menuTemplate[3].submenu.push(
+                {
+                    label: i18n.menuT('Move to previous monitor'),
+                    accelerator: 'Ctrl+Alt+Left',
+                    click () {
+                        main.movePreviousMonitor()
+                    }
+                },
+                {
+                    label: i18n.menuT('Move to next monitor'),
+                    accelerator: 'Ctrl+Alt+Right',
+                    click () {
+                        main.moveNextMonitor()
+                    }
+                },
             )
         }
 

@@ -163,8 +163,8 @@ function translateHTML(_i18n) {
     /* Shortcuts fieldset */
     document.querySelector('fieldset#shortcuts > legend').textContent = i18n['Shortcuts']
     // background, foreground picker
-    document.querySelector('label[for="shortcut-background-picker"]').textContent = i18n['Picker foreground'];
-    document.querySelector('label[for="shortcut-foreground-picker"]').textContent = i18n['Picker background'];
+    document.querySelector('label[for="shortcut-foreground-picker"]').textContent = i18n['Picker foreground'];
+    document.querySelector('label[for="shortcut-background-picker"]').textContent = i18n['Picker background'];
 
     document.querySelector('fieldset#copy > legend').textContent = _i18n.Menu['Copy results'];
     /* Copy results fieldset */

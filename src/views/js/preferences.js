@@ -125,7 +125,7 @@ function translateHTML(_i18n) {
     });
 
     // Check for update
-    document.querySelector('label[for="option-checkForUpdates"] span').innerText = i18n["Enable update checking"];
+    document.querySelector('label[for="option-checkForUpdates"] span').innerText = i18n["Check for updates"];
 
     // Language
     document.querySelector('label[for="option-lang"]').textContent = i18n['Language'];

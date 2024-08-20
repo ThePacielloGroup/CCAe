@@ -215,11 +215,12 @@ store.onDidChange('background.picker.shortcut', (newValue) => {
 })
 if (store.get('allowUpdates') === true) {
     // If the CheckForUpdates preference changes, we trigger (or not) the check
-    store.onDidChange('main.checkForUpdates', (newValue) => {
+    store.onDidChange('checkForUpdates', (newValue) => {
         if (newValue === true) {
             checkForUpdates()
-        } else {
-            setUpdatesDisabled()
+                .then((newVersion) => {
+                    mainController.sendEventToAll('newVersion', newVersion)
+                })
         }
     })
 }
@@ -248,9 +249,10 @@ app.on('ready', async () => {
     // Initiate Update checking if required and allowed
     if (store.get('allowUpdates') === true) {
         if (store.get('checkForUpdates') === true) {
-           checkForUpdates()
-        } else {
-            setUpdatesDisabled()
+            checkForUpdates()
+                .then((newVersion) => {
+                    mainController.sendEventToAll('newVersion', newVersion)
+                })
         }
     }
 })

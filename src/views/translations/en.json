@@ -2,11 +2,6 @@
     "Menu": {
         "Colour Contrast Analyser (CCA)": "Colour Contrast Analyser (CCA)",
         "About CCA": "About CCA",
-        "Checking for update is disabled": "Checking for update is disabled",
-        "Checking for update...": "Checking for update...",
-        "Current version is up-to-date": "Current version is up-to-date",
-        "Found update, downloading...": "Found update, downloading...",
-        "Install update": "Install update",
         "Quit CCA": "Quit CCA",
         "Preferences": "Preferences",
         "Edit": "Edit",
@@ -104,7 +99,11 @@
             "Between the background and foreground colors have swapped.":"Between the background and foreground colors have swapped.",
             "Results copied.":"Results copied.",
             "Short results copied.":"Short results copied."
-        }
+        },
+        "Version {version} is available.":"Version {version} is available.",
+        "More details":"More details",
+        "Download":"Download",
+        "Close": "Close"
     },
     "Deficiency": {
         "Title": "Colour blindness simulation",
@@ -137,7 +136,7 @@
         "Contrast ratio precision": "Contrast ratio precision",
         "1 decimal place": "1 decimal place",
         "2 decimal places": "2 decimal places",
-        "Enable update checking": "Enable update checking",
+        "Check for updates": "Check for updates",
         "Language": "Language",
         "Application Theme": "Application Theme",
         "System (Default)": "System (Default)",

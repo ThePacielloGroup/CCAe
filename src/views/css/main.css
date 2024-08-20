@@ -351,3 +351,14 @@ section#results .contrast-level img {
     width: 1.2rem;
     margin-bottom: -0.2rem;
 }
+
+section#updateAvailable .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+section#updateAvailable button {
+    font-size: 1rem;
+    border-radius: 1rem;
+}

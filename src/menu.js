@@ -30,34 +30,6 @@ module.exports = (browsers, mainController, store) => {
                             // y = Math.round(pos[1] + (size[1]/2) - (400/2))
                             preferences.init(parent)
                         }
-                    },
-                    {
-                        id: 'menuUpdateDisabled',
-                        label: i18n.menuT('Checking for update is disabled'),
-                        enabled: false,
-                        visible: false
-                    },
-                    {
-                        id: 'menuUpdateChecking',
-                        label: i18n.menuT('Checking for update...'),
-                        enabled: false,
-                        visible: false
-                    }, {
-                        id: 'menuUpdateNotFound',
-                        label: i18n.menuT('Current version is up-to-date'),
-                        enabled: false,
-                        visible: false
-                    }, {
-                        id: 'menuUpdateFound',
-                        label: i18n.menuT('Found update, downloading...'),
-                        enabled: false,
-                        visible: false
-                    }, {
-                        id: 'menuUpdateInstall',
-                        label: i18n.menuT('Install update'),
-                        accelerator: 'CmdOrCtrl+Shift+U',
-                        click: installUpdate,
-                        visible: false
                     }, {
                         type: 'separator'
                     }, {

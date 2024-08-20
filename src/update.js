@@ -1,67 +1,69 @@
-/**
- * updater.js
- *
- * Please use manual update only when it is really required, otherwise please use recommended non-intrusive auto update.
- *
- * Import steps:
- * 1. create `updater.js` for the code snippet
- * 2. require `updater.js` for menu implementation, and set `checkForUpdates` callback from `updater` for the click property of `Check Updates...` MenuItem.
- */
-const { dialog, Menu } = require('electron')
-const { autoUpdater } = require('electron-updater')
+const { version } = require('../package.json')
+const semver = require('semver')
 
-let releaseName, releaseNotes
-autoUpdater.autoDownload = false
-
-autoUpdater.on('error', (error) => {
-  dialog.showErrorBox('Auto Update Error: ', error == null ? "unknown" : (error.stack || error).toString())
-})
-
-autoUpdater.on('update-available', (ev) => {
-  autoUpdater.downloadUpdate()
-  var menu = Menu.getApplicationMenu();
-  menu.getMenuItemById('menuUpdateChecking').visible = false
-  menu.getMenuItemById('menuUpdateFound').visible = true
-})
-
-autoUpdater.on('update-not-available', (ev) => {
-  var menu = Menu.getApplicationMenu();
-  menu.getMenuItemById('menuUpdateChecking').visible = false
-  menu.getMenuItemById('menuUpdateNotFound').visible = true
-})
-
-autoUpdater.on('update-downloaded', (ev) => {
-  releaseName = ev.releaseName
-  releaseNotes = ev.releaseNotes
-  var menu = Menu.getApplicationMenu();
-  menu.getMenuItemById('menuUpdateFound').visible = false
-  menu.getMenuItemById('menuUpdateInstall').visible = true
-})
-
-function setUpdatesDisabled() {
-  var menu = Menu.getApplicationMenu();
-  menu.getMenuItemById('menuUpdateDisabled').visible = true
-  menu.getMenuItemById('menuUpdateNotFound').visible = false
-  menu.getMenuItemById('menuUpdateFound').visible = false
-  menu.getMenuItemById('menuUpdateInstall').visible = false
-}
-
+const apiUrl = 'https://api.github.com/repos/ThePacielloGroup/CCAe/releases?per_page=1'
+const downloadUrl = "https://github.com/ThePacielloGroup/CCAe/releases/download"
 function checkForUpdates() {
-  var menu = Menu.getApplicationMenu();
-  menu.getMenuItemById('menuUpdateDisabled').visible = false
-  menu.getMenuItemById('menuUpdateChecking').visible = true
-  autoUpdater.checkForUpdates()
+    console.log("Checking updates")
+    return fetch(apiUrl)
+        .then((response) => response.json())
+        .then((json) => {
+            const tagName = semver.clean(json[0].tag_name)
+            if (semver.valid(tagName) && semver.gt(tagName, version)) {
+                console.log("Update found", tagName)
+                return {
+                    version: tagName,
+                    info: json[0].html_url,
+                    download: getPackage(tagName, json[0].tag_name)
+                }
+            } else {
+                console.log("No update found")
+                return false
+            }
+        })
+        .catch((error) => {
+            console.error('error while checking for updates', error)
+            return false
+        })
 }
 
-function installUpdate() {
-  dialog.showMessageBox({
-    title: 'Install Updates',
-    message: `${releaseName} has been downloaded. The application will be closed to install the update.`
-  }, () => {
-    setImmediate(() => autoUpdater.quitAndInstall())
-  })
+function getPackage(version, tagName) {
+    let package
+    if (process.platform === "win32") {
+        package = `CCA-Setup-${version}.msi`
+    } else if (process.platform === "darwin") {
+        package = `CCA-${version}.dmg`
+    } else {
+        package = `Colour-Contrast-Analyser-Setup-${version}.AppImage`
+        try {
+            const identity = path.join(process.resourcesPath, "package-type")
+            if (!existsSync(identity)) {
+                return package
+            }
+            console.info("Checking for beta autoupdate feature for deb/rpm distributions")
+            const fileType = readFileSync(identity).toString().trim()
+            console.info("Found package-type:", fileType)
+            switch (fileType) {
+            case "deb":
+                package `Colour-Contrast-Analyser-Setup-${version}.deb`
+                break
+            case "rpm":
+                package `Colour-Contrast-Analyser-Setup-${version}.rpm`
+                break
+            default:
+                break
+            }
+        } catch (error) {
+            console.warn(
+            "Unable to detect 'package-type' for autoUpdater (beta rpm/deb support)",
+            error.message)
+        }
+    }
+    if (package) {
+        return `${downloadUrl}/${tagName}/${package}`
+    } else {
+        return null
+    }
 }
 
-module.exports.setUpdatesDisabled = setUpdatesDisabled
 module.exports.checkForUpdates = checkForUpdates
-module.exports.installUpdate = installUpdate

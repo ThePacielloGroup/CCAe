@@ -139,6 +139,31 @@ ipcRenderer.on('showPicker', (event, section) => {
         })
 })
 
+ipcRenderer.on('newVersion', (event, newVersion) => {
+    const updateSection = document.querySelector("#updateAvailable")
+    const updateSectionContent = updateSection.querySelector(".content")
+    if (newVersion !== false) {
+        updateSectionContent.innerHTML = `${i18n['Version {version} is available.'].replace("{version}", newVersion.version)} <a href="${newVersion.info}" class="external-link">${i18n["More details"]}</a>`
+        if (newVersion.download) {
+            updateSectionContent.innerHTML += ` - <a href="${newVersion.download}" class="external-link">${i18n["Download"]}</a>`
+        }
+        var externalLinks = updateSectionContent.querySelectorAll('.external-link')
+
+        Array.from(externalLinks).forEach(link => {
+            var url = link.getAttribute('href')
+            link.addEventListener('click', function(event) {
+                shell.openExternal(url)
+                event.preventDefault()
+            })
+        });
+        updateSectionContent.innerHTML += ``
+        updateSection.removeAttribute('hidden')
+    } else {
+        updateSection.setAttribute('hidden', '')
+        updateSectionContent.innerHTML = ''
+    }
+})
+
 function initEvents () {
     // Opens color picker on button click
     document.querySelector('#foreground-color .picker').onclick = () => ipcRenderer.send('getColorFromPicker', 'foreground')
@@ -155,6 +180,7 @@ function initEvents () {
     document.querySelector('#background-color .help').onclick = function() {showHide(this)};
     document.querySelector('#foreground-color .format-selector').onchange = function() {changeFormat('foreground', this)};
     document.querySelector('#background-color .format-selector').onchange = function() {changeFormat('background', this)};
+    document.querySelector('#updateAvailable button').onclick = function(){closeSection(this.parentElement.parentElement)}
 
     // screen reader announcement for screen reader user.
     document.querySelector('#foreground-color .switch').addEventListener("click",function() { 
@@ -242,6 +268,12 @@ function showHide(el, force) {
         controls.removeAttribute('hidden')
         el.setAttribute('aria-expanded', true)
     }
+    var mainHeight = document.querySelector('main').clientHeight;
+    ipcRenderer.send('height-changed', mainHeight);
+}
+
+function closeSection(el) {
+    el.setAttribute('hidden', '')
     var mainHeight = document.querySelector('main').clientHeight;
     ipcRenderer.send('height-changed', mainHeight);
 }
@@ -539,6 +571,8 @@ function translateHTML() {
     document.querySelector('details span#sc_1_4_3').innerHTML = i18n['sc_1_4_3']
     document.querySelector('details span#sc_1_4_6').innerHTML = i18n['sc_1_4_6']
     document.querySelector('details span#sc_1_4_11').innerHTML = i18n['sc_1_4_11']
+
+    document.querySelector('#updateAvailable button').setAttribute("aria-label", i18n['Close'])
 }
 
 function setColorScheme (v) {

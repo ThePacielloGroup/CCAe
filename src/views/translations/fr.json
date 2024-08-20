@@ -2,11 +2,6 @@
     "Menu": {
         "Colour Contrast Analyser (CCA)": "Analyseur de Contraste des Couleurs (CCA)",
         "About CCA": "À propos de CCA",
-        "Checking for update is disabled": "Vérification des mises à jour désactivée",
-        "Checking for update...": "Vérification des mises à jour…",
-        "Current version is up-to-date": "La version est à jour",
-        "Found update, downloading...": "Mise à jour trouvée, téléchargement…",
-        "Install update": "Installer la mise à jour",
         "Quit CCA": "Quitter CCA",
         "Preferences": "Préférences",
         "Edit": "Édition",
@@ -87,7 +82,11 @@
             "Between the background and foreground colors have swapped.":"Between the background and foreground colors have swapped.",
             "Results copied.":"Results copied.",
             "Short results copied.":"Short results copied."
-        }
+        },
+        "Version {version} is available.":"Version {version} est disponible.",
+        "More details":"Plus de details",
+        "Download":"Télécharger",
+        "Close": "Fermer"
     },
     "Deficiency": {
         "Title": "Simulateur de daltonisme",
@@ -120,7 +119,7 @@
         "Contrast ratio precision": "Précision du ratio de contraste",
         "1 decimal place": "1 décimale",
         "2 decimal places": "2 décimales",
-        "Enable update checking": "Activer la vérification automatique des mise à jour",
+        "Check for updates": "Activer la vérification automatique des mise à jour",
         "Language": "Langue",
         "Application Theme": "Application Theme",
         "System (Default)": "System (Default)",

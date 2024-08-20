@@ -28,6 +28,7 @@
         "electron-store": "^8.2.0",
         "electron-updater": "^6.2.1",
         "focus-visible": "^5.2.1",
+        "semver": "^7.6.3",
         "simple-swizzle": "^0.2.2"
     }
 }

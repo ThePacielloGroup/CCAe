@@ -1,6 +1,4 @@
 const electron = require('electron')
-const Store = require('electron-store');
-const store = new Store();
 const fs = require('fs')
 const path = require("path")
 
@@ -10,7 +8,6 @@ let app = electron.app ? electron.app : electron.remote.app
 let localLang
 
 module.exports = i18n
-
 
 function i18n(lang) {
     localLang = lang

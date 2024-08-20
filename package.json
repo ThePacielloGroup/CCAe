@@ -8,8 +8,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "cross-env NODE_ENV=dev electron .",
         "build": "electron-builder build --publish never",
-        "release": "electron-builder build --publish always",
-        "release-portable32": "electron-builder --win portable --ia32 --publish always"
+        "release": "electron-builder build --publish always"
     },
     "author": "Cédric Trévisan <ctrevisan@tpgi.com>",
     "license": "GPL-3.0",

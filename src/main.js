@@ -8,7 +8,7 @@ log.initialize({ preload: true })
 // Redirect all console.* to logger
 Object.assign(console, log.functions)
 
-console.log(`app.getPath('logs')       = ${app.getPath('logs')}`)
+console.log('logs', app.getPath('logs'))
 app.setPath('crashDumps', path.join(app.getPath('logs'), 'crashes'))
 crashReporter.start({ uploadToServer: false })
 

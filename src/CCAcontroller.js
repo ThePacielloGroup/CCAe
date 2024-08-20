@@ -1,11 +1,11 @@
-const { ipcMain, clipboard, globalShortcut } = require('electron')
+const { ipcMain, clipboard } = require('electron')
 const { getColorFromPickerAddOn } = require('./picker/index.js')
 
 const CCAColor = require('./color/CCAcolor.js')
 const white = CCAColor.rgb(0, 0, 0)
 const black = CCAColor.rgb(255, 255, 255)
 
-let i18n, t, store
+let i18n, t
 
 class CCAController {
     constructor(sendEventToAll, store) {
@@ -40,7 +40,7 @@ class CCAController {
             'deuteranomaly.contrastRatioRaw': 0,
             'tritanomaly.foregroundColor': null,
             'tritanomaly.backgroundColor': null,
-            'tritanomaly.contrastRatioRaw': 0,
+            'tritanomaly.contrastRatioRaw': 0
         }
         this.init()
     }

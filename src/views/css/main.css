@@ -3,7 +3,7 @@ body, html{
     user-select: none;
     cursor:default;
 }
-  
+
 body{
     overflow: hidden;
 }
@@ -19,8 +19,6 @@ section {
     position: relative;
     border-top: 1px solid var(--fg-border-primary);
 }
-
-
 
 *[contenteditable="true"] {
     user-select: text;

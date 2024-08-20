@@ -1,4 +1,4 @@
-const { ipcRenderer } = require('electron')
+const { ipcRenderer, shell } = require('electron')
 const isMacOS = process.platform === 'darwin'
 const CCAColor = require('../../color/CCAcolor.js')
 const store = require('../../store.js')
@@ -114,7 +114,7 @@ ipcRenderer.on('contrastRatioChanged', (event, contrastRatio) => {
     applyContrastRatio(contrastRatio)
 })
 
-ipcRenderer.on('colorSchemeChanged',async (event,newScheme)=>{
+ipcRenderer.on('colorSchemeChanged',async (event, newScheme)=>{
     setColorScheme(newScheme);
 })
 
@@ -162,7 +162,7 @@ function initEvents () {
         const message=`${i18n["messages"]["Between the background and foreground colors have swapped."]}
         ${i18n["Foreground colour"]}:${document.querySelector("#foreground-color .free-value").value}
         ${i18n["Background colour"]}:${document.querySelector("#background-color .free-value").value}`;
-        announceForAccessibility(message);  
+        announceForAccessibility(message);
     });
 
 
@@ -440,7 +440,7 @@ function leaveText(section, el) {
 }
 
 function changeFormat(section, el) {
-    // We send the selected format to the controller for saving and sharedObject update
+    // We send the selected format to the controller for saving and store update
     store.set(`${section}.format`, el.value)
 }
 

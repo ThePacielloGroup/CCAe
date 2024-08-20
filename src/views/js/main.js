@@ -147,8 +147,7 @@ ipcRenderer.on('newVersion', (event, newVersion) => {
         if (newVersion.download) {
             updateSectionContent.innerHTML += ` - <a href="${newVersion.download}" class="external-link">${i18n["Download"]}</a>`
         }
-        var externalLinks = updateSectionContent.querySelectorAll('.external-link')
-
+        var externalLinks = updateSection.querySelectorAll('.external-link')
         Array.from(externalLinks).forEach(link => {
             var url = link.getAttribute('href')
             link.addEventListener('click', function(event) {
@@ -156,12 +155,13 @@ ipcRenderer.on('newVersion', (event, newVersion) => {
                 event.preventDefault()
             })
         });
-        updateSectionContent.innerHTML += ``
         updateSection.removeAttribute('hidden')
     } else {
         updateSection.setAttribute('hidden', '')
         updateSectionContent.innerHTML = ''
     }
+    const mainHeight = document.querySelector('main').clientHeight
+    ipcRenderer.send('height-changed', mainHeight)
 })
 
 function initEvents () {
@@ -218,7 +218,7 @@ function initEvents () {
     // init Details
     document.querySelectorAll('details').forEach(function(details) {
         details.ontoggle = function() {
-        var mainHeight = document.querySelector('main').clientHeight
+            var mainHeight = document.querySelector('main').clientHeight
             ipcRenderer.send('height-changed', mainHeight)
         }
     });

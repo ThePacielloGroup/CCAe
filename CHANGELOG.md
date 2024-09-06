@@ -5,6 +5,20 @@
 - [Windows: Application menus aren't keyboard accessible](https://github.com/ThePacielloGroup/CCAe/issues/49)
 - [Windows: Changing slider values is not announced in NVDA](https://github.com/ThePacielloGroup/CCAe/issues/37)
 
+## [v3.5.4](https://github.com/ThePacielloGroup/CCAe/tree/v3.5.4) (2024-09-06)
+
+[Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.5.3...v3.5.4)
+
+- Auto Update Error -\> 3.5.3 unsigned [\#339](https://github.com/ThePacielloGroup/CCAe/issues/339)
+- \[Windows\] Auto Update Error dialog \(from 3.5.1 to 3.5.2\) [\#338](https://github.com/ThePacielloGroup/CCAe/issues/338)
+- Provider Certificate out of date with Version 3.5.1 [\#334](https://github.com/ThePacielloGroup/CCAe/issues/334)
+- Mac Keyboard Shortcut Overrides Standard Text Editing Shortcuts [\#346](https://github.com/ThePacielloGroup/CCAe/issues/346)
+- Keyboard shortcuts for copying are not working [\#341](https://github.com/ThePacielloGroup/CCAe/issues/341)
+- Several shortcuts not working : zoom 0/+/- and F12 \(including customed\) [\#328](https://github.com/ThePacielloGroup/CCAe/issues/328)
+- Added pt-BR translation [\#351](https://github.com/ThePacielloGroup/CCAe/pull/351)
+- The "Picker background" and "Picker foreground" texts in the application settings should be swapped [\#348](https://github.com/ThePacielloGroup/CCAe/issues/348)
+
+
 ## [v3.5.3](https://github.com/ThePacielloGroup/CCAe/tree/v3.5.3) (2024-05-06)
 
 [Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.5.2...v3.5.3)

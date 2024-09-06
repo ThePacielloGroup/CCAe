@@ -78,11 +78,9 @@
         "sc_1_4_6": "Texte (incluant les images-textes) a un ratio de contraste d’au moins <strong>7:1</strong> pour un texte de taille \"normale\"; et d’au moins <strong>4.5:1</strong> pour les grands textes (d’au moins <code>18pt</code> / <code>24px</code>, ou gras et d'au moins <code>14pt</code> / <code>18.5px</code>), à moins que le texte soit purement décoratif.",
         "sc_1_4_11": "La présentation visuelle des composants de l'interface utilisateur (leurs états – incluant l'indicateur de focus – et frontières) et les objets graphiques ont un ratio de contraste d'au moins <strong>3:1</strong> par rapport aux couleurs adjacentes.",
         "just below": "juste en dessous de",
-        "messages":{
-            "Between the background and foreground colors have swapped.":"Between the background and foreground colors have swapped.",
-            "Results copied.":"Results copied.",
-            "Short results copied.":"Short results copied."
-        },
+        "Between the background and foreground colors have swapped.":"Between the background and foreground colors have swapped.",
+        "Results copied.":"Results copied.",
+        "Short results copied.":"Short results copied.",
         "Version {version} is available.":"Version {version} est disponible.",
         "More details":"Plus de details",
         "Download":"Télécharger",

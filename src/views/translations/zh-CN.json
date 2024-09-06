@@ -93,11 +93,9 @@
         "sc_1_4_6": "“常规文本”（包括文本图像）的对比度至少为 <strong>7:1</strong>，加大文本至少为 <strong>4.5:1</strong>（至少 <code>18pt</code> / <code>24px</code>，或粗体且至少 <code>14pt</code> / <code>18.5px</code>），除非文本是纯装饰性的",
         "sc_1_4_11": "用户界面组件（其状态 - 包括焦点指示和边界）和图形对象的视觉呈现与相邻颜色的对比度至少为 <strong>3:1</strong>。",
         "just below": "刚刚低于",
-        "messages": {
-            "Between the background and foreground colors have swapped.": "背景色和前景色互换。",
-            "Results copied.": "结果已复制。",
-            "Short results copied.": "短格式结果已复制。"
-        }
+        "Between the background and foreground colors have swapped.": "背景色和前景色互换。",
+        "Results copied.": "结果已复制。",
+        "Short results copied.": "短格式结果已复制。"
     },
     "Deficiency": {
         "Title": "色盲模拟",

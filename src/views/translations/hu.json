@@ -93,11 +93,9 @@
     "sc_1_4_6" : "A szöveg (beleértve a képként reprezentált szöveget is) kontrasztaránya legalább <strong>7:1</strong> a „normál” méretű szöveg esetében, és legalább <strong>4.5:1</strong> a nagyméretű szöveg esetében (legalább <code>18pt</code> / <code>24px</code>, vagy félkövér és legalább <code>14pt</code> / <code>18.5px</code>), kivéve, ha a szöveg csupán dekoráció.",
     "sc_1_4_11" : "A felhasználói felület komponenseinek (határvonalaiknak és a fókuszjelzést is magába foglaló állapotaiknak) és a grafikus objektumoknak a szomszédos színnel/színekkel legalább <strong>3:1</strong> kontrasztarányú a vizuális megjelenítése.",
     "just below" : "majdnem",
-    "messages":{
-      "Between the background and foreground colors have swapped.":"A háttér és előtér színek felcserélődtek.",
-      "Results copied.":"Eredmények másolva.",
-      "Short results copied.":"Tömör eredmények másolva."
-    }
+    "Between the background and foreground colors have swapped.":"A háttér és előtér színek felcserélődtek.",
+    "Results copied.":"Eredmények másolva.",
+    "Short results copied.":"Tömör eredmények másolva."
   },
   "Deficiency" : {
     "Title" : "Színvakság szimuláció",

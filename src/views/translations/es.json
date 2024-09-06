@@ -93,11 +93,9 @@
         "sc_1_4_6": "Texto (incluyendo imagenes de texto) tiene una relación de contraste de al menos <strong>7:1</strong> para \"regular\" tamaño de texto y al menos <strong>4.5:1</strong> tamaño de texto (y al menos <code>18pt</code> / <code>24px</code>, o negrita y al menos <code>14pt</code> / <code>18.5px</code>), a no ser que el texto sea puramente decorativo.",
         "sc_1_4_11": "La presentación visual de los componentes de la interfaz del usuario (sus estados – incluyendo foco de indicación – y límites) y objetos gráficos tienen una relación de contraste de al menos <strong>3:1</strong> contra color(es) adyacentes.",
         "just below": "justo debajo",
-        "messages":{
-            "Between the background and foreground colors have swapped.":"Between the background and foreground colors have swapped.",
-            "Results copied.":"Results copied.",
-            "Short results copied.":"Short results copied."
-        }
+        "Between the background and foreground colors have swapped.":"Between the background and foreground colors have swapped.",
+        "Results copied.":"Results copied.",
+        "Short results copied.":"Short results copied."
     },
     "Deficiency": {
         "Title": "Simulación de daltonismo",

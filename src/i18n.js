@@ -1,37 +1,38 @@
-const electron = require('electron')
 const fs = require('fs')
 const path = require("path")
 
 let loadedLanguage
+let fallBackLanguage
 let languagesJSON
-let app = electron.app ? electron.app : electron.remote.app
-let localLang
 
 module.exports = i18n
 
-function i18n(lang) {
-    localLang = lang
+function i18n(lang, localLang) {
     if (!lang || lang === "auto") {
-        localLang = app.getLocale()
+        lang = localLang
     }
 
     const fileext = '.json'
     const translationsPath = path.join(__dirname,'views','translations')
-    const localizedFile = path.join(translationsPath, localLang + fileext)
+    const localizedFile = path.join(translationsPath, lang + fileext)
     const fallBackFile  = path.join(translationsPath, 'en' + fileext)
 
+    fallBackLanguage = JSON.parse(fs.readFileSync(fallBackFile), 'utf8')
     if (fs.existsSync(localizedFile)) {
         loadedLanguage = JSON.parse(fs.readFileSync(localizedFile), 'utf8')
     } else {
-        loadedLanguage = JSON.parse(fs.readFileSync(fallBackFile), 'utf8')
+        loadedLanguage = fallBackLanguage
     }
     languagesJSON = JSON.stringify(loadedLanguage)
 }
 
-i18n.prototype.menuT = function(phrase) {
-    let translation = loadedLanguage.Menu[phrase]
-    if(translation === undefined) {
-         translation = phrase
+i18n.prototype.T = function(section, phrase) {
+    let translation = loadedLanguage[section][phrase]
+    if (translation === undefined) {
+        translation = fallBackLanguage[section][phrase]
+        if (translation === undefined) {
+            translation = phrase
+        }
     }
     return translation
 }

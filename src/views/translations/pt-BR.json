@@ -98,11 +98,9 @@
         "sc_1_4_6": "Texto e imagens de texto de tamanho \"normal\" devem ter uma taxa de contraste mínima de <strong>7:1</strong>. Texto e imagens de texto podem ter uma taxa de contraste mínima de <strong>4.5:1</strong> somente se seu tamanho for de <code>18pt</code>/<code>24px</code> ou maior (<code>14pt</code>/<code>18.5px</code> em caso de texto negrito). Estas diretrizes não se aplicam a texto decorativo.",
         "sc_1_4_11": "As cores de elementos da interface de usuário e objetos gráficos adjacentes devem ter sempre uma taxa de contraste mínima de <strong>3:1</strong>, incluindo os diferentes estados destes elementos como indicação de foco.",
         "just below": "abaixo",
-        "messages":{
-            "Between the background and foreground colors have swapped.":"As cores do primeiro plano e do plano de fundo foram alternadas.",
-            "Results copied.":"Resultados copiados.",
-            "Short results copied.":"Resultados abreviados copiados."
-        }
+        "Between the background and foreground colors have swapped.":"As cores do primeiro plano e do plano de fundo foram alternadas.",
+        "Results copied.":"Resultados copiados.",
+        "Short results copied.":"Resultados abreviados copiados."
     },
     "Deficiency": {
         "Title": "Simulação de daltonismo",

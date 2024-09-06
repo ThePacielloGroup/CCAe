@@ -93,11 +93,9 @@
         "sc_1_4_6": "La rappresentazione visiva del testo e di immagini contenenti testo ha un rapporto di contrasto di almeno <strong>7:1</strong> per testo di dimensioni \"normali\" e almeno <strong>4.5:1</strong> per testo grande (almeno <code>18pt</code> / <code>24px</code>, oppure in grassetto almeno <code>14pt</code> / <code>18.5px</code>), a meno che il testo non sia puramente decorativo.",
         "sc_1_4_11": "La rappresentazione visiva dei componenti dell'interfaccia utente (i loro stati – inclusa l'indicazione del focus – e i bordi) e degli oggetti grafici ha un rapporto di contrasto di almeno <strong>3:1</strong> rispetto al colore o ai colori adiacenti.",
         "just below": "appena sotto",
-        "messages":{
-            "Between the background and foreground colors have swapped.":"I colori sono stati scambiati tra lo sfondo e il primo piano.",
-            "Results copied.":"Risultati copiati.",
-            "Short results copied.":"Risultati brevi copiati."
-        }
+        "Between the background and foreground colors have swapped.":"I colori sono stati scambiati tra lo sfondo e il primo piano.",
+        "Results copied.":"Risultati copiati.",
+        "Short results copied.":"Risultati brevi copiati."
     },
     "Deficiency": {
         "Title": "Simulazione del daltonismo",

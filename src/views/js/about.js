@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-about
 
 ipcRenderer.on('init', async (event, config) => {
     document.querySelector('#cca-version').innerHTML = config.version
-    translateHTML(config.i18n)
+    const i18n = new(require('../../i18n'))(config.lang, config.localLang)
+    translateHTML(i18n)
     store.get("colorScheme").then(theme=>{
         setColorScheme(theme);
     });
@@ -24,25 +25,27 @@ Array.from(externalLinks).forEach(link => {
     })
 });
 
-ipcRenderer.on('langChanged', (event, i18n) => {
+ipcRenderer.on('langChanged', (event, lang, localLang) => {
+    const i18n = new(require('../../i18n'))(lang, localLang)
     translateHTML(i18n)
 })
 
-function translateHTML(_i18n) {
-    document.querySelector('html').lang = _i18n.Main['lang']
-    const i18n = _i18n["About"];
+function translateHTML(i18n) {
+    document.querySelector('html').lang = i18n.T('Main', 'lang');
     // translate html elements.
-    document.title = i18n['Title'];
-    document.querySelector('h1#header-main').textContent = i18n['Colour Contrast Analyser (CCA)'];
-    document.querySelector('#i18n-version').textContent = i18n['Version'];
-    document.querySelector('#i18n-developed').textContent = i18n['Developed by'];
-    if (i18n['NIDRR']) document.querySelector('#i18n-nidrr').textContent = i18n['NIDRR'];
-    document.querySelector('h2#header-translations').textContent = i18n['Translations'];
-    document.querySelector('h2#header-exLinks').textContent = i18n['External links'];
+    document.title = i18n.T('About', 'Title');
+    document.querySelector('h1#header-main').textContent = i18n.T('About', 'Colour Contrast Analyser (CCA)');
+    document.querySelector('#i18n-version').textContent = i18n.T('About', 'Version');
+    document.querySelector('#i18n-developed').textContent = i18n.T('About', 'Developed by');
+    document.querySelector('#i18n-under').textContent = i18n.T('About', 'Under');
+    document.querySelector('#i18n-nidrr').textContent = i18n.T('About', 'NIDRR');
+    document.querySelector('h2#header-translations').textContent = i18n.T('About', 'Translations');
+    document.querySelector('h2#header-exLinks').textContent = i18n.T('About', 'External links');
+    document.querySelector('#close').textContent = i18n.T('Main', 'Close');
     const exLink_listitem = document.querySelectorAll('ul#list-exLinks > li > A');
-    exLink_listitem[0].textContent = i18n['TPGi Resources'];
-    exLink_listitem[1].textContent = i18n['Github page'];
-    exLink_listitem[2].textContent = i18n['Report an issue'];
+    exLink_listitem[0].textContent = i18n.T('About', 'TPGi Resources');
+    exLink_listitem[1].textContent = i18n.T('About', 'Github page');
+    exLink_listitem[2].textContent = i18n.T('About', 'Report an issue');
 }
 
 function setColorScheme (v) {

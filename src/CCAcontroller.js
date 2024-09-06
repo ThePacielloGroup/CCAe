@@ -46,8 +46,9 @@ class CCAController {
     }
 
     async init() {
-        const lang = this.store.get('lang')
-        i18n = new(require('./i18n'))(lang)
+        const lang = await this.store.get('lang')
+        const localLang = await this.store.get('localLang')
+        i18n = new(require('./i18n'))(lang, localLang)
         t = i18n.asObject()
 
         ipcMain.on('init-app', event => {
@@ -95,9 +96,10 @@ class CCAController {
         this.sendEventToAll('pickerToggled', section, false)
     }
 
-    updateLanguage() {
-        const lang = this.store.get('lang')
-        i18n = new(require('./i18n'))(lang)
+    async updateLanguage() {
+        const lang = await this.store.get('lang')
+        const localLang = await this.store.get('localLang')
+        i18n = new(require('./i18n'))(lang, localLang)
         t = i18n.asObject()
         this.updateContrastRatio()
     }

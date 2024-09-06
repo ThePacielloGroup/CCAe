@@ -3,10 +3,10 @@ const {ipcMain} = require('electron')
 module.exports = (browsers, store) => {
     const {main} = browsers
     ipcMain.on('init-app', async () => {
-        const lang = store.get('lang')
-        const i18n = new(require('../i18n'))(lang)
+        const lang = await store.get('lang')
+        const localLang = await store.get('localLang')
         let config = {
-            i18n: i18n.asObject()
+            lang, localLang
         }
         sendEvent('init', config)
     })
@@ -21,9 +21,9 @@ module.exports = (browsers, store) => {
 
         switch(event) {
             case 'langChanged':
-                const lang = store.get('lang')
-                const i18n = new(require('../i18n'))(lang)
-                        win.webContents.send(event, i18n.asObject())
+                const lang = await store.get('lang')
+                const localLang = await store.get('localLang')
+                win.webContents.send(event, lang, localLang)
                 break
             default:
                 win.webContents.send(event, ...params)

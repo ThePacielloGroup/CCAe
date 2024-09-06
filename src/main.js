@@ -55,6 +55,10 @@ const schema = {
         type: 'string',
         default: 'auto',
     },
+    localLang: {
+        type: 'string',
+        default: 'en',
+    },
     colorScheme: {
         type: 'string',
         default: "system"
@@ -192,8 +196,9 @@ ipcMain.handle('store',
 store.onDidChange('rounding', () => {
     mainController.updateContrastRatio()
 })
-store.onDidChange('lang', (newValue) => {
-    i18n = new(require('./i18n'))(newValue)
+store.onDidChange('lang', async (newValue) => {
+    const localLang = await this.store.get('localLang')
+    i18n = new(require('./i18n'))(newValue, localLang)
     setMenu(i18n)
     mainController.sendEventToAll('langChanged')
     mainController.updateLanguage()
@@ -225,8 +230,6 @@ if (store.get('allowUpdates') === true) {
     })
 }
 
-console.log(store.path)
-console.log(store.store)
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -234,8 +237,13 @@ app.on('ready', async () => {
 //    const { screen } = require('electron')
 //    const displays = screen.getAllDisplays()
 //    console.log(displays)
-    const lang = store.get('lang')
-    i18n = new(require('./i18n'))(lang)
+    const localLang = app.getLocale()
+    store.set('localLang', localLang)
+    console.log(store.path)
+    console.log(store.store)
+
+    const lang = await store.get('lang')
+    i18n = new(require('./i18n'))(lang, localLang)
 
     browsers = require('./browsers')(__dirname, store)
     controllers = require('./controllers')(browsers, store)

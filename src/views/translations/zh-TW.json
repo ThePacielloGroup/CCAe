@@ -93,11 +93,9 @@
         "sc_1_4_6": "「常規文本」（包括文本圖像）的對比度至少為 <strong>7:1</strong>，加大文本至少為 <strong>4.5:1</strong>（至少 <code>18pt</code> / <code>24px</code>，或粗體且至少 <code>14pt</code> / <code>18.5px</code>），除非文本是純裝飾性的",
         "sc_1_4_11": "用戶界面組件（其狀態 - 包括焦點指示和邊界）和圖形對象的視覺呈現與相鄰顏色的對比度至少為 <strong>3:1</strong>。",
         "just below": "剛剛低於",
-        "messages": {
-            "Between the background and foreground colors have swapped.": "背景色和前景色互換。",
-            "Results copied.": "結果已復製。",
-            "Short results copied.": "短格式結果已復製。"
-        }
+        "Between the background and foreground colors have swapped.": "背景色和前景色互換。",
+        "Results copied.": "結果已復製。",
+        "Short results copied.": "短格式結果已復製。"
     },
     "Deficiency": {
         "Title": "色盲模擬",

@@ -8,10 +8,10 @@ module.exports = (browsers, mainController, store) => {
     let setMenu = (i18n) => {
         const menuTemplate = [
             {
-                label: i18n.menuT('Colour Contrast Analyser (CCA)'),
+                label: i18n.T("Menu", 'Colour Contrast Analyser (CCA)'),
                 submenu: [
                     {
-                        label: i18n.menuT('About CCA'),
+                        label: i18n.T("Menu", 'About CCA'),
                         accelerator: 'F1',
                         click: () => {
                             const parent = main.getWindow()
@@ -19,7 +19,7 @@ module.exports = (browsers, mainController, store) => {
                         }
                     },
                     {
-                        label: i18n.menuT('Preferences'),
+                        label: i18n.T("Menu", 'Preferences'),
                         accelerator: 'CmdOrCtrl+,',
                         click: () => {
                             // Center panel on main window
@@ -33,24 +33,24 @@ module.exports = (browsers, mainController, store) => {
                     }, {
                         type: 'separator'
                     }, {
-                        label: i18n.menuT('Quit CCA'),
+                        label: i18n.T("Menu", 'Quit CCA'),
                         role: 'quit',
                         accelerator: 'CmdOrCtrl+Q'
                     }
                 ]
             },
             {
-                label: i18n.menuT('Edit'),
+                label: i18n.T("Menu", 'Edit'),
                 submenu: [
                     {
-                        label: i18n.menuT('Copy results'),
+                        label: i18n.T("Menu", 'Copy results'),
                         accelerator: 'CmdOrCtrl+F',
                         click: () => {
                             mainController.copyRegularResults()
                         }
                     },
                     {
-                        label: i18n.menuT('Copy short results'),
+                        label: i18n.T("Menu", 'Copy short results'),
                         accelerator: 'CmdOrCtrl+S',
                         click: () => {
                             mainController.copyShortResults()
@@ -59,10 +59,10 @@ module.exports = (browsers, mainController, store) => {
                 ]
             },
             {
-                label: i18n.menuT('View'),
+                label: i18n.T("Menu", 'View'),
                 submenu: [
                     {
-                        label: i18n.menuT('Colour blindness simulation'),
+                        label: i18n.T("Menu", 'Colour blindness simulation'),
                         accelerator: 'CmdOrCtrl+B',
                         click: () => {
                             const parent = main.getWindow()
@@ -73,7 +73,7 @@ module.exports = (browsers, mainController, store) => {
                         type: 'separator'
                     },
                     {
-                        label: i18n.menuT('Always on Top'),
+                        label: i18n.T("Menu", 'Always on Top'),
                         type: 'checkbox',
                         checked: store.get('alwaysOnTop'),
                         click: (item) => {
@@ -85,7 +85,7 @@ module.exports = (browsers, mainController, store) => {
                         type: 'separator'
                     },
                     {
-                        label: i18n.menuT('Actual Size'),
+                        label: i18n.T("Menu", 'Actual Size'),
                         accelerator: 'CmdOrCtrl+0',
                         click (item, focusedWindow) {
                             if (focusedWindow) {
@@ -95,7 +95,7 @@ module.exports = (browsers, mainController, store) => {
                         }
                     },
                     {
-                        label: i18n.menuT('Actual Size'),
+                        label: i18n.T("Menu", 'Actual Size'),
                         accelerator: 'CmdOrCtrl+num0',
                         visible: false,
                         click (item, focusedWindow) {
@@ -106,7 +106,7 @@ module.exports = (browsers, mainController, store) => {
                         }
                     },
                     {
-                        label: i18n.menuT('Zoom In'),
+                        label: i18n.T("Menu", 'Zoom In'),
                         accelerator: 'CmdOrCtrl+Plus',
                         click (item, focusedWindow) {
                             if (focusedWindow) {
@@ -118,7 +118,7 @@ module.exports = (browsers, mainController, store) => {
                         }
                     },
                     {
-                        label: i18n.menuT('Zoom In'),
+                        label: i18n.T("Menu", 'Zoom In'),
                         accelerator: 'CmdOrCtrl+numadd',
                         visible: false,
                         click (item, focusedWindow) {
@@ -133,7 +133,7 @@ module.exports = (browsers, mainController, store) => {
                     // By default zoomIn works by "CommandOrControl + +" ("CommandOrControl + SHIFT + =")
                     // Hidden menu item adds zoomIn without SHIFT
                     {
-                        label: i18n.menuT('Zoom In'),
+                        label: i18n.T("Menu", 'Zoom In'),
                         accelerator: 'CommandOrControl+=',
                         visible: false,
                         click (item, focusedWindow) {
@@ -146,7 +146,7 @@ module.exports = (browsers, mainController, store) => {
                         }
                     },
                     {
-                        label: i18n.menuT('Zoom Out'),
+                        label: i18n.T("Menu", 'Zoom Out'),
                         accelerator: 'CmdOrCtrl+-',
                         click (item, focusedWindow) {
                             if (focusedWindow) {
@@ -158,7 +158,7 @@ module.exports = (browsers, mainController, store) => {
                         }
                     },
                     {
-                        label: i18n.menuT('Zoom Out'),
+                        label: i18n.T("Menu", 'Zoom Out'),
                         accelerator: 'CmdOrCtrl+numsub',
                         visible: false,
                         click (item, focusedWindow) {
@@ -173,22 +173,22 @@ module.exports = (browsers, mainController, store) => {
                 ]
             },
             {
-                label: i18n.menuT('Window'),
+                label: i18n.T("Menu", 'Window'),
                 submenu: [],
                 visible: isMacOS // MacOS only, native on Window
             },
             {
-                label: i18n.menuT('Development'),
+                label: i18n.T("Menu", 'Development'),
                 submenu: [
                     {
-                        label: i18n.menuT('Reload'),
+                        label: i18n.T("Menu", 'Reload'),
                         accelerator: 'CmdOrCtrl+R',
                         click (item, focusedWindow) {
                             if (focusedWindow) focusedWindow.reload()
                         }
                     },
                     {
-                        label: i18n.menuT('Open Developer Tools'),
+                        label: i18n.T("Menu", 'Open Developer Tools'),
                         accelerator: isMacOS ? 'Alt+Command+I' : 'Ctrl+Shift+I',
                         click (item, focusedWindow) {
                             if (focusedWindow) focusedWindow.webContents.openDevTools({mode: 'detach'})
@@ -207,15 +207,15 @@ module.exports = (browsers, mainController, store) => {
                 {
                     type: 'separator'
                 }, {
-                    label: i18n.menuT('Cut'),
+                    label: i18n.T("Menu", 'Cut'),
                     accelerator: 'CmdOrCtrl+X',
                     selector: 'cut:'
                 }, {
-                    label: i18n.menuT('Copy'),
+                    label: i18n.T("Menu", 'Copy'),
                     accelerator: 'CmdOrCtrl+C',
                     selector: 'copy:'
                 }, {
-                    label: i18n.menuT('Paste'),
+                    label: i18n.T("Menu", 'Paste'),
                     accelerator: 'CmdOrCtrl+V',
                     selector: 'paste:'
                 }
@@ -223,14 +223,14 @@ module.exports = (browsers, mainController, store) => {
 
             menuTemplate[3].submenu.push(
                 {
-                    label: i18n.menuT('Move to previous monitor'),
+                    label: i18n.T("Menu", 'Move to previous monitor'),
                     accelerator: 'Ctrl+Alt+Left',
                     click () {
                         main.movePreviousMonitor()
                     }
                 },
                 {
-                    label: i18n.menuT('Move to next monitor'),
+                    label: i18n.T("Menu", 'Move to next monitor'),
                     accelerator: 'Ctrl+Alt+Right',
                     click () {
                         main.moveNextMonitor()

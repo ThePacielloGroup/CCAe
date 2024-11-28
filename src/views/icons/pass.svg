@@ -3,7 +3,15 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="-419 228 80 80" style="enable-background:new -419 228 80 80;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#06AF4B;}
+	.st0{ fill:#04874B; }
+	@media (prefers-color-scheme:dark) {
+		.st0 {
+			fill:#06AF4B;
+		}
+	}
+	@media (forced-colors:active) {
+		 .st0 { fill:CanvasText; }
+	}
 </style>
 <g>
 	<path class="st0" d="M-379,228c-22.1,0-40,17.9-40,40s17.9,40,40,40s40-17.9,40-40S-356.9,228-379,228z M-379,302.7

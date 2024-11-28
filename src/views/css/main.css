@@ -362,3 +362,17 @@ section#updateAvailable button {
     font-size: 1rem;
     border-radius: 1rem;
 }
+
+
+.icon-pass::before {
+    color:var(--fg-pass-color);
+}
+.icon-fail::before {
+    color:var(--fg-fail-color);
+}
+@media (forced-colors:active) {
+    .icon-pass::before,
+    .icon-fail::before {
+        color:CanvasText;
+    }
+}

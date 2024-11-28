@@ -21,8 +21,14 @@ html, body{
     --fg-border-primary:#ccc;
     --fg-border-secondary:#aaa;
     --fg-link:#4865FF;
+
+    /* pass, fail icon */
+    --fg-pass-color:#04874B;
+    --fg-fail-color:#D22026;
+
     --bg-code:#ccc;
     --fg-control-border-primary: #8f8f8f;
+
     --icon-switch:url("../icons/switch-black.svg");
     --icon-sliders:url("../icons/sliders-black.svg");
     --icon-picker:url("../icons/picker-black.svg");
@@ -31,6 +37,7 @@ html, body{
     --icon-picker-pressed:url("../icons/picker-white.svg");
     --icon-help-pressed:url("../icons/help-white.svg");
     --scheme-type:light;
+    --canvas-text:CanvasText;
 }
 
 @media ( prefers-color-scheme : dark ) {
@@ -48,6 +55,11 @@ html, body{
         --fg-border-secondary:#5a5a5a;
         --fg-control-border-primary: #6f6f6f;
         --fg-link:#58A5FF;
+
+        /* pass, fail icon */
+        --fg-pass-color:#06AF4B;
+        --fg-fail-color:#FF6150;
+        
         --icon-switch:url("../icons/switch-white.svg");
         --icon-sliders:url("../icons/sliders-white.svg");
         --icon-picker:url("../icons/picker-white.svg");
@@ -73,6 +85,10 @@ html.force-light {
     --fg-border-primary:#bbb;
     --fg-border-secondary:#aaa;
     --fg-link:#4865FF;
+    
+    --fg-pass-color:#04874B;
+    --fg-fail-color:#D22026;
+
     --fg-control-border-primary: #8f8f8f;
     --icon-switch:url("../icons/switch-black.svg");
     --icon-sliders:url("../icons/sliders-black.svg");
@@ -98,6 +114,11 @@ html.force-dark {
     --fg-border-secondary:#5a5a5a;
     --fg-control-border-primary: #6f6f6f;
     --fg-link:#58A5FF;
+
+    /* pass, fail icon */
+    --fg-pass-color:#06AF4B;
+    --fg-fail-color:#FF6150;
+
     --icon-switch:url("../icons/switch-white.svg");
     --icon-sliders:url("../icons/sliders-white.svg");
     --icon-picker:url("../icons/picker-white.svg");

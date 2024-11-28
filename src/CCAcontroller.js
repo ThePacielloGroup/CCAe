@@ -382,7 +382,7 @@ class CCAController {
         const crr = Number(cr.toFixed(rounding)).toLocaleString(i18n.lang)
         // toLocalString removes trailing zero and use the correct decimal separator, based on the app select lang.
 
-        let text = template
+        let text = template;
         for (const item of [
             ['%f.hex%', foregroundColorString],
             ['%b.hex%', backgroundColorString],

@@ -15,6 +15,7 @@ html, body{
     --bg-accent:#1B75BC;
     --bg-summary:#151515;
     --bg-details:#ECECEC;
+    --bg-pressed-icon: var(--bg-accent);
     --fg-primary:#000;
     --fg-paraphrased:#222;
     --bg-code:var(--bg-paraphrased);
@@ -23,14 +24,14 @@ html, body{
     --fg-link:#4865FF;
     --bg-code:#ccc;
     --fg-control-border-primary: #8f8f8f;
+    --fg-pressed-icon: white;
+    --icon-color: light-dark(black, white);
     --icon-switch:url("../icons/switch-black.svg");
     --icon-sliders:url("../icons/sliders-black.svg");
     --icon-picker:url("../icons/picker-black.svg");
     --icon-help:url("../icons/help-black.svg");
-    --icon-sliders-pressed:url("../icons/sliders-white.svg");
-    --icon-picker-pressed:url("../icons/picker-white.svg");
-    --icon-help-pressed:url("../icons/help-white.svg");
     --scheme-type:light;
+    --border-radius: 3px;
 }
 
 @media ( prefers-color-scheme : dark ) {
@@ -48,14 +49,15 @@ html, body{
         --fg-border-secondary:#5a5a5a;
         --fg-control-border-primary: #6f6f6f;
         --fg-link:#58A5FF;
-        --icon-switch:url("../icons/switch-white.svg");
-        --icon-sliders:url("../icons/sliders-white.svg");
-        --icon-picker:url("../icons/picker-white.svg");
-        --icon-help:url("../icons/help-white.svg");
-        --icon-sliders-pressed:url("../icons/sliders-white.svg");
-        --icon-picker-pressed:url("../icons/picker-white.svg");
-        --icon-help-pressed:url("../icons/help-white.svg");
         --scheme-type:dark;
+    }
+}
+
+@media (forced-colors: active) {
+    :root {
+        --icon-color: ButtonText;
+        --bg-pressed-icon: SelectedItem;
+        --fg-pressed-icon: SelectedItemText;
     }
 }
 
@@ -78,9 +80,6 @@ html.force-light {
     --icon-sliders:url("../icons/sliders-black.svg");
     --icon-picker:url("../icons/picker-black.svg");
     --icon-help:url("../icons/help-black.svg");
-    --icon-sliders-pressed:url("../icons/sliders-white.svg");
-    --icon-picker-pressed:url("../icons/picker-white.svg");
-    --icon-help-pressed:url("../icons/help-white.svg");
     --scheme-type:light;
 }
 
@@ -98,13 +97,6 @@ html.force-dark {
     --fg-border-secondary:#5a5a5a;
     --fg-control-border-primary: #6f6f6f;
     --fg-link:#58A5FF;
-    --icon-switch:url("../icons/switch-white.svg");
-    --icon-sliders:url("../icons/sliders-white.svg");
-    --icon-picker:url("../icons/picker-white.svg");
-    --icon-help:url("../icons/help-white.svg");
-    --icon-sliders-pressed:url("../icons/sliders-white.svg");
-    --icon-picker-pressed:url("../icons/picker-white.svg");
-    --icon-help-pressed:url("../icons/help-white.svg");
     --scheme-type:dark;
 }
 

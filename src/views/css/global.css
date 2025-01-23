@@ -15,6 +15,7 @@ html, body{
     --bg-accent:#1B75BC;
     --bg-summary:#151515;
     --bg-details:#ECECEC;
+    --bg-pressed-icon: var(--bg-accent);
     --fg-primary:#000;
     --fg-paraphrased:#222;
     --bg-code:var(--bg-paraphrased);
@@ -29,15 +30,15 @@ html, body{
     --bg-code:#ccc;
     --fg-control-border-primary: #8f8f8f;
 
+    --fg-pressed-icon: white;
+    --icon-color: light-dark(black, white);
     --icon-switch:url("../icons/switch-black.svg");
     --icon-sliders:url("../icons/sliders-black.svg");
     --icon-picker:url("../icons/picker-black.svg");
     --icon-help:url("../icons/help-black.svg");
-    --icon-sliders-pressed:url("../icons/sliders-white.svg");
-    --icon-picker-pressed:url("../icons/picker-white.svg");
-    --icon-help-pressed:url("../icons/help-white.svg");
     --scheme-type:light;
     --canvas-text:CanvasText;
+    --border-radius: 3px;
 }
 
 @media ( prefers-color-scheme : dark ) {
@@ -71,6 +72,14 @@ html, body{
     }
 }
 
+@media (forced-colors: active) {
+    :root {
+        --icon-color: ButtonText;
+        --bg-pressed-icon: SelectedItem;
+        --fg-pressed-icon: SelectedItemText;
+    }
+}
+
 html.force-light {
     --bg-primary:#fff;
     --bg-secondary:#f5f5f5;
@@ -94,9 +103,6 @@ html.force-light {
     --icon-sliders:url("../icons/sliders-black.svg");
     --icon-picker:url("../icons/picker-black.svg");
     --icon-help:url("../icons/help-black.svg");
-    --icon-sliders-pressed:url("../icons/sliders-white.svg");
-    --icon-picker-pressed:url("../icons/picker-white.svg");
-    --icon-help-pressed:url("../icons/help-white.svg");
     --scheme-type:light;
 }
 

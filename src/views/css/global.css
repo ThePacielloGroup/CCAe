@@ -15,6 +15,7 @@ html, body{
     --bg-accent:#1B75BC;
     --bg-summary:#151515;
     --bg-details:#ECECEC;
+    --bg-pressed-icon: var(--bg-accent);
     --fg-primary:#000;
     --fg-paraphrased:#222;
     --bg-code:var(--bg-paraphrased);
@@ -74,6 +75,14 @@ html, body{
         --icon-help-pressed:url("../icons/help-white.svg");
 
         --pref-bottom-background:linear-gradient(to bottom, rgb(0 0 0 / .3), rgb(0 0 0 / .6) 20%);
+    }
+}
+
+@media (forced-colors: active) {
+    :root {
+        --icon-color: ButtonText;
+        --bg-pressed-icon: SelectedItem;
+        --fg-pressed-icon: SelectedItemText;
     }
 }
 

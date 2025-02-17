@@ -31,6 +31,7 @@ html, body{
 
     --bg-code:#ccc;
     --fg-control-border-primary: #8f8f8f;
+
     
     --fg-pressed-icon: white;
     --icon-color: light-dark(black, white);

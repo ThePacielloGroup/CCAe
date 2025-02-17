@@ -18,6 +18,7 @@ body{
 section {
     position: relative;
     border-top: 1px solid var(--fg-border-primary);
+    padding: 0.5rem;
 }
 
 *[contenteditable="true"] {
@@ -25,42 +26,36 @@ section {
     cursor: text;
 }
 
-summary h2, summary h3 {
-    display: inline-block;
-}
+summary h2, summary h3 { display: inline-block; }
 
-section#foreground-color h2,
-section#background-color h2 {
-    position: absolute;
-    top: 0.5rem;
-    left: 0.5rem;
-}
-
-section {
-    padding: 0.5rem;
-}
 
 /* Color sections */
 section#foreground-color,
 section#background-color {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    min-height: 6rem;
+    gap: .5em;
     font-size: 1.4rem;
     justify-content: center;
     forced-color-adjust: none;
 }
+.sect-title {
+    display: flex;
+    width: 100%;
+    .name-value {
+        margin-left: auto;
+        margin-right: .5rem;
+    }
+}
 
 section#foreground-color .buttons,
 section#background-color .buttons {
-    position: absolute;
-    bottom: 0.5rem;
-    right: 0.5rem;
+    align-self: flex-end;
 }
 
 
 /* Free text input */
-
 section#foreground-color .container,
 section#background-color .container {
     position: relative;
@@ -105,14 +100,6 @@ section#background-color input[aria-invalid="true"].free-value {
     background-size: contain;
 }
 
-section#foreground-color .name-value,
-section#background-color .name-value {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    font-style: italic;
-    font-size: 1.2rem;
-}
 
 section#foreground-color input.free-value:focus,
 section#background-color input.free-value:focus {
@@ -124,45 +111,22 @@ section#background-color input.free-value:focus {
 }
 
 section#foreground-color button,
-section#background-color button {
+section#background-color button  {
+    display: inline-flex;
+    place-content: center; place-items: center;
     background-color: var(--bg-control-primary);
     forced-color-adjust: auto;
-    width: 2rem;
-    height: 1.2rem;
+    width: 2rem; padding-block: 0.25em;
     border: 1px solid var(--fg-border-primary);
     border-radius: 0.2rem;
-    padding: 0.5em;
     position: relative;
-
-    &::before {
-        content: "";
-        position: absolute;
-        inset: 5%;
-        mask-image: var(--icon);
-        mask-position: 50% 50%;
-        mask-repeat: no-repeat;
-        background-color: var(--icon-color);
+    color: var(--fg-primary);
+    
+    span::before {
+        font-size:.8em;
     }
 }
 
-section#foreground-color button.picker,
-section#background-color button.picker {
-    --icon: var(--icon-picker);
-}
-
-section#foreground-color button.sliders,
-section#background-color button.sliders {
-    --icon: var(--icon-sliders);
-}
-
-section#foreground-color button.help,
-section#background-color button.help {
-    --icon: var(--icon-help);
-}
-
-section#foreground-color button.switch {
-    --icon: var(--icon-switch);
-}
 
 section#foreground-color button[aria-pressed=true],
 section#foreground-color button[aria-expanded=true],
@@ -171,6 +135,7 @@ section#background-color button[aria-expanded=true]{
     box-shadow:inset 0 0 0.1em 0.1em rgba(0, 0, 0, 0.4);
     background-color: var(--bg-pressed-icon);
     --icon-color: var(--fg-pressed-icon);
+    color: white;
 }
 
 /* Sliders */
@@ -181,8 +146,7 @@ section#background-sliders {
 
 section#foreground-sliders .slider,
 section#background-sliders .slider {
-    display: grid;
-    grid-template-columns: 4rem 1fr 2.5rem;
+    display: grid;grid-template-columns: 4rem 1fr 2.5rem;
     margin-bottom: 1px;
 }
 

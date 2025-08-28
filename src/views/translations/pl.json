@@ -24,6 +24,7 @@
     "Main": {
         "lang": "pl",
         "Title": "Colour Contrast Analyser (CCA)",
+        "Close": "Zamknij",
         "CCA Main windows": "Główne okna CCA",
         "Foreground colour": "Kolor pierwszoplanowy",
         "Select default format for foreground colour": "Wybierz domyślny format koloru pierwszoplanowego",
@@ -175,3 +176,4 @@
         "Background": "Tło"
     }
 }
+

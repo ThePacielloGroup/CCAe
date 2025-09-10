@@ -14,7 +14,7 @@
     "license": "GPL-3.0",
     "devDependencies": {
         "cross-env": "^7.0.3",
-        "electron": "31.4.0",
+        "electron": "35.7.5",
         "electron-builder": "^24.13.3",
         "electron-builder-notarize": "^1.5.2"
     },

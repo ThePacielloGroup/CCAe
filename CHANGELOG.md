@@ -5,6 +5,20 @@
 - [Windows: Application menus aren't keyboard accessible](https://github.com/ThePacielloGroup/CCAe/issues/49)
 - [Windows: Changing slider values is not announced in NVDA](https://github.com/ThePacielloGroup/CCAe/issues/37)
 
+## [v3.5.5](https://github.com/ThePacielloGroup/CCAe/tree/v3.5.5) (2025-09-10)
+
+[Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.5.4...v3.5.5)
+
+- Updated to Electron 35.7.5, to fix CVE-2025-55305
+- Button Icons \(and other UI elements\) are not visible in some High Contrast Theme [\#355](https://github.com/ThePacielloGroup/CCAe/issues/355)
+- An unannounced keyboard shortcut in CCA hijacks the macOS default for selecting text. [\#323](https://github.com/ThePacielloGroup/CCAe/issues/323)
+- ARM64 Installer [\#368](https://github.com/ThePacielloGroup/CCAe/issues/368)
+- Installation Guide [\#365](https://github.com/ThePacielloGroup/CCAe/issues/365)
+- Unable to Submit Contact Form [\#364](https://github.com/ThePacielloGroup/CCAe/issues/364)
+- Update pl.json [\#370](https://github.com/ThePacielloGroup/CCAe/pull/370)
+- Update a Korean translation strings [\#357](https://github.com/ThePacielloGroup/CCAe/pull/357)
+- Add support for High Contrast Theme [\#356](https://github.com/ThePacielloGroup/CCAe/pull/356)
+
 ## [v3.5.4](https://github.com/ThePacielloGroup/CCAe/tree/v3.5.4) (2024-09-06)
 
 [Full Changelog](https://github.com/ThePacielloGroup/CCAe/compare/v3.5.3...v3.5.4)

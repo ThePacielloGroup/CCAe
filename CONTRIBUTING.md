@@ -53,7 +53,7 @@ The CHANGELOG.md is generated using github-changelog-generator
 https://github.com/github-changelog-generator/github-changelog-generator
 
 ```shell
-docker run -it --rm -v "$(pwd)":/usr/local/src/your-app ferrarimarco/github-changelog-generator github_changelog_generator -u ThePacielloGroup -p CCAe --since-tag=v3.1.1 --future-release=v3.1.2 -t <token>
+docker run -it --rm -v "$(pwd)":/usr/local/src/your-app githubchangeloggenerator/github-changelog-generator github_changelog_generator -u ThePacielloGroup -p CCAe --since-tag=v3.1.1 --future-release=v3.1.2 -t <token>
 ```
 
 Other commands are available in the `package.json` file.

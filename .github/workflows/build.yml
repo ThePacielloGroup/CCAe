@@ -62,7 +62,7 @@ jobs:
 
       - name: .dmg artifacts
         if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dmg file
           path: |
@@ -124,7 +124,7 @@ jobs:
 
       - name: .exe artifacts
         if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: exe file
           path: |
@@ -132,7 +132,7 @@ jobs:
 
       - name: .msi artifacts
         if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: msi file
           path: |
@@ -170,7 +170,7 @@ jobs:
 
       - name: .deb artifacts
         if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: deb file
           path: |
@@ -178,7 +178,7 @@ jobs:
 
       - name: .rpm artifacts
         if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: rpm file
           path: |
@@ -186,7 +186,7 @@ jobs:
 
       - name: .AppImage artifacts
         if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: AppImage file
           path: |

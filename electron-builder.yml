@@ -10,6 +10,7 @@ releaseInfo:
 extraResources:
   - "resources/**"
   - "icons/**"
+afterPack: "./build/linux-sandbox-fix.js"
 
 mac:
   target:
@@ -80,7 +81,7 @@ linux:
     StartupNotify: "false"
     Encoding: "UTF-8"
     MimeType: "x-scheme-handler/deeplink"
-  target: ["AppImage", "rpm", "deb"]
+  target: ["AppImage", "deb"]
   artifactName: "${productName}-Setup-${version}.${ext}"
   publish:
     - github

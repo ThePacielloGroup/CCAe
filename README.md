@@ -6,15 +6,38 @@
 
 The Colour Contrast Analyser (CCA) helps you determine the legibility of text and the contrast of visual elements, such as graphical controls and visual indicators.
 
-This repository contains the source code for the new Colour Contrast Analyser (CCA) builds for Windows and macOS based on [Electron](https://electronjs.org/). For the previous, non-Electron versions ("CCA Classic"), see the [CCA-Win](https://github.com/ThePacielloGroup/CCA-Win) and [CCA-OSX](https://github.com/ThePacielloGroup/CCA-OSX) repositories.
+This repository contains the source code for the new Colour Contrast Analyser (CCA) builds for Windows, macOS and Linux based on [Electron](https://electronjs.org/). For the previous, non-Electron versions ("CCA Classic"), see the [CCA-Win](https://github.com/ThePacielloGroup/CCA-Win) and [CCA-OSX](https://github.com/ThePacielloGroup/CCA-OSX) repositories.
 
 ![CCA Interface](cca.png)
 
 For further information, see [TPGi's Colour Contrast Analyser resource page](https://www.tpgi.com/color-contrast-checker/).
 
+## Installation
+
+### Windows and macOS
+Download the latest installer from the [releases page](https://github.com/ThePacielloGroup/CCAe/releases).
+
+### Linux
+Download the `.AppImage`, `.deb`, or `.rpm` from the [releases page](https://github.com/ThePacielloGroup/CCAe/releases).
+
+**AppImage users:** FUSE 2 is required. On Ubuntu 22.04+ / Debian 12+, install it with:
+```bash
+sudo apt install libfuse2t64
+```
+On older distributions:
+```bash
+sudo apt install libfuse2
+```
+
+**Alternatively**, you can extract and run the AppImage without FUSE:
+```bash
+./Colour-Contrast-Analyser-Setup-*.AppImage --appimage-extract
+./squashfs-root/cca
+```
+
 ## Features
 - WCAG 2.1 compliance indicators
-- Several ways to set colours: raw text entry (accepts any valid CSS colour format), RGB sliders, colour picker (Windows and macOS only)
+- Several ways to set colours: raw text entry (accepts any valid CSS colour format), RGB sliders, colour picker (Windows, macOS, and Linux)
 - Support for alpha transparency on foreground colours
 - Colour blindness simulator
 

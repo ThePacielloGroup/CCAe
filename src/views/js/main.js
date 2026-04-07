@@ -380,21 +380,21 @@ function applyColorSample(section, color) {
 function applyContrastRatio(contrastRatio) {
     let level_1_4_3, level_1_4_6, level_1_4_11
     if (contrastRatio.levelAA === 'large') {
-        level_1_4_3 = `<div><img src="icons/fail.svg" alt="" /> ${_i18n.T('Main', 'Fail')} (${_i18n.T('Main', 'regular text')})</div><div><img src="icons/pass.svg" alt="" /> ${_i18n.T('Main', 'Pass')} (${_i18n.T('Main', 'large text')})</div>`
-        level_1_4_11 = `<div><img src="icons/pass.svg" alt="" /> ${_i18n.T('Main', 'Pass')} (${_i18n.T('Main', 'UI components and graphical objects')})</div>`
+        level_1_4_3 = `<div><span class="icon-fail"></span> ${_i18n.T('Main', 'Fail')} (${_i18n.T('Main', 'regular text')})</div><div><span class="icon-pass"></span> ${_i18n.T('Main', 'Pass')} (${_i18n.T('Main', 'large text')})</div>`
+        level_1_4_11 = `<div><span class="icon-pass"></span> ${_i18n.T('Main', 'Pass')} (${_i18n.T('Main', 'UI components and graphical objects')})</div>`
     } else if (contrastRatio.levelAA === 'regular') {
-        level_1_4_3 = `<div><img src="icons/pass.svg" alt="" /> ${_i18n.T('Main', 'Pass')} (${_i18n.T('Main', 'regular text')})</div><div><img src="icons/pass.svg" alt="" /> ${_i18n.T('Main', 'Pass')} (${_i18n.T('Main', 'large text')})</div>`
-        level_1_4_11 = `<div><img src="icons/pass.svg" alt="" /> ${_i18n.T('Main', 'Pass')} (${_i18n.T('Main', 'UI components and graphical objects')})</div>`
+        level_1_4_3 = `<div><span class="icon-pass"></span> ${_i18n.T('Main', 'Pass')} (${_i18n.T('Main', 'regular text')})</div><div><span class="icon-pass"></span> ${_i18n.T('Main', 'Pass')} (${_i18n.T('Main', 'large text')})</div>`
+        level_1_4_11 = `<div><span class="icon-pass"></span> ${_i18n.T('Main', 'Pass')} (${_i18n.T('Main', 'UI components and graphical objects')})</div>`
     } else { // Fail
-        level_1_4_3 = `<div><img src="icons/fail.svg" alt="" /> ${_i18n.T('Main', 'Fail')} (${_i18n.T('Main', 'regular text')})</div><div><img src="icons/fail.svg" alt="" /> ${_i18n.T('Main', 'Fail')} (${_i18n.T('Main', 'large text')})</div>`
-        level_1_4_11 = `<div><img src="icons/fail.svg" alt="" /> ${_i18n.T('Main', 'Fail')} (${_i18n.T('Main', 'UI components and graphical objects')})</div>`
+        level_1_4_3 = `<div><span class="icon-fail"></span> ${_i18n.T('Main', 'Fail')} (${_i18n.T('Main', 'regular text')})</div><div><span class="icon-fail"></span> ${_i18n.T('Main', 'Fail')} (${_i18n.T('Main', 'large text')})</div>`
+        level_1_4_11 = `<div><span class="icon-fail"></span> ${_i18n.T('Main', 'Fail')} (${_i18n.T('Main', 'UI components and graphical objects')})</div>`
     }
     if (contrastRatio.levelAAA === 'large') {
-        level_1_4_6 = `<div><img src="icons/fail.svg" alt="" /> ${_i18n.T('Main', 'Fail')} (${_i18n.T('Main', 'regular text')})</div><div><img src="icons/pass.svg" alt="" /> ${_i18n.T('Main', 'Pass')} (${_i18n.T('Main', 'large text')})</div>`
+        level_1_4_6 = `<div><span class="icon-fail"></span> ${_i18n.T('Main', 'Fail')} (${_i18n.T('Main', 'regular text')})</div><div><span class="icon-pass"></span> ${_i18n.T('Main', 'Pass')} (${_i18n.T('Main', 'large text')})</div>`
     } else if (contrastRatio.levelAAA === 'regular') {
-        level_1_4_6 = `<div><img src="icons/pass.svg" alt="" /> ${_i18n.T('Main', 'Pass')} (${_i18n.T('Main', 'regular text')})</div><div><img src="icons/pass.svg" alt="" /> ${_i18n.T('Main', 'Pass')} (${_i18n.T('Main', 'large text')})</div>`
+        level_1_4_6 = `<div><span class="icon-pass"></span> ${_i18n.T('Main', 'Pass')} (${_i18n.T('Main', 'regular text')})</div><div><span class="icon-pass"></span> ${_i18n.T('Main', 'Pass')} (${_i18n.T('Main', 'large text')})</div>`
     } else { // Fail
-        level_1_4_6 = `<div><img src="icons/fail.svg" alt="" /> ${_i18n.T('Main', 'Fail')} (${_i18n.T('Main', 'regular text')})</div><div><img src="icons/fail.svg" alt="" /> ${_i18n.T('Main', 'Fail')} (${_i18n.T('Main', 'large text')})</div>`
+        level_1_4_6 = `<div><span class="icon-fail"></span> ${_i18n.T('Main', 'Fail')} (${_i18n.T('Main', 'regular text')})</div><div><span class="icon-fail"></span> ${_i18n.T('Main', 'Fail')} (${_i18n.T('Main', 'large text')})</div>`
     }
 
     let cr = contrastRatio.raw

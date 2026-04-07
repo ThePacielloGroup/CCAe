@@ -1,34 +1,76 @@
-body {
-    padding: 1rem;
+* { box-sizing: border-box; }
+html,body {
+    box-sizing: border-box;
+    width: 100%; height: 100%;
 }
+main { padding: 0.25rem;}
 
 .buttons {
     text-align: right;
-    margin: 1rem;
+    position: sticky;
+    bottom: 0; width: 100%;
+    padding: 1rem 0.5rem;
+    background: var(--pref-bottom-background);
+    border-top:solid 0.1rem rgb(255 255 255 / .3);
+    box-shadow: 0 -0.1rem 0.2rem 0.1rem rgb(0 0 0 / 0.1);
+    backdrop-filter: blur(5px);
+    button {
+        margin-inline: 0.25rem;
+        background: rgb(125 125 125 / .3);
+        color: var(--fg-primary);
+        border-radius: 0.3em; padding:.3rem .4rem;
+    }
 }
 
+[for=option-checkForUpdates] {
+    margin-left:auto; display: flex; align-items: center; gap: .5em;
+    [type=checkbox] { 
+        width: 1.2rem; height: 1.2rem;
+    }
+}
+
+fieldset { 
+    margin-block: 1rem;
+    padding-block: 1rem;
+    background: var(--bg-fieldset);
+    border-radius: 0.45rem;
+    border-color: color-mix(in srgb, var(--fg-border-primary), transparent 50%);
+}
 .option:not([hidden]) {
     display: flex;
     justify-content: space-between;
     padding-top: 0.5rem;
+    margin: 0.5rem 0;
 }
 
 .option select, .width-8 {
     min-width: 8rem;
 }
+.option select {
+    padding: 0.2rem;
+}
 
 .block {
-    display: block;
+    display: flex;
     padding: 0.2rem;
+    margin-block: 0.4rem;
 }
 
 textarea {
     width: 100%;
     display: block;
+    resize: none;
+    border-radius: 0.3rem; padding: 0.4em;
+    background-color: var(--bg-primary);
+    color: var(--fg-primary);
 }
 
 .reset-button {
+    background-color: var(--bg-primary); 
+    border-radius: 0.3em;
+    color: var(--fg-primary);
     font-size: 0.9rem;
+    margin-left: auto;
 }
 
 #copy ul {
@@ -42,4 +84,5 @@ textarea {
 #copy ul li {
     font-size: 0.8rem;
     margin: 0 0 0 0.5rem;
+    padding: 0.2em;
 }

@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/tabs.css" />
+    <link rel="stylesheet" href="css/icomoon/style.css" />
   </head>
   <body>
     <main>
@@ -17,7 +18,10 @@
         </div>
       </section>
       <section id="foreground-color">
-        <h2>Foreground colour</h2>
+        <div class="sect-title">
+          <h2>Foreground colour</h2>
+          <div class="name-value"></div>
+        </div>
         <div class="container">
           <select id="foreground-format-selector" class="format-selector" aria-label="Select default format for foreground colour">
             <option value="hex">HEX</option>
@@ -32,12 +36,19 @@
           <input type="text" class="free-value" aria-label="Foreground colour value" aria-describedby="foreground-free-format" />
           <div id="foreground-free-format" class="free-format sr-only"></div>
         </div>
-        <div class="name-value"></div>
         <div class="buttons">
-          <button class="switch" aria-label="Switch Colours" title="Switch Colours"></button>
-          <button class="sliders" aria-label="Foreground colour sliders" title="Colour sliders" aria-controls="foreground-sliders" aria-expanded="false"></button>
-          <button class="picker" aria-label="Foreground colour picker" title="Colour picker"  aria-pressed="false"></button>
-          <button class="help" aria-label="Foreground help" title="Help" aria-controls="foreground-help" aria-expanded="false"></button>
+          <button class="switch" aria-label="Switch Colours" title="Switch Colours">
+            <span class="icon-switch-black"></span>
+          </button>
+          <button class="sliders" aria-label="Foreground colour sliders" title="Colour sliders" aria-controls="foreground-sliders" aria-expanded="false">
+            <span class="icon-sliders-black"></span>
+          </button>
+          <button class="picker" aria-label="Foreground colour picker" title="Colour picker"  aria-pressed="false">
+            <span class="icon-picker-black"></span>
+          </button>
+          <button class="help" aria-label="Foreground help" title="Help" aria-controls="foreground-help" aria-expanded="false">
+            <span class="icon-help-black"></span>
+          </button>
         </div>
       </section>
       <section id="foreground-help" hidden>
@@ -163,7 +174,10 @@
         </div>
       </section>
       <section id="background-color">
-        <h2>Background colour</h2>
+        <div class="sect-title">
+          <h2>Background colour</h2>
+          <div class="name-value"></div>
+        </div>
         <div class="container">
           <select id="background-format-selector" class="format-selector" aria-label="Select default format for background colour">
             <option value="hex">HEX</option>
@@ -174,11 +188,16 @@
           <input type="text" class="free-value" aria-label="Background colour value" aria-describedby="background-help" />
           <div id="background-free-format" class="free-format sr-only"></div>
         </div>
-        <div class="name-value"></div>
         <div class="buttons">
-            <button class="sliders" aria-label="Background colour sliders" title="Colour sliders" aria-controls="background-sliders" aria-expanded="false"></button>
-            <button class="picker" aria-label="Background colour picker" title="Colour picker" aria-pressed="false"></button>
-            <button class="help" aria-label="Background help" title="Help" aria-controls="background-help" aria-expanded="false"></button> 
+            <button class="sliders" aria-label="Background colour sliders" title="Colour sliders" aria-controls="background-sliders" aria-expanded="false">
+              <span class="icon-sliders-black"></span>
+            </button>
+            <button class="picker" aria-label="Background colour picker" title="Colour picker" aria-pressed="false">
+              <span class="icon-picker-black"></span>
+            </button>
+            <button class="help" aria-label="Background help" title="Help" aria-controls="background-help" aria-expanded="false">
+              <span class="icon-help-black"></span>
+            </button> 
         </div>
       </section>
       <section id="background-help" hidden>

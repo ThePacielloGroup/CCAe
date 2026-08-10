@@ -36,8 +36,7 @@ dmg:
 
 win:
   icon: "build/icon.ico"
-  publisherName: "TPGi Interactive, LLC"
-  sign: "./src/custom-sign.js"
+  publisherName: "Radoslav Ďurač"
   target:
     - target: nsis
       arch:
@@ -96,5 +95,5 @@ deb:
 publish:
   provider: github
   repo: CCAe
-  owner: ThePacielloGroup
+  owner: rraddatch
   releaseType: release

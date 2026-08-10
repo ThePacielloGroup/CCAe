@@ -197,7 +197,7 @@ store.onDidChange('rounding', () => {
     mainController.updateContrastRatio()
 })
 store.onDidChange('lang', async (newValue) => {
-    const localLang = await this.store.get('localLang')
+    const localLang = await store.get('localLang')
     i18n = new(require('./i18n'))(newValue, localLang)
     setMenu(i18n)
     mainController.sendEventToAll('langChanged')

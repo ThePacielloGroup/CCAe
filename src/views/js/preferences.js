@@ -123,13 +123,12 @@ function translateHTML(i18n) {
     // Rounding Precision
     document.querySelector('label[for="option-rounding"]').textContent = i18n.T('Preferences', 'Contrast ratio precision')
     document.querySelectorAll('#option-rounding > option').forEach((opt,idx)=>{
-        const optNum = idx+1;
         switch(idx){
             case 0:
-                opt.textContent = i18n.T('Preferences', `${optNum} decimal place`)
+                opt.textContent = i18n.T('Preferences', '1 decimal place')
                 break;
             case 1:
-                opt.textContent = i18n.T('Preferences', `${optNum} decimal places`)
+                opt.textContent = i18n.T('Preferences', '2 decimal places')
                 break;
         }
     });
@@ -195,7 +194,7 @@ function translateHTML(i18n) {
     reset_regular.textContent = i18n.T('Preferences', "Reset");
     reset_short.textContent = i18n.T('Preferences', "Reset");
     reset_regular.setAttribute('aria-description',i18n.T('Preferences', "Regular results template"));
-    reset_short.setAttribute('aria-description',i18n.T('Preferences', "Reset results template"));
+    reset_short.setAttribute('aria-description',i18n.T('Preferences', "Short results template"));
 
     // Save, Cancel button
     document.getElementById('save').innerText = i18n.T('Preferences', 'Save');

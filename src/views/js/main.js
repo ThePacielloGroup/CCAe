@@ -299,7 +299,7 @@ async function applyColorTextString(section, color) {
         const freeFormat =  document.querySelector('#' + section + '-free-format')    
         textInput.removeAttribute('aria-invalid')
         freeFormat.removeAttribute('aria-live')
-        freeFormat.innerHTML = color.format.toUpperCase() + " format"
+        freeFormat.textContent = _i18n.T('Main', '{format} format').replace('{format}', color.format.toUpperCase())
         formatSelector.style.display = "block";
     }
 }
@@ -454,7 +454,7 @@ function displayValidate(section, format, string) {
         input.setAttribute('aria-invalid', false)
         formatSelector.value = format.toLowerCase()
         formatSelector.style.display = "block"
-        freeFormat.innerHTML = format + ' format detected'
+        freeFormat.textContent = _i18n.T('Main', '{format} format detected').replace('{format}', format)
     } else {
         input.setAttribute('aria-invalid', true)
         formatSelector.style.display = "none"
@@ -466,7 +466,9 @@ function leaveText(section, el) {
     if (el.getAttribute('aria-invalid') === 'true') {
         const freeFormat =  document.querySelector('#' + section + '-free-format')
         if (freeFormat.getAttribute('aria-live')) {
-            freeFormat.innerHTML = 'Error, Incorrect ' + section + ' format'
+            freeFormat.textContent = section === 'foreground'
+                ? _i18n.T('Main', 'Error, incorrect foreground colour format')
+                : _i18n.T('Main', 'Error, incorrect background colour format')
         }
     } else {
         let color = sharedObject.deficiencies.normal[section + "Color"]
@@ -502,7 +504,7 @@ function translateHTML(i18n) {
     document.querySelector('#foreground-format-selector+input').setAttribute('aria-label', i18n.T('Main', 'Foreground colour value'));
 
     document.querySelector('#foreground-help > .title').textContent = i18n.T('Main', 'Supported formats are')
-    document.querySelector('#foreground-help > ul > li.names').textContent = i18n.T('Main', 'Names')
+    document.querySelector('#foreground-help > ul > li.names > .names-label').textContent = i18n.T('Main', 'Names')
 
     document.querySelector('#foreground-rgb h2').textContent = i18n.T('Main', 'Foreground RGB input')
     document.querySelector('#foreground-hsl > h2').textContent = i18n.T('Main', 'Foreground HSL input')
@@ -510,6 +512,7 @@ function translateHTML(i18n) {
 
     document.querySelector('#foreground-rgb > div.sync > label > span').textContent = i18n.T('Main', 'Synchronize colour values')
     document.querySelector('#foreground-rgb > div.sync > label').setAttribute('aria-label',i18n.T('Main', 'Synchronize foreground colour values'))
+    document.querySelector('#foreground-rgb > div.sync input').setAttribute('aria-label',i18n.T('Main', 'Synchronize foreground colour values'))
 
     document.querySelector('#background-color .sliders').setAttribute('title', i18n.T('Main', 'Colour sliders'));
     document.querySelector('#background-color .picker').setAttribute('title', i18n.T('Main', 'Colour picker'));
@@ -523,7 +526,7 @@ function translateHTML(i18n) {
     document.querySelector('#background-color > div.container > input').setAttribute('aria-label', i18n.T('Main', 'Background colour value'))
 
     document.querySelector('#background-help > .title').textContent = i18n.T('Main', 'Supported formats are')
-    document.querySelector('#background-help > ul > li.names').textContent = i18n.T('Main', 'Names')
+    document.querySelector('#background-help > ul > li.names > .names-label').textContent = i18n.T('Main', 'Names')
 
     document.querySelector('#background-rgb > h2').textContent = i18n.T('Main', 'Background RGB input')
     document.querySelector('#background-hsl > h2').textContent = i18n.T('Main', 'Background HSL input')
@@ -531,6 +534,7 @@ function translateHTML(i18n) {
 
     document.querySelector('#background-rgb > div.sync > label > span').textContent = i18n.T('Main', 'Synchronize colour values')
     document.querySelector('#background-rgb > div.sync > label').setAttribute('aria-label',i18n.T('Main', 'Synchronize background colour values'))
+    document.querySelector('#background-rgb > div.sync input').setAttribute('aria-label',i18n.T('Main', 'Synchronize background colour values'))
 
     /* 
         [ForEach Patterns]
@@ -538,23 +542,33 @@ function translateHTML(i18n) {
         But, sliders must be have the same "aria-label" value with i18n keys
     */
     //  switch color, sliders, picker, help buttons in both color section
+    /*
+        The English text in main.html is the key. It is kept in data-i18n-*
+        attributes on first use, so translating again (after a language
+        change) still finds it.
+    */
     document.querySelectorAll("div.buttons > button").forEach(button=>{
-        const label = button.getAttribute('aria-label');
-        if(label) button.setAttribute('aria-label',i18n.T('Main', label));
+        const label = button.dataset.i18nLabel ?? button.getAttribute('aria-label');
+        if(label) {
+            button.dataset.i18nLabel = label;
+            button.setAttribute('aria-label',i18n.T('Main', label));
+        }
     })
     /* translate aria-label for color sliders */
     document.querySelectorAll('section[id$="-sliders"]').forEach(section=>{ // get both slider sections, background and foreground.
-        const sliders = section.querySelectorAll('input[type="range"]'); // get sliders.
-        sliders.forEach(slider=>{
-            const label = slider.getAttribute("aria-label");
+        const inputs = section.querySelectorAll('input[type="range"], input[type="number"]'); // get sliders and their number fields.
+        inputs.forEach(input=>{
+            const label = input.dataset.i18nLabel ?? input.getAttribute("aria-label");
             if(label) {
-                slider.setAttribute("aria-label",i18n.T('Main', label)); // recycling written aria-label markup of main.html
+                input.dataset.i18nLabel = label;
+                input.setAttribute("aria-label",i18n.T('Main', label)); // recycling written aria-label markup of main.html
             }
         })
     })
     // Visible Slider Labels for Foreground and Background.
     document.querySelectorAll('label.slider-lb').forEach((el)=>{
-        const label = el.textContent.trim();
+        const label = el.dataset.i18nText ?? el.textContent.trim();
+        el.dataset.i18nText = label;
         el.textContent = i18n.T('Main', label);
     });
 
